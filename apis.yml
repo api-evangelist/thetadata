@@ -1,0 +1,111 @@
+aid: thetadata
+url: https://raw.githubusercontent.com/api-evangelist/thetadata/refs/heads/main/apis.yml
+name: ThetaData
+kind: company
+description: ThetaData is a developer-first US market data vendor founded in 2022 by
+  Bailey Danseglio, selling real-time and historical options, stocks, indices, and
+  interest-rates data with unfiltered tick-level trades, quotes, and Greeks. Delivery
+  is self-serve via the Theta Terminal, a local Java application that authenticates
+  with an API key or account credentials and exposes a local REST API (127.0.0.1:25503/v3),
+  a WebSocket streaming API (127.0.0.1:25520), and an MCP server, backed by a published
+  OpenAPI 3.1 spec, Python library, flat files, and tiered monthly subscriptions.
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+tags:
+- Financial
+- Market Data
+- Options
+- Stocks
+- Indices
+- Real-Time
+- Historical Data
+- Trading
+created: '2026-07-21'
+modified: '2026-07-21'
+specificationVersion: '0.19'
+apis:
+- aid: thetadata:thetadata-v3-rest-api
+  name: ThetaData v3 REST API
+  tags:
+  - Options
+  - Stocks
+  - Indices
+  - Historical Data
+  - Snapshots
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://docs.thetadata.us/
+  baseURL: http://127.0.0.1:25503/v3
+  properties:
+  - url: https://docs.thetadata.us/Articles/Getting-Started/Getting-Started.html
+    type: Documentation
+  - url: https://docs.thetadata.us/operations/stock_list_symbols.html
+    type: APIReference
+  - url: openapi/thetadata-v3-openapi.yml
+    type: OpenAPI
+  description: Real-time and historical US options, stocks, and indices data - tick-level
+    trades and quotes, OHLC aggregates, end-of-day summaries, option chain snapshots,
+    and 1st/2nd/3rd order Greeks - served as a local REST API by the Theta Terminal,
+    a Java 21 application that authenticates to ThetaData with an API key or account
+    credentials and proxies data over a proprietary compressed protocol. Responses
+    in CSV, JSON, NDJSON, or HTML; 66 documented endpoints in a published OpenAPI
+    3.1 spec.
+- aid: thetadata:thetadata-streaming-websocket-api
+  name: ThetaData Streaming WebSocket API
+  tags:
+  - Streaming
+  - WebSocket
+  - Trades
+  - Quotes
+  - Real-Time
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://docs.thetadata.us/Streaming/Getting-Started.html
+  baseURL: ws://127.0.0.1:25520/v1/events
+  properties:
+  - url: https://docs.thetadata.us/Streaming/Getting-Started.html
+    type: Documentation
+  description: JSON WebSocket streaming of US stock trade/quote, options trade/quote,
+    and index price streams, served locally by the Theta Terminal at ws://127.0.0.1:25520/v1/events.
+    Requires a paid subscription with streaming permissions; a single connection per
+    user is permitted, with CONNECTED/DISCONNECTED status headers and QUOTE/TRADE/STATUS
+    message types.
+- aid: thetadata:thetadata-mcp-server
+  name: ThetaData MCP Server
+  tags:
+  - MCP
+  - Agents
+  - SSE
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://docs.thetadata.us/Mcp/Getting-Started.html
+  baseURL: http://127.0.0.1:25503/mcp/sse
+  properties:
+  - url: https://docs.thetadata.us/Mcp/Getting-Started.html
+    type: Documentation
+  description: Model Context Protocol server built into Theta Terminal v3, exposing
+    the full v3 API to LLM CLIs (documented for Claude CLI and Gemini CLI) over SSE
+    at http://127.0.0.1:25503/mcp/sse. Requires the terminal running locally and a
+    valid ThetaData subscription.
+common:
+- type: Website
+  url: https://thetadata.net/
+- type: Portal
+  url: https://thetadata.net/portal
+- type: Documentation
+  url: https://docs.thetadata.us/
+- type: Blog
+  url: https://thetadata.net/blog
+- type: Pricing
+  url: https://thetadata.net/pricing
+- type: SignUp
+  url: https://thetadata.net/signup
+- type: TermsOfService
+  url: https://thetadata.net/terms-and-conditions
+- type: PrivacyPolicy
+  url: https://thetadata.net/privacy-policy
+- type: Support
+  url: https://discord.thetadata.us/
+- type: StatusPage
+  url: https://thetadata.statuspage.io/
+- type: LinkedIn
+  url: https://www.linkedin.com/company/axiomx-theta-data
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

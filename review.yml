@@ -1,0 +1,134 @@
+aid: thetadata
+name: ThetaData
+review:
+  question: Does ThetaData expose a documented public API surface a developer can
+    self-serve onto?
+  answer: true
+  date: '2026-07-21'
+  reviewer: API Evangelist
+findings:
+  summary: |
+    ThetaData is squarely in the developer-first camp of the market data
+    industry: self-serve signup, public tiered pricing (Options Value
+    $40/mo, Standard $80/mo, Pro $160/mo, plus a separate sales-gated
+    Commercial Use track), a public docs portal at docs.thetadata.us, and
+    a publicly downloadable OpenAPI 3.1 spec. The distinctive architectural
+    choice is that nothing is a hosted HTTP endpoint: all API access runs
+    through the Theta Terminal, a local Java 21 application
+    (ThetaTerminalv3.jar) that authenticates to ThetaData's backend with an
+    API key (generated in the user portal) or email/password credentials
+    and pulls data over a proprietary compressed protocol (claimed ~30x
+    bandwidth reduction). The terminal then serves a local REST API at
+    http://127.0.0.1:25503/v3 (66 endpoints; CSV/JSON/NDJSON/HTML output),
+    a WebSocket streaming API at ws://127.0.0.1:25520/v1/events (stock/
+    option trade+quote and index price streams, paid streaming permissions
+    required, one connection per user), and an MCP server over SSE at
+    http://127.0.0.1:25503/mcp/sse. A Python library wraps the REST API,
+    the docs advertise an AI/LLMs section, and the homepage advertises bulk
+    historical flat files. The former GitHub org repos (thetadata-python)
+    are archived under the founder's personal account; there is no active
+    public GitHub organization. Company founded 2022 by Bailey Danseglio
+    (docs footer links LinkedIn as "AxiomX - Theta Data"); no acquisition -
+    it remains independent.
+  authModel: API key (user portal) or account email/password, consumed by the
+    local Theta Terminal, which enforces subscription entitlements per endpoint
+    (spec marks x-min-subscription per operation, some free).
+  posture: self-serve with public pricing; separate sales-gated commercial-use
+    licensing.
+  transports:
+  - protocol: REST
+    scheme: http
+    baseURL: http://127.0.0.1:25503/v3
+    documented: true
+    note: Local Theta Terminal HTTP server; not a hosted cloud endpoint, so it
+      cannot be probed remotely. Base URL documented in every operation page
+      and the OpenAPI servers block.
+  - protocol: WebSocket
+    scheme: ws
+    baseURL: ws://127.0.0.1:25520/v1/events
+    documented: true
+    note: Local Theta Terminal WebSocket server; JSON messages; paid streaming
+      permissions required; single connection per user.
+  - protocol: MCP (SSE)
+    scheme: http
+    baseURL: http://127.0.0.1:25503/mcp/sse
+    documented: true
+    note: MCP server built into Theta Terminal v3 for LLM CLIs (Claude CLI,
+      Gemini CLI documented).
+  - protocol: FlatFiles
+    documented: true
+    note: Homepage advertises "Flat Files Available" for bulk historical data;
+      no public flat-file docs page located during this review.
+  openapi:
+    harvested: true
+    localPath: openapi/thetadata-v3-openapi.yml
+    provenance: Downloaded verbatim from https://docs.thetadata.us/openapiv3.yaml
+      (HTTP 200) on 2026-07-21. OpenAPI 3.1.0, info.title "Theta Data v3",
+      version 3.0.0, 66 paths, servers[0] http://127.0.0.1:25503/v3. Validated
+      with PyYAML.
+sources:
+- url: https://thetadata.net/
+  type: Website
+  status: 200
+  note: Options/stocks/indices/interest-rates data marketing site; advertises
+    REST + WebSocket APIs, Python and JavaScript SDKs, QuantConnect integration,
+    and flat files.
+- url: https://docs.thetadata.us/
+  type: Documentation
+  status: 200
+  note: v3 docs portal (VitePress) covering Getting Started, REST operations,
+    Python library, Streaming, MCP, and AI/LLMs sections.
+- url: https://docs.thetadata.us/openapiv3.yaml
+  type: OpenAPI
+  status: 200
+  note: Public OpenAPI 3.1.0 spec for the v3 REST API; harvested verbatim.
+- url: https://docs.thetadata.us/Articles/Getting-Started/Getting-Started.html
+  type: Documentation
+  status: 200
+  note: Theta Terminal install (Java 21, ThetaTerminalv3.jar) and the three
+    auth methods (API key flag, THETADATA_API_KEY env var, creds.txt).
+- url: https://docs.thetadata.us/Streaming/Getting-Started.html
+  type: Documentation
+  status: 200
+  note: WebSocket streaming docs; ws://127.0.0.1:25520/v1/events.
+- url: https://docs.thetadata.us/Mcp/Getting-Started.html
+  type: Documentation
+  status: 200
+  note: MCP server docs; SSE endpoint on port 25503.
+- url: https://thetadata.net/pricing
+  type: Pricing
+  status: 200
+  note: Public tiers Options Value $40/mo, Standard $80/mo, Pro $160/mo;
+    commercial-use licensing linked separately.
+- url: https://thetadata.net/about
+  type: Website
+  status: 200
+  note: Founded 2022; Bailey Danseglio founder/CEO; leadership includes COO
+    William Speirs and CGO Mark Friend.
+- url: https://thetadata.statuspage.io/
+  type: StatusPage
+  status: 200
+- url: https://discord.thetadata.us/
+  type: Support
+  status: 200
+  note: Discord is the primary support channel.
+- url: https://github.com/ThetaData-API
+  type: GitHubOrganization
+  status: 404
+  note: Former GitHub org is gone; thetadata-python now redirects to an
+    archived repo under the founder's account (baileydanseglio/thetadata-python),
+    so no GitHubOrganization property was recorded.
+- url: https://www.linkedin.com/company/axiomx-theta-data
+  type: LinkedIn
+  status: 999
+  note: LinkedIn blocks unauthenticated probes (999); URL taken from the
+    vendor's own docs-site footer.
+actions:
+  openapiPath: openapi/thetadata-v3-openapi.yml
+  apisYmlUpdated: true
+  reason: |
+    Bootstrap review. Three real documented API surfaces (v3 REST, WebSocket
+    streaming, MCP over SSE) were cataloged, all served by the local Theta
+    Terminal rather than hosted endpoints, and the public OpenAPI 3.1 spec
+    was harvested verbatim with provenance recorded above. No specs were
+    fabricated; the streaming API has no public AsyncAPI document.
