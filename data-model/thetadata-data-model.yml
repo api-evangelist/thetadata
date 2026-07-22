@@ -1,0 +1,54 @@
+generated: '2026-07-22'
+method: derived
+source: >-
+  Derived from openapi/_original/thetadata-v3-openapi.yml (path structure,
+  contract parameters symbol/expiration/strike/right, response row schemas) and
+  the streaming contract object
+  (https://docs.thetadata.us/Streaming/Getting-Started.html). ThetaData is a
+  read-only market-data surface, so the model is asset entities and the data
+  series keyed to them rather than CRUD resources.
+notation: >-
+  relationships use has_one / has_many / belongs_to with the identifying field
+  name; direction is from the entity that owns the reference.
+entities:
+  - {name: StockSymbol, key: symbol, domain: stock, description: A traded US stock / underlying asset (also called root or ticker).}
+  - {name: OptionContract, key: symbol+expiration+strike+right, domain: option, description: 'A US option contract: underlying symbol, expiration date, strike (dollars), right (call/put).'}
+  - {name: IndexSymbol, key: symbol, domain: index, description: A US index (e.g. SPX, VIX) reported by CGIF/Nasdaq GIDS.}
+  - {name: InterestRateSeries, key: symbol, domain: interest_rate, description: SOFR or US Treasury tenor series reported daily by the NY Fed / Federal Reserve.}
+  - {name: MarketCalendar, key: date, domain: calendar, description: Trading-day calendar (open today, on-date, year holidays).}
+  - {name: Trade, domain: series, description: A single reported trade tick (with exchange sequence, conditions).}
+  - {name: Quote, domain: series, description: An NBBO quote tick.}
+  - {name: OHLC, domain: series, description: Open/high/low/close bar at a requested interval.}
+  - {name: EODReport, domain: series, description: End-of-day snapshot of OHLCV and NBBO quote.}
+  - {name: OpenInterest, domain: series, description: Open interest reported for an option contract.}
+  - {name: Greeks, domain: series, description: 'Option greeks (first/second/third order, implied volatility), computed against the underlying price.'}
+  - {name: FlatFile, domain: bulk, description: Bulk downloadable file of trades/quotes/EOD/open interest for a whole market day.}
+relationships:
+  - {from: OptionContract, to: StockSymbol, type: belongs_to, via: symbol, notes: option roots are underlying stock/index symbols}
+  - {from: StockSymbol, to: Trade, type: has_many, via: /stock/history/trade}
+  - {from: StockSymbol, to: Quote, type: has_many, via: /stock/history/quote}
+  - {from: StockSymbol, to: OHLC, type: has_many, via: /stock/history/ohlc}
+  - {from: StockSymbol, to: EODReport, type: has_many, via: /stock/history/eod}
+  - {from: OptionContract, to: Trade, type: has_many, via: /option/history/trade}
+  - {from: OptionContract, to: Quote, type: has_many, via: /option/history/quote}
+  - {from: OptionContract, to: OHLC, type: has_many, via: /option/history/ohlc}
+  - {from: OptionContract, to: EODReport, type: has_many, via: /option/history/eod}
+  - {from: OptionContract, to: OpenInterest, type: has_many, via: /option/history/open_interest}
+  - {from: OptionContract, to: Greeks, type: has_many, via: /option/history/greeks/*}
+  - {from: Greeks, to: StockSymbol, type: belongs_to, via: stock_price, notes: greeks computed from underlying price; stock_price parameter can override}
+  - {from: IndexSymbol, to: OHLC, type: has_many, via: /index/history/ohlc}
+  - {from: IndexSymbol, to: EODReport, type: has_many, via: /index/history/eod}
+  - {from: InterestRateSeries, to: EODReport, type: has_many, via: /interest_rate/history/eod}
+  - {from: FlatFile, to: OptionContract, type: has_many, via: /option/flat_file/*}
+  - {from: FlatFile, to: StockSymbol, type: has_many, via: /stock/flat_file/*}
+domains:
+  - {name: stock, description: US equities (UTP + CTA tapes)}
+  - {name: option, description: US equity and index options (OPRA)}
+  - {name: index, description: US indices}
+  - {name: interest_rate, description: SOFR + US Treasuries}
+  - {name: calendar, description: Market calendar}
+id_conventions:
+  strike_streaming: In streaming messages, strike is expressed in 1/10th of a cent (e.g. $140 = 140000).
+  strike_rest: In v3 REST parameters, strike is a float in dollars.
+  expiration: Accepts YYYYMMDD, YYYY-MM-DD, or * wildcard.
+  right: call / put in v3 REST; C / P in streaming contract objects.

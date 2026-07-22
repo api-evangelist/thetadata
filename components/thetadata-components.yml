@@ -1,0 +1,26 @@
+generated: '2026-07-22'
+method: searched
+source: >-
+  https://docs.thetadata.us/Excel/Getting-Started.html,
+  https://docs.thetadata.us/Excel/Examples.html,
+  https://www.thetadata.net/blog/2024-12-30-theta-data-in-excel.
+description: >-
+  ThetaData's client-side / embedded surfaces. The one first-party embeddable
+  component is the Theta Data Excel add-in (v3), which exposes ThetaData's
+  data as Excel formula functions. There are no web components or JS element
+  libraries; server-side SDKs live in packages/thetadata-packages.yml.
+components:
+  - family: Excel Add-in
+    name: Theta Data for Excel (v3)
+    platform: Microsoft Excel (Windows; macOS not currently supported — workaround is Excel on the web via Chrome)
+    install: 'Excel Home ribbon -> Add-ins dropdown -> search "Theta Data"'
+    requires:
+      - Latest Theta Data Terminal running (talks to Terminal v3 only)
+      - Standard or Pro subscription
+    capabilities:
+      - Formula functions for every data type, grouped in the docs sidebar (parameters + example formula per function)
+      - Real-time snapshot data
+    limitations:
+      - No real-time streaming
+      - Requests capped below Excel's 1M-row sheet limit; oversized requests return an error early
+      - String parameters (symbols, dates) must be double-quoted in formulas

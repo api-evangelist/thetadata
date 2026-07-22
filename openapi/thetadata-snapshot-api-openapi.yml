@@ -1,0 +1,2463 @@
+openapi: 3.1.0
+info:
+  title: Theta Data v3 At-Time Snapshot API
+  description: Real-time and historic stock, options, and index data!
+  version: 3.0.0
+  x-java-package: net.thetadata.generated
+servers:
+- url: http://127.0.0.1:25503/v3
+  description: dev
+security: []
+tags:
+- name: Snapshot
+paths:
+  /stock/snapshot/ohlc:
+    x-skip-concurrent-limit: true
+    x-min-subscription: value
+    x-symbol-wildcard: true
+    get:
+      summary: Open High Low Close
+      operationId: stock_snapshot_ohlc
+      x-codeSamples:
+      - lang: Python
+        label: pandas
+        source: 'from thetadata import ThetaClient
+
+
+          client = ThetaClient(dataframe_type=''pandas'')
+
+          df = client.stock_snapshot_ohlc(symbol=[''AAPL''])
+
+          '
+      - lang: Python
+        label: polars
+        source: 'from thetadata import ThetaClient
+
+
+          client = ThetaClient(dataframe_type=''polars'')
+
+          df = client.stock_snapshot_ohlc(symbol=[''AAPL''])
+
+          '
+      tags:
+      - Snapshot
+      description: '
+
+        Provides a real-time Open, High, Low, Close for the current day.
+
+        * Returns a real-time session OHLC from the [Nasdaq Basic feed](/Articles/Data-And-Requests/The-SIPs) if the account has a [stocks standard or pro subscription](https://www.thetadata.net/subscribe.html#stocks).
+
+        * Returns a 15-minute delayed session OHLC from the [UTP & CTA feeds](/Articles/Data-And-Requests/The-SIPs) if the account has the stocks value subscription.
+
+        * Theta Data resets its snapshot cache at midnight ET every day. This endpoint may not work on a weekend where there were no eligible messages sent over exchange feeds. We recommend using historic requests during the weekend.
+
+        '
+      x-sample-urls:
+      - url: http://127.0.0.1:25503/v3/stock/snapshot/ohlc?symbol=*
+        description: Returns OHLC for stocks for all symbols
+      - url: http://127.0.0.1:25503/v3/stock/snapshot/ohlc?symbol=AAPL&venue=nqb
+        description: Returns OHLC for a given stock trade from the Nasdaq Basic feed
+      - url: http://127.0.0.1:25503/v3/stock/snapshot/ohlc?symbol=AAPL&venue=nqb&format=html
+        description: Click to open in browser (HTML)
+      parameters:
+      - $ref: '#/components/parameters/multi_symbol'
+      - $ref: '#/components/parameters/venue'
+      - $ref: '#/components/parameters/min_time'
+      - $ref: '#/components/parameters/format'
+      responses:
+        '200':
+          description: Returns OHLC for stocks for all symbols
+          content:
+            text/csv:
+              schema:
+                type: array
+                items: &id001
+                  type: object
+                  properties:
+                    timestamp:
+                      type: string
+                      format: date-time
+                      description: The timestamp in YYYY-MM-DDTHH:mm:ss.SSS format.
+                    symbol:
+                      type: string
+                      description: The symbol of the contract, or stock / underlying asset / option / index.
+                    open:
+                      type: number
+                      description: The opening trade price.
+                    high:
+                      type: number
+                      description: The highest traded price.
+                    low:
+                      type: number
+                      description: The lowest traded price.
+                    close:
+                      type: number
+                      description: The closing traded price.
+                    volume:
+                      type: integer
+                      description: The amount of contracts / shares traded.
+                    count:
+                      type: integer
+                      description: The amount of trades.
+              example: "timestamp,symbol,open,high,low,close,volume,count\r\n2025-08-20T16:10:04.43,CVCO,492.0000,492.0000,480.5477,485.1100,119656,7684\r\n2025-08-20T16:11:13.962,IFRX,0.8900,0.9199,0.8529,0.8929,57048,138\r\n2025-08-20T16:04:10.564,KLXY,0.0000,0.0000,0.0000,0.0000,9,6\r\n2025-08-20T16:04:07.554,HCOW,23.5600,23.6976,23.5600,23.6616,3648,44\r\n2025-08-20T16:22:32.726,SCS,16.2000,16.3200,16.1550,16.1800,992620,7690\r\n"
+            application/json:
+              schema: &id002
+                type: array
+                items: *id001
+              example: "{\n  \"response\": [\n    {\"volume\":119656,\"symbol\":\"CVCO\",\"high\":492.0000,\"low\":480.5477,\"count\":7684,\"close\":485.1100,\"open\":492.0000,\"timestamp\":\"2025-08-20T16:10:04.43\"},\n    {\"volume\":57048,\"symbol\":\"IFRX\",\"high\":0.9199,\"low\":0.8529,\"count\":138,\"close\":0.8929,\"open\":0.8900,\"timestamp\":\"2025-08-20T16:11:13.962\"},\n    {\"volume\":9,\"symbol\":\"KLXY\",\"high\":0.0000,\"low\":0.0000,\"count\":6,\"close\":0.0000,\"open\":0.0000,\"timestamp\":\"2025-08-20T16:04:10.564\"},\n    {\"volume\":3648,\"symbol\":\"HCOW\",\"high\":23.6976,\"low\":23.5600,\"count\":44,\"close\":23.6616,\"open\":23.5600,\"timestamp\":\"2025-08-20T16:04:07.554\"},\n    {\"volume\":992620,\"symbol\":\"SCS\",\"high\":16.3200,\"low\":16.1550,\"count\":7690,\"close\":16.1800,\"open\":16.2000,\"timestamp\":\"2025-08-20T16:22:32.726\"}\n  ]\n}\n"
+            application/x-ndjson:
+              schema: *id002
+              example: '{"volume":119656,"symbol":"CVCO","high":492.0000,"low":480.5477,"count":7684,"close":485.1100,"open":492.0000,"timestamp":"2025-08-20T16:10:04.43"}
+
+                {"volume":57048,"symbol":"IFRX","high":0.9199,"low":0.8529,"count":138,"close":0.8929,"open":0.8900,"timestamp":"2025-08-20T16:11:13.962"}
+
+                {"volume":9,"symbol":"KLXY","high":0.0000,"low":0.0000,"count":6,"close":0.0000,"open":0.0000,"timestamp":"2025-08-20T16:04:10.564"}
+
+                {"volume":3648,"symbol":"HCOW","high":23.6976,"low":23.5600,"count":44,"close":23.6616,"open":23.5600,"timestamp":"2025-08-20T16:04:07.554"}
+
+                {"volume":992620,"symbol":"SCS","high":16.3200,"low":16.1550,"count":7690,"close":16.1800,"open":16.2000,"timestamp":"2025-08-20T16:22:32.726"}'
+            python/pandas:
+              schema: *id002
+              example: 'timestamp symbol    open    high     low     close    volume   count
+
+                0 2026-04-27 12:13:13.669000-04:00   AAPL  266.09  268.36  265.07  266.9199  10436064  212955
+
+                '
+            python/polars:
+              schema: *id002
+              example: 'shape: (1, 8)
+
+                ┌────────────────────────────────┬────────┬────────┬────────┬────────┬──────────┬──────────┬────────┐
+
+                │ timestamp                      ┆ symbol ┆ open   ┆ high   ┆ low    ┆ close    ┆ volume   ┆ count  │
+
+                │ ---                            ┆ ---    ┆ ---    ┆ ---    ┆ ---    ┆ ---      ┆ ---      ┆ ---    │
+
+                │ datetime[ms, America/New_York] ┆ str    ┆ f64    ┆ f64    ┆ f64    ┆ f64      ┆ i64      ┆ i64    │
+
+                ╞════════════════════════════════╪════════╪════════╪════════╪════════╪══════════╪══════════╪════════╡
+
+                │ 2026-04-27 12:13:13.669 EDT    ┆ AAPL   ┆ 266.09 ┆ 268.36 ┆ 265.07 ┆ 266.9199 ┆ 10436064 ┆ 212955 │
+
+                └────────────────────────────────┴────────┴────────┴────────┴────────┴──────────┴──────────┴────────┘
+
+                '
+  /stock/snapshot/trade:
+    x-skip-concurrent-limit: true
+    x-min-subscription: standard
+    get:
+      summary: Trade
+      operationId: stock_snapshot_trade
+      x-codeSamples:
+      - lang: Python
+        label: pandas
+        source: 'from thetadata import ThetaClient
+
+
+          client = ThetaClient(dataframe_type=''pandas'')
+
+          df = client.stock_snapshot_trade(symbol=[''AAPL''])
+
+          '
+      - lang: Python
+        label: polars
+        source: 'from thetadata import ThetaClient
+
+
+          client = ThetaClient(dataframe_type=''polars'')
+
+          df = client.stock_snapshot_trade(symbol=[''AAPL''])
+
+          '
+      tags:
+      - Snapshot
+      description: '
+
+        Returns a real-time last trade from the [Nasdaq Basic feed](/Articles/Data-And-Requests/The-SIPs) if the account has a [stocks standard or pro subscription](https://www.thetadata.net/subscribe.html#stocks).
+
+
+        - Theta Data resets its snapshot cache at midnight ET every day. This endpoint may not work on a weekend where there were no eligible messages sent over exchange feeds. We recommend using historic requests during the weekend.
+
+        '
+      x-sample-urls:
+      - url: http://127.0.0.1:25503/v3/stock/snapshot/trade?symbol=AAPL
+        description: Returns last trade for stocks for a given symbol
+      - url: http://127.0.0.1:25503/v3/stock/snapshot/trade?symbol=AAPL&format=html
+        description: Click to open in browser (HTML)
+      parameters:
+      - $ref: '#/components/parameters/multi_symbol'
+      - $ref: '#/components/parameters/venue'
+      - $ref: '#/components/parameters/min_time'
+      - $ref: '#/components/parameters/format'
+      responses:
+        '200':
+          description: Returns last trade for stocks for a given symbol
+          content:
+            text/csv:
+              schema:
+                type: array
+                items: &id003
+                  type: object
+                  properties:
+                    timestamp:
+                      type: string
+                      format: date-time
+                      description: The timestamp in YYYY-MM-DDTHH:mm:ss.SSS format.
+                    symbol:
+                      type: string
+                      description: The symbol of the contract, or stock / underlying asset / option / index.
+                    sequence:
+                      type: integer
+                      description: The exchange [sequence](/Articles/Data-And-Requests/Making-Requests.html#trade-sequences).
+                    size:
+                      type: integer
+                      description: The amount of contracts / shares traded.
+                    condition:
+                      type: integer
+                      description: The trade [condition](/Articles/Errors-Exchanges-Conditions/Trade-Conditions.html).
+                    price:
+                      type: number
+                      description: The trade price.
+              example: "timestamp,symbol,sequence,size,condition,price\r\n2025-08-20T16:36:05.549,AAPL,63539137,23,1,225.7500\r\n"
+            application/json:
+              schema: &id004
+                type: array
+                items: *id003
+              example: "{\n  \"response\": [\n    {\"symbol\":\"AAPL\",\"sequence\":63539137,\"condition\":1,\"size\":23,\"price\":225.7500,\"timestamp\":\"2025-08-20T16:36:05.549\"}\n  ]\n}\n"
+            application/x-ndjson:
+              schema: *id004
+              example: '{"symbol":"AAPL","sequence":63539137,"condition":1,"size":23,"price":225.7500,"timestamp":"2025-08-20T16:36:05.549"}'
+            python/pandas:
+              schema: *id004
+              example: 'timestamp symbol  sequence  size  condition     price
+
+                0 2026-04-27 12:13:13.669000-04:00   AAPL  35639213    21         96  266.9263
+
+                '
+            python/polars:
+              schema: *id004
+              example: 'shape: (1, 6)
+
+                ┌────────────────────────────────┬────────┬──────────┬──────┬───────────┬──────────┐
+
+                │ timestamp                      ┆ symbol ┆ sequence ┆ size ┆ condition ┆ price    │
+
+                │ ---                            ┆ ---    ┆ ---      ┆ ---  ┆ ---       ┆ ---      │
+
+                │ datetime[ms, America/New_York] ┆ str    ┆ i64      ┆ i64  ┆ i64       ┆ f64      │
+
+                ╞════════════════════════════════╪════════╪══════════╪══════╪═══════════╪══════════╡
+
+                │ 2026-04-27 12:13:13.669 EDT    ┆ AAPL   ┆ 35639213 ┆ 21   ┆ 96        ┆ 266.9263 │
+
+                └────────────────────────────────┴────────┴──────────┴──────┴───────────┴──────────┘
+
+                '
+  /stock/snapshot/quote:
+    x-skip-concurrent-limit: true
+    x-min-subscription: value
+    x-symbol-wildcard: true
+    get:
+      summary: Quote
+      operationId: stock_snapshot_quote
+      x-codeSamples:
+      - lang: Python
+        label: pandas
+        source: 'from thetadata import ThetaClient
+
+
+          client = ThetaClient(dataframe_type=''pandas'')
+
+          df = client.stock_snapshot_quote(symbol=[''AAPL''])
+
+          '
+      - lang: Python
+        label: polars
+        source: 'from thetadata import ThetaClient
+
+
+          client = ThetaClient(dataframe_type=''polars'')
+
+          df = client.stock_snapshot_quote(symbol=[''AAPL''])
+
+          '
+      tags:
+      - Snapshot
+      description: '* Returns a real-time last BBO quote from the [Nasdaq Basic feed](/Articles/Data-And-Requests/The-SIPs) if the account has a [stocks standard or pro subscription](https://www.thetadata.net/subscribe.html#stocks).
+
+        * Returns a 15-minute delayed NBBO quote from the [UTP & CTA feeds](/Articles/Data-And-Requests/The-SIPs) account has the [stocks value subscription](https://www.thetadata.net/subscribe.html#stocks) subscription.
+
+        - Theta Data resets its snapshot cache at midnight ET every day. This endpoint may not work on a weekend where there were no eligible messages sent over exchange feeds. We recommend using historic requests during the weekend.
+
+        '
+      x-sample-urls:
+      - url: http://127.0.0.1:25503/v3/stock/snapshot/quote?symbol=*
+        description: Returns last quote for stocks for all symbols
+      - url: http://127.0.0.1:25503/v3/stock/snapshot/quote?symbol=AAPL&venue=nqb
+        description: Returns OHLC for a given stock trade from the Nasdaq Basic feed
+      - url: http://127.0.0.1:25503/v3/stock/snapshot/quote?symbol=AAPL&format=html
+        description: Click to open in browser (HTML)
+      parameters:
+      - $ref: '#/components/parameters/multi_symbol'
+      - $ref: '#/components/parameters/venue'
+      - $ref: '#/components/parameters/min_time'
+      - $ref: '#/components/parameters/format'
+      responses:
+        '200':
+          description: Returns last quote for stocks for all symbols
+          content:
+            text/csv:
+              schema:
+                type: array
+                items: &id005
+                  type: object
+                  properties:
+                    timestamp:
+                      type: string
+                      format: date-time
+                      description: The timestamp in YYYY-MM-DDTHH:mm:ss.SSS format.
+                    symbol:
+                      type: string
+                      description: The symbol of the contract, or stock / underlying asset / option / index.
+                    bid_size:
+                      type: integer
+                      description: The last NBBO bid size.
+                    bid_exchange:
+                      type: integer
+                      description: The last NBBO bid [exchange](/Articles/Errors-Exchanges-Conditions/Exchanges.html).
+                    bid:
+                      type: number
+                      description: The last NBBO bid price.
+                    bid_condition:
+                      type: integer
+                      description: The last NBBO bid [condition](/Articles/Errors-Exchanges-Conditions/Quote-Conditions.html).
+                    ask_size:
+                      type: integer
+                      description: The last NBBO ask size.
+                    ask_exchange:
+                      type: integer
+                      description: The last NBBO ask [exchange](/Articles/Errors-Exchanges-Conditions/Exchanges.html).
+                    ask:
+                      type: number
+                      description: The last NBBO ask price.
+                    ask_condition:
+                      type: integer
+                      description: The last NBBO ask [condition](/Articles/Errors-Exchanges-Conditions/Quote-Conditions.html).
+              example: "timestamp,symbol,bid_size,bid_exchange,bid,bid_condition,ask_size,ask_exchange,ask,ask_condition\r\n2025-08-20T16:03:05.142,CVCO,1,29,475.75,0,3,29,494.33,0\r\n2025-08-20T16:10:05.032,KLXY,200,29,12.40,0,200,29,37.18,0\r\n2025-08-20T16:21:05.781,IFRX,100,29,0.7510,0,45,29,0.9500,0\r\n2025-08-20T16:19:55.101,SCS,100,29,14.64,0,100,29,17.60,0\r\n2025-08-20T16:33:50.877,BBC,100,29,13.29,0,2800,29,24.06,0\r\n"
+            application/json:
+              schema: &id006
+                type: array
+                items: *id005
+              example: "{\n  \"response\": [\n    {\"symbol\":\"CVCO\",\"ask_size\":3,\"bid_size\":1,\"ask_exchange\":29,\"ask_condition\":0,\"bid_exchange\":29,\"ask\":494.33,\"bid\":475.75,\"bid_condition\":0,\"timestamp\":\"2025-08-20T16:03:05.142\"},\n    {\"symbol\":\"KLXY\",\"ask_size\":200,\"bid_size\":200,\"ask_exchange\":29,\"ask_condition\":0,\"bid_exchange\":29,\"ask\":37.18,\"bid\":12.40,\"bid_condition\":0,\"timestamp\":\"2025-08-20T16:10:05.032\"},\n    {\"symbol\":\"IFRX\",\"ask_size\":45,\"bid_size\":100,\"ask_exchange\":29,\"ask_condition\":0,\"bid_exchange\":29,\"ask\":0.9500,\"bid\":0.7510,\"bid_condition\":0,\"timestamp\":\"2025-08-20T16:21:05.781\"},\n    {\"symbol\":\"SCS\",\"ask_size\":100,\"bid_size\":100,\"ask_exchange\":29,\"ask_condition\":0,\"bid_exchange\":29,\"ask\":17.60,\"bid\":14.64,\"bid_condition\":0,\"timestamp\":\"2025-08-20T16:19:55.101\"},\n    {\"symbol\":\"BBC\",\"ask_size\":2800,\"bid_size\":100,\"ask_exchange\":29,\"ask_condition\":0,\"bid_exchange\":29,\"ask\":24.06,\"bid\":13.29,\"bid_condition\":0,\"timestamp\":\"2025-08-20T16:33:50.877\"}\n  ]\n}\n"
+            application/x-ndjson:
+              schema: *id006
+              example: '{"symbol":"CVCO","ask_size":3,"bid_size":1,"ask_exchange":29,"ask_condition":0,"bid_exchange":29,"ask":494.33,"bid":475.75,"bid_condition":0,"timestamp":"2025-08-20T16:03:05.142"}
+
+                {"symbol":"KLXY","ask_size":200,"bid_size":200,"ask_exchange":29,"ask_condition":0,"bid_exchange":29,"ask":37.18,"bid":12.40,"bid_condition":0,"timestamp":"2025-08-20T16:10:05.032"}
+
+                {"symbol":"IFRX","ask_size":45,"bid_size":100,"ask_exchange":29,"ask_condition":0,"bid_exchange":29,"ask":0.9500,"bid":0.7510,"bid_condition":0,"timestamp":"2025-08-20T16:21:05.781"}
+
+                {"symbol":"SCS","ask_size":100,"bid_size":100,"ask_exchange":29,"ask_condition":0,"bid_exchange":29,"ask":17.60,"bid":14.64,"bid_condition":0,"timestamp":"2025-08-20T16:19:55.101"}
+
+                {"symbol":"BBC","ask_size":2800,"bid_size":100,"ask_exchange":29,"ask_condition":0,"bid_exchange":29,"ask":24.06,"bid":13.29,"bid_condition":0,"timestamp":"2025-08-20T16:33:50.877"}'
+            python/pandas:
+              schema: *id006
+              example: 'timestamp symbol  bid_size  bid_exchange    bid  bid_condition  ask_size  ask_exchange     ask  ask_condition
+
+                0 2026-04-27 12:13:13.953000-04:00   AAPL       158            29  266.9              0        22            29  266.92              0
+
+                '
+            python/polars:
+              schema: *id006
+              example: 'shape: (1, 10)
+
+                ┌────────────────────────────────┬────────┬──────────┬──────────────┬───────┬───────────────┬──────────┬──────────────┬────────┬───────────────┐
+
+                │ timestamp                      ┆ symbol ┆ bid_size ┆ bid_exchange ┆ bid   ┆ bid_condition ┆ ask_size ┆ ask_exchange ┆ ask    ┆ ask_condition │
+
+                │ ---                            ┆ ---    ┆ ---      ┆ ---          ┆ ---   ┆ ---           ┆ ---      ┆ ---          ┆ ---    ┆ ---           │
+
+                │ datetime[ms, America/New_York] ┆ str    ┆ i64      ┆ i64          ┆ f64   ┆ i64           ┆ i64      ┆ i64          ┆ f64    ┆ i64           │
+
+                ╞════════════════════════════════╪════════╪══════════╪══════════════╪═══════╪═══════════════╪══════════╪══════════════╪════════╪═══════════════╡
+
+                │ 2026-04-27 12:13:13.953 EDT    ┆ AAPL   ┆ 158      ┆ 29           ┆ 266.9 ┆ 0             ┆ 22       ┆ 29           ┆ 266.92 ┆ 0             │
+
+                └────────────────────────────────┴────────┴──────────┴──────────────┴───────┴───────────────┴──────────┴──────────────┴────────┴───────────────┘
+
+                '
+  /stock/snapshot/market_value:
+    x-skip-concurrent-limit: true
+    x-min-subscription: standard
+    x-symbol-wildcard: true
+    get:
+      summary: Market Value
+      operationId: stock_snapshot_market_value
+      x-codeSamples:
+      - lang: Python
+        label: pandas
+        source: 'from thetadata import ThetaClient
+
+
+          client = ThetaClient(dataframe_type=''pandas'')
+
+          df = client.stock_snapshot_market_value(symbol=[''AAPL''])
+
+          '
+      - lang: Python
+        label: polars
+        source: 'from thetadata import ThetaClient
+
+
+          client = ThetaClient(dataframe_type=''polars'')
+
+          df = client.stock_snapshot_market_value(symbol=[''AAPL''])
+
+          '
+      tags:
+      - Snapshot
+      description: '* Returns a real-time market value derived from the last BBO quote from the [Nasdaq Basic feed](/Articles/Data-And-Requests/The-SIPs) if the account has a [stocks standard or pro subscription](https://www.thetadata.net/subscribe.html#stocks).
+
+        * Returns a 15-minute delayed market value derived from an NBBO quote from the [UTP & CTA feeds](/Articles/Data-And-Requests/The-SIPs) if the account has the [stocks value subscription](https://www.thetadata.net/subscribe.html#stocks) subscription.
+
+        - Theta Data resets its snapshot cache at midnight ET every day. This endpoint may not work on a weekend where there were no eligible messages sent over exchange feeds. We recommend using historic requests during the weekend.
+
+        '
+      x-sample-urls:
+      - url: http://127.0.0.1:25503/v3/stock/snapshot/market_value?symbol=*
+        description: Returns last market value for stocks for all symbols
+      - url: http://127.0.0.1:25503/v3/stock/snapshot/market_value?symbol=AAPL&venue=nqb
+        description: Returns market value for a given stock trade from the Nasdaq Basic feed
+      - url: http://127.0.0.1:25503/v3/stock/snapshot/market_value?symbol=*&format=html
+        description: Click to open in browser (HTML)
+      parameters:
+      - $ref: '#/components/parameters/multi_symbol'
+      - $ref: '#/components/parameters/venue'
+      - $ref: '#/components/parameters/min_time'
+      - $ref: '#/components/parameters/format'
+      responses:
+        '200':
+          description: Returns last market value for stocks for all symbols
+          content:
+            text/csv:
+              schema:
+                type: array
+                items: &id007
+                  type: object
+                  properties:
+                    timestamp:
+                      type: string
+                      format: date-time
+                      description: The timestamp in YYYY-MM-DDTHH:mm:ss.SSS format.
+                    symbol:
+                      type: string
+                      description: The symbol of the contract, or stock / underlying asset / option / index.
+                    market_bid:
+                      type: number
+                      description: The last market bid
+                    market_ask:
+                      type: number
+                      description: The last market ask
+                    market_price:
+                      type: number
+                      description: The last market value price
+              example: "timestamp,symbol,market_bid,market_ask,market_price\r\n2025-12-16T11:47:50.854,CVCO,590.60,595.55,593.07\r\n2025-12-16T11:02:05.409,KLXY,26.77,27.69,27.23\r\n2025-12-16T11:47:52.923,FXR,80.23,80.27,80.25\r\n2025-12-16T11:47:53.496,AAPL,273.22,273.23,273.22"
+            application/json:
+              schema: &id008
+                type: array
+                items: *id007
+              example: "{\n  \"response\": [\n    {\"symbol\":\"CVCO\",\"market_bid\":590.60,\"market_ask\":595.55,\"market_price\":593.07,\"timestamp\":\"2025-12-16T11:47:50.854\"},\n    {\"symbol\":\"KLXY\",\"market_bid\":26.77,\"market_ask\":27.69,\"market_price\":27.23,\"timestamp\":\"2025-12-16T11:02:05.409\"},\n    {\"symbol\":\"FXR\",\"market_bid\":80.23,\"market_ask\":80.27,\"market_price\":80.25,\"timestamp\":\"2025-12-16T11:47:52.923\"},\n    {\"symbol\":\"AAPL\",\"market_bid\":273.22,\"market_ask\":273.23,\"market_price\":273.22,\"timestamp\":\"2025-12-16T11:47:53.496\"}\n  ]\n}\n"
+            application/x-ndjson:
+              schema: *id008
+              example: '{"symbol":"CVCO","market_bid":590.60,"market_ask":595.55,"market_price":593.07,"timestamp":"2025-12-16T11:47:50.854"}
+
+                {"symbol":"KLXY","market_bid":26.77,"market_ask":27.69,"market_price":27.23,"timestamp":"2025-12-16T11:02:05.409"}
+
+                {"symbol":"FXR","market_bid":80.23,"market_ask":80.27,"market_price":80.25,"timestamp":"2025-12-16T11:47:52.923"}
+
+                {"symbol":"AAPL","market_bid":273.22,"market_ask":273.23,"market_price":273.22,"timestamp":"2025-12-16T11:47:53.496"}'
+            python/pandas:
+              schema: *id008
+              example: 'timestamp symbol  market_bid  market_ask  market_price
+
+                0 2026-04-27 12:13:13.953000-04:00   AAPL       266.9      266.91         266.9
+
+                '
+            python/polars:
+              schema: *id008
+              example: 'shape: (1, 5)
+
+                ┌────────────────────────────────┬────────┬────────────┬────────────┬──────────────┐
+
+                │ timestamp                      ┆ symbol ┆ market_bid ┆ market_ask ┆ market_price │
+
+                │ ---                            ┆ ---    ┆ ---        ┆ ---        ┆ ---          │
+
+                │ datetime[ms, America/New_York] ┆ str    ┆ f64        ┆ f64        ┆ f64          │
+
+                ╞════════════════════════════════╪════════╪════════════╪════════════╪══════════════╡
+
+                │ 2026-04-27 12:13:13.953 EDT    ┆ AAPL   ┆ 266.9      ┆ 266.91     ┆ 266.9        │
+
+                └────────────────────────────────┴────────┴────────────┴────────────┴──────────────┘
+
+                '
+  /option/snapshot/ohlc:
+    x-skip-concurrent-limit: true
+    x-min-subscription: value
+    get:
+      summary: Open High Low Close
+      operationId: option_snapshot_ohlc
+      x-codeSamples:
+      - lang: Python
+        label: pandas
+        source: 'from thetadata import ThetaClient
+
+          from datetime import date
+
+
+          client = ThetaClient(dataframe_type=''pandas'')
+
+          df = client.option_snapshot_ohlc(symbol=''AAPL'', expiration=date(2027, 1, 15))
+
+          '
+      - lang: Python
+        label: polars
+        source: 'from thetadata import ThetaClient
+
+          from datetime import date
+
+
+          client = ThetaClient(dataframe_type=''polars'')
+
+          df = client.option_snapshot_ohlc(symbol=''AAPL'', expiration=date(2027, 1, 15))
+
+          '
+      tags:
+      - Snapshot
+      description: '- Retrieve a real-time last ohlc of an option contract for the trading day.
+
+        - You might need to change the default expiration date to a different date if it is past the current date.
+
+        '
+      x-sample-urls:
+      - url: http://127.0.0.1:25503/v3/option/snapshot/ohlc?symbol=AAPL&expiration=20270115&right=call&strike=270.000
+        description: Returns OHLC for a given option contract
+      - url: http://127.0.0.1:25503/v3/option/snapshot/ohlc?symbol=AAPL&expiration=*
+        description: Returns OHLC for all option contracts
+      - url: http://127.0.0.1:25503/v3/option/snapshot/ohlc?symbol=AAPL&expiration=*&format=html
+        description: Click to open in browser (HTML)
+      parameters:
+      - $ref: '#/components/parameters/single_symbol'
+      - $ref: '#/components/parameters/expiration'
+      - $ref: '#/components/parameters/strike'
+      - $ref: '#/components/parameters/right'
+      - $ref: '#/components/parameters/max_dte'
+      - $ref: '#/components/parameters/strike_range'
+      - $ref: '#/components/parameters/min_time'
+      - $ref: '#/components/parameters/format'
+      responses:
+        '200':
+          description: Returns OHLC for a given option contract
+          content:
+            text/csv:
+              schema:
+                type: array
+                items: &id009
+                  type: object
+                  properties:
+                    timestamp:
+                      type: string
+                      format: date-time
+                      description: The timestamp in YYYY-MM-DDTHH:mm:ss.SSS format.
+                    symbol:
+                      type: string
+                      description: The symbol of the contract, or stock / underlying asset / option / index.
+                    expiration:
+                      type: string
+                      format: date
+                      description: Expiration date of the contract in YYYY-MM-DD format.
+                    strike:
+                      type: number
+                      description: Strike price of the contract in dollars 180.00
+                    right:
+                      type: string
+                      description: Indicates whether the contract is a call or put option.
+                    open:
+                      type: number
+                      description: The opening trade price.
+                    high:
+                      type: number
+                      description: The highest traded price.
+                    low:
+                      type: number
+                      description: The lowest traded price.
+                    close:
+                      type: number
+                      description: The closing traded price.
+                    volume:
+                      type: integer
+                      description: The amount of contracts / shares traded.
+                    count:
+                      type: integer
+                      description: The amount of trades.
+              example: "timestamp,symbol,expiration,strike,right,open,high,low,close,volume,count\r\n2025-08-20T15:25:31.03,AAPL,2026-01-16,275.000,CALL,1.78,1.78,1.51,1.51,202,29\r\n"
+            application/json:
+              schema: &id010
+                type: array
+                items: *id009
+              example: "{\n  \"response\": [\n    {\n      \"contract\": {\"symbol\":\"AAPL\",\"expiration\":\"2026-01-16\",\"strike\":275.000,\"right\":\"CALL\"},\n      \"data\": [\n        {\"volume\":202,\"high\":1.78,\"low\":1.51,\"count\":29,\"close\":1.51,\"open\":1.78,\"timestamp\":\"2025-08-20T15:25:31.03\"}\n      ]\n    }\n  ]\n}\n"
+            application/x-ndjson:
+              schema: *id010
+              example: '{"volume":202,"symbol":"AAPL","high":1.78,"low":1.51,"strike":275.000,"count":29,"expiration":"2026-01-16","right":"CALL","close":1.51,"open":1.78,"timestamp":"2025-08-20T15:25:31.03"}'
+            python/pandas:
+              schema: *id010
+              example: 'timestamp symbol  expiration  strike right  open   high   low  close  volume  count
+
+                0 2026-04-27 11:57:06.802000-04:00   AAPL  2026-12-18   270.0  CALL  24.0  25.75  24.0   24.8     114     22
+
+                '
+            python/polars:
+              schema: *id010
+              example: 'shape: (1, 11)
+
+                ┌────────────────────────────────┬────────┬────────────┬────────┬───────┬──────┬───────┬──────┬───────┬────────┬───────┐
+
+                │ timestamp                      ┆ symbol ┆ expiration ┆ strike ┆ right ┆ open ┆ high  ┆ low  ┆ close ┆ volume ┆ count │
+
+                │ ---                            ┆ ---    ┆ ---        ┆ ---    ┆ ---   ┆ ---  ┆ ---   ┆ ---  ┆ ---   ┆ ---    ┆ ---   │
+
+                │ datetime[ms, America/New_York] ┆ str    ┆ str        ┆ f64    ┆ str   ┆ f64  ┆ f64   ┆ f64  ┆ f64   ┆ i64    ┆ i64   │
+
+                ╞════════════════════════════════╪════════╪════════════╪════════╪═══════╪══════╪═══════╪══════╪═══════╪════════╪═══════╡
+
+                │ 2026-04-27 11:57:06.802 EDT    ┆ AAPL   ┆ 2026-12-18 ┆ 270.0  ┆ CALL  ┆ 24.0 ┆ 25.75 ┆ 24.0 ┆ 24.8  ┆ 114    ┆ 22    │
+
+                └────────────────────────────────┴────────┴────────────┴────────┴───────┴──────┴───────┴──────┴───────┴────────┴───────┘
+
+                '
+  /option/snapshot/trade:
+    x-skip-concurrent-limit: true
+    x-min-subscription: standard
+    get:
+      summary: Trade
+      operationId: option_snapshot_trade
+      x-codeSamples:
+      - lang: Python
+        label: pandas
+        source: 'from thetadata import ThetaClient
+
+          from datetime import date
+
+
+          client = ThetaClient(dataframe_type=''pandas'')
+
+          df = client.option_snapshot_trade(symbol=''AAPL'', expiration=date(2027, 1, 15))
+
+          '
+      - lang: Python
+        label: polars
+        source: 'from thetadata import ThetaClient
+
+          from datetime import date
+
+
+          client = ThetaClient(dataframe_type=''polars'')
+
+          df = client.option_snapshot_trade(symbol=''AAPL'', expiration=date(2027, 1, 15))
+
+          '
+      tags:
+      - Snapshot
+      description: '- Retrieve the real-time last trade of an option contract.
+
+        - You might need to change the default expiration date to a different date if it is past the current date.
+
+        - This endpoint will return no data if the market was closed for the day. Theta Data resets the snapshot cache at midnight ET every night.
+
+        '
+      x-sample-urls:
+      - url: http://127.0.0.1:25503/v3/option/snapshot/trade?symbol=AAPL&expiration=2027-01-15&right=call&strike=270.000
+        description: Returns last trade for an option contract
+      - url: http://127.0.0.1:25503/v3/option/snapshot/trade?symbol=AAPL&expiration=2027-01-15
+        description: Returns last trade for all option contracts with an expiration of 2027-01-15
+      - url: http://127.0.0.1:25503/v3/option/snapshot/trade?symbol=AAPL&expiration=2027-01-15&format=html
+        description: Click to open in browser (HTML)
+      parameters:
+      - $ref: '#/components/parameters/single_symbol'
+      - $ref: '#/components/parameters/expiration_no_star'
+      - $ref: '#/components/parameters/strike'
+      - $ref: '#/components/parameters/right'
+      - $ref: '#/components/parameters/strike_range'
+      - $ref: '#/components/parameters/min_time'
+      - $ref: '#/components/parameters/format'
+      responses:
+        '200':
+          description: Returns last NBBO quote for an option contract
+          content:
+            text/csv:
+              schema:
+                type: array
+                items: &id011
+                  type: object
+                  properties:
+                    symbol:
+                      type: string
+                      description: The symbol of the contract, or stock / underlying asset / option / index.
+                    expiration:
+                      type: string
+                      format: date
+                      description: Expiration date of the contract in YYYY-MM-DD format.
+                    strike:
+                      type: number
+                      description: Strike price of the contract in dollars 180.00
+                    right:
+                      type: string
+                      description: Indicates whether the contract is a call or put option.
+                    timestamp:
+                      type: string
+                      format: date-time
+                      description: The timestamp in YYYY-MM-DDTHH:mm:ss.SSS format.
+                    sequence:
+                      type: integer
+                      description: The exchange [sequence](/Articles/Data-And-Requests/Making-Requests.html#trade-sequences).
+                    ext_condition1:
+                      type: integer
+                      description: Additional trade [condition](/Articles/Errors-Exchanges-Conditions/Trade-Conditions.html)(s). These can be ignored for options.
+                    ext_condition2:
+                      type: integer
+                      description: Additional trade [condition](/Articles/Errors-Exchanges-Conditions/Trade-Conditions.html)(s). These can be ignored for options.
+                    ext_condition3:
+                      type: integer
+                      description: Additional trade [condition](/Articles/Errors-Exchanges-Conditions/Trade-Conditions.html)(s). These can be ignored for options.
+                    ext_condition4:
+                      type: integer
+                      description: Additional trade [condition](/Articles/Errors-Exchanges-Conditions/Trade-Conditions.html)(s). These can be ignored for options.
+                    condition:
+                      type: integer
+                      description: The trade [condition](/Articles/Errors-Exchanges-Conditions/Trade-Conditions.html).
+                    size:
+                      type: integer
+                      description: The amount of contracts / shares traded.
+                    exchange:
+                      type: integer
+                      description: The [exchange](/Articles/Errors-Exchanges-Conditions/Exchanges.html) the trade was executed.
+                    price:
+                      type: number
+                      description: The trade price.
+              example: "symbol,expiration,strike,right,timestamp,sequence,ext_condition1,ext_condition2,ext_condition3,ext_condition4,condition,size,exchange,price\r\nAAPL,2024-11-08,220.000,CALL,2024-11-04T09:30:00.471,18902138,255,255,255,255,130,2,22,3.90\r\n"
+            application/json:
+              schema: &id012
+                type: array
+                items: *id011
+              example: "{\n  \"response\": [\n    {\n      \"contract\": {\"symbol\":\"AAPL\",\"strike\":220.000,\"right\":\"CALL\",\"expiration\":\"2024-11-08\"},\n      \"data\": [\n        {\"sequence\":18902138,\"condition\":130,\"size\":2,\"price\":3.90,\"ext_condition2\":255,\"ext_condition1\":255,\"ext_condition4\":255,\"exchange\":22,\"ext_condition3\":255,\"timestamp\":\"2024-11-04T09:30:00.471\"}\n      ]\n    }\n  ]\n}\n"
+            application/x-ndjson:
+              schema: *id012
+              example: '{"symbol":"AAPL","strike":220.000,"right":"CALL","sequence":18902138,"condition":130,"size":2,"price":3.90,"ext_condition2":255,"ext_condition1":255,"expiration":"2024-11-08","ext_condition4":255,"exchange":22,"ext_condition3":255,"timestamp":"2024-11-04T09:30:00.471"}'
+            python/pandas:
+              schema: *id012
+              example: 'timestamp symbol  expiration  strike right   sequence  size  condition  price
+
+                0 2026-04-27 11:57:06.802000-04:00   AAPL  2026-12-18   270.0  CALL  725146037     3         18   24.8
+
+                '
+            python/polars:
+              schema: *id012
+              example: 'shape: (1, 9)
+
+                ┌────────────────────────────────┬────────┬────────────┬────────┬───────┬───────────┬──────┬───────────┬───────┐
+
+                │ timestamp                      ┆ symbol ┆ expiration ┆ strike ┆ right ┆ sequence  ┆ size ┆ condition ┆ price │
+
+                │ ---                            ┆ ---    ┆ ---        ┆ ---    ┆ ---   ┆ ---       ┆ ---  ┆ ---       ┆ ---   │
+
+                │ datetime[ms, America/New_York] ┆ str    ┆ str        ┆ f64    ┆ str   ┆ i64       ┆ i64  ┆ i64       ┆ f64   │
+
+                ╞════════════════════════════════╪════════╪════════════╪════════╪═══════╪═══════════╪══════╪═══════════╪═══════╡
+
+                │ 2026-04-27 11:57:06.802 EDT    ┆ AAPL   ┆ 2026-12-18 ┆ 270.0  ┆ CALL  ┆ 725146037 ┆ 3    ┆ 18        ┆ 24.8  │
+
+                └────────────────────────────────┴────────┴────────────┴────────┴───────┴───────────┴──────┴───────────┴───────┘
+
+                '
+  /option/snapshot/quote:
+    x-skip-concurrent-limit: true
+    x-min-subscription: value
+    get:
+      summary: Quote
+      operationId: option_snapshot_quote
+      x-codeSamples:
+      - lang: Python
+        label: pandas
+        source: 'from thetadata import ThetaClient
+
+          from datetime import date
+
+
+          client = ThetaClient(dataframe_type=''pandas'')
+
+          df = client.option_snapshot_quote(symbol=''AAPL'', expiration=date(2027, 1, 15))
+
+          '
+      - lang: Python
+        label: polars
+        source: 'from thetadata import ThetaClient
+
+          from datetime import date
+
+
+          client = ThetaClient(dataframe_type=''polars'')
+
+          df = client.option_snapshot_quote(symbol=''AAPL'', expiration=date(2027, 1, 15))
+
+          '
+      tags:
+      - Snapshot
+      description: '
+
+        - Retrieve a real-time last NBBO quote of an option contract.
+
+        - You might need to change the default expiration date to a different date if it is past the current date.
+
+        - This endpoint will return no data if the market was closed for the day. Theta Data resets the snapshot cache at midnight ET every night.
+
+        '
+      x-sample-urls:
+      - url: http://127.0.0.1:25503/v3/option/snapshot/quote?symbol=AAPL&expiration=20270115&right=call&strike=270.000
+        description: Returns last NBBO quote for an option contract
+      - url: http://127.0.0.1:25503/v3/option/snapshot/quote?symbol=AAPL&expiration=*
+        description: Returns last NBBO quote for all option contracts
+      - url: http://127.0.0.1:25503/v3/option/snapshot/quote?symbol=AAPL&expiration=*&format=html
+        description: Click to open in browser (HTML)
+      parameters:
+      - $ref: '#/components/parameters/single_symbol'
+      - $ref: '#/components/parameters/expiration'
+      - $ref: '#/components/parameters/strike'
+      - $ref: '#/components/parameters/right'
+      - $ref: '#/components/parameters/max_dte'
+      - $ref: '#/components/parameters/strike_range'
+      - $ref: '#/components/parameters/min_time'
+      - $ref: '#/components/parameters/format'
+      responses:
+        '200':
+          description: Returns last NBBO quote for an option contract
+          content:
+            text/csv:
+              schema:
+                type: array
+                items: &id013
+                  type: object
+                  properties:
+                    timestamp:
+                      type: string
+                      format: date-time
+                      description: The timestamp in YYYY-MM-DDTHH:mm:ss.SSS format.
+                    symbol:
+                      type: string
+                      description: The symbol of the contract, or stock / underlying asset / option / index.
+                    expiration:
+                      type: string
+                      format: date
+                      description: Expiration date of the contract in YYYY-MM-DD format.
+                    strike:
+                      type: number
+                      description: Strike price of the contract in dollars 180.00
+                    right:
+                      type: string
+                      description: Indicates whether the contract is a call or put option.
+                    bid_size:
+                      type: integer
+                      description: The last NBBO bid size.
+                    bid_exchange:
+                      type: integer
+                      description: The last NBBO bid [exchange](/Articles/Errors-Exchanges-Conditions/Exchanges.html).
+                    bid:
+                      type: number
+                      description: The last NBBO bid price.
+                    bid_condition:
+                      type: integer
+                      description: The last NBBO bid [condition](/Articles/Errors-Exchanges-Conditions/Quote-Conditions.html).
+                    ask_size:
+                      type: integer
+                      description: The last NBBO ask size.
+                    ask_exchange:
+                      type: integer
+                      description: The last NBBO ask [exchange](/Articles/Errors-Exchanges-Conditions/Exchanges.html).
+                    ask:
+                      type: number
+                      description: The last NBBO ask price.
+                    ask_condition:
+                      type: integer
+                      description: The last NBBO ask [condition](/Articles/Errors-Exchanges-Conditions/Quote-Conditions.html).
+              example: "timestamp,symbol,expiration,strike,right,bid_size,bid_exchange,bid,bid_condition,ask_size,ask_exchange,ask,ask_condition\r\n2025-08-20T15:59:59.805,AAPL,2026-01-16,275.000,CALL,5,6,1.47,50,25,6,1.50,50\r\n"
+            application/json:
+              schema: &id014
+                type: array
+                items: *id013
+              example: "{\n  \"response\": [\n    {\n      \"contract\": {\"symbol\":\"AAPL\",\"strike\":275.000,\"right\":\"CALL\",\"expiration\":\"2026-01-16\"},\n      \"data\": [\n        {\"ask_size\":25,\"ask_condition\":50,\"bid_size\":5,\"ask_exchange\":6,\"bid_exchange\":6,\"ask\":1.50,\"bid\":1.47,\"bid_condition\":50,\"timestamp\":\"2025-08-20T15:59:59.805\"}\n      ]\n    }\n  ]\n}\n"
+            application/x-ndjson:
+              schema: *id014
+              example: '{"symbol":"AAPL","ask_size":25,"ask_condition":50,"strike":275.000,"right":"CALL","bid_size":5,"ask_exchange":6,"bid_exchange":6,"ask":1.50,"expiration":"2026-01-16","bid":1.47,"bid_condition":50,"timestamp":"2025-08-20T15:59:59.805"}'
+            python/pandas:
+              schema: *id014
+              example: 'timestamp symbol  expiration  strike right  bid_size  bid_exchange    bid  bid_condition  ask_size  ask_exchange   ask  ask_condition
+
+                0 2026-04-27 12:13:34.064000-04:00   AAPL  2026-12-18   270.0  CALL        59             5  24.75             50       200             4  25.0             50
+
+                '
+            python/polars:
+              schema: *id014
+              example: 'shape: (1, 13)
+
+                ┌────────────────────────────────┬────────┬────────────┬────────┬───────┬──────────┬──────────────┬───────┬───────────────┬──────────┬──────────────┬──────┬───────────────┐
+
+                │ timestamp                      ┆ symbol ┆ expiration ┆ strike ┆ right ┆ bid_size ┆ bid_exchange ┆ bid   ┆ bid_condition ┆ ask_size ┆ ask_exchange ┆ ask  ┆ ask_condition │
+
+                │ ---                            ┆ ---    ┆ ---        ┆ ---    ┆ ---   ┆ ---      ┆ ---          ┆ ---   ┆ ---           ┆ ---      ┆ ---          ┆ ---  ┆ ---           │
+
+                │ datetime[ms, America/New_York] ┆ str    ┆ str        ┆ f64    ┆ str   ┆ i64      ┆ i64          ┆ f64   ┆ i64           ┆ i64      ┆ i64          ┆ f64  ┆ i64           │
+
+                ╞════════════════════════════════╪════════╪════════════╪════════╪═══════╪══════════╪══════════════╪═══════╪═══════════════╪══════════╪══════════════╪══════╪═══════════════╡
+
+                │ 2026-04-27 12:13:34.064 EDT    ┆ AAPL   ┆ 2026-12-18 ┆ 270.0  ┆ CALL  ┆ 59       ┆ 5            ┆ 24.75 ┆ 50            ┆ 200      ┆ 4            ┆ 25.0 ┆ 50            │
+
+                └────────────────────────────────┴────────┴────────────┴────────┴───────┴──────────┴──────────────┴───────┴───────────────┴──────────┴──────────────┴──────┴───────────────┘
+
+                '
+  /option/snapshot/open_interest:
+    x-skip-concurrent-limit: true
+    x-min-subscription: value
+    get:
+      summary: Open Interest
+      operationId: option_snapshot_open_interest
+      x-codeSamples:
+      - lang: Python
+        label: pandas
+        source: 'from thetadata import ThetaClient
+
+          from datetime import date
+
+
+          client = ThetaClient(dataframe_type=''pandas'')
+
+          df = client.option_snapshot_open_interest(symbol=''AAPL'', expiration=date(2027, 1, 15))
+
+          '
+      - lang: Python
+        label: polars
+        source: 'from thetadata import ThetaClient
+
+          from datetime import date
+
+
+          client = ThetaClient(dataframe_type=''polars'')
+
+          df = client.option_snapshot_open_interest(symbol=''AAPL'', expiration=date(2027, 1, 15))
+
+          '
+      tags:
+      - Snapshot
+      description: "- Retrieve the last open interest message of an option contract.\n- Open interest is reported around 06:30 ET every morning by OPRA and reflects the open interest at the of the previous trading day. \n- You might need to change the default expiration date to a different date if it is past the current date.\n- This endpoint will return no data if the market was closed for the day. Theta Data resets the snapshot cache at midnight ET every night.\n"
+      x-sample-urls:
+      - url: http://127.0.0.1:25503/v3/option/snapshot/open_interest?symbol=AAPL&expiration=20270115&right=call&strike=270.00
+        description: Returns open interest for an option contract
+      - url: http://127.0.0.1:25503/v3/option/snapshot/open_interest?symbol=AAPL&expiration=*
+        description: Returns open interest for all option contracts
+      - url: http://127.0.0.1:25503/v3/option/snapshot/open_interest?symbol=AAPL&expiration=*&format=html
+        description: Click to open in browser (HTML)
+      parameters:
+      - $ref: '#/components/parameters/single_symbol'
+      - $ref: '#/components/parameters/expiration'
+      - $ref: '#/components/parameters/strike'
+      - $ref: '#/components/parameters/right'
+      - $ref: '#/components/parameters/max_dte'
+      - $ref: '#/components/parameters/strike_range'
+      - $ref: '#/components/parameters/min_time'
+      - $ref: '#/components/parameters/format'
+      responses:
+        '200':
+          description: Returns open interest for an option contract
+          content:
+            text/csv:
+              schema:
+                type: array
+                items: &id015
+                  type: object
+                  properties:
+                    timestamp:
+                      type: string
+                      format: date-time
+                      description: The timestamp in YYYY-MM-DDTHH:mm:ss.SSS format.
+                    symbol:
+                      type: string
+                      description: The symbol of the contract, or stock / underlying asset / option / index.
+                    expiration:
+                      type: string
+                      format: date
+                      description: Expiration date of the contract in YYYY-MM-DD format.
+                    strike:
+                      type: number
+                      description: Strike price of the contract in dollars 180.00
+                    right:
+                      type: string
+                      description: Indicates whether the contract is a call or put option.
+                    open_interest:
+                      type: integer
+                      description: The total amount of outstanding contracts.
+              example: "timestamp,symbol,expiration,strike,right,open_interest\r\n2025-08-20T06:30:13,AAPL,2026-01-16,275.000,CALL,8066\r\n"
+            application/json:
+              schema: &id016
+                type: array
+                items: *id015
+              example: "{\n  \"response\": [\n    {\n      \"contract\": {\"symbol\":\"AAPL\",\"strike\":275.000,\"expiration\":\"2026-01-16\",\"right\":\"CALL\"},\n      \"data\": [\n        {\"open_interest\":8066,\"timestamp\":\"2025-08-20T06:30:13\"}                      \n      ]\n    }\n  ]\n}\n"
+            application/x-ndjson:
+              schema: *id016
+              example: '{"symbol":"AAPL","strike":275.000,"open_interest":8066,"expiration":"2026-01-16","right":"CALL","timestamp":"2025-08-20T06:30:13"}'
+            python/pandas:
+              schema: *id016
+              example: 'timestamp symbol  expiration  strike right  open_interest
+
+                0 2026-04-27 06:30:00-04:00   AAPL  2026-12-18   270.0  CALL           6725
+
+                '
+            python/polars:
+              schema: *id016
+              example: 'shape: (1, 6)
+
+                ┌────────────────────────────────┬────────┬────────────┬────────┬───────┬───────────────┐
+
+                │ timestamp                      ┆ symbol ┆ expiration ┆ strike ┆ right ┆ open_interest │
+
+                │ ---                            ┆ ---    ┆ ---        ┆ ---    ┆ ---   ┆ ---           │
+
+                │ datetime[ms, America/New_York] ┆ str    ┆ str        ┆ f64    ┆ str   ┆ i64           │
+
+                ╞════════════════════════════════╪════════╪════════════╪════════╪═══════╪═══════════════╡
+
+                │ 2026-04-27 06:30:00 EDT        ┆ AAPL   ┆ 2026-12-18 ┆ 270.0  ┆ CALL  ┆ 6725          │
+
+                └────────────────────────────────┴────────┴────────────┴────────┴───────┴───────────────┘
+
+                '
+  /option/snapshot/market_value:
+    x-skip-concurrent-limit: true
+    x-min-subscription: standard
+    get:
+      summary: Market Value
+      operationId: option_snapshot_market_value
+      x-codeSamples:
+      - lang: Python
+        label: pandas
+        source: 'from thetadata import ThetaClient
+
+
+          client = ThetaClient(dataframe_type=''pandas'')
+
+          df = client.option_snapshot_market_value(symbol=''AAPL'', expiration=''*'')
+
+          '
+      - lang: Python
+        label: polars
+        source: 'from thetadata import ThetaClient
+
+
+          client = ThetaClient(dataframe_type=''polars'')
+
+          df = client.option_snapshot_market_value(symbol=''AAPL'', expiration=''*'')
+
+          '
+      tags:
+      - Snapshot
+      description: '* Returns a real-time market value derived from the last NBBO quote of an option contract.
+
+        '
+      x-sample-urls:
+      - url: http://127.0.0.1:25503/v3/option/snapshot/market_value?symbol=AAPL&expiration=*
+        description: Returns last market value for all option contracts for a given symbol
+      - url: http://127.0.0.1:25503/v3/option/snapshot/market_value?symbol=AAPL&expiration=*&format=html
+        description: Click to open in browser (HTML)
+      parameters:
+      - $ref: '#/components/parameters/single_symbol'
+      - $ref: '#/components/parameters/expiration'
+      - $ref: '#/components/parameters/strike'
+      - $ref: '#/components/parameters/right'
+      - $ref: '#/components/parameters/max_dte'
+      - $ref: '#/components/parameters/strike_range'
+      - $ref: '#/components/parameters/min_time'
+      - $ref: '#/components/parameters/format'
+      responses:
+        '200':
+          description: Returns last market value for an option contract
+          content:
+            text/csv:
+              schema:
+                type: array
+                items: &id017
+                  type: object
+                  properties:
+                    timestamp:
+                      type: string
+                      format: date-time
+                      description: The timestamp in YYYY-MM-DDTHH:mm:ss.SSS format.
+                    symbol:
+                      type: string
+                      description: The symbol of the contract, or stock / underlying asset / option / index.
+                    expiration:
+                      type: string
+                      format: date
+                      description: Expiration date of the contract in YYYY-MM-DD format.
+                    strike:
+                      type: number
+                      description: Strike price of the contract in dollars 180.00
+                    right:
+                      type: string
+                      description: Indicates whether the contract is a call or put option.
+                    market_bid:
+                      type: number
+                      description: The last market bid
+                    market_ask:
+                      type: number
+                      description: The last market ask
+                    market_price:
+                      type: number
+                      description: The last market value price
+              example: "timestamp,symbol,expiration,strike,right,market_bid,market_ask,market_price\r\n2025-12-16T11:56:30.811,AAPL,2026-01-16,275.000,CALL,6.01,6.09,6.05"
+            application/json:
+              schema: &id018
+                type: array
+                items: *id017
+              example: "{\n  \"response\": [\n    {\n      \"contract\": {\"symbol\":\"AAPL\",\"strike\":275.000,\"right\":\"CALL\",\"expiration\":\"2026-01-16\"},\n      \"data\": [\n        {\"market_bid\":6.01,\"market_ask\":6.09,\"market_price\":6.05}\n      ]\n    }\n  ]\n}\n"
+            application/x-ndjson:
+              schema: *id018
+              example: '{"symbol":"AAPL","strike":275.000,"right":"CALL","expiration":"2026-01-16","market_bid":6.01,"market_ask":6.09,"market_price":6.05}'
+            python/pandas:
+              schema: *id018
+              example: 'timestamp symbol  expiration  strike right  market_bid  market_ask  market_price
+
+                0 2026-04-27 12:13:34.064000-04:00   AAPL  2026-12-18   270.0  CALL       24.74       25.01         24.87
+
+                '
+            python/polars:
+              schema: *id018
+              example: 'shape: (1, 8)
+
+                ┌────────────────────────────────┬────────┬────────────┬────────┬───────┬────────────┬────────────┬──────────────┐
+
+                │ timestamp                      ┆ symbol ┆ expiration ┆ strike ┆ right ┆ market_bid ┆ market_ask ┆ market_price │
+
+                │ ---                            ┆ ---    ┆ ---        ┆ ---    ┆ ---   ┆ ---        ┆ ---        ┆ ---          │
+
+                │ datetime[ms, America/New_York] ┆ str    ┆ str        ┆ f64    ┆ str   ┆ f64        ┆ f64        ┆ f64          │
+
+                ╞════════════════════════════════╪════════╪════════════╪════════╪═══════╪════════════╪════════════╪══════════════╡
+
+                │ 2026-04-27 12:13:34.064 EDT    ┆ AAPL   ┆ 2026-12-18 ┆ 270.0  ┆ CALL  ┆ 24.74      ┆ 25.01      ┆ 24.87        │
+
+                └────────────────────────────────┴────────┴────────────┴────────┴───────┴────────────┴────────────┴──────────────┘
+
+                '
+  /option/snapshot/greeks/implied_volatility:
+    x-skip-concurrent-limit: true
+    x-min-subscription: standard
+    get:
+      summary: Implied Volatility
+      operationId: option_snapshot_greeks_implied_volatility
+      x-codeSamples:
+      - lang: Python
+        label: pandas
+        source: 'from thetadata import ThetaClient
+
+          from datetime import date
+
+
+          client = ThetaClient(dataframe_type=''pandas'')
+
+          df = client.option_snapshot_greeks_implied_volatility(symbol=''AAPL'', expiration=date(2027, 1, 15))
+
+          '
+      - lang: Python
+        label: polars
+        source: 'from thetadata import ThetaClient
+
+          from datetime import date
+
+
+          client = ThetaClient(dataframe_type=''polars'')
+
+          df = client.option_snapshot_greeks_implied_volatility(symbol=''AAPL'', expiration=date(2027, 1, 15))
+
+          '
+      tags:
+      - Snapshot
+      description: "Returns implied volatilies calculated using the national best bid, mid, and ask price\nof the option respectively. The underlying price represents whatever the last underlying price was at the\n``underlying_timestamp`` field. You can read more about how Theta Data calculates greeks \n[here](/Articles/Data-And-Requests/Option-Greeks.html).\n"
+      x-sample-urls:
+      - url: http://127.0.0.1:25503/v3/option/snapshot/greeks/implied_volatility?symbol=AAPL&expiration=20270115&strike=270.000&right=call
+        description: Returns implied volatility for an option contract
+      - url: http://127.0.0.1:25503/v3/option/snapshot/greeks/implied_volatility?symbol=AAPL&expiration=*
+        description: Returns implied volatility for all option contracts
+      - url: http://127.0.0.1:25503/v3/option/snapshot/greeks/implied_volatility?symbol=AAPL&expiration=*&format=html
+        description: Click to open in browser (HTML)
+      parameters:
+      - $ref: '#/components/parameters/single_symbol'
+      - $ref: '#/components/parameters/expiration'
+      - $ref: '#/components/parameters/strike'
+      - $ref: '#/components/parameters/right'
+      - $ref: '#/components/parameters/annual_dividend'
+      - $ref: '#/components/parameters/rate_type'
+      - $ref: '#/components/parameters/rate_value'
+      - $ref: '#/components/parameters/stock_price'
+      - $ref: '#/components/parameters/greeks_version'
+      - $ref: '#/components/parameters/max_dte'
+      - $ref: '#/components/parameters/strike_range'
+      - $ref: '#/components/parameters/min_time'
+      - $ref: '#/components/parameters/use_market_value'
+      - $ref: '#/components/parameters/format'
+      responses:
+        '200':
+          description: Returns implied volatility for an option contract
+          content:
+            text/csv:
+              schema:
+                type: array
+                items: &id019
+                  type: object
+                  properties:
+                    symbol:
+                      type: string
+                      description: The symbol of the contract, or stock / underlying asset / option / index.
+                    expiration:
+                      type: string
+                      format: date
+                      description: Expiration date of the contract in YYYY-MM-DD format.
+                    strike:
+                      type: number
+                      description: Strike price of the contract in dollars 180.00
+                    right:
+                      type: string
+                      description: Indicates whether the contract is a call or put option.
+                    timestamp:
+                      type: string
+                      format: date-time
+                      description: The timestamp in YYYY-MM-DDTHH:mm:ss.SSS format.
+                    bid:
+                      type: number
+                      description: The last NBBO bid price.
+                    ask:
+                      type: number
+                      description: The last NBBO ask price.
+                    implied_vol:
+                      type: number
+                      description: The implied volatiltiy calculated using the trade price.
+                    iv_error:
+                      type: string
+                      description: 'IV Error: the value of the option calculated using the implied volatiltiy divided by the actual value reported in the quote. This value will increase as the strike price recedes from the underlying price.'
+                    underlying_timestamp:
+                      type: string
+                      format: date-time
+                      description: The underlying date formated as YYYY-MM-DDTHH:mm:ss.SSS format.
+                    underlying_price:
+                      type: number
+                      description: The midpoint of the underlying at the time of the option trade.
+              example: "symbol,expiration,strike,right,timestamp,bid,ask,implied_vol,iv_error,underlying_timestamp,underlying_price\r\nAAPL,2026-01-16,275.000,CALL,2025-08-20T15:59:59.805,1.47,1.50,0.2142,-0.0003,2025-08-20T16:36:52.257,225.74\r\n"
+            application/json:
+              schema: &id020
+                type: array
+                items: *id019
+              example: "{\n  \"response\": [\n    {\n      \"contract\": {\"symbol\":\"AAPL\",\"expiration\":\"2026-01-16\",\"strike\":275.000,\"right\":\"CALL\"},\n      \"data\": [\n        {\"underlying_price\":225.74,\"ask\":1.50,\"implied_vol\":0.2142,\"bid\":1.47,\"underlying_timestamp\":\"2025-08-20T16:36:52.257\",\"iv_error\":-0.0003,\"timestamp\":\"2025-08-20T15:59:59.805\"}\n      ]\n    }\n  ]\n}  \n"
+            application/x-ndjson:
+              schema: *id020
+              example: '{"symbol":"AAPL","underlying_price":225.74,"strike":275.000,"ask":1.50,"expiration":"2026-01-16","right":"CALL","implied_vol":0.2142,"bid":1.47,"underlying_timestamp":"2025-08-20T16:36:52.257","iv_error":-0.0003,"timestamp":"2025-08-20T15:59:59.805"}'
+            python/pandas:
+              schema: *id020
+              example: 'symbol  expiration  strike right                        timestamp    bid   ask  implied_vol  iv_error             underlying_timestamp  underlying_price
+
+                0   AAPL  2026-12-18   270.0  CALL 2026-04-27 12:13:34.064000-04:00  24.75  25.0       0.2744       0.0 2026-04-27 12:13:34.811000-04:00            266.87
+
+                '
+            python/polars:
+              schema: *id020
+              example: 'shape: (1, 11)
+
+                ┌────────┬────────────┬────────┬───────┬────────────────────────────────┬───────┬──────┬─────────────┬──────────┬────────────────────────────────┬──────────────────┐
+
+                │ symbol ┆ expiration ┆ strike ┆ right ┆ timestamp                      ┆ bid   ┆ ask  ┆ implied_vol ┆ iv_error ┆ underlying_timestamp           ┆ underlying_price │
+
+                │ ---    ┆ ---        ┆ ---    ┆ ---   ┆ ---                            ┆ ---   ┆ ---  ┆ ---         ┆ ---      ┆ ---                            ┆ ---              │
+
+                │ str    ┆ str        ┆ f64    ┆ str   ┆ datetime[ms, America/New_York] ┆ f64   ┆ f64  ┆ f64         ┆ f64      ┆ datetime[ms, America/New_York] ┆ f64              │
+
+                ╞════════╪════════════╪════════╪═══════╪════════════════════════════════╪═══════╪══════╪═════════════╪══════════╪════════════════════════════════╪══════════════════╡
+
+                │ AAPL   ┆ 2026-12-18 ┆ 270.0  ┆ CALL  ┆ 2026-04-27 12:13:34.064 EDT    ┆ 24.75 ┆ 25.0 ┆ 0.2744      ┆ 0.0      ┆ 2026-04-27 12:13:35.003 EDT    ┆ 266.87           │
+
+                └────────┴────────────┴────────┴───────┴────────────────────────────────┴───────┴──────┴─────────────┴──────────┴────────────────────────────────┴──────────────────┘
+
+                '
+  /option/snapshot/greeks/all:
+    x-skip-concurrent-limit: true
+    x-min-subscription: professional
+    get:
+      summary: All Greeks
+      operationId: option_snapshot_greeks_all
+      x-codeSamples:
+      - lang: Python
+        label: pandas
+        source: 'from thetadata import ThetaClient
+
+          from datetime import date
+
+
+          client = ThetaClient(dataframe_type=''pandas'')
+
+          df = client.option_snapshot_greeks_all(symbol=''AAPL'', expiration=date(2026, 5, 15))
+
+          '
+      - lang: Python
+        label: polars
+        source: 'from thetadata import ThetaClient
+
+          from datetime import date
+
+
+          client = ThetaClient(dataframe_type=''polars'')
+
+          df = client.option_snapshot_greeks_all(symbol=''AAPL'', expiration=date(2026, 5, 15))
+
+          '
+      tags:
+      - Snapshot
+      description: '- Retrieve a real-time last greeks calculation for all option contracts that lie on a provided expiration.
+
+        - You might need to change the default expiration date to a different date if it is past the current date. Some quotes are omitted in the example to reduce the space of the sample output.
+
+        - Make `expiration` * if you want to get the snapshot for every expiration chain for the underlying.
+
+        > This endpoint will return no data if the market was closed for the day. Theta Data resets the snapshot cache at midnight ET every night.
+
+        '
+      x-sample-urls:
+      - url: http://127.0.0.1:25503/v3/option/snapshot/greeks/all?symbol=AAPL&expiration=2026-05-15&strike=170.00&right=call
+        description: Returns all greeks for an option contract
+      - url: http://127.0.0.1:25503/v3/option/snapshot/greeks/all?symbol=AAPL&expiration=*
+        description: Returns all greeks for all option contracts
+      - url: http://127.0.0.1:25503/v3/option/snapshot/greeks/all?symbol=AAPL&expiration=*&format=html
+        description: Click to open in browser (HTML)
+      parameters:
+      - $ref: '#/components/parameters/single_symbol'
+      - $ref: '#/components/parameters/expiration'
+      - $ref: '#/components/parameters/strike'
+      - $ref: '#/components/parameters/right'
+      - $ref: '#/components/parameters/annual_dividend'
+      - $ref: '#/components/parameters/rate_type'
+      - $ref: '#/components/parameters/rate_value'
+      - $ref: '#/components/parameters/stock_price'
+      - $ref: '#/components/parameters/greeks_version'
+      - $ref: '#/components/parameters/max_dte'
+      - $ref: '#/components/parameters/strike_range'
+      - $ref: '#/components/parameters/min_time'
+      - $ref: '#/components/parameters/use_market_value'
+      - $ref: '#/components/parameters/format'
+      responses:
+        '200':
+          description: Returns all greeks for an option contract
+          content:
+            text/csv:
+              schema:
+                type: array
+                items: &id021
+                  type: object
+                  properties:
+                    symbol:
+                      type: string
+                      description: The symbol of the contract, or stock / underlying asset / option / index.
+                    expiration:
+                      type: string
+                      format: date
+                      description: Expiration date of the contract in YYYY-MM-DD format.
+                    strike:
+                      type: number
+                      description: Strike price of the contract in dollars 180.00
+                    right:
+                      type: string
+                      description: Indicates whether the contract is a call or put option.
+                    timestamp:
+                      type: string
+                      format: date-time
+                      description: The timestamp in YYYY-MM-DDTHH:mm:ss.SSS format.
+                    bid:
+                      type: number
+                      description: The last NBBO bid price.
+                    ask:
+                      type: number
+                      description: The last NBBO ask price.
+                    delta:
+                      type: number
+                      description: The delta.
+                    theta:
+                      type: string
+                      description: The Theta.
+                    vega:
+                      type: number
+                      description: The vega.
+                    rho:
+                      type: number
+                      description: The rho.
+                    epsilon:
+                      type: string
+                      description: The epsilon.
+                    lambda:
+                      type: number
+                      description: The lambda.
+                    gamma:
+                      type: number
+                      description: The gamma.
+                    vanna:
+                      type: string
+                      description: The vanna.
+                    charm:
+                      type: number
+                      description: The charm.
+                    vomma:
+                      type: number
+                      description: The vomma.
+                    veta:
+                      type: number
+                      description: The veta.
+                    vera:
+                      type: number
+                      description: The vera.
+                    speed:
+                      type: number
+                      description: The speed.
+                    zomma:
+                      type: number
+                      description: The zomma.
+                    color:
+                      type: string
+                      description: The color.
+                    ultima:
+                      type: string
+                      description: The ultima.
+                    d1:
+                      type: number
+                      description: The d1.
+                    d2:
+                      type: number
+                      description: The d2.
+                    dual_delta:
+                      type: string
+                      description: The dual delta.
+                    dual_gamma:
+                      type: number
+                      description: The dual gamma.
+                    implied_vol:
+                      type: number
+                      description: The implied volatiltiy calculated using the trade price.
+                    iv_error:
+                      type: number
+                      description: 'IV Error: the value of the option calculated using the implied volatiltiy divided by the actual value reported in the quote. This value will increase as the strike price recedes from the underlying price.'
+                    underlying_timestamp:
+                      type: string
+                      format: date-time
+                      description: The underlying date formated as YYYY-MM-DDTHH:mm:ss.SSS format.
+                    underlying_price:
+                      type: number
+                      description: The midpoint of the underlying at the time of the option trade.
+              example: "symbol,expiration,strike,right,timestamp,bid,ask,delta,theta,vega,rho,epsilon,lambda,gamma,vanna,charm,vomma,veta,vera,speed,zomma,color,ultima,d1,d2,dual_delta,dual_gamma,implied_vol,iv_error,underlying_timestamp,underlying_price\r\nAAPL,2026-05-15,170.000,CALL,2025-08-20T15:59:59.677,63.65,64.25,0.9085,-0.0352,31.7235,103.2513,-150.0314,3.2071,0.0027,-0.5710,0.0925,146.8562,22.9525,0.0000,0.0000,0.0000,-0.0816,-100.0000,1.3319,1.0689,-0.8302,0.0003,0.3075,0.0000,2025-08-20T16:36:52.257,225.74\r\n"
+            application/json:
+              schema: &id022
+                type: array
+                items: *id021
+              example: "{\n  \"response\": [\n    {\n      \"contract\": {\"symbol\":\"AAPL\",\"expiration\":\"2026-05-15\",\"strike\":170.000,\"right\":\"CALL\"},\n      \"data\": [\n        {\"dual_delta\":-0.8302,\"color\":-0.0816,\"zomma\":0.0000,\"delta\":0.9085,\"implied_vol\":0.3075,\"theta\":-0.0352,\"d1\":1.3319,\"speed\":0.0000,\"d2\":1.0689,\"epsilon\":-150.0314,\"lambda\":3.2071,\"vomma\":146.8562,\"underlying_timestamp\":\"2025-08-20T16:36:52.257\",\"timestamp\":\"2025-08-20T15:59:59.677\",\"underlying_price\":225.74,\"vera\":0.0000,\"veta\":22.9525,\"iv_error\":0.0000,\"ultima\":-100.0000,\"charm\":0.0925,\"ask\":64.25,\"rho\":103.2513,\"vanna\":-0.5710,\"dual_gamma\":0.0003,\"bid\":63.65,\"vega\":31.7235,\"gamma\":0.0027}\n      ]\n    }\n  ]\n}\n"
+            application/x-ndjson:
+              schema: *id022
+              example: '{"symbol":"AAPL","dual_delta":-0.8302,"color":-0.0816,"zomma":0.0000,"delta":0.9085,"implied_vol":0.3075,"theta":-0.0352,"d1":1.3319,"speed":0.0000,"d2":1.0689,"epsilon":-150.0314,"lambda":3.2071,"vomma":146.8562,"underlying_timestamp":"2025-08-20T16:36:52.257","timestamp":"2025-08-20T15:59:59.677","underlying_price":225.74,"strike":170.000,"vera":0.0000,"right":"CALL","veta":22.9525,"iv_error":0.0000,"ultima":-100.0000,"charm":0.0925,"ask":64.25,"rho":103.2513,"expiration":"2026-05-15","vanna":-0.5710,"dual_gamma":0.0003,"bid":63.65,"vega":31.7235,"gamma":0.0027}'
+            python/pandas:
+              schema: *id022
+              example: 'symbol  expiration  strike right                        timestamp    bid   ask   delta   theta     vega      rho  epsilon  lambda   gamma   vanna   charm  vomma     veta     vera  speed   zomma   color   ultima      d1     d2  dual_delta  dual_gamma  implied_vol  iv_error             underlying_timestamp  underlying_price
+
+                0   AAPL  2026-12-18   270.0  CALL 2026-04-27 12:13:34.064000-04:00  24.75  25.0  0.5651 -0.0618  84.2841  81.1003 -97.1122  6.0649  0.0066  0.0803 -0.0825 -2.825  62.5528 -40.4563    0.0 -0.0246 -0.0054 -23.2858  0.1641 -0.056     -0.4665      0.0065       0.2744       0.0 2026-04-27 12:13:35.003000-04:00            266.87
+
+                '
+            python/polars:
+              schema: *id022
+              example: 'shape: (1, 31)
+
+                ┌────────┬────────────┬────────┬───────┬────────────────────────────────┬───────┬──────┬────────┬─────────┬─────────┬─────────┬──────────┬────────┬────────┬────────┬─────────┬────────┬─────────┬──────────┬───────┬─────────┬─────────┬──────────┬────────┬────────┬────────────┬────────────┬─────────────┬──────────┬────────────────────────────────┬──────────────────┐
+
+                │ symbol ┆ expiration ┆ strike ┆ right ┆ timestamp                      ┆ bid   ┆ ask  ┆ delta  ┆ theta   ┆ vega    ┆ rho     ┆ epsilon  ┆ lambda ┆ gamma  ┆ vanna  ┆ charm   ┆ vomma  ┆ veta    ┆ vera     ┆ speed ┆ zomma   ┆ color   ┆ ultima   ┆ d1     ┆ d2     ┆ dual_delta ┆ dual_gamma ┆ implied_vol ┆ iv_error ┆ underlying_timestamp           ┆ underlying_price │
+
+                │ ---    ┆ ---        ┆ ---    ┆ ---   ┆ ---                            ┆ ---   ┆ ---  ┆ ---    ┆ ---     ┆ ---     ┆ ---     ┆ ---      ┆ ---    ┆ ---    ┆ ---    ┆ ---     ┆ ---    ┆ ---     ┆ ---      ┆ ---   ┆ ---     ┆ ---     ┆ ---      ┆ ---    ┆ ---    ┆ ---        ┆ ---        ┆ ---         ┆ ---      ┆ ---                            ┆ ---              │
+
+                │ str    ┆ str        ┆ f64    ┆ str   ┆ datetime[ms, America/New_York] ┆ f64   ┆ f64  ┆ f64    ┆ f64     ┆ f64     ┆ f64     ┆ f64      ┆ f64    ┆ f64    ┆ f64    ┆ f64     ┆ f64    ┆ f64     ┆ f64      ┆ f64   ┆ f64     ┆ f64     ┆ f64      ┆ f64    ┆ f64    ┆ f64        ┆ f64        ┆ f64         ┆ f64      ┆ datetime[ms, America/New_York] ┆ f64              │
+
+                ╞════════╪════════════╪════════╪═══════╪════════════════════════════════╪═══════╪══════╪════════╪═════════╪═════════╪═════════╪══════════╪════════╪════════╪════════╪═════════╪════════╪═════════╪══════════╪═══════╪═════════╪═════════╪══════════╪════════╪════════╪════════════╪════════════╪═════════════╪══════════╪════════════════════════════════╪══════════════════╡
+
+                │ AAPL   ┆ 2026-12-18 ┆ 270.0  ┆ CALL  ┆ 2026-04-27 12:13:34.064 EDT    ┆ 24.75 ┆ 25.0 ┆ 0.5651 ┆ -0.0618 ┆ 84.2841 ┆ 81.1003 ┆ -97.1122 ┆ 6.0649 ┆ 0.0066 ┆ 0.0803 ┆ -0.0825 ┆ -2.825 ┆ 62.5528 ┆ -40.4563 ┆ 0.0   ┆ -0.0246 ┆ -0.0054 ┆ -23.2858 ┆ 0.1641 ┆ -0.056 ┆ -0.4665    ┆ 0.0065     ┆ 0.2744      ┆ 0.0      ┆ 2026-04-27 12:13:35.003 EDT    ┆ 266.87           │
+
+                └────────┴────────────┴────────┴───────┴────────────────────────────────┴───────┴──────┴────────┴─────────┴─────────┴─────────┴──────────┴────────┴────────┴────────┴─────────┴────────┴─────────┴──────────┴───────┴─────────┴─────────┴──────────┴────────┴────────┴────────────┴────────────┴─────────────┴──────────┴────────────────────────────────┴──────────────────┘
+
+                '
+  /option/snapshot/greeks/first_order:
+    x-skip-concurrent-limit: true
+    x-min-subscription: standard
+    get:
+      summary: First Order Greeks
+      operationId: option_snapshot_greeks_first_order
+      x-codeSamples:
+      - lang: Python
+        label: pandas
+        source: 'from thetadata import ThetaClient
+
+          from datetime import date
+
+
+          client = ThetaClient(dataframe_type=''pandas'')
+
+          df = client.option_snapshot_greeks_first_order(symbol=''AAPL'', expiration=date(2027, 1, 15))
+
+          '
+      - lang: Python
+        label: polars
+        source: 'from thetadata import ThetaClient
+
+          from datetime import date
+
+
+          client = ThetaClient(dataframe_type=''polars'')
+
+          df = client.option_snapshot_greeks_first_order(symbol=''AAPL'', expiration=date(2027, 1, 15))
+
+          '
+      tags:
+      - Snapshot
+      description: '- Retrieve a real-time last greeks calculation for all option contracts that lie on a provided expiration.
+
+        - You might need to change the default expiration date to a different date if it is past the current date. Some quotes are omitted in the example to reduce the space of the sample output.
+
+        - Make `expiration` * if you want to get the snapshot for every expiration chain for the underlying.
+
+        > This endpoint will return no data if the market was closed for the day. Theta Data resets the snapshot cache at midnight ET every night.
+
+        '
+      x-sample-urls:
+      - url: http://127.0.0.1:25503/v3/option/snapshot/greeks/first_order?symbol=AAPL&expiration=20270115&strike=270.000&right=call
+        description: Returns first order greeks for an option contract
+      - url: http://127.0.0.1:25503/v3/option/snapshot/greeks/first_order?symbol=AAPL&expiration=*
+        description: Returns first order greeks for all option contracts
+      - url: http://127.0.0.1:25503/v3/option/snapshot/greeks/first_order?symbol=AAPL&expiration=*&format=html
+        description: Click to open in browser (HTML)
+      parameters:
+      - $ref: '#/components/parameters/single_symbol'
+      - $ref: '#/components/parameters/expiration'
+      - $ref: '#/components/parameters/strike'
+      - $ref: '#/components/parameters/right'
+      - $ref: '#/components/parameters/annual_dividend'
+      - $ref: '#/components/parameters/rate_type'
+      - $ref: '#/components/parameters/rate_value'
+      - $ref: '#/components/parameters/stock_price'
+      - $ref: '#/components/parameters/greeks_version'
+      - $ref: '#/components/parameters/max_dte'
+      - $ref: '#/components/parameters/strike_range'
+      - $ref: '#/components/parameters/min_time'
+      - $ref: '#/components/parameters/use_market_value'
+      - $ref: '#/components/parameters/format'
+      responses:
+        '200':
+          description: Returns first order greeks for an option contract
+          content:
+            text/csv:
+              schema:
+                type: array
+                items: &id023
+                  type: object
+                  properties:
+                    symbol:
+                      type: string
+                      description: The symbol of the contract, or stock / underlying asset / option / index.
+                    expiration:
+                      type: string
+                      format: date
+                      description: Expiration date of the contract in YYYY-MM-DD format.
+                    strike:
+                      type: number
+                      description: Strike price of the contract in dollars 180.00
+                    right:
+                      type: string
+                      description: Indicates whether the contract is a call or put option.
+                    timestamp:
+                      type: string
+                      format: date-time
+                      description: The timestamp in YYYY-MM-DDTHH:mm:ss.SSS format.
+                    bid:
+                      type: number
+                      description: The last NBBO bid price.
+                    ask:
+                      type: number
+                      description: The last NBBO ask price.
+                    delta:
+                      type: number
+                      description: The delta.
+                    theta:
+                      type: string
+                      description: The Theta.
+                    vega:
+                      type: number
+                      description: The vega.
+                    rho:
+                      type: number
+                      description: The rho.
+                    epsilon:
+                      type: string
+                      description: The epsilon.
+                    lambda:
+                      type: number
+                      description: The lambda.
+                    implied_vol:
+                      type: number
+                      description: The implied volatiltiy calculated using the trade price.
+                    iv_error:
+                      type: string
+                      description: 'IV Error: the value of the option calculated using the implied volatiltiy divided by the actual value reported in the quote. This value will increase as the strike price recedes from the underlying price.'
+                    underlying_timestamp:
+                      type: string
+                      format: date-time
+                      description: The underlying date formated as YYYY-MM-DDTHH:mm:ss.SSS format.
+                    underlying_price:
+                      type: number
+                      description: The midpoint of the underlying at the time of the option trade.
+              example: "symbol,expiration,strike,right,timestamp,bid,ask,delta,theta,vega,rho,epsilon,lambda,implied_vol,iv_error,underlying_timestamp,underlying_price\r\nAAPL,2026-01-16,275.000,CALL,2025-08-20T15:59:59.805,1.47,1.50,0.1060,-0.0217,26.3226,9.1050,-9.7049,16.1782,0.2142,-0.0003,2025-08-20T16:37:06.988,225.74\r\n"
+            application/json:
+              schema: &id024
+                type: array
+                items: *id023
+              example: "{\n  \"response\": [\n    {\n      \"contract\": {\"symbol\":\"AAPL\",\"strike\":275.000,\"right\":\"CALL\",\"expiration\":\"2026-01-16\"},\n      \"data\": [\n        {\"underlying_price\":225.74,\"delta\":0.1060,\"implied_vol\":0.2142,\"theta\":-0.0217,\"iv_error\":-0.0003,\"epsilon\":-9.7049,\"lambda\":16.1782,\"ask\":1.50,\"rho\":9.1050,\"bid\":1.47,\"underlying_timestamp\":\"2025-08-20T16:37:06.988\",\"vega\":26.3226,\"timestamp\":\"2025-08-20T15:59:59.805\"}\n      ]\n    }\n  ]\n}\n"
+            application/x-ndjson:
+              schema: *id024
+              example: '{"symbol":"AAPL","underlying_price":225.74,"strike":275.000,"delta":0.1060,"right":"CALL","implied_vol":0.2142,"theta":-0.0217,"iv_error":-0.0003,"epsilon":-9.7049,"lambda":16.1782,"ask":1.50,"rho":9.1050,"expiration":"2026-01-16","bid":1.47,"underlying_timestamp":"2025-08-20T16:37:06.988","vega":26.3226,"timestamp":"2025-08-20T15:59:59.805"}'
+            python/pandas:
+              schema: *id024
+              example: 'symbol  expiration  strike right                        timestamp    bid   ask   delta   theta     vega      rho  epsilon  lambda  implied_vol  iv_error             underlying_timestamp  underlying_price
+
+                0   AAPL  2026-12-18   270.0  CALL 2026-04-27 12:13:34.064000-04:00  24.75  25.0  0.5651 -0.0618  84.2841  81.1003 -97.1122  6.0649       0.2744       0.0 2026-04-27 12:13:35.201000-04:00            266.87
+
+                '
+            python/polars:
+              schema: *id024
+              example: 'shape: (1, 17)
+
+                ┌────────┬────────────┬────────┬───────┬────────────────────────────────┬───────┬──────┬────────┬─────────┬─────────┬─────────┬──────────┬────────┬─────────────┬──────────┬────────────────────────────────┬──────────────────┐
+
+                │ symbol ┆ expiration ┆ strike ┆ right ┆ timestamp                      ┆ bid   ┆ ask  ┆ delta  ┆ theta   ┆ vega    ┆ rho     ┆ epsilon  ┆ lambda ┆ implied_vol ┆ iv_error ┆ underlying_timestamp           ┆ underlying_price │
+
+                │ ---    ┆ ---        ┆ ---    ┆ ---   ┆ ---                            ┆ ---   ┆ ---  ┆ ---    ┆ ---     ┆ ---     ┆ ---     ┆ ---      ┆ ---    ┆ ---         ┆ ---      ┆ ---                            ┆ ---              │
+
+                │ str    ┆ str        ┆ f64    ┆ str   ┆ datetime[ms, America/New_York] ┆ f64   ┆ f64  ┆ f64    ┆ f64     ┆ f64     ┆ f64     ┆ f64      ┆ f64    ┆ f64         ┆ f64      ┆ datetime[ms, America/New_York] ┆ f64              │
+
+                ╞════════╪════════════╪════════╪═══════╪════════════════════════════════╪═══════╪══════╪════════╪═════════╪═════════╪═════════╪══════════╪════════╪═════════════╪══════════╪════════════════════════════════╪══════════════════╡
+
+                │ AAPL   ┆ 2026-12-18 ┆ 270.0  ┆ CALL  ┆ 2026-04-27 12:13:34.064 EDT    ┆ 24.75 ┆ 25.0 ┆ 0.5651 ┆ -0.0618 ┆ 84.2841 ┆ 81.1003 ┆ -97.1122 ┆ 6.0649 ┆ 0.2744      ┆ 0.0      ┆ 2026-04-27 12:13:35.201 EDT    ┆ 266.87           │
+
+                └────────┴────────────┴────────┴───────┴────────────────────────────────┴───────┴──────┴────────┴─────────┴─────────┴─────────┴──────────┴────────┴─────────────┴──────────┴────────────────────────────────┴──────────────────┘
+
+                '
+  /option/snapshot/greeks/second_order:
+    x-skip-concurrent-limit: true
+    x-min-subscription: professional
+    get:
+      summary: Second Order Greeks
+      operationId: option_snapshot_greeks_second_order
+      x-codeSamples:
+      - lang: Python
+        label: pandas
+        source: 'from thetadata import ThetaClient
+
+          from datetime import date
+
+
+          client = ThetaClient(dataframe_type=''pandas'')
+
+          df = client.option_snapshot_greeks_second_order(symbol=''AAPL'', expiration=date(2027, 1, 15))
+
+          '
+      - lang: Python
+        label: polars
+        source: 'from thetadata import ThetaClient
+
+          from datetime import date
+
+
+          client = ThetaClient(dataframe_type=''polars'')
+
+          df = client.option_snapshot_greeks_second_order(symbol=''AAPL'', expiration=date(2027, 1, 15))
+
+          '
+      tags:
+      - Snapshot
+      description: '- Retrieve a real-time last second order greeks calculation for all option contracts that lie on a provided expiration.
+
+        - You might need to change the default expiration date to a different date if it is past the current date. Some quotes are omitted in the example to reduce the space of the sample output.
+
+        - Make `expiration` * if you want to get the snapshot for every expiration chain for the underlying.
+
+        > This endpoint will return no data if the market was closed for the day. Theta Data resets the snapshot cache at midnight ET every night.
+
+        '
+      x-sample-urls:
+      - url: http://127.0.0.1:25503/v3/option/snapshot/greeks/second_order?symbol=AAPL&expiration=20270115&strike=270.00
+        description: Returns second order greeks for an option contract
+      - url: http://127.0.0.1:25503/v3/option/snapshot/greeks/second_order?symbol=AAPL&expiration=*
+        description: Returns second order greeks for all option contracts
+      - url: http://127.0.0.1:25503/v3/option/snapshot/greeks/second_order?symbol=AAPL&expiration=*&format=html
+        description: Click to open in browser (HTML)
+      parameters:
+      - $ref: '#/components/parameters/single_symbol'
+      - $ref: '#/components/parameters/expiration'
+      - $ref: '#/components/parameters/strike'
+      - $ref: '#/components/parameters/right'
+      - $ref: '#/components/parameters/annual_dividend'
+      - $ref: '#/components/parameters/rate_type'
+      - $ref: '#/components/parameters/rate_value'
+      - $ref: '#/components/parameters/stock_price'
+      - $ref: '#/components/parameters/greeks_version'
+      - $ref: '#/components/parameters/max_dte'
+      - $ref: '#/components/parameters/strike_range'
+      - $ref: '#/components/parameters/min_time'
+      - $ref: '#/components/parameters/use_market_value'
+      - $ref: '#/components/parameters/format'
+      responses:
+        '200':
+          description: Returns second order greeks for an option contract
+          content:
+            text/csv:
+              schema:
+                type: array
+                items: &id025
+                  type: object
+                  properties:
+                    symbol:
+                      type: string
+                      description: The symbol of the contract, or stock / underlying asset / option / index.
+                    expiration:
+                      type: string
+                      format: date
+                      description: Expiration date of the contract in YYYY-MM-DD format.
+                    strike:
+                      type: number
+                      description: Strike price of the contract in dollars 180.00
+                    right:
+                      type: string
+                      description: Indicates whether the contract is a call or put option.
+                    timestamp:
+                      type: string
+                      format: date-time
+                      description: The timestamp in YYYY-MM-DDTHH:mm:ss.SSS format.
+                    bid:
+                      type: number
+                      description: The last NBBO bid price.
+                    ask:
+                      type: number
+                      description: The last NBBO ask price.
+                    gamma:
+                      type: number
+                      description: The gamma.
+                    vanna:
+                      type: number
+                      description: The vanna.
+                    charm:
+                      type: string
+                      description: The charm.
+                    vomma:
+                      type: number
+                      description: The vomma.
+                    veta:
+                      type: number
+                      description: The veta.
+                    implied_vol:
+                      type: number
+                      description: The implied volatiltiy calculated using the trade price.
+                    iv_error:
+                      type: string
+                      description: 'IV Error: the value of the option calculated using the implied volatiltiy divided by the actual value reported in the quote. This value will increase as the strike price recedes from the underlying price.'
+                    underlying_timestamp:
+                      type: string
+                      format: date-time
+                      description: The underlying date formated as YYYY-MM-DDTHH:mm:ss.SSS format.
+                    underlying_price:
+                      type: number
+                      description: The midpoint of the underlying at the time of the option trade.
+              example: "symbol,expiration,strike,right,timestamp,bid,ask,gamma,vanna,charm,vomma,veta,implied_vol,iv_error,underlying_timestamp,underlying_price\r\nAAPL,2026-01-16,275.000,CALL,2025-08-20T15:59:59.805,1.47,1.50,0.0059,1.1833,-0.3716,212.2670,18.8522,0.2142,-0.0003,2025-08-20T16:37:06.988,225.74\r\nAAPL,2026-01-16,275.000,PUT,2025-08-20T15:59:59.839,48.75,49.70,0.0064,0.9320,-0.4210,108.3415,18.2234,0.3106,0.0000,2025-08-20T16:37:06.988,225.74\r\n"
+            application/json:
+              schema: &id026
+                type: array
+                items: *id025
+              example: "{\n  \"response\": [\n    {\n      \"contract\": {\"symbol\":\"AAPL\",\"strike\":275.000,\"right\":\"CALL\",\"expiration\":\"2026-01-16\"},\n      \"data\": [\n        {\"underlying_price\":225.74,\"veta\":18.8522,\"implied_vol\":0.2142,\"iv_error\":-0.0003,\"charm\":-0.3716,\"ask\":1.50,\"vanna\":1.1833,\"vomma\":212.2670,\"bid\":1.47,\"underlying_timestamp\":\"2025-08-20T16:37:06.988\",\"gamma\":0.0059,\"timestamp\":\"2025-08-20T15:59:59.805\"}\n      ]\n    },\n    {\n      \"contract\": {\"symbol\":\"AAPL\",\"strike\":275.000,\"right\":\"PUT\",\"expiration\":\"2026-01-16\"},\n      \"data\": [\n        {\"underlying_price\":225.74,\"veta\":18.2234,\"implied_vol\":0.3106,\"iv_error\":0.0000,\"charm\":-0.4210,\"ask\":49.70,\"vanna\":0.9320,\"vomma\":108.3415,\"bid\":48.75,\"underlying_timestamp\":\"2025-08-20T16:37:06.988\",\"gamma\":0.0064,\"timestamp\":\"2025-08-20T15:59:59.839\"}        \n      ]\n    }\n  ]\n}\n"
+            application/x-ndjson:
+              schema: *id026
+              example: '{"symbol":"AAPL","underlying_price":225.74,"strike":275.000,"right":"CALL","veta":18.8522,"implied_vol":0.2142,"iv_error":-0.0003,"charm":-0.3716,"ask":1.50,"expiration":"2026-01-16","vanna":1.1833,"vomma":212.2670,"bid":1.47,"underlying_timestamp":"2025-08-20T16:37:06.988","gamma":0.0059,"timestamp":"2025-08-20T15:59:59.805"}
+
+                {"symbol":"AAPL","underlying_price":225.74,"strike":275.000,"right":"PUT","veta":18.2234,"implied_vol":0.3106,"iv_error":0.0000,"charm":-0.4210,"ask":49.70,"expiration":"2026-01-16","vanna":0.9320,"vomma":108.3415,"bid":48.75,"underlying_timestamp":"2025-08-20T16:37:06.988","gamma":0.0064,"timestamp":"2025-08-20T15:59:59.839"}'
+            python/pandas:
+              schema: *id026
+              example: 'symbol  expiration  strike right                        timestamp    bid   ask   gamma   vanna   charm  vomma     veta  implied_vol  iv_error             underlying_timestamp  underlying_price
+
+                0   AAPL  2026-12-18   270.0  CALL 2026-04-27 12:13:34.064000-04:00  24.75  25.0  0.0066  0.0803 -0.0825 -2.825  62.5528       0.2744       0.0 2026-04-27 12:13:35.328000-04:00            266.87
+
+                '
+            python/polars:
+              schema: *id026
+              example: 'shape: (1, 16)
+
+                ┌────────┬────────────┬────────┬───────┬────────────────────────────────┬───────┬──────┬────────┬────────┬─────────┬────────┬─────────┬─────────────┬──────────┬────────────────────────────────┬──────────────────┐
+
+                │ symbol ┆ expiration ┆ strike ┆ right ┆ timestamp                      ┆ bid   ┆ ask  ┆ gamma  ┆ vanna  ┆ charm   ┆ vomma  ┆ veta    ┆ implied_vol ┆ iv_error ┆ underlying_timestamp           ┆ underlying_price │
+
+                │ ---    ┆ ---        ┆ ---    ┆ ---   ┆ ---                            ┆ ---   ┆ ---  ┆ ---    ┆ ---    ┆ ---     ┆ ---    ┆ ---     ┆ ---         ┆ ---      ┆ ---                            ┆ ---              │
+
+                │ str    ┆ str        ┆ f64    ┆ str   ┆ datetime[ms, America/New_York] ┆ f64   ┆ f64  ┆ f64    ┆ f64    ┆ f64     ┆ f64    ┆ f64     ┆ f64         ┆ f64      ┆ datetime[ms, America/New_York] ┆ f64              │
+
+                ╞════════╪════════════╪════════╪═══════╪════════════════════════════════╪═══════╪══════╪════════╪════════╪═════════╪════════╪═════════╪═════════════╪══════════╪════════════════════════════════╪══════════════════╡
+
+                │ AAPL   ┆ 2026-12-18 ┆ 270.0  ┆ CALL  ┆ 2026-04-27 12:13:34.064 EDT    ┆ 24.75 ┆ 25.0 ┆ 0.0066 ┆ 0.0803 ┆ -0.0825 ┆ -2.825 ┆ 62.5528 ┆ 0.2744      ┆ 0.0      ┆ 2026-04-27 12:13:35.328 EDT    ┆ 266.87           │
+
+                └────────┴────────────┴────────┴───────┴────────────────────────────────┴───────┴──────┴────────┴────────┴─────────┴────────┴─────────┴─────────────┴──────────┴────────────────────────────────┴──────────────────┘
+
+                '
+  /option/snapshot/greeks/third_order:
+    x-skip-concurrent-limit: true
+    x-min-subscription: professional
+    get:
+      summary: Third Order Greeks
+      operationId: option_snapshot_greeks_third_order
+      x-codeSamples:
+      - lang: Python
+        label: pandas
+        source: 'from thetadata import ThetaClient
+
+          from datetime import date
+
+
+          client = ThetaClient(dataframe_type=''pandas'')
+
+          df = client.option_snapshot_greeks_third_order(symbol=''AAPL'', expiration=date(2027, 1, 15))
+
+          '
+      - lang: Python
+        label: polars
+        source: 'from thetadata import ThetaClient
+
+          from datetime import date
+
+
+          client = ThetaClient(dataframe_type=''polars'')
+
+          df = client.option_snapshot_greeks_third_order(symbol=''AAPL'', expiration=date(2027, 1, 15))
+
+          '
+      tags:
+      - Snapshot
+      description: '- Retrieve a real-time last third order greeks calculation for all option contracts that lie on a provided expiration.
+
+        - You might need to change the default expiration date to a different date if it is past the current date. Some quotes are omitted in the example to reduce the space of the sample output.
+
+        - Make `expiration` * if you want to get the snapshot for every expiration chain for the underlying.
+
+        > This endpoint will return no data if the market was closed for the day. Theta Data resets the snapshot cache at midnight ET every night.
+
+        '
+      x-sample-urls:
+      - url: http://127.0.0.1:25503/v3/option/snapshot/greeks/third_order?symbol=AAPL&expiration=20270115&strike=270.00
+        description: Returns third order greeks for an option contract
+      - url: http://127.0.0.1:25503/v3/option/snapshot/greeks/third_order?symbol=AAPL&expiration=*
+        description: Returns third order greeks for all option contracts
+      - url: http://127.0.0.1:25503/v3/option/snapshot/greeks/third_order?symbol=AAPL&expiration=*&format=html
+        description: Click to open in browser (HTML)
+      parameters:
+      - $ref: '#/components/parameters/single_symbol'
+      - $ref: '#/components/parameters/expiration'
+      - $ref: '#/components/parameters/strike'
+      - $ref: '#/components/parameters/right'
+      - $ref: '#/components/parameters/annual_dividend'
+      - $ref: '#/components/parameters/rate_type'
+      - $ref: '#/components/parameters/rate_value'
+      - $ref: '#/components/parameters/stock_price'
+      - $ref: '#/components/parameters/greeks_version'
+      - $ref: '#/components/parameters/max_dte'
+      - $ref: '#/components/parameters/strike_range'
+      - $ref: '#/components/parameters/min_time'
+      - $ref: '#/components/parameters/use_market_value'
+      - $ref: '#/components/parameters/format'
+      responses:
+        '200':
+          description: Returns third order greeks for an option contract
+          content:
+            text/csv:
+              schema:
+                type: array
+                items: &id027
+                  type: object
+                  properties:
+                    symbol:
+                      type: string
+                      description: The symbol of the contract, or stock / underlying asset / option / index.
+                    expiration:
+                      type: string
+                      format: date
+                      description: Expiration date of the contract in YYYY-MM-DD format.
+                    strike:
+                      type: number
+                      description: Strike price of the contract in dollars 180.00
+                    right:
+                      type: string
+                      description: Indicates whether the contract is a call or put option.
+                    timestamp:
+                      type: string
+                      format: date-time
+                      description: The timestamp in YYYY-MM-DDTHH:mm:ss.SSS format.
+                    bid:
+                      type: number
+                      description: The last NBBO bid price.
+                    ask:
+                      type: number
+                      description: The last NBBO ask price.
+                    speed:
+                      type: number
+                      description: The speed.
+                    zomma:
+                      type: number
+                      description: The zomma.
+                    color:
+                      type: string
+                      description: The color.
+                    ultima:
+                      type: string
+                      description: The ultima.
+                    implied_vol:
+                      type: number
+                      description: The implied volatiltiy calculated using the trade price.
+                    iv_error:
+                      type: string
+                      description: 'IV Error: the value of the option calculated using the implied volatiltiy divided by the actual value reported in the quote. This value will increase as the strike price recedes from the underlying price.'
+                    underlying_timestamp:
+                      type: string
+                      format: date-time
+                      description: The underlying date formated as YYYY-MM-DDTHH:mm:ss.SSS format.
+                    underlying_price:
+                      type: number
+                      description: The midpoint of the underlying at the time of the option trade.
+              example: "symbol,expiration,strike,right,timestamp,bid,ask,speed,zomma,color,ultima,implied_vol,iv_error,underlying_timestamp,underlying_price\r\nAAPL,2026-01-16,275.000,CALL,2025-08-20T15:59:59.805,1.47,1.50,0.0000,0.0000,-0.3832,-100.0000,0.2142,-0.0003,2025-08-20T16:37:06.988,225.74\r\nAAPL,2026-01-16,275.000,PUT,2025-08-20T15:59:59.839,48.75,49.70,0.0000,0.0000,-1.8378,-100.0000,0.3106,0.0000,2025-08-20T16:37:06.988,225.74\r\n"
+            application/json:
+              schema: &id028
+                type: array
+                items: *id027
+              example: "{\n  \"response\": [\n    {\n      \"contract\": {\"symbol\":\"AAPL\",\"strike\":275.000,\"right\":\"CALL\",\"expiration\":\"2026-01-16\"},\n      \"data\": [\n        {\"underlying_price\":225.74,\"color\":-0.3832,\"zomma\":0.0000,\"implied_vol\":0.2142,\"iv_error\":-0.0003,\"speed\":0.0000,\"ultima\":-100.0000,\"ask\":1.50,\"bid\":1.47,\"underlying_timestamp\":\"2025-08-20T16:37:06.988\",\"timestamp\":\"2025-08-20T15:59:59.805\"}\n      ]\n    },\n    {\n      \"contract\": {\"symbol\":\"AAPL\",\"strike\":275.000,\"right\":\"PUT\",\"expiration\":\"2026-01-16\"},\n      \"data\": [\n        {\"underlying_price\":225.74,\"color\":-1.8378,\"zomma\":0.0000,\"implied_vol\":0.3106,\"iv_error\":0.0000,\"speed\":0.0000,\"ultima\":-100.0000,\"ask\":49.70,\"bid\":48.75,\"underlying_timestamp\":\"2025-08-20T16:37:06.988\",\"timestamp\":\"2025-08-20T15:59:59.839\"}\n      ]\n    }\n  ]\n}\n"
+            application/x-ndjson:
+              schema: *id028
+              example: '{"symbol":"AAPL","underlying_price":225.74,"color":-0.3832,"strike":275.000,"zomma":0.0000,"right":"CALL","implied_vol":0.2142,"iv_error":-0.0003,"speed":0.0000,"ultima":-100.0000,"ask":1.50,"expiration":"2026-01-16","bid":1.47,"underlying_timestamp":"2025-08-20T16:37:06.988","timestamp":"2025-08-20T15:59:59.805"}
+
+                {"symbol":"AAPL","underlying_price":225.74,"color":-1.8378,"strike":275.000,"zomma":0.0000,"right":"PUT","implied_vol":0.3106,"iv_error":0.0000,"speed":0.0000,"ultima":-100.0000,"ask":49.70,"expiration":"2026-01-16","bid":48.75,"underlying_timestamp":"2025-08-20T16:37:06.988","timestamp":"2025-08-20T15:59:59.839"}'
+            python/pandas:
+              schema: *id028
+              example: 'symbol  expiration  strike right                        timestamp    bid   ask  speed   zomma   color   ultima  implied_vol  iv_error             underlying_timestamp  underlying_price
+
+                0   AAPL  2026-12-18   270.0  CALL 2026-04-27 12:13:35.614000-04:00  24.75  25.0    0.0 -0.0246 -0.0054 -23.2147       0.2744       0.0 2026-04-27 12:13:35.494000-04:00            266.86
+
+                '
+            python/polars:
+              schema: *id028
+              example: 'shape: (1, 15)
+
+                ┌────────┬────────────┬────────┬───────┬────────────────────────────────┬───────┬──────┬───────┬─────────┬─────────┬──────────┬─────────────┬──────────┬────────────────────────────────┬──────────────────┐
+
+                │ symbol ┆ expiration ┆ strike ┆ right ┆ timestamp                      ┆ bid   ┆ ask  ┆ speed ┆ zomma   ┆ color   ┆ ultima   ┆ implied_vol ┆ iv_error ┆ underlying_timestamp           ┆ underlying_price │
+
+                │ ---    ┆ ---        ┆ ---    ┆ ---   ┆ ---                            ┆ ---   ┆ ---  ┆ ---   ┆ ---     ┆ ---     ┆ ---      ┆ ---         ┆ ---      ┆ ---                            ┆ ---              │
+
+                │ str    ┆ str        ┆ f64    ┆ str   ┆ datetime[ms, America/New_York] ┆ f64   ┆ f64  ┆ f64   ┆ f64     ┆ f64     ┆ f64      ┆ f64         ┆ f64      ┆ datetime[ms, America/New_York] ┆ f64              │
+
+                ╞════════╪════════════╪════════╪═══════╪════════════════════════════════╪═══════╪══════╪═══════╪═════════╪═════════╪══════════╪═════════════╪══════════╪════════════════════════════════╪══════════════════╡
+
+                │ AAPL   ┆ 2026-12-18 ┆ 270.0  ┆ CALL  ┆ 2026-04-27 12:13:35.656 EDT    ┆ 24.75 ┆ 25.0 ┆ 0.0   ┆ -0.0246 ┆ -0.0054 ┆ -23.2147 ┆ 0.2744      ┆ 0.0      ┆ 2026-04-27 12:13:35.650 EDT    ┆ 266.86           │
+
+                └────────┴────────────┴────────┴───────┴────────────────────────────────┴───────┴──────┴───────┴─────────┴─────────┴──────────┴─────────────┴──────────┴────────────────────────────────┴──────────────────┘
+
+                '
+  /index/snapshot/ohlc:
+    x-skip-concurrent-limit: true
+    x-min-subscription: standard
+    get:
+      summary: Open High Low Close
+      operationId: index_snapshot_ohlc
+      x-codeSamples:
+      - lang: Python
+        label: pandas
+        source: 'from thetadata import ThetaClient
+
+
+          client = ThetaClient(dataframe_type=''pandas'')
+
+          df = client.index_snapshot_ohlc(symbol=[''SPX''])
+
+          '
+      - lang: Python
+        label: polars
+        source: 'from thetadata import ThetaClient
+
+
+          client = ThetaClient(dataframe_type=''polars'')
+
+          df = client.index_snapshot_ohlc(symbol=[''SPX''])
+
+          '
+      tags:
+      - Snapshot
+      description: '- Retrieves the real-time current day OHLC.
+
+        - [Exchanges](/Articles/Data-And-Requests/The-SIPs.html) typically generate a price report every second for popular indices like SPX.
+
+        '
+      x-sample-urls:
+      - url: http://127.0.0.1:25503/v3/index/snapshot/ohlc?symbol=SPX
+        description: Returns OHLC for a given index price change
+      - url: http://127.0.0.1:25503/v3/index/snapshot/ohlc?symbol=SPX&format=html
+        description: Click to open in browser (HTML)
+      parameters:
+      - $ref: '#/components/parameters/multi_symbol'
+      - $ref: '#/components/parameters/min_time'
+      - $ref: '#/components/parameters/format'
+      responses:
+        '200':
+          description: Returns OHLC for a given index price change
+          content:
+            text/csv:
+              schema:
+                type: array
+                items: &id029
+                  type: object
+                  properties:
+                    timestamp:
+                      type: string
+                      format: date-time
+                      description: The timestamp in YYYY-MM-DDTHH:mm:ss.SSS format.
+                    symbol:
+                      type: string
+                      description: The symbol of the contract, or stock / underlying asset / option / index.
+                    open:
+                      type: number
+                      description: The opening trade price.
+                    high:
+                      type: number
+                      description: The highest traded price.
+                    low:
+                      type: number
+                      description: The lowest traded price.
+                    close:
+                      type: number
+                      description: The closing traded price.
+                    volume:
+                      type: integer
+                      description: The amount of contracts / shares traded.
+                    count:
+                      type: integer
+                      description: The amount of trades.
+              example: "timestamp,symbol,open,high,low,close,volume,count\r\n2025-08-20T16:02:06,SPX,6406.62,6408.40,6343.86,6395.78,0,0\r\n"
+            application/json:
+              schema: &id030
+                type: array
+                items: *id029
+              example: "{\n  \"response\": [\n     {\"volume\":0,\"symbol\":\"SPX\",\"high\":6408.40,\"low\":6343.86,\"count\":0,\"close\":6395.78,\"open\":6406.62,\"timestamp\":\"2025-08-20T16:02:06\"}\n  ]\n}\n"
+            application/x-ndjson:
+              schema: *id030
+              example: '{"volume":0,"symbol":"SPX","high":6408.40,"low":6343.86,"count":0,"close":6395.78,"open":6406.62,"timestamp":"2025-08-20T16:02:06"}'
+            python/pandas:
+              schema: *id030
+              example: 'timestamp symbol     open    high      low    close  volume  count
+
+                0 2026-04-27 12:13:45-04:00    SPX  7152.72  7167.7  7146.72  7163.15       0      0
+
+                '
+            python/polars:
+              schema: *id030
+              example: 'shape: (1, 8)
+
+                ┌────────────────────────────────┬────────┬─────────┬────────┬─────────┬─────────┬────────┬───────┐
+
+                │ timestamp                      ┆ symbol ┆ open    ┆ high   ┆ low     ┆ close   ┆ volume ┆ count │
+
+                │ ---                            ┆ ---    ┆ ---     ┆ ---    ┆ ---     ┆ ---     ┆ ---    ┆ ---   │
+
+                │ datetime[ms, America/New_York] ┆ str    ┆ f64     ┆ f64    ┆ f64     ┆ f64     ┆ i64    ┆ i64   │
+
+                ╞════════════════════════════════╪════════╪═════════╪════════╪═════════╪═════════╪════════╪═══════╡
+
+                │ 2026-04-27 12:13:45 EDT        ┆ SPX    ┆ 7152.72 ┆ 7167.7 ┆ 7146.72 ┆ 7163.15 ┆ 0      ┆ 0     │
+
+                └────────────────────────────────┴────────┴─────────┴────────┴─────────┴─────────┴────────┴───────┘
+
+                '
+  /index/snapshot/price:
+    x-skip-concurrent-limit: true
+    x-min-subscription: standard
+    get:
+      summary: Price
+      operationId: index_snapshot_price
+      x-codeSamples:
+      - lang: Python
+        label: pandas
+        source: 'from thetadata import ThetaClient
+
+
+          client = ThetaClient(dataframe_type=''pandas'')
+
+          df = client.index_snapshot_price(symbol=[''SPX''])
+
+          '
+      - lang: Python
+        label: polars
+        source: 'from thetadata import ThetaClient
+
+
+          client = ThetaClient(dataframe_type=''polars'')
+
+          df = client.index_snapshot_price(symbol=[''SPX''])
+
+          '
+      tags:
+      - Snapshot
+      description: '- Retrieves a real-time last index price.
+
+        - [Exchanges](/Articles/Data-And-Requests/The-SIPs.html) typically generate a price report every second for popular indices like SPX.
+
+        '
+      x-sample-urls:
+      - url: http://127.0.0.1:25503/v3/index/snapshot/price?symbol=SPX
+        description: Returns last index price
+      - url: http://127.0.0.1:25503/v3/index/snapshot/price?symbol=SPX&format=html
+        description: Click to open in browser (HTML)
+      parameters:
+      - $ref: '#/components/parameters/multi_symbol'
+      - $ref: '#/components/parameters/min_time'
+      - $ref: '#/components/parameters/format'
+      responses:
+        '200':
+          description: Returns last index price
+          content:
+            text/csv:
+              schema:
+                type: array
+                items: &id031
+                  type: object
+                  properties:
+                    timestamp:
+                      type: string
+                      format: date-time
+                      description: The timestamp in YYYY-MM-DDTHH:mm:ss.SSS format.
+                    symbol:
+                      type: string
+                      description: The symbol of the contract, or stock / underlying asset / option / index.
+                    price:
+                      type: number
+                      description: The trade price.
+              example: "timestamp,symbol,price\r\n2025-08-20T16:02:06,SPX,6395.78\r\n"
+            application/json:
+              schema: &id032
+                type: array
+                items: *id031
+              example: "{\n  \"response\": [\n    {\"symbol\":\"SPX\",\"price\":6395.78,\"timestamp\":\"2025-08-20T16:02:06\"}\n  ]\n}\n"
+            application/x-ndjson:
+              schema: *id032
+              example: '{"symbol":"SPX","price":6395.78,"timestamp":"2025-08-20T16:02:06"}'
+            python/pandas:
+              schema: *id032
+              example: 'timestamp symbol    price
+
+                0 2026-04-27 12:13:45-04:00    SPX  7163.15
+
+                '
+            python/polars:
+              schema: *id032
+              example: 'shape: (1, 3)
+
+                ┌────────────────────────────────┬────────┬─────────┐
+
+                │ timestamp                      ┆ symbol ┆ price   │
+
+                │ ---                            ┆ ---    ┆ ---     │
+
+                │ datetime[ms, America/New_York] ┆ str    ┆ f64     │
+
+                ╞════════════════════════════════╪════════╪═════════╡
+
+                │ 2026-04-27 12:13:46 EDT        ┆ SPX    ┆ 7163.21 │
+
+                └────────────────────────────────┴────────┴─────────┘
+
+                '
+  /index/snapshot/market_value:
+    x-skip-concurrent-limit: true
+    x-min-subscription: standard
+    get:
+      summary: Market Value
+      operationId: index_snapshot_market_value
+      x-codeSamples:
+      - lang: Python
+        label: pandas
+        source: 'from thetadata import ThetaClient
+
+
+          client = ThetaClient(dataframe_type=''pandas'')
+
+          df = client.index_snapshot_market_value(symbol=[''SPX''])
+
+          '
+      - lang: Python
+        label: polars
+        source: 'from thetadata import ThetaClient
+
+
+          client = ThetaClient(dataframe_type=''polars'')
+
+          df = client.index_snapshot_market_value(symbol=[''SPX''])
+
+          '
+      tags:
+      - Snapshot
+      description: '- Retrieves a real-time last index market value.
+
+        - [Exchanges](/Articles/Data-And-Requests/The-SIPs.html) typically generate a price report every second for popular indices like SPX.
+
+        '
+      x-sample-urls:
+      - url: http://127.0.0.1:25503/v3/index/snapshot/market_value?symbol=SPX
+        description: Returns last market value
+      - url: http://127.0.0.1:25503/v3/index/snapshot/market_value?symbol=SPX&format=html
+        description: Click to open in browser (HTML)
+      parameters:
+      - $ref: '#/components/parameters/multi_symbol'
+      - $ref: '#/components/parameters/min_time'
+      - $ref: '#/components/parameters/format'
+      responses:
+        '200':
+          description: Returns last index market value
+          content:
+            text/csv:
+              schema:
+                type: array
+                items: &id033
+                  type: object
+                  properties:
+                    timestamp:
+                      type: string
+                      format: date-time
+                      description: The timestamp in YYYY-MM-DDTHH:mm:ss.SSS format.
+                    symbol:
+                      type: string
+                      description: The symbol of the contract, or stock / underlying asset / option / index.
+                    market_price:
+                      type: number
+                      description: The index market price.
+              example: "timestamp,symbol,market_price\r\n2025-08-20T16:02:06,SPX,6395.81\r\n"
+            application/json:
+              schema: &id034
+                type: array
+                items: *id033
+              example: "{\n  \"response\": [\n    {\"symbol\":\"SPX\",\"market_price\":6395.81,\"timestamp\":\"2025-08-20T16:02:06\"}\n  ]\n}\n"
+            application/x-ndjson:
+              schema: *id034
+              example: '{"symbol":"SPX","market_price":6395.81,"timestamp":"2025-08-20T16:02:06"}'
+            python/pandas:
+              schema: *id034
+              example: 'timestamp symbol  market_price
+
+                0 2026-04-27 12:13:46-04:00    SPX       7163.18
+
+                '
+            python/polars:
+              schema: *id034
+              example: 'shape: (1, 3)
+
+                ┌────────────────────────────────┬────────┬──────────────┐
+
+                │ timestamp                      ┆ symbol ┆ market_price │
+
+                │ ---                            ┆ ---    ┆ ---          │
+
+                │ datetime[ms, America/New_York] ┆ str    ┆ f64          │
+
+                ╞════════════════════════════════╪════════╪══════════════╡
+
+                │ 2026-04-27 12:13:46 EDT        ┆ SPX    ┆ 7163.19      │
+
+                └────────────────────────────────┴────────┴──────────────┘
+
+                '
+components:
+  parameters:
+    rate_type:
+      name: rate_type
+      in: query
+      description: The interest rate type to be used in a Greeks calculation.
+      required: false
+      schema:
+        type: string
+        enum:
+        - sofr
+        - treasury_m1
+        - treasury_m3
+        - treasury_m6
+        - treasury_y1
+        - treasury_y2
+        - treasury_y3
+        - treasury_y5
+        - treasury_y7
+        - treasury_y10
+        - treasury_y20
+        - treasury_y30
+        default: sofr
+    right:
+      name: right
+      in: query
+      description: The right (call or put) of the contract.
+      required: false
+      schema:
+        type: string
+        enum:
+        - call
+        - put
+        - both
+        default: both
+    expiration_no_star:
+      name: expiration
+      in: query
+      description: The expiration of the contract in `YYYY-MM-DD` or `YYYYMMDD` format.
+      required: true
+      schema:
+        type: string
+        format: date
+    strike_range:
+      name: strike_range
+      in: query
+      description: Limits the number of contracts returned relative to the underlying's spot price. For a specified value 'n', this returns 'n' strikes above and 'n' strikes below the spot price, plus one at-the-money (ATM) strike (where spot price = strike price), if available. This results in a maximum of `2n + 1` strikes.
+      required: false
+      schema:
+        minimum: 1
+        type: integer
+        format: int32
+    max_dte:
+      name: max_dte
+      in: query
+      description: If specified, only contracts with a full calendar day 'Days to Expiration' (DTE) less than or equal to this number will be returned.
+      required: false
+      schema:
+        minimum: 0
+        type: integer
+        format: int32
+    stock_price:
+      name: stock_price
+      in: query
+      description: The underlying stock price to be used in the Greeks calculation.
+      required: false
+      schema:
+        type: number
+        format: float
+    strike:
+      name: strike
+      in: query
+      description: The strike price of the contract in dollars (ie `100.00` for `$100.00`), or `*` for all strikes.
+      required: false
+      schema:
+        type: string
+        default: '*'
+    single_symbol:
+      name: symbol
+      in: query
+      description: The stock or index symbol, or underlying symbol for options.
+      required: true
+      schema:
+        type: string
+    rate_value:
+      name: rate_value
+      in: query
+      description: The interest rate, as a percent, to be used in a Greeks calculation.
+      required: false
+      schema:
+        type: number
+        format: float
+      example: 5.0
+    use_market_value:
+      name: use_market_value
+      in: query
+      description: Use the market value bid, ask, and price
+      required: false
+      schema:
+        type: boolean
+        default: false
+    format:
+      name: format
+      in: query
+      description: The format of the data when returned to the user.
+      required: false
+      schema:
+        type: string
+        enum:
+        - csv
+        - json
+        - ndjson
+        - html
+        default: csv
+    min_time:
+      name: min_time
+      in: query
+      description: Filters snapshots to include only data with a timestamp greater or equal to the specified value (HH:mm:ss.SSS format).
+      required: false
+      schema:
+        type: string
+        format: time
+    greeks_version:
+      name: version
+      in: query
+      description: Used to adjust Greeks calculation methodology. "1" uses a fixed .15 DTE for 0DTE; "latest" uses real TTE (down to a minimum of 1 hour)
+      required: false
+      schema:
+        type: string
+        enum:
+        - latest
+        - '1'
+        default: latest
+    venue:
+      name: venue
+      in: query
+      description: Used to specify the venue of the real time or historic request. ``nqb`` = Nasdaq Basic; ``utp_cta`` = merged UTP & CTA.
+      required: false
+      schema:
+        type: string
+        enum:
+        - nqb
+        - utp_cta
+        default: nqb
+    expiration:
+      name: expiration
+      in: query
+      x-date-wildcard: true
+      description: The expiration of the contract in `YYYY-MM-DD` or `YYYYMMDD` format, or `*` for all expirations.
+      required: true
+      schema:
+        type: string
+        format: date
+    annual_dividend:
+      name: annual_dividend
+      in: query
+      description: The annualized expected dividend amount to be used in Greeks calculations.
+      required: false
+      schema:
+        type: number
+        format: float
+    multi_symbol:
+      name: symbol
+      in: query
+      description: The stock or index symbol, or underlying symbol for options. Specify '*' for all symbols or a comma separated list when appropriate.
+      required: true
+      schema:
+        type: array
+        items:
+          type: string

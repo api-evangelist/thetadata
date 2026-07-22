@@ -1,0 +1,427 @@
+generated: '2026-07-22'
+method: derived
+source: mcp/thetadata-mcp.yml + openapi/_original/thetadata-v3-openapi.yml
+description: 'Crosswalk binding the ThetaData MCP surface to the OpenAPI 3.1 contract. The MCP server
+  is built into Theta Terminal v3 and, per the docs, exposes the full v3 REST API; its live tools/list
+  is only reachable on a running, authenticated local terminal, so tool names here are the candidate one-tool-per-operationId
+  projection and every binding is marked confidence: medium (semantics certain, published tool naming
+  unverified). Each tool inherits its real inputSchema from the bound operation''s parameters in the spec.'
+surfaces:
+  openapi:
+    path: openapi/_original/thetadata-v3-openapi.yml
+    operations: 66
+    gated: false
+    public_source: https://docs.thetadata.us/openapiv3.yaml
+  mcp:
+    url: http://127.0.0.1:25503/mcp/sse
+    transport: sse
+    gated: local-only; requires running Theta Terminal v3 + paid subscription for tools/list introspection
+  websocket:
+    url: ws://127.0.0.1:25520/v1/events
+    notes: Streaming surface (asyncapi/thetadata-streaming-asyncapi.yml); not exposed as MCP tools in
+      the docs.
+coverage:
+  tools_named: 66
+  tools_bound: 66
+  mcp_only: 0
+  rest_operations_total: 66
+  rest_operations_with_tool: 66
+crosswalk:
+- tool: calendar_on_date
+  category: calendar
+  rest:
+  - calendar_on_date
+  binding: rest
+  confidence: medium
+- tool: calendar_open_today
+  category: calendar
+  rest:
+  - calendar_open_today
+  binding: rest
+  confidence: medium
+- tool: calendar_year
+  category: calendar
+  rest:
+  - calendar_year
+  binding: rest
+  confidence: medium
+- tool: index_at_time_price
+  category: index
+  rest:
+  - index_at_time_price
+  binding: rest
+  confidence: medium
+- tool: index_flat_file_eod
+  category: index
+  rest:
+  - index_flat_file_eod
+  binding: rest
+  confidence: medium
+- tool: index_history_eod
+  category: index
+  rest:
+  - index_history_eod
+  binding: rest
+  confidence: medium
+- tool: index_history_ohlc
+  category: index
+  rest:
+  - index_history_ohlc
+  binding: rest
+  confidence: medium
+- tool: index_history_price
+  category: index
+  rest:
+  - index_history_price
+  binding: rest
+  confidence: medium
+- tool: index_list_dates
+  category: index
+  rest:
+  - index_list_dates
+  binding: rest
+  confidence: medium
+- tool: index_list_symbols
+  category: index
+  rest:
+  - index_list_symbols
+  binding: rest
+  confidence: medium
+- tool: index_snapshot_market_value
+  category: index
+  rest:
+  - index_snapshot_market_value
+  binding: rest
+  confidence: medium
+- tool: index_snapshot_ohlc
+  category: index
+  rest:
+  - index_snapshot_ohlc
+  binding: rest
+  confidence: medium
+- tool: index_snapshot_price
+  category: index
+  rest:
+  - index_snapshot_price
+  binding: rest
+  confidence: medium
+- tool: interest_rate_history_eod
+  category: interest_rate
+  rest:
+  - interest_rate_history_eod
+  binding: rest
+  confidence: medium
+- tool: option_at_time_quote
+  category: option
+  rest:
+  - option_at_time_quote
+  binding: rest
+  confidence: medium
+- tool: option_at_time_trade
+  category: option
+  rest:
+  - option_at_time_trade
+  binding: rest
+  confidence: medium
+- tool: option_flat_file_eod
+  category: option
+  rest:
+  - option_flat_file_eod
+  binding: rest
+  confidence: medium
+- tool: option_flat_file_open_interest
+  category: option
+  rest:
+  - option_flat_file_open_interest
+  binding: rest
+  confidence: medium
+- tool: option_flat_file_trade_quote
+  category: option
+  rest:
+  - option_flat_file_trade_quote
+  binding: rest
+  confidence: medium
+- tool: option_history_eod
+  category: option
+  rest:
+  - option_history_eod
+  binding: rest
+  confidence: medium
+- tool: option_history_greeks_all
+  category: option
+  rest:
+  - option_history_greeks_all
+  binding: rest
+  confidence: medium
+- tool: option_history_greeks_eod
+  category: option
+  rest:
+  - option_history_greeks_eod
+  binding: rest
+  confidence: medium
+- tool: option_history_greeks_first_order
+  category: option
+  rest:
+  - option_history_greeks_first_order
+  binding: rest
+  confidence: medium
+- tool: option_history_greeks_implied_volatility
+  category: option
+  rest:
+  - option_history_greeks_implied_volatility
+  binding: rest
+  confidence: medium
+- tool: option_history_greeks_second_order
+  category: option
+  rest:
+  - option_history_greeks_second_order
+  binding: rest
+  confidence: medium
+- tool: option_history_greeks_third_order
+  category: option
+  rest:
+  - option_history_greeks_third_order
+  binding: rest
+  confidence: medium
+- tool: option_history_ohlc
+  category: option
+  rest:
+  - option_history_ohlc
+  binding: rest
+  confidence: medium
+- tool: option_history_open_interest
+  category: option
+  rest:
+  - option_history_open_interest
+  binding: rest
+  confidence: medium
+- tool: option_history_quote
+  category: option
+  rest:
+  - option_history_quote
+  binding: rest
+  confidence: medium
+- tool: option_history_trade
+  category: option
+  rest:
+  - option_history_trade
+  binding: rest
+  confidence: medium
+- tool: option_history_trade_greeks_all
+  category: option
+  rest:
+  - option_history_trade_greeks_all
+  binding: rest
+  confidence: medium
+- tool: option_history_trade_greeks_first_order
+  category: option
+  rest:
+  - option_history_trade_greeks_first_order
+  binding: rest
+  confidence: medium
+- tool: option_history_trade_greeks_implied_volatility
+  category: option
+  rest:
+  - option_history_trade_greeks_implied_volatility
+  binding: rest
+  confidence: medium
+- tool: option_history_trade_greeks_second_order
+  category: option
+  rest:
+  - option_history_trade_greeks_second_order
+  binding: rest
+  confidence: medium
+- tool: option_history_trade_greeks_third_order
+  category: option
+  rest:
+  - option_history_trade_greeks_third_order
+  binding: rest
+  confidence: medium
+- tool: option_history_trade_quote
+  category: option
+  rest:
+  - option_history_trade_quote
+  binding: rest
+  confidence: medium
+- tool: option_list_contracts
+  category: option
+  rest:
+  - option_list_contracts
+  binding: rest
+  confidence: medium
+- tool: option_list_dates
+  category: option
+  rest:
+  - option_list_dates
+  binding: rest
+  confidence: medium
+- tool: option_list_expirations
+  category: option
+  rest:
+  - option_list_expirations
+  binding: rest
+  confidence: medium
+- tool: option_list_strikes
+  category: option
+  rest:
+  - option_list_strikes
+  binding: rest
+  confidence: medium
+- tool: option_list_symbols
+  category: option
+  rest:
+  - option_list_symbols
+  binding: rest
+  confidence: medium
+- tool: option_snapshot_greeks_all
+  category: option
+  rest:
+  - option_snapshot_greeks_all
+  binding: rest
+  confidence: medium
+- tool: option_snapshot_greeks_first_order
+  category: option
+  rest:
+  - option_snapshot_greeks_first_order
+  binding: rest
+  confidence: medium
+- tool: option_snapshot_greeks_implied_volatility
+  category: option
+  rest:
+  - option_snapshot_greeks_implied_volatility
+  binding: rest
+  confidence: medium
+- tool: option_snapshot_greeks_second_order
+  category: option
+  rest:
+  - option_snapshot_greeks_second_order
+  binding: rest
+  confidence: medium
+- tool: option_snapshot_greeks_third_order
+  category: option
+  rest:
+  - option_snapshot_greeks_third_order
+  binding: rest
+  confidence: medium
+- tool: option_snapshot_market_value
+  category: option
+  rest:
+  - option_snapshot_market_value
+  binding: rest
+  confidence: medium
+- tool: option_snapshot_ohlc
+  category: option
+  rest:
+  - option_snapshot_ohlc
+  binding: rest
+  confidence: medium
+- tool: option_snapshot_open_interest
+  category: option
+  rest:
+  - option_snapshot_open_interest
+  binding: rest
+  confidence: medium
+- tool: option_snapshot_quote
+  category: option
+  rest:
+  - option_snapshot_quote
+  binding: rest
+  confidence: medium
+- tool: option_snapshot_trade
+  category: option
+  rest:
+  - option_snapshot_trade
+  binding: rest
+  confidence: medium
+- tool: stock_at_time_quote
+  category: stock
+  rest:
+  - stock_at_time_quote
+  binding: rest
+  confidence: medium
+- tool: stock_at_time_trade
+  category: stock
+  rest:
+  - stock_at_time_trade
+  binding: rest
+  confidence: medium
+- tool: stock_flat_file_eod
+  category: stock
+  rest:
+  - stock_flat_file_eod
+  binding: rest
+  confidence: medium
+- tool: stock_flat_file_trade_quote
+  category: stock
+  rest:
+  - stock_flat_file_trade_quote
+  binding: rest
+  confidence: medium
+- tool: stock_history_eod
+  category: stock
+  rest:
+  - stock_history_eod
+  binding: rest
+  confidence: medium
+- tool: stock_history_ohlc
+  category: stock
+  rest:
+  - stock_history_ohlc
+  binding: rest
+  confidence: medium
+- tool: stock_history_quote
+  category: stock
+  rest:
+  - stock_history_quote
+  binding: rest
+  confidence: medium
+- tool: stock_history_trade
+  category: stock
+  rest:
+  - stock_history_trade
+  binding: rest
+  confidence: medium
+- tool: stock_history_trade_quote
+  category: stock
+  rest:
+  - stock_history_trade_quote
+  binding: rest
+  confidence: medium
+- tool: stock_list_dates
+  category: stock
+  rest:
+  - stock_list_dates
+  binding: rest
+  confidence: medium
+- tool: stock_list_symbols
+  category: stock
+  rest:
+  - stock_list_symbols
+  binding: rest
+  confidence: medium
+- tool: stock_snapshot_market_value
+  category: stock
+  rest:
+  - stock_snapshot_market_value
+  binding: rest
+  confidence: medium
+- tool: stock_snapshot_ohlc
+  category: stock
+  rest:
+  - stock_snapshot_ohlc
+  binding: rest
+  confidence: medium
+- tool: stock_snapshot_quote
+  category: stock
+  rest:
+  - stock_snapshot_quote
+  binding: rest
+  confidence: medium
+- tool: stock_snapshot_trade
+  category: stock
+  rest:
+  - stock_snapshot_trade
+  binding: rest
+  confidence: medium
+mcp_only: []
+rest_only: []

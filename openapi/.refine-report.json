@@ -1,0 +1,36 @@
+{
+  "provider": "thetadata",
+  "sources": [
+    "thetadata-at-time-api-openapi.yml",
+    "thetadata-calendar-api-openapi.yml",
+    "thetadata-flatfile-api-openapi.yml",
+    "thetadata-history-api-openapi.yml",
+    "thetadata-index-api-openapi.yml",
+    "thetadata-interest-rate-api-openapi.yml",
+    "thetadata-list-api-openapi.yml",
+    "thetadata-option-api-openapi.yml",
+    "thetadata-single-day-api-openapi.yml",
+    "thetadata-snapshot-api-openapi.yml",
+    "thetadata-stock-api-openapi.yml",
+    "thetadata-year-api-openapi.yml"
+  ],
+  "outputs": [
+    "thetadata-at-time-api-openapi.yml",
+    "thetadata-calendar-api-openapi.yml",
+    "thetadata-flatfile-api-openapi.yml",
+    "thetadata-history-api-openapi.yml",
+    "thetadata-index-api-openapi.yml",
+    "thetadata-interest-rate-api-openapi.yml",
+    "thetadata-list-api-openapi.yml",
+    "thetadata-option-api-openapi.yml",
+    "thetadata-single-day-api-openapi.yml",
+    "thetadata-snapshot-api-openapi.yml",
+    "thetadata-stock-api-openapi.yml",
+    "thetadata-year-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}

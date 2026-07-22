@@ -1,0 +1,227 @@
+generated: '2026-07-22'
+method: searched
+status: published
+source: https://docs.thetadata.us/Mcp/Getting-Started.html
+description: 'ThetaData ships an official MCP (Model Context Protocol) server built into Theta Terminal
+  v3, exposing the full v3 market-data API to LLM CLIs (documented for Claude CLI and Gemini CLI) over
+  SSE at http://127.0.0.1:25503/mcp/sse. The server is local-only: it requires the Theta Terminal running
+  on the user''s machine and a paid ThetaData subscription, so the live tools/list manifest cannot be
+  introspected anonymously. The tool list below is a candidate list derived one-per-operationId from the
+  published OpenAPI 3.1 spec, per the docs statement that the MCP server exposes the full v3 API; actual
+  published tool names/schemas need authenticated local introspection. A community npm MCP server (thetadatadx-mcp-server,
+  publisher userfrm) also exists.'
+server:
+  name: thetadata
+  transport: sse
+  url: http://127.0.0.1:25503/mcp/sse
+  hosting: local (built into Theta Terminal v3)
+  auth: Theta Terminal session (API key or account credentials at terminal launch); subscription required
+  install:
+    claude_cli: claude mcp add --transport sse ThetaData http://127.0.0.1:25503/mcp/sse
+    gemini_cli: 'Add {"mcpServers": {"Theta Data": {"url": "http://127.0.0.1:25503/mcp/sse", "timeout":
+      30000}}} to ~/.gemini/config.json'
+community:
+- name: thetadatadx-mcp-server
+  registry: npm
+  install: npx -y thetadatadx-mcp-server
+  official: false
+tools_status: candidate
+tools:
+- name: calendar_on_date
+  description: On Date — GET /calendar/on_date
+  source_operation: openapi/thetadata-calendar-api-openapi.yml#calendar_on_date
+- name: calendar_open_today
+  description: Today — GET /calendar/today
+  source_operation: openapi/thetadata-calendar-api-openapi.yml#calendar_open_today
+- name: calendar_year
+  description: Year Holidays — GET /calendar/year_holidays
+  source_operation: openapi/thetadata-calendar-api-openapi.yml#calendar_year
+- name: index_at_time_price
+  description: Price — GET /index/at_time/price
+  source_operation: openapi/thetadata-at-time-api-openapi.yml#index_at_time_price
+- name: index_flat_file_eod
+  description: Index Flat File EOD — GET /index/flat_file/eod
+  source_operation: openapi/thetadata-flatfile-api-openapi.yml#index_flat_file_eod
+- name: index_history_eod
+  description: End of Day — GET /index/history/eod
+  source_operation: openapi/thetadata-history-api-openapi.yml#index_history_eod
+- name: index_history_ohlc
+  description: Open High Low Close — GET /index/history/ohlc
+  source_operation: openapi/thetadata-history-api-openapi.yml#index_history_ohlc
+- name: index_history_price
+  description: Price — GET /index/history/price
+  source_operation: openapi/thetadata-history-api-openapi.yml#index_history_price
+- name: index_list_dates
+  description: Dates — GET /index/list/dates
+  source_operation: openapi/thetadata-index-api-openapi.yml#index_list_dates
+- name: index_list_symbols
+  description: Symbols — GET /index/list/symbols
+  source_operation: openapi/thetadata-index-api-openapi.yml#index_list_symbols
+- name: index_snapshot_market_value
+  description: Market Value — GET /index/snapshot/market_value
+  source_operation: openapi/thetadata-index-api-openapi.yml#index_snapshot_market_value
+- name: index_snapshot_ohlc
+  description: Open High Low Close — GET /index/snapshot/ohlc
+  source_operation: openapi/thetadata-index-api-openapi.yml#index_snapshot_ohlc
+- name: index_snapshot_price
+  description: Price — GET /index/snapshot/price
+  source_operation: openapi/thetadata-index-api-openapi.yml#index_snapshot_price
+- name: interest_rate_history_eod
+  description: End of Day — GET /interest_rate/history/eod
+  source_operation: openapi/thetadata-history-api-openapi.yml#interest_rate_history_eod
+- name: option_at_time_quote
+  description: Quote — GET /option/at_time/quote
+  source_operation: openapi/thetadata-at-time-api-openapi.yml#option_at_time_quote
+- name: option_at_time_trade
+  description: Trade — GET /option/at_time/trade
+  source_operation: openapi/thetadata-at-time-api-openapi.yml#option_at_time_trade
+- name: option_flat_file_eod
+  description: Option Flat File EOD — GET /option/flat_file/eod
+  source_operation: openapi/thetadata-flatfile-api-openapi.yml#option_flat_file_eod
+- name: option_flat_file_open_interest
+  description: Option Flat File Open Interest — GET /option/flat_file/open_interest
+  source_operation: openapi/thetadata-flatfile-api-openapi.yml#option_flat_file_open_interest
+- name: option_flat_file_trade_quote
+  description: Option Flat File Trade Quote — GET /option/flat_file/trade_quote
+  source_operation: openapi/thetadata-flatfile-api-openapi.yml#option_flat_file_trade_quote
+- name: option_history_eod
+  description: End of Day — GET /option/history/eod
+  source_operation: openapi/thetadata-history-api-openapi.yml#option_history_eod
+- name: option_history_greeks_all
+  description: All Greeks — GET /option/history/greeks/all
+  source_operation: openapi/thetadata-history-api-openapi.yml#option_history_greeks_all
+- name: option_history_greeks_eod
+  description: End of Day Greeks — GET /option/history/greeks/eod
+  source_operation: openapi/thetadata-history-api-openapi.yml#option_history_greeks_eod
+- name: option_history_greeks_first_order
+  description: First Order Greeks — GET /option/history/greeks/first_order
+  source_operation: openapi/thetadata-history-api-openapi.yml#option_history_greeks_first_order
+- name: option_history_greeks_implied_volatility
+  description: Implied Volatility — GET /option/history/greeks/implied_volatility
+  source_operation: openapi/thetadata-history-api-openapi.yml#option_history_greeks_implied_volatility
+- name: option_history_greeks_second_order
+  description: Second Order Greeks — GET /option/history/greeks/second_order
+  source_operation: openapi/thetadata-history-api-openapi.yml#option_history_greeks_second_order
+- name: option_history_greeks_third_order
+  description: Third Order Greeks — GET /option/history/greeks/third_order
+  source_operation: openapi/thetadata-history-api-openapi.yml#option_history_greeks_third_order
+- name: option_history_ohlc
+  description: Open High Low Close — GET /option/history/ohlc
+  source_operation: openapi/thetadata-history-api-openapi.yml#option_history_ohlc
+- name: option_history_open_interest
+  description: Open Interest — GET /option/history/open_interest
+  source_operation: openapi/thetadata-history-api-openapi.yml#option_history_open_interest
+- name: option_history_quote
+  description: Quote — GET /option/history/quote
+  source_operation: openapi/thetadata-history-api-openapi.yml#option_history_quote
+- name: option_history_trade
+  description: Trade — GET /option/history/trade
+  source_operation: openapi/thetadata-history-api-openapi.yml#option_history_trade
+- name: option_history_trade_greeks_all
+  description: All Trade Greeks — GET /option/history/trade_greeks/all
+  source_operation: openapi/thetadata-history-api-openapi.yml#option_history_trade_greeks_all
+- name: option_history_trade_greeks_first_order
+  description: First Order Trade Greeks — GET /option/history/trade_greeks/first_order
+  source_operation: openapi/thetadata-history-api-openapi.yml#option_history_trade_greeks_first_order
+- name: option_history_trade_greeks_implied_volatility
+  description: Trade Implied Volatility — GET /option/history/trade_greeks/implied_volatility
+  source_operation: openapi/thetadata-history-api-openapi.yml#option_history_trade_greeks_implied_volatility
+- name: option_history_trade_greeks_second_order
+  description: Second Order Trade Greeks — GET /option/history/trade_greeks/second_order
+  source_operation: openapi/thetadata-history-api-openapi.yml#option_history_trade_greeks_second_order
+- name: option_history_trade_greeks_third_order
+  description: Third Order Trade Greeks — GET /option/history/trade_greeks/third_order
+  source_operation: openapi/thetadata-history-api-openapi.yml#option_history_trade_greeks_third_order
+- name: option_history_trade_quote
+  description: Trade Quote — GET /option/history/trade_quote
+  source_operation: openapi/thetadata-history-api-openapi.yml#option_history_trade_quote
+- name: option_list_contracts
+  description: Contracts — GET /option/list/contracts/{request_type}
+  source_operation: openapi/thetadata-list-api-openapi.yml#option_list_contracts
+- name: option_list_dates
+  description: Dates — GET /option/list/dates/{request_type}
+  source_operation: openapi/thetadata-list-api-openapi.yml#option_list_dates
+- name: option_list_expirations
+  description: Expirations — GET /option/list/expirations
+  source_operation: openapi/thetadata-list-api-openapi.yml#option_list_expirations
+- name: option_list_strikes
+  description: Strikes — GET /option/list/strikes
+  source_operation: openapi/thetadata-list-api-openapi.yml#option_list_strikes
+- name: option_list_symbols
+  description: Symbols — GET /option/list/symbols
+  source_operation: openapi/thetadata-list-api-openapi.yml#option_list_symbols
+- name: option_snapshot_greeks_all
+  description: All Greeks — GET /option/snapshot/greeks/all
+  source_operation: openapi/thetadata-option-api-openapi.yml#option_snapshot_greeks_all
+- name: option_snapshot_greeks_first_order
+  description: First Order Greeks — GET /option/snapshot/greeks/first_order
+  source_operation: openapi/thetadata-option-api-openapi.yml#option_snapshot_greeks_first_order
+- name: option_snapshot_greeks_implied_volatility
+  description: Implied Volatility — GET /option/snapshot/greeks/implied_volatility
+  source_operation: openapi/thetadata-option-api-openapi.yml#option_snapshot_greeks_implied_volatility
+- name: option_snapshot_greeks_second_order
+  description: Second Order Greeks — GET /option/snapshot/greeks/second_order
+  source_operation: openapi/thetadata-option-api-openapi.yml#option_snapshot_greeks_second_order
+- name: option_snapshot_greeks_third_order
+  description: Third Order Greeks — GET /option/snapshot/greeks/third_order
+  source_operation: openapi/thetadata-option-api-openapi.yml#option_snapshot_greeks_third_order
+- name: option_snapshot_market_value
+  description: Market Value — GET /option/snapshot/market_value
+  source_operation: openapi/thetadata-option-api-openapi.yml#option_snapshot_market_value
+- name: option_snapshot_ohlc
+  description: Open High Low Close — GET /option/snapshot/ohlc
+  source_operation: openapi/thetadata-option-api-openapi.yml#option_snapshot_ohlc
+- name: option_snapshot_open_interest
+  description: Open Interest — GET /option/snapshot/open_interest
+  source_operation: openapi/thetadata-option-api-openapi.yml#option_snapshot_open_interest
+- name: option_snapshot_quote
+  description: Quote — GET /option/snapshot/quote
+  source_operation: openapi/thetadata-option-api-openapi.yml#option_snapshot_quote
+- name: option_snapshot_trade
+  description: Trade — GET /option/snapshot/trade
+  source_operation: openapi/thetadata-option-api-openapi.yml#option_snapshot_trade
+- name: stock_at_time_quote
+  description: Quote — GET /stock/at_time/quote
+  source_operation: openapi/thetadata-at-time-api-openapi.yml#stock_at_time_quote
+- name: stock_at_time_trade
+  description: Trade — GET /stock/at_time/trade
+  source_operation: openapi/thetadata-at-time-api-openapi.yml#stock_at_time_trade
+- name: stock_flat_file_eod
+  description: Stock Flat File EOD — GET /stock/flat_file/eod
+  source_operation: openapi/thetadata-flatfile-api-openapi.yml#stock_flat_file_eod
+- name: stock_flat_file_trade_quote
+  description: Stock Flat File Trade Quote — GET /stock/flat_file/trade_quote
+  source_operation: openapi/thetadata-flatfile-api-openapi.yml#stock_flat_file_trade_quote
+- name: stock_history_eod
+  description: End of Day — GET /stock/history/eod
+  source_operation: openapi/thetadata-history-api-openapi.yml#stock_history_eod
+- name: stock_history_ohlc
+  description: Open High Low Close — GET /stock/history/ohlc
+  source_operation: openapi/thetadata-history-api-openapi.yml#stock_history_ohlc
+- name: stock_history_quote
+  description: Quote — GET /stock/history/quote
+  source_operation: openapi/thetadata-history-api-openapi.yml#stock_history_quote
+- name: stock_history_trade
+  description: Trade — GET /stock/history/trade
+  source_operation: openapi/thetadata-history-api-openapi.yml#stock_history_trade
+- name: stock_history_trade_quote
+  description: Trade Quote — GET /stock/history/trade_quote
+  source_operation: openapi/thetadata-history-api-openapi.yml#stock_history_trade_quote
+- name: stock_list_dates
+  description: Dates — GET /stock/list/dates/{request_type}
+  source_operation: openapi/thetadata-list-api-openapi.yml#stock_list_dates
+- name: stock_list_symbols
+  description: Symbols — GET /stock/list/symbols
+  source_operation: openapi/thetadata-list-api-openapi.yml#stock_list_symbols
+- name: stock_snapshot_market_value
+  description: Market Value — GET /stock/snapshot/market_value
+  source_operation: openapi/thetadata-snapshot-api-openapi.yml#stock_snapshot_market_value
+- name: stock_snapshot_ohlc
+  description: Open High Low Close — GET /stock/snapshot/ohlc
+  source_operation: openapi/thetadata-snapshot-api-openapi.yml#stock_snapshot_ohlc
+- name: stock_snapshot_quote
+  description: Quote — GET /stock/snapshot/quote
+  source_operation: openapi/thetadata-snapshot-api-openapi.yml#stock_snapshot_quote
+- name: stock_snapshot_trade
+  description: Trade — GET /stock/snapshot/trade
+  source_operation: openapi/thetadata-snapshot-api-openapi.yml#stock_snapshot_trade

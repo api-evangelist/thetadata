@@ -1,0 +1,119 @@
+# Derived event surface — ThetaData publishes no AsyncAPI document; this file
+# is derived faithfully from the streaming documentation (message types,
+# channel pages, and connection rules). Never a provider-published artifact.
+asyncapi: 3.0.0
+info:
+  title: ThetaData Streaming WebSocket API (derived)
+  version: v1
+  description: >-
+    JSON WebSocket streaming of US stock trade/quote, option trade/quote/full-trade,
+    and index price/market-value streams, served locally by Theta Terminal v3.
+    A single connection per user is permitted; all stream messages arrive on
+    one endpoint and it is up to the consumer to distribute them. A STATUS
+    keep-alive message is sent every second. Requires a paid subscription with
+    streaming permissions (Standard/Pro tiers).
+  externalDocs:
+    url: https://docs.thetadata.us/Streaming/Getting-Started.html
+  x-provenance:
+    generated: '2026-07-22'
+    method: derived
+    source:
+      - https://docs.thetadata.us/Streaming/Getting-Started.html
+      - https://docs.thetadata.us/Streaming/US-Stocks/Trade-Stream.html
+      - https://docs.thetadata.us/Streaming/US-Stocks/Quote-Stream.html
+      - https://docs.thetadata.us/Streaming/US-Options/Trade-Stream.html
+      - https://docs.thetadata.us/Streaming/US-Options/Quote-Stream.html
+      - https://docs.thetadata.us/Streaming/US-Options/Full-Trade-Stream.html
+      - https://docs.thetadata.us/Streaming/US-Indices/Price-Stream.html
+      - https://docs.thetadata.us/Streaming/US-Indices/Market-Value-Stream.html
+defaultContentType: application/json
+servers:
+  theta-terminal:
+    host: 127.0.0.1:25520
+    protocol: ws
+    pathname: /v1/events
+    description: >-
+      Local Theta Terminal FPSS WebSocket endpoint. Streaming requests are sent
+      and all event messages received on this single connection. Connection
+      status is DISCONNECTED until the first request is made. FPSS region is
+      configurable ([fpss] fpss_region = fpss_nj_hosts | fpss_stage_hosts |
+      fpss_dev_hosts).
+channels:
+  events:
+    address: /v1/events
+    description: The single event channel carrying all STATUS, QUOTE, and TRADE messages.
+    messages:
+      status:
+        $ref: '#/components/messages/status'
+      quote:
+        $ref: '#/components/messages/quote'
+      trade:
+        $ref: '#/components/messages/trade'
+operations:
+  receiveEvents:
+    action: receive
+    channel:
+      $ref: '#/channels/events'
+    summary: Receive STATUS keep-alives and QUOTE/TRADE stream messages.
+components:
+  messages:
+    status:
+      name: STATUS
+      summary: Keep-alive sent every second with terminal-to-FPSS connectivity status.
+      payload:
+        type: object
+        properties:
+          header:
+            $ref: '#/components/schemas/header'
+    quote:
+      name: QUOTE
+      summary: NBBO quote event for a subscribed contract.
+      payload:
+        type: object
+        properties:
+          header:
+            $ref: '#/components/schemas/header'
+          contract:
+            $ref: '#/components/schemas/contract'
+    trade:
+      name: TRADE
+      summary: Trade event for a subscribed contract.
+      payload:
+        type: object
+        properties:
+          header:
+            $ref: '#/components/schemas/header'
+          contract:
+            $ref: '#/components/schemas/contract'
+  schemas:
+    header:
+      type: object
+      description: Present on every message; describes type and connectivity status.
+      properties:
+        status:
+          type: string
+          enum: [CONNECTED, DISCONNECTED]
+        type:
+          type: string
+          enum: [STATUS, QUOTE, TRADE]
+    contract:
+      type: object
+      description: >-
+        Present on QUOTE and TRADE messages. For options, strike is in 1/10th
+        of a cent ($140 strike = 140000).
+      properties:
+        security_type:
+          type: string
+          description: e.g. OPTION, STOCK, INDEX
+        root:
+          type: string
+          description: Underlying symbol (e.g. TTWO)
+        expiration:
+          type: integer
+          description: YYYYMMDD (options)
+        strike:
+          type: integer
+          description: Strike in 1/10th of a cent (options)
+        right:
+          type: string
+          enum: [C, P]

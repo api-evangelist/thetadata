@@ -1,0 +1,56 @@
+specification: API Commons Rate Limits
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/RateLimits
+provider: ThetaData
+providerId: thetadata
+generated: '2026-07-22'
+method: searched
+created: '2026-07-22'
+modified: '2026-07-22'
+tags:
+  - Market Data
+  - Rate Limiting
+description: >-
+  ThetaData does not rate-limit paid requests; it limits CONCURRENT requests,
+  account-wide, set by the highest subscription tier held across asset classes
+  (tiers do not stack — extra subscriptions add data scope, not throughput).
+  Requests beyond the concurrency limit are queued (default queue 16,
+  configurable up to 128); overflowing the queue returns 429. Free accounts
+  are additionally rate-limited per minute.
+sources:
+  - https://docs.thetadata.us/Articles/Data-And-Requests/Concurrent-Requests.html
+  - https://docs.thetadata.us/Articles/Getting-Started/Subscriptions.html
+responseCodes:
+  throttled: 429
+limits:
+  - name: Free tier requests
+    scope: account
+    metric: requests_per_minute
+    limit: 20
+    timeFrame: minute
+    notes: >-
+      "There is a 20-requests/minute rate limit imposed on free accounts"
+      (Subscriptions page, Free Data section); the tier tables on the same
+      page list FREE as "30 reqs/min" — both values recorded verbatim.
+  - name: FREE concurrent requests
+    scope: account
+    metric: concurrent_requests
+    limit: 1
+  - name: VALUE concurrent requests
+    scope: account
+    metric: concurrent_requests
+    limit: 2
+  - name: STANDARD concurrent requests
+    scope: account
+    metric: concurrent_requests
+    limit: 4
+  - name: PRO concurrent requests
+    scope: account
+    metric: concurrent_requests
+    limit: 8
+  - name: Request queue
+    scope: terminal
+    metric: queued_requests
+    limit: 16
+    notes: Default queue size; configurable up to 128 via request_queue_length. Overflow returns 429.
+limit_count: 6

@@ -1,0 +1,157 @@
+openapi: 3.1.0
+info:
+  title: Theta Data v3 At-Time Interest Rate API
+  description: Real-time and historic stock, options, and index data!
+  version: 3.0.0
+  x-java-package: net.thetadata.generated
+servers:
+- url: http://127.0.0.1:25503/v3
+  description: dev
+security: []
+tags:
+- name: Interest Rate
+paths:
+  /interest_rate/history/eod:
+    x-concurrent-limit-ttl-ms: '15'
+    x-min-subscription: free
+    get:
+      summary: End of Day
+      operationId: interest_rate_history_eod
+      x-codeSamples:
+      - lang: Python
+        label: pandas
+        source: "from thetadata import ThetaClient\nfrom datetime import date\n\nclient = ThetaClient(dataframe_type='pandas')\ndf = client.interest_rate_history_eod(\n    symbol='SOFR',\n    start_date=date(2025, 11, 4),\n    end_date=date(2025, 11, 8),\n)\n"
+      - lang: Python
+        label: polars
+        source: "from thetadata import ThetaClient\nfrom datetime import date\n\nclient = ThetaClient(dataframe_type='polars')\ndf = client.interest_rate_history_eod(\n    symbol='SOFR',\n    start_date=date(2025, 11, 4),\n    end_date=date(2025, 11, 8),\n)\n"
+      tags:
+      - Interest Rate
+      description: '- Returns the interest rate reported. Depending on the rate, reports can occur in the morning or the afternoon.
+
+        '
+      x-sample-urls:
+      - url: http://127.0.0.1:25503/v3/interest_rate/history/eod?symbol=SOFR&start_date=20251104&end_date=20251108
+        description: Returns the rate for a given symbol between specified dates (inclusive)
+      parameters:
+      - $ref: '#/components/parameters/single_symbol'
+      - $ref: '#/components/parameters/start_date'
+      - $ref: '#/components/parameters/end_date'
+      - $ref: '#/components/parameters/format'
+      responses:
+        '200':
+          description: Returns the interest rate for a given symbol between specified dates (inclusive)
+          content:
+            text/csv:
+              schema:
+                type: array
+                items: &id001
+                  type: object
+                  properties:
+                    created:
+                      type: string
+                      format: date
+                      description: The date formated as YYYY-MM-DD format.
+                    rate:
+                      type: number
+                      description: The interest rate express as a percent (i.e 1.25% is 1.25).
+              example: "created,rate\r\n 2025-11-04,4.0000\r\n 2025-11-05,3.9100\r\n 2025-11-06,3.9200\r\n 2025-11-07,3.9300\r\n 20251108,3.9400\r\n"
+            application/json:
+              schema: &id002
+                type: array
+                items: *id001
+              example: "{\n  \"response\": [\n    {\"rate\":4.0000,\"created\":\"2025-11-04\"}\n    {\"rate\":3.9100,\"created\":\"2025-11-05\"}\n    {\"rate\":3.9200,\"created\":\"2025-11-06\"}\n    {\"rate\":3.9300,\"created\":\"2025-11-07\"}\n    {\"rate\":3.9400,\"created\":\"2025-11-08\"}\n  ]\n}\n"
+            application/x-ndjson:
+              schema: *id002
+              example: '{"rate":4.0000,"created":"2025-11-04"}
+
+                {"rate":3.9100,"created":"2025-11-05"}
+
+                {"rate":3.9200,"created":"2025-11-06"}
+
+                {"rate":3.9300,"created":"2025-11-07"}
+
+                {"rate":3.9400,"created":"2025-11-08"}'
+            python/pandas:
+              schema: *id002
+              example: 'created  rate
+
+                0  2026-11-04  3.66
+
+                1  2026-11-05  3.66
+
+                2  2026-11-06  3.66
+
+                3  2026-11-07  3.66
+
+                4  2026-11-08  3.66
+
+                5  2026-11-09  3.66
+
+                '
+            python/polars:
+              schema: *id002
+              example: 'shape: (6, 2)
+
+                ┌────────────┬──────┐
+
+                │ created    ┆ rate │
+
+                │ ---        ┆ ---  │
+
+                │ str        ┆ f64  │
+
+                ╞════════════╪══════╡
+
+                │ 2026-11-04 ┆ 3.66 │
+
+                │ 2026-11-05 ┆ 3.66 │
+
+                │ 2026-11-06 ┆ 3.66 │
+
+                │ 2026-11-07 ┆ 3.66 │
+
+                │ 2026-11-08 ┆ 3.66 │
+
+                │ 2026-11-09 ┆ 3.66 │
+
+                └────────────┴──────┘
+
+                '
+components:
+  parameters:
+    start_date:
+      name: start_date
+      in: query
+      description: The start date (inclusive).
+      required: true
+      schema:
+        type: string
+        format: date
+    end_date:
+      name: end_date
+      in: query
+      description: The end date (inclusive).
+      required: true
+      schema:
+        type: string
+        format: date
+    format:
+      name: format
+      in: query
+      description: The format of the data when returned to the user.
+      required: false
+      schema:
+        type: string
+        enum:
+        - csv
+        - json
+        - ndjson
+        - html
+        default: csv
+    single_symbol:
+      name: symbol
+      in: query
+      description: The stock or index symbol, or underlying symbol for options.
+      required: true
+      schema:
+        type: string

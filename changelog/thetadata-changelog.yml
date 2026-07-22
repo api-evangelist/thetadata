@@ -1,0 +1,49 @@
+generated: '2026-07-22'
+method: searched
+source: https://www.thetadata.net/blog
+docs: https://www.thetadata.net/blog
+description: >-
+  ThetaData publishes no standalone changelog page; dated release announcements
+  are published on the company blog, and the Theta Terminal itself is
+  date-versioned (e.g. 20260615) and auto-updates on startup. Recent release
+  entries captured verbatim from blog post titles/dates; the blog is the source
+  of truth.
+versioning:
+  scheme: uri-path API version (v3) + date-versioned Theta Terminal builds
+  current: v3
+  detail: lifecycle/thetadata-lifecycle.yml
+entries:
+  - date: '2026-05-22'
+    title: Introducing Interest Rates
+    additions:
+      - Interest rate data API (SOFR + US Treasury tenors)
+    source: https://www.thetadata.net/blog/2026-05-22-introducing-interest-rates
+  - date: '2026-05-05'
+    title: Introducing the Theta Data Python Library
+    additions:
+      - Official Python library (PyPI thetadata) — direct HTTPS/gRPC access, no terminal required
+    source: https://www.thetadata.net/blog/2026-05-05-introducing-the-theta-data-python-library
+  - date: '2026-02-24'
+    title: Theta Data acquires QuantPy YouTube channel
+    source: https://www.thetadata.net/blog/2026-02-24-theta-data-acquires-quantpy-youtube-channel
+  - date: '2026-01-05'
+    title: 2025 Wrap Up
+    source: https://www.thetadata.net/blog/2026-01-05-2025-wrap-up
+  - date: '2025-08-06'
+    title: MCP now in Terminal v3 (beta)
+    additions:
+      - MCP server built into Theta Terminal v3 (SSE, documented for Claude CLI and Gemini CLI)
+    source: https://www.thetadata.net/blog/2025-08-06-mcp-now-in-terminal-v3-beta
+  - date: '2025-07-21'
+    title: REST API V3 (beta)
+    breaking:
+      - v3 replaces v2 endpoint layout (hist/bulk_hist merged into history; parameter renames)
+      - Next-page header pagination removed — single-query responses
+    additions:
+      - 3 output formats (csv, json, ndjson); doubled active requests; faster snapshots
+    source: https://www.thetadata.net/blog/2025-07-21-rest-api-v3-beta
+  - date: '2025-05-21'
+    title: Flat Files (beta)
+    additions:
+      - Flat-file bulk download endpoints
+    source: https://www.thetadata.net/blog/2025-05-21-flat-files-beta

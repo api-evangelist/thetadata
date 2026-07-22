@@ -1,0 +1,459 @@
+openapi: 3.1.0
+info:
+  title: Theta Data v3 At-Time FlatFile API
+  description: Real-time and historic stock, options, and index data!
+  version: 3.0.0
+  x-java-package: net.thetadata.generated
+servers:
+- url: http://127.0.0.1:25503/v3
+  description: dev
+security: []
+tags:
+- name: FlatFile
+paths:
+  /option/flat_file/trade_quote:
+    x-concurrent-limit-ttl-ms: '1800000'
+    x-hide-from-docs: true
+    x-min-subscription: professional
+    get:
+      summary: Option Flat File Trade Quote
+      operationId: option_flat_file_trade_quote
+      x-codeSamples:
+      - lang: Python
+        label: pandas
+        source: 'from thetadata import ThetaClient
+
+          from datetime import date
+
+
+          client = ThetaClient(dataframe_type=''pandas'')
+
+          df = client.option_flat_file_trade_quote(date=date(2024, 1, 2))
+
+          '
+      - lang: Python
+        label: polars
+        source: 'from thetadata import ThetaClient
+
+          from datetime import date
+
+
+          client = ThetaClient(dataframe_type=''polars'')
+
+          df = client.option_flat_file_trade_quote(date=date(2024, 1, 2))
+
+          '
+      tags:
+      - FlatFile
+      description: 'Bulk download all option trade/quote ticks for a given date as a CSV stream. Returns one row per tick, grouped by contract. Requires a Professional options subscription.
+
+        '
+      parameters:
+      - $ref: '#/components/parameters/date'
+      - $ref: '#/components/parameters/format'
+      responses:
+        '200':
+          description: CSV stream of all option trade/quote ticks for the given date
+          content:
+            text/csv:
+              schema:
+                type: array
+                items: &id001
+                  type: object
+                  properties:
+                    root:
+                      type: string
+                      description: The option root symbol.
+                    expiration:
+                      type: string
+                      format: date
+                      description: Expiration date of the contract in YYYY-MM-DD format.
+                    strike:
+                      type: number
+                      description: Strike price.
+                    right:
+                      type: string
+                      description: C for call, P for put.
+                    ms_of_day:
+                      type: integer
+                      description: Milliseconds since midnight.
+                    date:
+                      type: integer
+                      description: Date as YYYYMMDD integer.
+            application/json:
+              schema: &id002
+                type: array
+                items: *id001
+            application/x-ndjson:
+              schema: *id002
+  /option/flat_file/eod:
+    x-concurrent-limit-ttl-ms: '1800000'
+    x-hide-from-docs: true
+    x-min-subscription: professional
+    get:
+      summary: Option Flat File EOD
+      operationId: option_flat_file_eod
+      x-codeSamples:
+      - lang: Python
+        label: pandas
+        source: 'from thetadata import ThetaClient
+
+          from datetime import date
+
+
+          client = ThetaClient(dataframe_type=''pandas'')
+
+          df = client.option_flat_file_eod(date=date(2024, 1, 2))
+
+          '
+      - lang: Python
+        label: polars
+        source: 'from thetadata import ThetaClient
+
+          from datetime import date
+
+
+          client = ThetaClient(dataframe_type=''polars'')
+
+          df = client.option_flat_file_eod(date=date(2024, 1, 2))
+
+          '
+      tags:
+      - FlatFile
+      description: 'Bulk download all option end-of-day ticks for a given date as a CSV stream. Returns one row per tick, grouped by contract. Requires a Professional options subscription.
+
+        '
+      parameters:
+      - $ref: '#/components/parameters/date'
+      - $ref: '#/components/parameters/format'
+      responses:
+        '200':
+          description: CSV stream of all option EOD ticks for the given date
+          content:
+            text/csv:
+              schema:
+                type: array
+                items: &id003
+                  type: object
+                  properties:
+                    root:
+                      type: string
+                      description: The option root symbol.
+                    expiration:
+                      type: string
+                      format: date
+                      description: Expiration date of the contract in YYYY-MM-DD format.
+                    strike:
+                      type: number
+                      description: Strike price.
+                    right:
+                      type: string
+                      description: C for call, P for put.
+                    ms_of_day:
+                      type: integer
+                      description: Milliseconds since midnight.
+                    date:
+                      type: integer
+                      description: Date as YYYYMMDD integer.
+            application/json:
+              schema: &id004
+                type: array
+                items: *id003
+            application/x-ndjson:
+              schema: *id004
+  /option/flat_file/open_interest:
+    x-concurrent-limit-ttl-ms: '1800000'
+    x-hide-from-docs: true
+    x-min-subscription: professional
+    get:
+      summary: Option Flat File Open Interest
+      operationId: option_flat_file_open_interest
+      x-codeSamples:
+      - lang: Python
+        label: pandas
+        source: 'from thetadata import ThetaClient
+
+          from datetime import date
+
+
+          client = ThetaClient(dataframe_type=''pandas'')
+
+          df = client.option_flat_file_open_interest(date=date(2024, 1, 2))
+
+          '
+      - lang: Python
+        label: polars
+        source: 'from thetadata import ThetaClient
+
+          from datetime import date
+
+
+          client = ThetaClient(dataframe_type=''polars'')
+
+          df = client.option_flat_file_open_interest(date=date(2024, 1, 2))
+
+          '
+      tags:
+      - FlatFile
+      description: 'Bulk download all option open interest ticks for a given date as a CSV stream. Returns one row per tick, grouped by contract. Requires a Professional options subscription.
+
+        '
+      parameters:
+      - $ref: '#/components/parameters/date'
+      - $ref: '#/components/parameters/format'
+      responses:
+        '200':
+          description: CSV stream of all option open interest ticks for the given date
+          content:
+            text/csv:
+              schema:
+                type: array
+                items: &id005
+                  type: object
+                  properties:
+                    root:
+                      type: string
+                      description: The option root symbol.
+                    expiration:
+                      type: string
+                      format: date
+                      description: Expiration date of the contract in YYYY-MM-DD format.
+                    strike:
+                      type: number
+                      description: Strike price.
+                    right:
+                      type: string
+                      description: C for call, P for put.
+                    ms_of_day:
+                      type: integer
+                      description: Milliseconds since midnight.
+                    open_interest:
+                      type: integer
+                      description: Open interest.
+                    date:
+                      type: integer
+                      description: Date as YYYYMMDD integer.
+            application/json:
+              schema: &id006
+                type: array
+                items: *id005
+            application/x-ndjson:
+              schema: *id006
+  /stock/flat_file/trade_quote:
+    x-concurrent-limit-ttl-ms: '1800000'
+    x-hide-from-docs: true
+    x-min-subscription: professional
+    get:
+      summary: Stock Flat File Trade Quote
+      operationId: stock_flat_file_trade_quote
+      x-codeSamples:
+      - lang: Python
+        label: pandas
+        source: 'from thetadata import ThetaClient
+
+          from datetime import date
+
+
+          client = ThetaClient(dataframe_type=''pandas'')
+
+          df = client.stock_flat_file_trade_quote(date=date(2024, 1, 2))
+
+          '
+      - lang: Python
+        label: polars
+        source: 'from thetadata import ThetaClient
+
+          from datetime import date
+
+
+          client = ThetaClient(dataframe_type=''polars'')
+
+          df = client.stock_flat_file_trade_quote(date=date(2024, 1, 2))
+
+          '
+      tags:
+      - FlatFile
+      description: 'Bulk download all stock trade/quote ticks for a given date as a CSV stream. Returns one row per tick, grouped by symbol. Requires a Professional stock subscription.
+
+        '
+      parameters:
+      - $ref: '#/components/parameters/date'
+      - $ref: '#/components/parameters/format'
+      responses:
+        '200':
+          description: CSV stream of all stock trade/quote ticks for the given date
+          content:
+            text/csv:
+              schema:
+                type: array
+                items: &id007
+                  type: object
+                  properties:
+                    root:
+                      type: string
+                      description: The stock symbol.
+                    ms_of_day:
+                      type: integer
+                      description: Milliseconds since midnight.
+                    date:
+                      type: integer
+                      description: Date as YYYYMMDD integer.
+            application/json:
+              schema: &id008
+                type: array
+                items: *id007
+            application/x-ndjson:
+              schema: *id008
+  /stock/flat_file/eod:
+    x-concurrent-limit-ttl-ms: '1800000'
+    x-hide-from-docs: true
+    x-min-subscription: professional
+    get:
+      summary: Stock Flat File EOD
+      operationId: stock_flat_file_eod
+      x-codeSamples:
+      - lang: Python
+        label: pandas
+        source: 'from thetadata import ThetaClient
+
+          from datetime import date
+
+
+          client = ThetaClient(dataframe_type=''pandas'')
+
+          df = client.stock_flat_file_eod(date=date(2024, 1, 2))
+
+          '
+      - lang: Python
+        label: polars
+        source: 'from thetadata import ThetaClient
+
+          from datetime import date
+
+
+          client = ThetaClient(dataframe_type=''polars'')
+
+          df = client.stock_flat_file_eod(date=date(2024, 1, 2))
+
+          '
+      tags:
+      - FlatFile
+      description: 'Bulk download all stock end-of-day ticks for a given date as a CSV stream. Returns one row per tick, grouped by symbol. Requires a Professional stock subscription.
+
+        '
+      parameters:
+      - $ref: '#/components/parameters/date'
+      - $ref: '#/components/parameters/format'
+      responses:
+        '200':
+          description: CSV stream of all stock EOD ticks for the given date
+          content:
+            text/csv:
+              schema:
+                type: array
+                items: &id009
+                  type: object
+                  properties:
+                    root:
+                      type: string
+                      description: The stock symbol.
+                    ms_of_day:
+                      type: integer
+                      description: Milliseconds since midnight.
+                    date:
+                      type: integer
+                      description: Date as YYYYMMDD integer.
+            application/json:
+              schema: &id010
+                type: array
+                items: *id009
+            application/x-ndjson:
+              schema: *id010
+  /index/flat_file/eod:
+    x-concurrent-limit-ttl-ms: '1800000'
+    x-hide-from-docs: true
+    x-min-subscription: professional
+    get:
+      summary: Index Flat File EOD
+      operationId: index_flat_file_eod
+      x-codeSamples:
+      - lang: Python
+        label: pandas
+        source: 'from thetadata import ThetaClient
+
+          from datetime import date
+
+
+          client = ThetaClient(dataframe_type=''pandas'')
+
+          df = client.index_flat_file_eod(date=date(2024, 1, 2))
+
+          '
+      - lang: Python
+        label: polars
+        source: 'from thetadata import ThetaClient
+
+          from datetime import date
+
+
+          client = ThetaClient(dataframe_type=''polars'')
+
+          df = client.index_flat_file_eod(date=date(2024, 1, 2))
+
+          '
+      tags:
+      - FlatFile
+      description: 'Bulk download all index end-of-day ticks for a given date as a CSV stream. Returns one row per tick, grouped by symbol. Requires a Professional indices subscription.
+
+        '
+      parameters:
+      - $ref: '#/components/parameters/date'
+      - $ref: '#/components/parameters/format'
+      responses:
+        '200':
+          description: CSV stream of all index EOD ticks for the given date
+          content:
+            text/csv:
+              schema:
+                type: array
+                items: &id011
+                  type: object
+                  properties:
+                    root:
+                      type: string
+                      description: The index symbol.
+                    ms_of_day:
+                      type: integer
+                      description: Milliseconds since midnight.
+                    date:
+                      type: integer
+                      description: Date as YYYYMMDD integer.
+            application/json:
+              schema: &id012
+                type: array
+                items: *id011
+            application/x-ndjson:
+              schema: *id012
+components:
+  parameters:
+    format:
+      name: format
+      in: query
+      description: The format of the data when returned to the user.
+      required: false
+      schema:
+        type: string
+        enum:
+        - csv
+        - json
+        - ndjson
+        - html
+        default: csv
+    date:
+      name: date
+      in: query
+      description: The date to fetch data for.
+      required: true
+      schema:
+        type: string
+        format: date

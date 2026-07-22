@@ -1,0 +1,90 @@
+specification: API Commons Plans
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/Plans
+provider: ThetaData
+providerId: thetadata
+generated: '2026-07-22'
+method: searched
+created: '2026-07-22'
+modified: '2026-07-22'
+tags:
+  - Market Data
+  - Options
+  - Stocks
+description: >-
+  ThetaData sells tiered monthly subscriptions per asset class (Options,
+  Stocks, Indices, Interest Rates); the account's highest tier sets the
+  account-wide concurrency. Retail pricing is for individual use; commercial
+  licensing is separate. Options-class prices captured from the public pricing
+  page (monthly, at capture 2026-07-22); other asset classes are priced on the
+  same page behind tab navigation.
+sources:
+  - https://thetadata.net/pricing
+  - https://docs.thetadata.us/Articles/Getting-Started/Subscriptions.html
+plans:
+  - id: thetadata-free
+    name: FREE
+    type: free
+    price: 0
+    currency: USD
+    period: month
+    entries:
+      - 1 year of historical EOD data for US stocks and options
+      - 20 requests/minute rate limit (tier tables list 30 reqs/min)
+      - 1 concurrent request
+      - No index or streaming access
+  - id: thetadata-options-value
+    name: Options Value
+    type: subscription
+    price: 40
+    currency: USD
+    period: month
+    entries:
+      - 100% market coverage; US index & stock symbols
+      - Real-time access, unlimited requests, 3 request types
+      - 4 years of data, 1-minute intervals
+      - 2 concurrent requests (account-wide, by highest tier)
+  - id: thetadata-options-standard
+    name: Options Standard
+    type: subscription
+    price: 80
+    currency: USD
+    period: month
+    entries:
+      - 7 request types, 8 years of data, tick-level data
+      - Option chain snapshots; 15K trade streams
+      - Every NBBO quote reported by OPRA
+      - 4 concurrent requests (account-wide, by highest tier)
+  - id: thetadata-options-pro
+    name: Options Pro
+    type: subscription
+    price: 160
+    currency: USD
+    period: month
+    entries:
+      - 12 request types, 12 years of data, tick-level data
+      - Option root snapshots; stream every option trade (full trade stream)
+      - Every NBBO quote reported by OPRA
+      - 8 concurrent requests (account-wide, by highest tier)
+  - id: thetadata-stocks-tiers
+    name: Stocks (VALUE / STANDARD / PRO)
+    type: subscription
+    entries:
+      - 'VALUE: 1-minute granularity from 2021-01-01, 15-minute delayed'
+      - 'STANDARD: 1-minute from 2016-01-01, real-time'
+      - 'PRO: tick-level from 2012-06-01, real-time'
+  - id: thetadata-indices-tiers
+    name: Indices (VALUE / STANDARD / PRO)
+    type: subscription
+    entries:
+      - 'VALUE: 15-minute granularity from 2023-01-01, 15-minute delayed'
+      - 'STANDARD: lowest venue-reported granularity from 2022-01-01, real-time'
+      - 'PRO: lowest venue-reported granularity from 2017-01-01, real-time; NDX and Nasdaq GIDS symbols require PRO'
+  - id: thetadata-interest-rates-tiers
+    name: Interest Rates (FREE / VALUE)
+    type: subscription
+    entries:
+      - 'FREE: EOD from 2024-01-01'
+      - 'VALUE: EOD from 1970-01-01'
+      - SOFR and US Treasury tenors (1M-30Y), reported daily
+plan_count: 7

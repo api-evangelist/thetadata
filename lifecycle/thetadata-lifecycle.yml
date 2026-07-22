@@ -1,0 +1,39 @@
+generated: '2026-07-22'
+method: searched
+source: >-
+  https://docs.thetadata.us/Articles/Getting-Started/v2-migration-guide.html,
+  https://docs.thetadata.us/v2tov3.html, https://thetadata.statuspage.io/,
+  https://thetadata.net/roadmap,
+  https://www.thetadata.net/blog/2025-07-21-rest-api-v3-beta.
+versioning:
+  scheme: uri-path
+  current: v3
+  base_path: /v3
+  docs: https://docs.thetadata.us/
+  notes: >-
+    v3 (Theta Terminal v3, local REST at 127.0.0.1:25503/v3) is the current
+    version and the only one covered by docs.thetadata.us; v2 remains
+    documented separately at https://http-docs.thetadata.us/ for legacy users.
+    The Theta Terminal itself is date-versioned (e.g. version 20260615 required
+    for API-key auth) and auto-updates on startup with automatic fallback to
+    the previous version on failure.
+deprecation:
+  policy_url: https://docs.thetadata.us/Articles/Getting-Started/v2-migration-guide.html
+  sunset_header: false
+  notes: >-
+    v2 endpoints are superseded by v3; the migration guide maps every v2
+    endpoint and parameter to its v3 replacement and lists removed features
+    (e.g. /v2/hist/stock/split and /v2/hist/stock/dividend are "Coming Soon"
+    in v3; bulk requests replaced by * wildcards; the v2 next-page pagination
+    header was eliminated in v3). No RFC 8594 Sunset/Deprecation headers are
+    documented.
+sla:
+  url: null
+  uptime_target: null
+  notes: No public SLA published; support is via Discord.
+status_page: https://thetadata.statuspage.io/
+roadmap: https://thetadata.net/roadmap
+deprecated_operations: []
+notes: >-
+  No operation in the v3 OpenAPI is marked deprecated: true. Deprecation
+  activity in this generation is the wholesale v2 to v3 migration.

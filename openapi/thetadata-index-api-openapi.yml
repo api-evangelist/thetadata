@@ -1,0 +1,1418 @@
+openapi: 3.1.0
+info:
+  title: Theta Data v3 At-Time Index API
+  description: Real-time and historic stock, options, and index data!
+  version: 3.0.0
+  x-java-package: net.thetadata.generated
+servers:
+- url: http://127.0.0.1:25503/v3
+  description: dev
+security: []
+tags:
+- name: Index
+paths:
+  /index/list/symbols:
+    x-concurrent-limit-ttl-ms: '334'
+    x-min-subscription: free
+    get:
+      summary: Symbols
+      operationId: index_list_symbols
+      x-codeSamples:
+      - lang: Python
+        label: pandas
+        source: 'from thetadata import ThetaClient
+
+
+          client = ThetaClient(dataframe_type=''pandas'')
+
+          df = client.index_list_symbols()
+
+          '
+      - lang: Python
+        label: polars
+        source: 'from thetadata import ThetaClient
+
+
+          client = ThetaClient(dataframe_type=''polars'')
+
+          df = client.index_list_symbols()
+
+          '
+      tags:
+      - Index
+      description: 'A symbol can be defined as a unique identifier for a stock / underlying asset. Common terms also include: root, ticker, and underlying. This endpoint returns all traded symbols for options. This endpoint is updated overnight.
+
+        '
+      x-sample-urls:
+      - url: http://127.0.0.1:25503/v3/index/list/symbols
+        description: List all symbols for indices
+      - url: http://127.0.0.1:25503/v3/index/list/symbols?format=html
+        description: Click to open in browser (HTML)
+      parameters:
+      - $ref: '#/components/parameters/format'
+      responses:
+        '200':
+          description: List all symbols for indices
+          content:
+            text/csv:
+              schema:
+                type: array
+                items: &id001
+                  type: object
+                  properties:
+                    symbol:
+                      type: string
+                      description: The symbol of the contract, or stock / underlying asset / option / index.
+              example: "symbol\r\nAASGI\r\nAASUS\r\nACNAC\r\nACNIT\r\nACNRE\r\n"
+            application/json:
+              schema: &id002
+                type: array
+                items: *id001
+              example: "{\n  \"response\": [\n    {\"symbol\":\"AASGI\"},\n    {\"symbol\":\"AASUS\"},\n    {\"symbol\":\"ACNAC\"},\n    {\"symbol\":\"ACNIT\"},\n    {\"symbol\":\"ACNRE\"}\n  ]\n}\n"
+            application/x-ndjson:
+              schema: *id002
+              example: '{"symbol":"AASGI"}
+
+                {"symbol":"AASUS"}
+
+                {"symbol":"ACNAC"}
+
+                {"symbol":"ACNIT"}
+
+                {"symbol":"ACNRE"}'
+            python/pandas:
+              schema: *id002
+              example: "symbol\n0               \n1      .MSDXUTPU\n2       1500GNTR\n3         1500PG\n4       1500PGTR\n...          ...\n13195    ZRX200K\n13196    ZRX3KRP\n13197      ZSLIV\n13198     ZVOLIV\n13199        ZYA\n\n[13200 rows x 1 columns]\n"
+            python/polars:
+              schema: *id002
+              example: 'shape: (13_200, 1)
+
+                ┌───────────┐
+
+                │ symbol    │
+
+                │ ---       │
+
+                │ str       │
+
+                ╞═══════════╡
+
+                │           │
+
+                │ .MSDXUTPU │
+
+                │ 1500GNTR  │
+
+                │ 1500PG    │
+
+                │ 1500PGTR  │
+
+                │ …         │
+
+                │ ZRX200K   │
+
+                │ ZRX3KRP   │
+
+                │ ZSLIV     │
+
+                │ ZVOLIV    │
+
+                │ ZYA       │
+
+                └───────────┘
+
+                '
+  /index/list/dates:
+    x-concurrent-limit-ttl-ms: '12'
+    x-min-subscription: free
+    get:
+      summary: Dates
+      operationId: index_list_dates
+      x-codeSamples:
+      - lang: Python
+        label: pandas
+        source: 'from thetadata import ThetaClient
+
+
+          client = ThetaClient(dataframe_type=''pandas'')
+
+          df = client.index_list_dates(symbol=[''SPX''])
+
+          '
+      - lang: Python
+        label: polars
+        source: 'from thetadata import ThetaClient
+
+
+          client = ThetaClient(dataframe_type=''polars'')
+
+          df = client.index_list_dates(symbol=[''SPX''])
+
+          '
+      tags:
+      - Index
+      description: 'Lists all dates of data that are available for a index with a given request type and symbol. This endpoint is updated overnight.
+
+        '
+      x-sample-urls:
+      - url: http://127.0.0.1:25503/v3/index/list/dates?symbol=SPX
+        description: List all dates for a index for a given symbol
+      - url: http://127.0.0.1:25503/v3/index/list/dates?symbol=SPX&format=html
+        description: Click to open in browser (HTML)
+      parameters:
+      - $ref: '#/components/parameters/multi_symbol'
+      - $ref: '#/components/parameters/format'
+      responses:
+        '200':
+          description: List all dates for a index for a given symbol
+          content:
+            text/csv:
+              schema:
+                type: array
+                items: &id003
+                  type: object
+                  properties:
+                    date:
+                      type: string
+                      format: date
+                      description: The date formated as YYYY-MM-DD.
+              example: "date\r\n2023-04-17\r\n2023-04-18\r\n2023-04-19\r\n2023-04-20\r\n2023-04-21\r\n"
+            application/json:
+              schema: &id004
+                type: array
+                items: *id003
+              example: "{\n  \"response\": [\n    {\"date\":\"2023-04-17\"},\n    {\"date\":\"2023-04-18\"},\n    {\"date\":\"2023-04-19\"},\n    {\"date\":\"2023-04-20\"},\n    {\"date\":\"2023-04-21\"}\n  ]\n}\n"
+            application/x-ndjson:
+              schema: *id004
+              example: '{"date":"2023-04-17"}
+
+                {"date":"2023-04-18"}
+
+                {"date":"2023-04-19"}
+
+                {"date":"2023-04-20"}
+
+                {"date":"2023-04-21"}'
+            python/pandas:
+              schema: *id004
+              example: 'date
+
+                0     2017-01-03
+
+                1     2017-01-04
+
+                2     2017-01-05
+
+                3     2017-01-06
+
+                4     2017-01-09
+
+                ...          ...
+
+                2335  2026-04-20
+
+                2336  2026-04-21
+
+                2337  2026-04-22
+
+                2338  2026-04-23
+
+                2339  2026-04-24
+
+
+                [2340 rows x 1 columns]
+
+                '
+            python/polars:
+              schema: *id004
+              example: 'shape: (2_340, 1)
+
+                ┌────────────┐
+
+                │ date       │
+
+                │ ---        │
+
+                │ str        │
+
+                ╞════════════╡
+
+                │ 2017-01-03 │
+
+                │ 2017-01-04 │
+
+                │ 2017-01-05 │
+
+                │ 2017-01-06 │
+
+                │ 2017-01-09 │
+
+                │ …          │
+
+                │ 2026-04-20 │
+
+                │ 2026-04-21 │
+
+                │ 2026-04-22 │
+
+                │ 2026-04-23 │
+
+                │ 2026-04-24 │
+
+                └────────────┘
+
+                '
+  /index/snapshot/ohlc:
+    x-skip-concurrent-limit: true
+    x-min-subscription: standard
+    get:
+      summary: Open High Low Close
+      operationId: index_snapshot_ohlc
+      x-codeSamples:
+      - lang: Python
+        label: pandas
+        source: 'from thetadata import ThetaClient
+
+
+          client = ThetaClient(dataframe_type=''pandas'')
+
+          df = client.index_snapshot_ohlc(symbol=[''SPX''])
+
+          '
+      - lang: Python
+        label: polars
+        source: 'from thetadata import ThetaClient
+
+
+          client = ThetaClient(dataframe_type=''polars'')
+
+          df = client.index_snapshot_ohlc(symbol=[''SPX''])
+
+          '
+      tags:
+      - Index
+      description: '- Retrieves the real-time current day OHLC.
+
+        - [Exchanges](/Articles/Data-And-Requests/The-SIPs.html) typically generate a price report every second for popular indices like SPX.
+
+        '
+      x-sample-urls:
+      - url: http://127.0.0.1:25503/v3/index/snapshot/ohlc?symbol=SPX
+        description: Returns OHLC for a given index price change
+      - url: http://127.0.0.1:25503/v3/index/snapshot/ohlc?symbol=SPX&format=html
+        description: Click to open in browser (HTML)
+      parameters:
+      - $ref: '#/components/parameters/multi_symbol'
+      - $ref: '#/components/parameters/min_time'
+      - $ref: '#/components/parameters/format'
+      responses:
+        '200':
+          description: Returns OHLC for a given index price change
+          content:
+            text/csv:
+              schema:
+                type: array
+                items: &id005
+                  type: object
+                  properties:
+                    timestamp:
+                      type: string
+                      format: date-time
+                      description: The timestamp in YYYY-MM-DDTHH:mm:ss.SSS format.
+                    symbol:
+                      type: string
+                      description: The symbol of the contract, or stock / underlying asset / option / index.
+                    open:
+                      type: number
+                      description: The opening trade price.
+                    high:
+                      type: number
+                      description: The highest traded price.
+                    low:
+                      type: number
+                      description: The lowest traded price.
+                    close:
+                      type: number
+                      description: The closing traded price.
+                    volume:
+                      type: integer
+                      description: The amount of contracts / shares traded.
+                    count:
+                      type: integer
+                      description: The amount of trades.
+              example: "timestamp,symbol,open,high,low,close,volume,count\r\n2025-08-20T16:02:06,SPX,6406.62,6408.40,6343.86,6395.78,0,0\r\n"
+            application/json:
+              schema: &id006
+                type: array
+                items: *id005
+              example: "{\n  \"response\": [\n     {\"volume\":0,\"symbol\":\"SPX\",\"high\":6408.40,\"low\":6343.86,\"count\":0,\"close\":6395.78,\"open\":6406.62,\"timestamp\":\"2025-08-20T16:02:06\"}\n  ]\n}\n"
+            application/x-ndjson:
+              schema: *id006
+              example: '{"volume":0,"symbol":"SPX","high":6408.40,"low":6343.86,"count":0,"close":6395.78,"open":6406.62,"timestamp":"2025-08-20T16:02:06"}'
+            python/pandas:
+              schema: *id006
+              example: 'timestamp symbol     open    high      low    close  volume  count
+
+                0 2026-04-27 12:13:45-04:00    SPX  7152.72  7167.7  7146.72  7163.15       0      0
+
+                '
+            python/polars:
+              schema: *id006
+              example: 'shape: (1, 8)
+
+                ┌────────────────────────────────┬────────┬─────────┬────────┬─────────┬─────────┬────────┬───────┐
+
+                │ timestamp                      ┆ symbol ┆ open    ┆ high   ┆ low     ┆ close   ┆ volume ┆ count │
+
+                │ ---                            ┆ ---    ┆ ---     ┆ ---    ┆ ---     ┆ ---     ┆ ---    ┆ ---   │
+
+                │ datetime[ms, America/New_York] ┆ str    ┆ f64     ┆ f64    ┆ f64     ┆ f64     ┆ i64    ┆ i64   │
+
+                ╞════════════════════════════════╪════════╪═════════╪════════╪═════════╪═════════╪════════╪═══════╡
+
+                │ 2026-04-27 12:13:45 EDT        ┆ SPX    ┆ 7152.72 ┆ 7167.7 ┆ 7146.72 ┆ 7163.15 ┆ 0      ┆ 0     │
+
+                └────────────────────────────────┴────────┴─────────┴────────┴─────────┴─────────┴────────┴───────┘
+
+                '
+  /index/snapshot/price:
+    x-skip-concurrent-limit: true
+    x-min-subscription: standard
+    get:
+      summary: Price
+      operationId: index_snapshot_price
+      x-codeSamples:
+      - lang: Python
+        label: pandas
+        source: 'from thetadata import ThetaClient
+
+
+          client = ThetaClient(dataframe_type=''pandas'')
+
+          df = client.index_snapshot_price(symbol=[''SPX''])
+
+          '
+      - lang: Python
+        label: polars
+        source: 'from thetadata import ThetaClient
+
+
+          client = ThetaClient(dataframe_type=''polars'')
+
+          df = client.index_snapshot_price(symbol=[''SPX''])
+
+          '
+      tags:
+      - Index
+      description: '- Retrieves a real-time last index price.
+
+        - [Exchanges](/Articles/Data-And-Requests/The-SIPs.html) typically generate a price report every second for popular indices like SPX.
+
+        '
+      x-sample-urls:
+      - url: http://127.0.0.1:25503/v3/index/snapshot/price?symbol=SPX
+        description: Returns last index price
+      - url: http://127.0.0.1:25503/v3/index/snapshot/price?symbol=SPX&format=html
+        description: Click to open in browser (HTML)
+      parameters:
+      - $ref: '#/components/parameters/multi_symbol'
+      - $ref: '#/components/parameters/min_time'
+      - $ref: '#/components/parameters/format'
+      responses:
+        '200':
+          description: Returns last index price
+          content:
+            text/csv:
+              schema:
+                type: array
+                items: &id007
+                  type: object
+                  properties:
+                    timestamp:
+                      type: string
+                      format: date-time
+                      description: The timestamp in YYYY-MM-DDTHH:mm:ss.SSS format.
+                    symbol:
+                      type: string
+                      description: The symbol of the contract, or stock / underlying asset / option / index.
+                    price:
+                      type: number
+                      description: The trade price.
+              example: "timestamp,symbol,price\r\n2025-08-20T16:02:06,SPX,6395.78\r\n"
+            application/json:
+              schema: &id008
+                type: array
+                items: *id007
+              example: "{\n  \"response\": [\n    {\"symbol\":\"SPX\",\"price\":6395.78,\"timestamp\":\"2025-08-20T16:02:06\"}\n  ]\n}\n"
+            application/x-ndjson:
+              schema: *id008
+              example: '{"symbol":"SPX","price":6395.78,"timestamp":"2025-08-20T16:02:06"}'
+            python/pandas:
+              schema: *id008
+              example: 'timestamp symbol    price
+
+                0 2026-04-27 12:13:45-04:00    SPX  7163.15
+
+                '
+            python/polars:
+              schema: *id008
+              example: 'shape: (1, 3)
+
+                ┌────────────────────────────────┬────────┬─────────┐
+
+                │ timestamp                      ┆ symbol ┆ price   │
+
+                │ ---                            ┆ ---    ┆ ---     │
+
+                │ datetime[ms, America/New_York] ┆ str    ┆ f64     │
+
+                ╞════════════════════════════════╪════════╪═════════╡
+
+                │ 2026-04-27 12:13:46 EDT        ┆ SPX    ┆ 7163.21 │
+
+                └────────────────────────────────┴────────┴─────────┘
+
+                '
+  /index/snapshot/market_value:
+    x-skip-concurrent-limit: true
+    x-min-subscription: standard
+    get:
+      summary: Market Value
+      operationId: index_snapshot_market_value
+      x-codeSamples:
+      - lang: Python
+        label: pandas
+        source: 'from thetadata import ThetaClient
+
+
+          client = ThetaClient(dataframe_type=''pandas'')
+
+          df = client.index_snapshot_market_value(symbol=[''SPX''])
+
+          '
+      - lang: Python
+        label: polars
+        source: 'from thetadata import ThetaClient
+
+
+          client = ThetaClient(dataframe_type=''polars'')
+
+          df = client.index_snapshot_market_value(symbol=[''SPX''])
+
+          '
+      tags:
+      - Index
+      description: '- Retrieves a real-time last index market value.
+
+        - [Exchanges](/Articles/Data-And-Requests/The-SIPs.html) typically generate a price report every second for popular indices like SPX.
+
+        '
+      x-sample-urls:
+      - url: http://127.0.0.1:25503/v3/index/snapshot/market_value?symbol=SPX
+        description: Returns last market value
+      - url: http://127.0.0.1:25503/v3/index/snapshot/market_value?symbol=SPX&format=html
+        description: Click to open in browser (HTML)
+      parameters:
+      - $ref: '#/components/parameters/multi_symbol'
+      - $ref: '#/components/parameters/min_time'
+      - $ref: '#/components/parameters/format'
+      responses:
+        '200':
+          description: Returns last index market value
+          content:
+            text/csv:
+              schema:
+                type: array
+                items: &id009
+                  type: object
+                  properties:
+                    timestamp:
+                      type: string
+                      format: date-time
+                      description: The timestamp in YYYY-MM-DDTHH:mm:ss.SSS format.
+                    symbol:
+                      type: string
+                      description: The symbol of the contract, or stock / underlying asset / option / index.
+                    market_price:
+                      type: number
+                      description: The index market price.
+              example: "timestamp,symbol,market_price\r\n2025-08-20T16:02:06,SPX,6395.81\r\n"
+            application/json:
+              schema: &id010
+                type: array
+                items: *id009
+              example: "{\n  \"response\": [\n    {\"symbol\":\"SPX\",\"market_price\":6395.81,\"timestamp\":\"2025-08-20T16:02:06\"}\n  ]\n}\n"
+            application/x-ndjson:
+              schema: *id010
+              example: '{"symbol":"SPX","market_price":6395.81,"timestamp":"2025-08-20T16:02:06"}'
+            python/pandas:
+              schema: *id010
+              example: 'timestamp symbol  market_price
+
+                0 2026-04-27 12:13:46-04:00    SPX       7163.18
+
+                '
+            python/polars:
+              schema: *id010
+              example: 'shape: (1, 3)
+
+                ┌────────────────────────────────┬────────┬──────────────┐
+
+                │ timestamp                      ┆ symbol ┆ market_price │
+
+                │ ---                            ┆ ---    ┆ ---          │
+
+                │ datetime[ms, America/New_York] ┆ str    ┆ f64          │
+
+                ╞════════════════════════════════╪════════╪══════════════╡
+
+                │ 2026-04-27 12:13:46 EDT        ┆ SPX    ┆ 7163.19      │
+
+                └────────────────────────────────┴────────┴──────────────┘
+
+                '
+  /index/history/eod:
+    x-concurrent-limit-ttl-ms: '164'
+    x-min-subscription: free
+    x-history-access: true
+    get:
+      summary: End of Day
+      operationId: index_history_eod
+      x-codeSamples:
+      - lang: Python
+        label: pandas
+        source: "from thetadata import ThetaClient\nfrom datetime import date\n\nclient = ThetaClient(dataframe_type='pandas')\ndf = client.index_history_eod(\n    symbol='SPX',\n    start_date=date(2024, 11, 4),\n    end_date=date(2024, 11, 8),\n)\n"
+      - lang: Python
+        label: polars
+        source: "from thetadata import ThetaClient\nfrom datetime import date\n\nclient = ThetaClient(dataframe_type='polars')\ndf = client.index_history_eod(\n    symbol='SPX',\n    start_date=date(2024, 11, 4),\n    end_date=date(2024, 11, 8),\n)\n"
+      tags:
+      - Index
+      description: '- Since [the indices feeds](/Articles/Data-And-Requests/The-SIPs.html) do not provide a national EOD report, Theta Data generates a national EOD report at 17:15 each day.
+
+        '
+      x-sample-urls:
+      - url: http://127.0.0.1:25503/v3/index/history/eod?symbol=SPX&start_date=20241104&end_date=20241108
+        description: Returns EOD report for a given symbol between specified dates (inclusive)
+      - url: http://127.0.0.1:25503/v3/index/history/eod?symbol=SPX&start_date=20241104&end_date=20241108&format=html
+        description: Click to open in browser (HTML)
+      parameters:
+      - $ref: '#/components/parameters/single_symbol'
+      - $ref: '#/components/parameters/start_date'
+      - $ref: '#/components/parameters/end_date'
+      - $ref: '#/components/parameters/format'
+      responses:
+        '200':
+          description: Returns EOD report for a given symbol between specified dates (inclusive)
+          content:
+            text/csv:
+              schema:
+                type: array
+                items: &id011
+                  type: object
+                  properties:
+                    created:
+                      type: string
+                      format: date-time
+                      description: The date formated as YYYY-MM-DDTHH:mm:ss.SSS format.
+                    last_trade:
+                      type: string
+                      format: date-time
+                      description: The last trade date formated as YYYY-MM-DDTHH:mm:ss.SSS format.
+                    open:
+                      type: number
+                      description: The opening trade price.
+                    high:
+                      type: number
+                      description: The highest traded price.
+                    low:
+                      type: number
+                      description: The lowest traded price.
+                    close:
+                      type: number
+                      description: The closing traded price.
+                    volume:
+                      type: integer
+                      description: The amount of contracts / shares traded.
+                    count:
+                      type: integer
+                      description: The amount of trades.
+                    bid_size:
+                      type: integer
+                      description: The last NBBO bid size.
+                    bid_exchange:
+                      type: integer
+                      description: The last NBBO bid [exchange](/Articles/Errors-Exchanges-Conditions/Exchanges.html).
+                    bid:
+                      type: number
+                      description: The last NBBO bid price.
+                    bid_condition:
+                      type: integer
+                      description: The last NBBO bid [condition](/Articles/Errors-Exchanges-Conditions/Quote-Conditions.html).
+                    ask_size:
+                      type: integer
+                      description: The last NBBO ask size.
+                    ask_exchange:
+                      type: integer
+                      description: The last NBBO ask [exchange](/Articles/Errors-Exchanges-Conditions/Exchanges.html).
+                    ask:
+                      type: number
+                      description: The last NBBO ask price.
+                    ask_condition:
+                      type: integer
+                      description: The last NBBO ask [condition](/Articles/Errors-Exchanges-Conditions/Quote-Conditions.html).
+              example: "created,last_trade,open,high,low,close,volume,count,bid_size,bid_exchange,bid,bid_condition,ask_size,ask_exchange,ask,ask_condition\r\n2024-11-04T17:19:50.198,2024-11-04T16:03:03,5725.15,5741.43,5696.51,5712.69,0,0,0,0,0.00,0,0,0,0.00,0\r\n2024-11-05T17:15:03.061,2024-11-05T16:02:30,5722.43,5783.44,5722.10,5782.76,0,0,0,0,0.00,0,0,0,0.00,0\r\n2024-11-06T17:16:28.297,2024-11-06T16:01:37,5864.89,5936.14,5864.89,5929.04,0,0,0,0,0.00,0,0,0,0.00,0\r\n2024-11-07T17:17:17.218,2024-11-07T16:02:49,5947.21,5983.84,5947.21,5973.10,0,0,0,0,0.00,0,0,0,0.00,0\r\n2024-11-08T17:21:08.187,2024-11-08T16:01:15,5976.76,6012.45,5976.76,5995.54,0,0,0,0,0.00,0,0,0,0.00,0\r\n"
+            application/json:
+              schema: &id012
+                type: array
+                items: *id011
+              example: "{\n  \"response\": [\n    {\"ask_size\":0,\"last_trade\":\"2024-11-04T16:03:03\",\"created\":\"2024-11-04T17:19:50.198\",\"ask_condition\":0,\"count\":0,\"volume\":0,\"high\":5741.43,\"low\":5696.51,\"bid_size\":0,\"ask_exchange\":0,\"bid_exchange\":0,\"ask\":0.00,\"bid\":0.00,\"bid_condition\":0,\"close\":5712.69,\"open\":5725.15},\n    {\"ask_size\":0,\"last_trade\":\"2024-11-05T16:02:30\",\"created\":\"2024-11-05T17:15:03.061\",\"ask_condition\":0,\"count\":0,\"volume\":0,\"high\":5783.44,\"low\":5722.10,\"bid_size\":0,\"ask_exchange\":0,\"bid_exchange\":0,\"ask\":0.00,\"bid\":0.00,\"bid_condition\":0,\"close\":5782.76,\"open\":5722.43},\n    {\"ask_size\":0,\"last_trade\":\"2024-11-06T16:01:37\",\"created\":\"2024-11-06T17:16:28.297\",\"ask_condition\":0,\"count\":0,\"volume\":0,\"high\":5936.14,\"low\":5864.89,\"bid_size\":0,\"ask_exchange\":0,\"bid_exchange\":0,\"ask\":0.00,\"bid\":0.00,\"bid_condition\":0,\"close\":5929.04,\"open\":5864.89},\n    {\"ask_size\":0,\"last_trade\":\"2024-11-07T16:02:49\",\"created\":\"2024-11-07T17:17:17.218\",\"ask_condition\":0,\"count\":0,\"volume\":0,\"high\":5983.84,\"low\":5947.21,\"bid_size\":0,\"ask_exchange\":0,\"bid_exchange\":0,\"ask\":0.00,\"bid\":0.00,\"bid_condition\":0,\"close\":5973.10,\"open\":5947.21},\n    {\"ask_size\":0,\"last_trade\":\"2024-11-08T16:01:15\",\"created\":\"2024-11-08T17:21:08.187\",\"ask_condition\":0,\"count\":0,\"volume\":0,\"high\":6012.45,\"low\":5976.76,\"bid_size\":0,\"ask_exchange\":0,\"bid_exchange\":0,\"ask\":0.00,\"bid\":0.00,\"bid_condition\":0,\"close\":5995.54,\"open\":5976.76}\n  ]\n}\n"
+            application/x-ndjson:
+              schema: *id012
+              example: '{"ask_size":0,"last_trade":"2024-11-04T16:03:03","created":"2024-11-04T17:19:50.198","ask_condition":0,"count":0,"volume":0,"high":5741.43,"low":5696.51,"bid_size":0,"ask_exchange":0,"bid_exchange":0,"ask":0.00,"bid":0.00,"bid_condition":0,"close":5712.69,"open":5725.15}
+
+                {"ask_size":0,"last_trade":"2024-11-05T16:02:30","created":"2024-11-05T17:15:03.061","ask_condition":0,"count":0,"volume":0,"high":5783.44,"low":5722.10,"bid_size":0,"ask_exchange":0,"bid_exchange":0,"ask":0.00,"bid":0.00,"bid_condition":0,"close":5782.76,"open":5722.43}
+
+                {"ask_size":0,"last_trade":"2024-11-06T16:01:37","created":"2024-11-06T17:16:28.297","ask_condition":0,"count":0,"volume":0,"high":5936.14,"low":5864.89,"bid_size":0,"ask_exchange":0,"bid_exchange":0,"ask":0.00,"bid":0.00,"bid_condition":0,"close":5929.04,"open":5864.89}
+
+                {"ask_size":0,"last_trade":"2024-11-07T16:02:49","created":"2024-11-07T17:17:17.218","ask_condition":0,"count":0,"volume":0,"high":5983.84,"low":5947.21,"bid_size":0,"ask_exchange":0,"bid_exchange":0,"ask":0.00,"bid":0.00,"bid_condition":0,"close":5973.10,"open":5947.21}
+
+                {"ask_size":0,"last_trade":"2024-11-08T16:01:15","created":"2024-11-08T17:21:08.187","ask_condition":0,"count":0,"volume":0,"high":6012.45,"low":5976.76,"bid_size":0,"ask_exchange":0,"bid_exchange":0,"ask":0.00,"bid":0.00,"bid_condition":0,"close":5995.54,"open":5976.76}'
+            python/pandas:
+              schema: *id012
+              example: 'created                last_trade     open     high      low    close  volume  count  bid_size  bid_exchange  bid  bid_condition  ask_size  ask_exchange  ask  ask_condition
+
+                0 2025-10-02 17:21:02.740000-04:00 2025-10-02 16:02:30-04:00  6731.31  6731.94  6693.23  6715.35       0      0         0             0  0.0              0         0             0  0.0              0
+
+                1 2025-10-03 17:21:11.325000-04:00 2025-10-03 16:00:37-04:00  6722.14  6750.87  6705.67  6715.79       0      0         0             0  0.0              0         0             0  0.0              0
+
+                '
+            python/polars:
+              schema: *id012
+              example: 'shape: (2, 16)
+
+                ┌────────────────────────────────┬────────────────────────────────┬─────────┬─────────┬─────────┬─────────┬────────┬───────┬──────────┬──────────────┬─────┬───────────────┬──────────┬──────────────┬─────┬───────────────┐
+
+                │ created                        ┆ last_trade                     ┆ open    ┆ high    ┆ low     ┆ close   ┆ volume ┆ count ┆ bid_size ┆ bid_exchange ┆ bid ┆ bid_condition ┆ ask_size ┆ ask_exchange ┆ ask ┆ ask_condition │
+
+                │ ---                            ┆ ---                            ┆ ---     ┆ ---     ┆ ---     ┆ ---     ┆ ---    ┆ ---   ┆ ---      ┆ ---          ┆ --- ┆ ---           ┆ ---      ┆ ---          ┆ --- ┆ ---           │
+
+                │ datetime[ms, America/New_York] ┆ datetime[ms, America/New_York] ┆ f64     ┆ f64     ┆ f64     ┆ f64     ┆ i64    ┆ i64   ┆ i64      ┆ i64          ┆ f64 ┆ i64           ┆ i64      ┆ i64          ┆ f64 ┆ i64           │
+
+                ╞════════════════════════════════╪════════════════════════════════╪═════════╪═════════╪═════════╪═════════╪════════╪═══════╪══════════╪══════════════╪═════╪═══════════════╪══════════╪══════════════╪═════╪═══════════════╡
+
+                │ 2025-10-02 17:21:02.740 EDT    ┆ 2025-10-02 16:02:30 EDT        ┆ 6731.31 ┆ 6731.94 ┆ 6693.23 ┆ 6715.35 ┆ 0      ┆ 0     ┆ 0        ┆ 0            ┆ 0.0 ┆ 0             ┆ 0        ┆ 0            ┆ 0.0 ┆ 0             │
+
+                │ 2025-10-03 17:21:11.325 EDT    ┆ 2025-10-03 16:00:37 EDT        ┆ 6722.14 ┆ 6750.87 ┆ 6705.67 ┆ 6715.79 ┆ 0      ┆ 0     ┆ 0        ┆ 0            ┆ 0.0 ┆ 0             ┆ 0        ┆ 0            ┆ 0.0 ┆ 0             │
+
+                └────────────────────────────────┴────────────────────────────────┴─────────┴─────────┴─────────┴─────────┴────────┴───────┴──────────┴──────────────┴─────┴───────────────┴──────────┴──────────────┴─────┴───────────────┘
+
+                '
+  /index/history/ohlc:
+    x-concurrent-limit-ttl-ms: '41'
+    x-min-subscription: standard
+    x-history-access: true
+    get:
+      summary: Open High Low Close
+      operationId: index_history_ohlc
+      x-codeSamples:
+      - lang: Python
+        label: pandas
+        source: "from thetadata import ThetaClient\nfrom datetime import date\n\nclient = ThetaClient(dataframe_type='pandas')\ndf = client.index_history_ohlc(\n    symbol='SPX',\n    start_date=date(2024, 11, 4),\n    end_date=date(2024, 11, 4),\n    interval='1m',\n)\n"
+      - lang: Python
+        label: polars
+        source: "from thetadata import ThetaClient\nfrom datetime import date\n\nclient = ThetaClient(dataframe_type='polars')\ndf = client.index_history_ohlc(\n    symbol='SPX',\n    start_date=date(2024, 11, 4),\n    end_date=date(2024, 11, 4),\n    interval='1m',\n)\n"
+      tags:
+      - Index
+      description: '- Aggregated OHLC bars that use [SIP rules](/Articles/Data-And-Requests/OHLC-EOD.html) for each bar.
+
+        - Time timestamp of the bar represents the opening time of the bar. For a trade to be part of the bar:  ``bar timestamp`` <= ``trade time`` < ``bar timestamp + interval``.
+
+        - [Exchanges](/Articles/Data-And-Requests/The-SIPs.html) typically generate a price report every second for popular indices like SPX.
+
+        '
+      x-sample-urls:
+      - url: http://127.0.0.1:25503/v3/index/history/ohlc?symbol=SPX&start_date=20241104&end_date=20241104&interval=1m
+        description: Returns OHLC for a given symbol between specified dates (inclusive) with a one minute interval
+      - url: http://127.0.0.1:25503/v3/index/history/ohlc?symbol=SPX&start_date=20241104&end_date=20241104&interval=1m&format=html
+        description: Click to open in browser (HTML)
+      parameters:
+      - $ref: '#/components/parameters/single_symbol'
+      - $ref: '#/components/parameters/start_date'
+      - $ref: '#/components/parameters/end_date'
+      - $ref: '#/components/parameters/interval'
+      - $ref: '#/components/parameters/start_time'
+      - $ref: '#/components/parameters/end_time'
+      - $ref: '#/components/parameters/format'
+      responses:
+        '200':
+          description: Returns OHLC for a given symbol between specified dates (inclusive) with a one minute interval
+          content:
+            text/csv:
+              schema:
+                type: array
+                items: &id013
+                  type: object
+                  properties:
+                    timestamp:
+                      type: string
+                      format: date-time
+                      description: The timestamp in YYYY-MM-DDTHH:mm:ss.SSS format.
+                    open:
+                      type: number
+                      description: The opening trade price.
+                    high:
+                      type: number
+                      description: The highest traded price.
+                    low:
+                      type: number
+                      description: The lowest traded price.
+                    close:
+                      type: number
+                      description: The closing traded price.
+                    volume:
+                      type: integer
+                      description: The amount of contracts / shares traded.
+                    count:
+                      type: integer
+                      description: The amount of trades.
+                    vwap:
+                      type: number
+                      description: The volume weighted average price of the trading session.
+              example: "timestamp,open,high,low,close,volume,count,vwap\r\n2024-11-04T09:30:00,5725.15,5731.27,5725.15,5728.56,0,0,0.00\r\n2024-11-04T09:31:00,5728.90,5730.40,5724.53,5725.42,0,0,0.00\r\n2024-11-04T09:32:00,5725.48,5729.20,5723.55,5726.54,0,0,0.00\r\n2024-11-04T09:33:00,5726.57,5726.71,5723.13,5723.13,0,0,0.00\r\n2024-11-04T09:34:00,5722.88,5723.33,5717.35,5717.64,0,0,0.00\r\n"
+            application/json:
+              schema: &id014
+                type: array
+                items: *id013
+              example: "{\n  \"response\": [\n    {\"volume\":0,\"high\":5731.27,\"low\":5725.15,\"vwap\":0.00,\"count\":0,\"close\":5728.56,\"open\":5725.15,\"timestamp\":\"2024-11-04T09:30:00\"},\n    {\"volume\":0,\"high\":5730.40,\"low\":5724.53,\"vwap\":0.00,\"count\":0,\"close\":5725.42,\"open\":5728.90,\"timestamp\":\"2024-11-04T09:31:00\"},\n    {\"volume\":0,\"high\":5729.20,\"low\":5723.55,\"vwap\":0.00,\"count\":0,\"close\":5726.54,\"open\":5725.48,\"timestamp\":\"2024-11-04T09:32:00\"},\n    {\"volume\":0,\"high\":5726.71,\"low\":5723.13,\"vwap\":0.00,\"count\":0,\"close\":5723.13,\"open\":5726.57,\"timestamp\":\"2024-11-04T09:33:00\"},\n    {\"volume\":0,\"high\":5723.33,\"low\":5717.35,\"vwap\":0.00,\"count\":0,\"close\":5717.64,\"open\":5722.88,\"timestamp\":\"2024-11-04T09:34:00\"}\n  ]\n}\n"
+            application/x-ndjson:
+              schema: *id014
+              example: '{"volume":0,"high":5731.27,"low":5725.15,"vwap":0.00,"count":0,"close":5728.56,"open":5725.15,"timestamp":"2024-11-04T09:30:00"}
+
+                {"volume":0,"high":5730.40,"low":5724.53,"vwap":0.00,"count":0,"close":5725.42,"open":5728.90,"timestamp":"2024-11-04T09:31:00"}
+
+                {"volume":0,"high":5729.20,"low":5723.55,"vwap":0.00,"count":0,"close":5726.54,"open":5725.48,"timestamp":"2024-11-04T09:32:00"}
+
+                {"volume":0,"high":5726.71,"low":5723.13,"vwap":0.00,"count":0,"close":5723.13,"open":5726.57,"timestamp":"2024-11-04T09:33:00"}
+
+                {"volume":0,"high":5723.33,"low":5717.35,"vwap":0.00,"count":0,"close":5717.64,"open":5722.88,"timestamp":"2024-11-04T09:34:00"}'
+            python/pandas:
+              schema: *id014
+              example: 'timestamp     open     high      low    close  volume  count  vwap
+
+                0  2025-10-02 09:30:00-04:00  6731.31  6731.31  6724.25  6724.98       0      0   0.0
+
+                1  2025-10-02 09:31:00-04:00  6725.07  6729.44  6724.40  6729.02       0      0   0.0
+
+                2  2025-10-02 09:32:00-04:00  6729.15  6730.34  6727.73  6729.68       0      0   0.0
+
+                3  2025-10-02 09:33:00-04:00  6729.70  6730.88  6729.14  6729.91       0      0   0.0
+
+                4  2025-10-02 09:34:00-04:00  6729.95  6731.94  6727.89  6728.53       0      0   0.0
+
+                5  2025-10-02 09:35:00-04:00  6728.31  6729.69  6727.65  6729.69       0      0   0.0
+
+                6  2025-10-02 09:36:00-04:00  6729.60  6729.93  6727.47  6729.34       0      0   0.0
+
+                7  2025-10-02 09:37:00-04:00  6729.31  6730.00  6726.11  6726.53       0      0   0.0
+
+                8  2025-10-02 09:38:00-04:00  6726.72  6727.97  6723.10  6723.73       0      0   0.0
+
+                9  2025-10-02 09:39:00-04:00  6723.78  6725.39  6722.24  6722.80       0      0   0.0
+
+                10 2025-10-02 09:40:00-04:00  6722.74  6722.77  6719.13  6719.21       0      0   0.0
+
+                11 2025-10-02 09:41:00-04:00  6718.81  6720.38  6716.55  6718.10       0      0   0.0
+
+                12 2025-10-02 09:42:00-04:00  6717.80  6719.52  6715.55  6717.03       0      0   0.0
+
+                13 2025-10-02 09:43:00-04:00  6717.22  6717.68  6713.66  6715.63       0      0   0.0
+
+                14 2025-10-02 09:44:00-04:00  6715.65  6715.86  6714.19  6715.08       0      0   0.0
+
+                15 2025-10-02 09:45:00-04:00  6714.90  6720.06  6713.86  6719.56       0      0   0.0
+
+                16 2025-10-02 09:46:00-04:00  6719.42  6720.81  6718.26  6720.81       0      0   0.0
+
+                17 2025-10-02 09:47:00-04:00  6720.91  6720.91  6718.95  6720.07       0      0   0.0
+
+                18 2025-10-02 09:48:00-04:00  6720.02  6720.53  6718.64  6718.81       0      0   0.0
+
+                19 2025-10-02 09:49:00-04:00  6719.46  6720.31  6714.86  6715.22       0      0   0.0
+
+                20 2025-10-02 09:50:00-04:00  6715.43  6716.25  6713.75  6714.74       0      0   0.0
+
+                21 2025-10-02 09:51:00-04:00  6714.95  6717.37  6713.79  6714.23       0      0   0.0
+
+                22 2025-10-02 09:52:00-04:00  6714.13  6716.43  6711.76  6715.56       0      0   0.0
+
+                23 2025-10-02 09:53:00-04:00  6715.52  6719.86  6715.52  6718.80       0      0   0.0
+
+                24 2025-10-02 09:54:00-04:00  6718.97  6721.16  6718.70  6719.83       0      0   0.0
+
+                25 2025-10-02 09:55:00-04:00  6719.73  6720.27  6716.11  6716.58       0      0   0.0
+
+                26 2025-10-02 09:56:00-04:00  6716.55  6716.96  6714.53  6715.21       0      0   0.0
+
+                27 2025-10-02 09:57:00-04:00  6715.13  6715.43  6713.47  6715.35       0      0   0.0
+
+                28 2025-10-02 09:58:00-04:00  6715.34  6718.35  6714.90  6718.35       0      0   0.0
+
+                29 2025-10-02 09:59:00-04:00  6718.37  6720.10  6718.35  6719.42       0      0   0.0
+
+                30 2025-10-02 10:00:00-04:00  6720.48  6720.48  6715.61  6717.61       0      0   0.0
+
+                '
+            python/polars:
+              schema: *id014
+              example: 'shape: (31, 8)
+
+                ┌────────────────────────────────┬─────────┬─────────┬─────────┬─────────┬────────┬───────┬──────┐
+
+                │ timestamp                      ┆ open    ┆ high    ┆ low     ┆ close   ┆ volume ┆ count ┆ vwap │
+
+                │ ---                            ┆ ---     ┆ ---     ┆ ---     ┆ ---     ┆ ---    ┆ ---   ┆ ---  │
+
+                │ datetime[ms, America/New_York] ┆ f64     ┆ f64     ┆ f64     ┆ f64     ┆ i64    ┆ i64   ┆ f64  │
+
+                ╞════════════════════════════════╪═════════╪═════════╪═════════╪═════════╪════════╪═══════╪══════╡
+
+                │ 2025-10-02 09:30:00 EDT        ┆ 6731.31 ┆ 6731.31 ┆ 6724.25 ┆ 6724.98 ┆ 0      ┆ 0     ┆ 0.0  │
+
+                │ 2025-10-02 09:31:00 EDT        ┆ 6725.07 ┆ 6729.44 ┆ 6724.4  ┆ 6729.02 ┆ 0      ┆ 0     ┆ 0.0  │
+
+                │ 2025-10-02 09:32:00 EDT        ┆ 6729.15 ┆ 6730.34 ┆ 6727.73 ┆ 6729.68 ┆ 0      ┆ 0     ┆ 0.0  │
+
+                │ 2025-10-02 09:33:00 EDT        ┆ 6729.7  ┆ 6730.88 ┆ 6729.14 ┆ 6729.91 ┆ 0      ┆ 0     ┆ 0.0  │
+
+                │ 2025-10-02 09:34:00 EDT        ┆ 6729.95 ┆ 6731.94 ┆ 6727.89 ┆ 6728.53 ┆ 0      ┆ 0     ┆ 0.0  │
+
+                │ …                              ┆ …       ┆ …       ┆ …       ┆ …       ┆ …      ┆ …     ┆ …    │
+
+                │ 2025-10-02 09:56:00 EDT        ┆ 6716.55 ┆ 6716.96 ┆ 6714.53 ┆ 6715.21 ┆ 0      ┆ 0     ┆ 0.0  │
+
+                │ 2025-10-02 09:57:00 EDT        ┆ 6715.13 ┆ 6715.43 ┆ 6713.47 ┆ 6715.35 ┆ 0      ┆ 0     ┆ 0.0  │
+
+                │ 2025-10-02 09:58:00 EDT        ┆ 6715.34 ┆ 6718.35 ┆ 6714.9  ┆ 6718.35 ┆ 0      ┆ 0     ┆ 0.0  │
+
+                │ 2025-10-02 09:59:00 EDT        ┆ 6718.37 ┆ 6720.1  ┆ 6718.35 ┆ 6719.42 ┆ 0      ┆ 0     ┆ 0.0  │
+
+                │ 2025-10-02 10:00:00 EDT        ┆ 6720.48 ┆ 6720.48 ┆ 6715.61 ┆ 6717.61 ┆ 0      ┆ 0     ┆ 0.0  │
+
+                └────────────────────────────────┴─────────┴─────────┴─────────┴─────────┴────────┴───────┴──────┘
+
+                '
+  /index/history/price:
+    x-concurrent-limit-ttl-ms: '59'
+    x-min-subscription: value
+    x-history-access: true
+    get:
+      summary: Price
+      operationId: index_history_price
+      x-codeSamples:
+      - lang: Python
+        label: pandas
+        source: 'from thetadata import ThetaClient
+
+
+          client = ThetaClient(dataframe_type=''pandas'')
+
+          df = client.index_history_price(symbol=''SPX'', interval=''1m'')
+
+          '
+      - lang: Python
+        label: polars
+        source: 'from thetadata import ThetaClient
+
+
+          client = ThetaClient(dataframe_type=''polars'')
+
+          df = client.index_history_price(symbol=''SPX'', interval=''1m'')
+
+          '
+      tags:
+      - Index
+      description: '- Retrieves historical indices price reports. [Exchanges](/Articles/Data-And-Requests/The-SIPs.html) typically generate a price report every second for popular indices like SPX.
+
+        - When the ``interval`` parameter is specified, the returned data represents the price at the exact time of each timestamp. If the timestamp in the response is 10:30:00, the price field represents the price at that exact time of the day.
+
+        - A price update from the exchange is omitted if the price remained the same from the previous update.
+
+        - Multi-day requests are limited to 1 month of data.
+
+        '
+      x-sample-urls:
+      - url: http://127.0.0.1:25503/v3/index/history/price?symbol=SPX&date=20241104&interval=1m
+        description: Returns historical index price reports
+      - url: http://127.0.0.1:25503/v3/index/history/price?symbol=SPX&date=20241104&interval=1m&format=html
+        description: Click to open in browser (HTML)
+      - url: http://127.0.0.1:25503/v3/index/history/price?symbol=SPX&start_date=20241104&end_date=20241107&interval=1m
+        description: Returns historical index price reports
+      - url: http://127.0.0.1:25503/v3/index/history/price?symbol=SPX&start_date=20241104&end_date=20241107&interval=1m&format=html
+        description: Click to open in browser (HTML)
+      parameters:
+      - $ref: '#/components/parameters/opt_date'
+      - $ref: '#/components/parameters/single_symbol'
+      - $ref: '#/components/parameters/start_time'
+      - $ref: '#/components/parameters/end_time'
+      - $ref: '#/components/parameters/interval'
+      - $ref: '#/components/parameters/format'
+      - $ref: '#/components/parameters/opt_start_date'
+      - $ref: '#/components/parameters/opt_end_date'
+      responses:
+        '200':
+          description: Returns historical index price reports
+          content:
+            text/csv:
+              schema:
+                type: array
+                items: &id015
+                  type: object
+                  properties:
+                    timestamp:
+                      type: string
+                      format: date-time
+                      description: The timestamp in YYYY-MM-DDTHH:mm:ss.SSS format.
+                    price:
+                      type: number
+                      description: The trade price.
+              example: "timestamp,price\r\n2024-11-04T09:30:00,0.0\r\n2024-11-04T09:31:00,5728.56\r\n2024-11-04T09:32:00,5725.48\r\n2024-11-04T09:33:00,5726.57\r\n2024-11-04T09:34:00,5722.88\r\n"
+            application/json:
+              schema: &id016
+                type: array
+                items: *id015
+              example: "{\n  \"response\": [\n    {\"price\":0.0,\"timestamp\":\"2024-11-04T09:30:00\"},\n    {\"price\":5728.56,\"timestamp\":\"2024-11-04T09:31:00\"},\n    {\"price\":5725.48,\"timestamp\":\"2024-11-04T09:32:00\"},\n    {\"price\":5726.57,\"timestamp\":\"2024-11-04T09:33:00\"},\n    {\"price\":5722.88,\"timestamp\":\"2024-11-04T09:34:00\"}\n  ]\n}\n"
+            application/x-ndjson:
+              schema: *id016
+              example: '{"price":0.0,"timestamp":"2024-11-04T09:30:00"}
+
+                {"price":5728.56,"timestamp":"2024-11-04T09:31:00"}
+
+                {"price":5725.48,"timestamp":"2024-11-04T09:32:00"}
+
+                {"price":5726.57,"timestamp":"2024-11-04T09:33:00"}
+
+                {"price":5722.88,"timestamp":"2024-11-04T09:34:00"}'
+            python/pandas:
+              schema: *id016
+              example: 'timestamp    price
+
+                0  2025-10-02 09:30:00-04:00      NaN
+
+                1  2025-10-02 09:31:00-04:00  6725.07
+
+                2  2025-10-02 09:32:00-04:00  6729.15
+
+                3  2025-10-02 09:33:00-04:00  6729.70
+
+                4  2025-10-02 09:34:00-04:00  6729.95
+
+                5  2025-10-02 09:35:00-04:00  6728.31
+
+                6  2025-10-02 09:36:00-04:00  6729.60
+
+                7  2025-10-02 09:37:00-04:00  6729.31
+
+                8  2025-10-02 09:38:00-04:00  6726.72
+
+                9  2025-10-02 09:39:00-04:00  6723.78
+
+                10 2025-10-02 09:40:00-04:00  6722.74
+
+                11 2025-10-02 09:41:00-04:00  6718.81
+
+                12 2025-10-02 09:42:00-04:00  6717.80
+
+                13 2025-10-02 09:43:00-04:00  6717.22
+
+                14 2025-10-02 09:44:00-04:00  6715.65
+
+                15 2025-10-02 09:45:00-04:00  6714.90
+
+                16 2025-10-02 09:46:00-04:00  6719.42
+
+                17 2025-10-02 09:47:00-04:00  6720.91
+
+                18 2025-10-02 09:48:00-04:00  6720.02
+
+                19 2025-10-02 09:49:00-04:00  6719.46
+
+                20 2025-10-02 09:50:00-04:00  6715.43
+
+                21 2025-10-02 09:51:00-04:00  6714.95
+
+                22 2025-10-02 09:52:00-04:00  6714.13
+
+                23 2025-10-02 09:53:00-04:00  6715.52
+
+                24 2025-10-02 09:54:00-04:00  6718.97
+
+                25 2025-10-02 09:55:00-04:00  6719.73
+
+                26 2025-10-02 09:56:00-04:00  6716.55
+
+                27 2025-10-02 09:57:00-04:00  6715.13
+
+                28 2025-10-02 09:58:00-04:00  6715.34
+
+                29 2025-10-02 09:59:00-04:00  6718.37
+
+                30 2025-10-02 10:00:00-04:00  6720.48
+
+                '
+            python/polars:
+              schema: *id016
+              example: 'shape: (31, 2)
+
+                ┌────────────────────────────────┬─────────┐
+
+                │ timestamp                      ┆ price   │
+
+                │ ---                            ┆ ---     │
+
+                │ datetime[ms, America/New_York] ┆ f64     │
+
+                ╞════════════════════════════════╪═════════╡
+
+                │ 2025-10-02 09:30:00 EDT        ┆ NaN     │
+
+                │ 2025-10-02 09:31:00 EDT        ┆ 6725.07 │
+
+                │ 2025-10-02 09:32:00 EDT        ┆ 6729.15 │
+
+                │ 2025-10-02 09:33:00 EDT        ┆ 6729.7  │
+
+                │ 2025-10-02 09:34:00 EDT        ┆ 6729.95 │
+
+                │ …                              ┆ …       │
+
+                │ 2025-10-02 09:56:00 EDT        ┆ 6716.55 │
+
+                │ 2025-10-02 09:57:00 EDT        ┆ 6715.13 │
+
+                │ 2025-10-02 09:58:00 EDT        ┆ 6715.34 │
+
+                │ 2025-10-02 09:59:00 EDT        ┆ 6718.37 │
+
+                │ 2025-10-02 10:00:00 EDT        ┆ 6720.48 │
+
+                └────────────────────────────────┴─────────┘
+
+                '
+  /index/at_time/price:
+    x-concurrent-limit-ttl-ms: '108'
+    x-min-subscription: value
+    x-history-access: true
+    get:
+      summary: Price
+      operationId: index_at_time_price
+      x-codeSamples:
+      - lang: Python
+        label: pandas
+        source: "from thetadata import ThetaClient\nfrom datetime import date\n\nclient = ThetaClient(dataframe_type='pandas')\ndf = client.index_at_time_price(\n    symbol='SPX',\n    start_date=date(2024, 11, 4),\n    end_date=date(2024, 11, 8),\n    time_of_day='09:30:01.000',\n)\n"
+      - lang: Python
+        label: polars
+        source: "from thetadata import ThetaClient\nfrom datetime import date\n\nclient = ThetaClient(dataframe_type='polars')\ndf = client.index_at_time_price(\n    symbol='SPX',\n    start_date=date(2024, 11, 4),\n    end_date=date(2024, 11, 8),\n    time_of_day='09:30:01.000',\n)\n"
+      tags:
+      - Index
+      description: '- Retrieves historical indices price reports. [Exchanges](/Articles/Data-And-Requests/The-SIPs.html) typically generate a price report every second for popular indices like SPX.
+
+        - The ``time_of_day`` parameter represents the 00:00:00.000 ET that the price should be provided for.
+
+        '
+      x-sample-urls:
+      - url: http://127.0.0.1:25503/v3/index/at_time/price?symbol=SPX&start_date=20241104&end_date=20241108&time_of_day=09:30:01.000
+        description: Returns specific at time historical index price reports
+      - url: http://127.0.0.1:25503/v3/index/at_time/price?symbol=SPX&start_date=20241104&end_date=20241108&time_of_day=09:30:01.000&format=html
+        description: Click to open in browser (HTML)
+      parameters:
+      - $ref: '#/components/parameters/single_symbol'
+      - $ref: '#/components/parameters/start_date'
+      - $ref: '#/components/parameters/end_date'
+      - $ref: '#/components/parameters/time_of_day'
+      - $ref: '#/components/parameters/format'
+      responses:
+        '200':
+          description: Returns specific at time historical index price reports
+          content:
+            text/csv:
+              schema:
+                type: array
+                items: &id017
+                  type: object
+                  properties:
+                    timestamp:
+                      type: string
+                      format: date-time
+                      description: The timestamp in YYYY-MM-DDTHH:mm:ss.SSS format.
+                    sequence:
+                      type: integer
+                      description: The exchange [sequence](/Articles/Data-And-Requests/Making-Requests.html#trade-sequences).
+                    ext_condition1:
+                      type: integer
+                      description: Additional trade [condition](/Articles/Errors-Exchanges-Conditions/Trade-Conditions.html)(s). These can be ignored for options.
+                    ext_condition2:
+                      type: integer
+                      description: Additional trade [condition](/Articles/Errors-Exchanges-Conditions/Trade-Conditions.html)(s). These can be ignored for options.
+                    ext_condition3:
+                      type: integer
+                      description: Additional trade [condition](/Articles/Errors-Exchanges-Conditions/Trade-Conditions.html)(s). These can be ignored for options.
+                    ext_condition4:
+                      type: integer
+                      description: Additional trade [condition](/Articles/Errors-Exchanges-Conditions/Trade-Conditions.html)(s). These can be ignored for options.
+                    condition:
+                      type: integer
+                      description: The trade [condition](/Articles/Errors-Exchanges-Conditions/Trade-Conditions.html).
+                    size:
+                      type: integer
+                      description: The amount of contracts / shares traded.
+                    exchange:
+                      type: integer
+                      description: The [exchange](/Articles/Errors-Exchanges-Conditions/Exchanges.html) the trade was executed.
+                    price:
+                      type: number
+                      description: The trade price.
+              example: "timestamp,sequence,ext_condition1,ext_condition2,ext_condition3,ext_condition4,condition,size,exchange,price\r\n2024-11-04T09:30:01,0,255,255,255,255,0,0,5,5725.15\r\n2024-11-05T09:30:01,0,255,255,255,255,0,0,5,5722.43\r\n2024-11-06T09:30:01,0,255,255,255,255,0,0,5,5864.89\r\n2024-11-07T09:30:01,0,255,255,255,255,0,0,5,5947.21\r\n2024-11-08T09:30:01,0,255,255,255,255,0,0,5,5976.76\r\n"
+            application/json:
+              schema: &id018
+                type: array
+                items: *id017
+              example: "{\n  \"response\": [\n    {\"sequence\":0,\"condition\":0,\"size\":0,\"price\":5725.15,\"ext_condition2\":255,\"ext_condition1\":255,\"ext_condition4\":255,\"exchange\":5,\"ext_condition3\":255,\"timestamp\":\"2024-11-04T09:30:01\"},\n    {\"sequence\":0,\"condition\":0,\"size\":0,\"price\":5722.43,\"ext_condition2\":255,\"ext_condition1\":255,\"ext_condition4\":255,\"exchange\":5,\"ext_condition3\":255,\"timestamp\":\"2024-11-05T09:30:01\"},\n    {\"sequence\":0,\"condition\":0,\"size\":0,\"price\":5864.89,\"ext_condition2\":255,\"ext_condition1\":255,\"ext_condition4\":255,\"exchange\":5,\"ext_condition3\":255,\"timestamp\":\"2024-11-06T09:30:01\"},\n    {\"sequence\":0,\"condition\":0,\"size\":0,\"price\":5947.21,\"ext_condition2\":255,\"ext_condition1\":255,\"ext_condition4\":255,\"exchange\":5,\"ext_condition3\":255,\"timestamp\":\"2024-11-07T09:30:01\"},\n    {\"sequence\":0,\"condition\":0,\"size\":0,\"price\":5976.76,\"ext_condition2\":255,\"ext_condition1\":255,\"ext_condition4\":255,\"exchange\":5,\"ext_condition3\":255,\"timestamp\":\"2024-11-08T09:30:01\"}\n  ]\n}\n"
+            application/x-ndjson:
+              schema: *id018
+              example: '{"sequence":0,"condition":0,"size":0,"price":5725.15,"ext_condition2":255,"ext_condition1":255,"ext_condition4":255,"exchange":5,"ext_condition3":255,"timestamp":"2024-11-04T09:30:01"}
+
+                {"sequence":0,"condition":0,"size":0,"price":5722.43,"ext_condition2":255,"ext_condition1":255,"ext_condition4":255,"exchange":5,"ext_condition3":255,"timestamp":"2024-11-05T09:30:01"}
+
+                {"sequence":0,"condition":0,"size":0,"price":5864.89,"ext_condition2":255,"ext_condition1":255,"ext_condition4":255,"exchange":5,"ext_condition3":255,"timestamp":"2024-11-06T09:30:01"}
+
+                {"sequence":0,"condition":0,"size":0,"price":5947.21,"ext_condition2":255,"ext_condition1":255,"ext_condition4":255,"exchange":5,"ext_condition3":255,"timestamp":"2024-11-07T09:30:01"}
+
+                {"sequence":0,"condition":0,"size":0,"price":5976.76,"ext_condition2":255,"ext_condition1":255,"ext_condition4":255,"exchange":5,"ext_condition3":255,"timestamp":"2024-11-08T09:30:01"}'
+            python/pandas:
+              schema: *id018
+              example: 'timestamp  sequence  ext_condition1  ext_condition2  ext_condition3  ext_condition4  condition  size  exchange    price
+
+                0 2025-10-02 11:29:59-04:00         0             255             255             255             255          0     0         5  6701.51
+
+                '
+            python/polars:
+              schema: *id018
+              example: 'shape: (1, 10)
+
+                ┌────────────────────────────────┬──────────┬────────────────┬────────────────┬────────────────┬────────────────┬───────────┬──────┬──────────┬─────────┐
+
+                │ timestamp                      ┆ sequence ┆ ext_condition1 ┆ ext_condition2 ┆ ext_condition3 ┆ ext_condition4 ┆ condition ┆ size ┆ exchange ┆ price   │
+
+                │ ---                            ┆ ---      ┆ ---            ┆ ---            ┆ ---            ┆ ---            ┆ ---       ┆ ---  ┆ ---      ┆ ---     │
+
+                │ datetime[ms, America/New_York] ┆ i64      ┆ i64            ┆ i64            ┆ i64            ┆ i64            ┆ i64       ┆ i64  ┆ i64      ┆ f64     │
+
+                ╞════════════════════════════════╪══════════╪════════════════╪════════════════╪════════════════╪════════════════╪═══════════╪══════╪══════════╪═════════╡
+
+                │ 2025-10-02 11:29:59 EDT        ┆ 0        ┆ 255            ┆ 255            ┆ 255            ┆ 255            ┆ 0         ┆ 0    ┆ 5        ┆ 6701.51 │
+
+                └────────────────────────────────┴──────────┴────────────────┴────────────────┴────────────────┴────────────────┴───────────┴──────┴──────────┴─────────┘
+
+                '
+  /index/flat_file/eod:
+    x-concurrent-limit-ttl-ms: '1800000'
+    x-hide-from-docs: true
+    x-min-subscription: professional
+    get:
+      summary: Index Flat File EOD
+      operationId: index_flat_file_eod
+      x-codeSamples:
+      - lang: Python
+        label: pandas
+        source: 'from thetadata import ThetaClient
+
+          from datetime import date
+
+
+          client = ThetaClient(dataframe_type=''pandas'')
+
+          df = client.index_flat_file_eod(date=date(2024, 1, 2))
+
+          '
+      - lang: Python
+        label: polars
+        source: 'from thetadata import ThetaClient
+
+          from datetime import date
+
+
+          client = ThetaClient(dataframe_type=''polars'')
+
+          df = client.index_flat_file_eod(date=date(2024, 1, 2))
+
+          '
+      tags:
+      - Index
+      description: 'Bulk download all index end-of-day ticks for a given date as a CSV stream. Returns one row per tick, grouped by symbol. Requires a Professional indices subscription.
+
+        '
+      parameters:
+      - $ref: '#/components/parameters/date'
+      - $ref: '#/components/parameters/format'
+      responses:
+        '200':
+          description: CSV stream of all index EOD ticks for the given date
+          content:
+            text/csv:
+              schema:
+                type: array
+                items: &id019
+                  type: object
+                  properties:
+                    root:
+                      type: string
+                      description: The index symbol.
+                    ms_of_day:
+                      type: integer
+                      description: Milliseconds since midnight.
+                    date:
+                      type: integer
+                      description: Date as YYYYMMDD integer.
+            application/json:
+              schema: &id020
+                type: array
+                items: *id019
+            application/x-ndjson:
+              schema: *id020
+components:
+  parameters:
+    start_date:
+      name: start_date
+      in: query
+      description: The start date (inclusive).
+      required: true
+      schema:
+        type: string
+        format: date
+    end_time:
+      name: end_time
+      in: query
+      description: The end time (inclusive) in the specified day (format 24-hour HH:MM:SS.SSS).
+      required: false
+      schema:
+        type: string
+        format: time
+        default: '16:00:00'
+    date:
+      name: date
+      in: query
+      description: The date to fetch data for.
+      required: true
+      schema:
+        type: string
+        format: date
+    time_of_day:
+      name: time_of_day
+      in: query
+      description: The time of the day to fetch data for; assumed to be America/New_York.
+      required: true
+      schema:
+        type: string
+        format: time
+    opt_end_date:
+      name: end_date
+      in: query
+      description: The end date (inclusive).
+      required: false
+      schema:
+        type: string
+        format: date
+    start_time:
+      name: start_time
+      in: query
+      description: The start time (inclusive) in the specified day (format 24-hour HH:MM:SS.SSS).
+      required: false
+      schema:
+        type: string
+        format: time
+        default: 09:30:00
+    single_symbol:
+      name: symbol
+      in: query
+      description: The stock or index symbol, or underlying symbol for options.
+      required: true
+      schema:
+        type: string
+    opt_start_date:
+      name: start_date
+      in: query
+      description: The start date (inclusive).
+      required: false
+      schema:
+        type: string
+        format: date
+    format:
+      name: format
+      in: query
+      description: The format of the data when returned to the user.
+      required: false
+      schema:
+        type: string
+        enum:
+        - csv
+        - json
+        - ndjson
+        - html
+        default: csv
+    min_time:
+      name: min_time
+      in: query
+      description: Filters snapshots to include only data with a timestamp greater or equal to the specified value (HH:mm:ss.SSS format).
+      required: false
+      schema:
+        type: string
+        format: time
+    end_date:
+      name: end_date
+      in: query
+      description: The end date (inclusive).
+      required: true
+      schema:
+        type: string
+        format: date
+    opt_date:
+      name: date
+      in: query
+      description: The date to fetch data for. If present, this overrides start_date and end_date.
+      required: false
+      schema:
+        type: string
+        format: date
+    interval:
+      name: interval
+      in: query
+      description: The size of the time interval must be one of the available options listed below. Intervals less than 1m are available only for single-day requests.
+      required: true
+      schema:
+        type: string
+        enum:
+        - tick
+        - 10ms
+        - 100ms
+        - 500ms
+        - 1s
+        - 5s
+        - 10s
+        - 15s
+        - 30s
+        - 1m
+        - 5m
+        - 10m
+        - 15m
+        - 30m
+        - 1h
+        default: 1s
+    multi_symbol:
+      name: symbol
+      in: query
+      description: The stock or index symbol, or underlying symbol for options. Specify '*' for all symbols or a comma separated list when appropriate.
+      required: true
+      schema:
+        type: array
+        items:
+          type: string

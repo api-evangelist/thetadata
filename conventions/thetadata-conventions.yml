@@ -1,0 +1,73 @@
+generated: '2026-07-22'
+method: searched
+source: >-
+  https://docs.thetadata.us/Articles/Data-And-Requests/Making-Requests.html,
+  https://docs.thetadata.us/Articles/Data-And-Requests/Concurrent-Requests.html,
+  https://docs.thetadata.us/Articles/Data-And-Requests/Request-Sizing.html,
+  https://docs.thetadata.us/json-guide.html,
+  https://docs.thetadata.us/Articles/Getting-Started/v2-migration-guide.html;
+  cross-checked against openapi/_original/thetadata-v3-openapi.yml.
+description: >-
+  Cross-cutting request/response semantics of the ThetaData v3 REST API — a
+  read-only, GET-only market-data surface served locally by Theta Terminal v3
+  at http://127.0.0.1:25503/v3.
+api_style: REST over local HTTP (loopback), query-parameter requests
+base_url: http://127.0.0.1:25503/v3
+authentication:
+  style: Session-level (terminal launch / client construction), no per-request scheme
+  detail: authentication/thetadata-authentication.yml
+idempotency:
+  supported: true
+  mechanism: >-
+    Every v3 operation is an HTTP GET read (66/66 operations in the OpenAPI) —
+    the API is idempotent by construction; no idempotency-key header exists or
+    is needed. The docs explicitly advise retrying on 429 OS_LIMIT ("retry the
+    request until you no longer get this error"), and 571 SERVER_STARTING
+    retries are safe for the same reason.
+  header: null
+  notes: Safe-to-retry applies to all operations; there are no write operations.
+pagination:
+  style: none (single response)
+  notes: >-
+    v3 removed v2's next-page header pagination — "all responses can be
+    received using a single query" (v3 beta announcement). Error 477
+    NO_PAGE_FOUND remains in the error registry for expired/nonexistent pages.
+    Instead of paging, keep requests sized per the request-sizing guidance.
+request_sizing:
+  best_practice: Keep responses under ~1 million ticks
+  recommended_ranges:
+    - {asset_class: Stock, resolution: tick, range: 1 day}
+    - {asset_class: Option, resolution: tick, range: '1 week; 1 day for highly liquid tickers (AAPL/SPX/SPY)'}
+    - {asset_class: Any, resolution: 100ms, range: 1 week}
+    - {asset_class: Any, resolution: 1000ms, range: 1 month}
+    - {asset_class: Any, resolution: EOD, range: 1 month}
+response_formats:
+  parameter: format
+  values: [csv, ndjson, json, html]
+  json_variants:
+    - name: json_new
+      notes: Groups response data by contract (replicates v2 JSON); default for accounts created on/after 2025-10-31.
+    - name: json_legacy
+      notes: Single object with row arrays indexed by header; default for accounts created before 2025-10-31.
+wildcards:
+  supported: true
+  notes: 'expiration and strike accept * for bulk requests (replaces v2 bulk endpoints); symbol=* for bulk snapshots.'
+parameter_conventions:
+  symbol: Direct symbol identifier (v2 root)
+  expiration: Accepts YYYYMMDD, YYYY-MM-DD, or *
+  right: call / put (v2 used C/P)
+  strike: Float in dollars; supports *
+  interval: String (1m, 5m, 1h, ...) — v2 used millisecond ints
+error_envelope:
+  shape: Plain-text description; custom HTTP status codes (47x/57x)
+  detail: errors/thetadata-problem-types.yml
+rate_limit_signaling:
+  throttled_status: 429 (OS_LIMIT / queue overflow)
+  model: Concurrency-limited (not request-rate-limited) by subscription tier, account-wide
+  detail: rate-limits/thetadata-rate-limits.yml
+session_rules:
+  ip_pinning: Requests must come from the IP of the first request (476 WRONG_IP); 127.0.0.1 and localhost cannot be mixed.
+  single_session: One terminal per account session (478 INVALID_SESSION_ID).
+  single_ws_connection: One WebSocket connection to ws://127.0.0.1:25520/v1/events per user.
+versioning:
+  detail: lifecycle/thetadata-lifecycle.yml

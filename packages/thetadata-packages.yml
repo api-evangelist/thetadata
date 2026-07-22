@@ -1,0 +1,53 @@
+generated: '2026-07-22'
+method: searched
+source: >-
+  PyPI registry (pypi.org/pypi/thetadata/json), npm registry search, and the
+  ThetaData docs (docs.thetadata.us/Python-Library/Getting-Started.html,
+  Articles/Getting-Started/Getting-Started.html). Maven Central, NuGet,
+  RubyGems, Packagist, crates.io and pkg.go.dev show no first-party ThetaData
+  client libraries.
+description: >-
+  First-party and community client packages for ThetaData. The official Python
+  library (thetadata on PyPI, v1.0.9 at capture) authenticates over HTTPS and
+  requests data over gRPC directly — no Theta Terminal required. The Theta
+  Terminal itself is distributed as an auto-updating Java JAR download rather
+  than through a package registry. The thetadatadx-* npm packages are
+  community-published (publisher userfrm), not first-party.
+packages:
+  - language: python
+    registry: pypi
+    name: thetadata
+    url: https://pypi.org/project/thetadata/
+    source: https://github.com/AXIOMXLLC/python_library
+    install: pip install thetadata
+    version_at_capture: 1.0.9
+    official: true
+    notes: >-
+      Official Python library; requires Python 3.12+. Connects directly to
+      ThetaData servers (auth over HTTPS, data over gRPC), returns Polars or
+      Pandas dataframes. Source repo is not publicly browsable (404).
+  - language: java
+    registry: direct-download
+    name: ThetaTerminalv3.jar
+    url: https://downloads.thetadata.us/ThetaTerminalv3.jar
+    install: java -jar ThetaTerminalv3.jar
+    official: true
+    notes: >-
+      The Theta Terminal v3 — auto-updating Java 21+ JAR that hosts the local
+      REST API (127.0.0.1:25503/v3), WebSocket streaming (127.0.0.1:25520),
+      and MCP server. Not on a package registry; distributed as a direct
+      download.
+  - language: javascript
+    registry: npm
+    name: thetadatadx-ts
+    url: https://www.npmjs.com/package/thetadatadx-ts
+    install: npm install thetadatadx-ts
+    official: false
+    notes: Community native Node.js SDK (Rust/napi-rs), publisher userfrm.
+  - language: javascript
+    registry: npm
+    name: thetadatadx-mcp-server
+    url: https://www.npmjs.com/package/thetadatadx-mcp-server
+    install: npx -y thetadatadx-mcp-server
+    official: false
+    notes: Community MCP server for ThetaData market data, publisher userfrm.

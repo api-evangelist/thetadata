@@ -1,0 +1,23 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for ThetaData Theta Data v3 At-Time API
+  version: 1.0.0
+extends: openapi/thetadata-at-time-api-openapi.yml
+actions:
+- target: $.info
+  update:
+    x-apievangelist:
+      provider: thetadata
+      reviewed: '2026-07-22'
+      artifacts:
+        authentication: authentication/thetadata-authentication.yml
+        errors: errors/thetadata-problem-types.yml
+        conventions: conventions/thetadata-conventions.yml
+        rate_limits: rate-limits/thetadata-rate-limits.yml
+        sandbox: sandbox/thetadata-sandbox.yml
+      operation_count: 5
+      notes: Served locally by Theta Terminal v3; auth happens at terminal launch, not per HTTP request.
+- target: $.servers[0]
+  update:
+    x-apievangelist-note: Local Theta Terminal host — production for this provider is the user-run terminal,
+      not a cloud endpoint.

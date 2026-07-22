@@ -1,0 +1,2250 @@
+openapi: 3.1.0
+info:
+  title: Theta Data v3 At-Time Stock API
+  description: Real-time and historic stock, options, and index data!
+  version: 3.0.0
+  x-java-package: net.thetadata.generated
+servers:
+- url: http://127.0.0.1:25503/v3
+  description: dev
+security: []
+tags:
+- name: Stock
+paths:
+  /stock/list/symbols:
+    x-concurrent-limit-ttl-ms: '339'
+    x-min-subscription: free
+    get:
+      summary: Symbols
+      operationId: stock_list_symbols
+      x-codeSamples:
+      - lang: Python
+        label: pandas
+        source: 'from thetadata import ThetaClient
+
+
+          client = ThetaClient(dataframe_type=''pandas'')
+
+          df = client.stock_list_symbols()
+
+          '
+      - lang: Python
+        label: polars
+        source: 'from thetadata import ThetaClient
+
+
+          client = ThetaClient(dataframe_type=''polars'')
+
+          df = client.stock_list_symbols()
+
+          '
+      tags:
+      - Stock
+      description: 'A symbol can be defined as a unique identifier for a stock / underlying asset. Common terms also include: root, ticker, and underlying. This endpoint returns all traded symbols for stocks. This endpoint is updated overnight.
+
+        '
+      x-sample-urls:
+      - url: http://127.0.0.1:25503/v3/stock/list/symbols
+        description: List all stock symbols
+      - url: http://127.0.0.1:25503/v3/stock/list/symbols?format=html
+        description: Click to open in browser (HTML)
+      parameters:
+      - $ref: '#/components/parameters/format'
+      responses:
+        '200':
+          description: List all stock symbols
+          content:
+            text/csv:
+              schema:
+                type: array
+                items: &id001
+                  type: object
+                  properties:
+                    symbol:
+                      type: string
+                      description: The symbol of the contract, or stock / underlying asset / option / index.
+              example: "symbol\r\nA\r\nAA\r\nAAA\r\nAAAA\r\nAAAP\r\n"
+            application/json:
+              schema: &id002
+                type: array
+                items: *id001
+              example: "{\n  \"response\": [\n    {\"symbol\": \"A\"},\n    {\"symbol\": \"AA\"},\n    {\"symbol\": \"AAA\"},\n    {\"symbol\": \"AAAA\"},\n    {\"symbol\": \"AAAP\"}\n  ]\n}\n"
+            application/x-ndjson:
+              schema: *id002
+              example: '{"symbol":"A"}
+
+                {"symbol":"AA"}
+
+                {"symbol":"AAA"}
+
+                {"symbol":"AAAA"}
+
+                {"symbol":"AAAP"}'
+            python/pandas:
+              schema: *id002
+              example: 'symbol
+
+                0      .PR.I.PR.A
+
+                1      .PR.I.PR.B
+
+                2        .PR.S/WI
+
+                3               A
+
+                4              AA
+
+                ...           ...
+
+                25524         ZYN
+
+                25525        ZYNE
+
+                25526        ZYXI
+
+                25527         ZZK
+
+                25528         ZZZ
+
+
+                [25529 rows x 1 columns]
+
+                '
+            python/polars:
+              schema: *id002
+              example: 'shape: (25_529, 1)
+
+                ┌────────────┐
+
+                │ symbol     │
+
+                │ ---        │
+
+                │ str        │
+
+                ╞════════════╡
+
+                │ .PR.I.PR.A │
+
+                │ .PR.I.PR.B │
+
+                │ .PR.S/WI   │
+
+                │ A          │
+
+                │ AA         │
+
+                │ …          │
+
+                │ ZYN        │
+
+                │ ZYNE       │
+
+                │ ZYXI       │
+
+                │ ZZK        │
+
+                │ ZZZ        │
+
+                └────────────┘
+
+                '
+  /stock/list/dates/{request_type}:
+    x-concurrent-limit-ttl-ms: '20'
+    x-min-subscription: free
+    x-symbol-wildcard: true
+    get:
+      summary: Dates
+      operationId: stock_list_dates
+      x-codeSamples:
+      - lang: Python
+        label: pandas
+        source: 'from thetadata import ThetaClient
+
+
+          client = ThetaClient(dataframe_type=''pandas'')
+
+          df = client.stock_list_dates(request_type=''quote'', symbol=[''AAPL''])
+
+          '
+      - lang: Python
+        label: polars
+        source: 'from thetadata import ThetaClient
+
+
+          client = ThetaClient(dataframe_type=''polars'')
+
+          df = client.stock_list_dates(request_type=''quote'', symbol=[''AAPL''])
+
+          '
+      tags:
+      - Stock
+      description: 'Lists all dates of data that are available for a stock with a given request type and symbol. This endpoint is updated overnight.
+
+        '
+      x-sample-urls:
+      - url: http://127.0.0.1:25503/v3/stock/list/dates/quote?symbol=AAPL
+        description: List all dates for a stock quote for a given symbol
+      - url: http://127.0.0.1:25503/v3/stock/list/dates/trade?symbol=AAPL,SPY
+        description: List all dates for a stock trade for multiple symbols
+      - url: http://127.0.0.1:25503/v3/stock/list/dates/trade?symbol=*
+        description: List all dates for a stock trade for all symbols
+      - url: http://127.0.0.1:25503/v3/stock/list/dates/quote?symbol=AAPL&format=html
+        description: Click to open in browser (HTML)
+      parameters:
+      - $ref: '#/components/parameters/request_type'
+      - $ref: '#/components/parameters/multi_symbol'
+      - $ref: '#/components/parameters/format'
+      responses:
+        '200':
+          description: List all dates for a stock quote for a given symbol
+          content:
+            text/csv:
+              schema:
+                type: array
+                items: &id003
+                  type: object
+                  properties:
+                    date:
+                      type: string
+                      format: date
+                      description: The date formated as YYYY-MM-DD.
+              example: "date\r\n2016-08-16\r\n2016-08-17\r\n2016-08-18\r\n2016-08-19\r\n2016-08-23\r\n"
+            application/json:
+              schema: &id004
+                type: array
+                items: *id003
+              example: "{\n  \"response\": [\n    {\"date\": \"2016-08-16\"},\n    {\"date\": \"2016-08-17\"},\n    {\"date\": \"2016-08-18\"},\n    {\"date\": \"2016-08-19\"},\n    {\"date\": \"2016-08-23\"}\n  ]\n}\n"
+            application/x-ndjson:
+              schema: *id004
+              example: '{"date":"2016-08-16"}
+
+                {"date":"2016-08-17"}
+
+                {"date":"2016-08-18"}
+
+                {"date":"2016-08-19"}
+
+                {"date":"2016-08-23"}'
+            python/pandas:
+              schema: *id004
+              example: 'date
+
+                0     2012-06-01
+
+                1     2012-06-04
+
+                2     2012-06-05
+
+                3     2012-06-06
+
+                4     2012-06-07
+
+                ...          ...
+
+                3496  2026-04-20
+
+                3497  2026-04-21
+
+                3498  2026-04-22
+
+                3499  2026-04-23
+
+                3500  2026-04-24
+
+
+                [3501 rows x 1 columns]
+
+                '
+            python/polars:
+              schema: *id004
+              example: 'shape: (3_501, 1)
+
+                ┌────────────┐
+
+                │ date       │
+
+                │ ---        │
+
+                │ str        │
+
+                ╞════════════╡
+
+                │ 2012-06-01 │
+
+                │ 2012-06-04 │
+
+                │ 2012-06-05 │
+
+                │ 2012-06-06 │
+
+                │ 2012-06-07 │
+
+                │ …          │
+
+                │ 2026-04-20 │
+
+                │ 2026-04-21 │
+
+                │ 2026-04-22 │
+
+                │ 2026-04-23 │
+
+                │ 2026-04-24 │
+
+                └────────────┘
+
+                '
+  /stock/snapshot/ohlc:
+    x-skip-concurrent-limit: true
+    x-min-subscription: value
+    x-symbol-wildcard: true
+    get:
+      summary: Open High Low Close
+      operationId: stock_snapshot_ohlc
+      x-codeSamples:
+      - lang: Python
+        label: pandas
+        source: 'from thetadata import ThetaClient
+
+
+          client = ThetaClient(dataframe_type=''pandas'')
+
+          df = client.stock_snapshot_ohlc(symbol=[''AAPL''])
+
+          '
+      - lang: Python
+        label: polars
+        source: 'from thetadata import ThetaClient
+
+
+          client = ThetaClient(dataframe_type=''polars'')
+
+          df = client.stock_snapshot_ohlc(symbol=[''AAPL''])
+
+          '
+      tags:
+      - Stock
+      description: '
+
+        Provides a real-time Open, High, Low, Close for the current day.
+
+        * Returns a real-time session OHLC from the [Nasdaq Basic feed](/Articles/Data-And-Requests/The-SIPs) if the account has a [stocks standard or pro subscription](https://www.thetadata.net/subscribe.html#stocks).
+
+        * Returns a 15-minute delayed session OHLC from the [UTP & CTA feeds](/Articles/Data-And-Requests/The-SIPs) if the account has the stocks value subscription.
+
+        * Theta Data resets its snapshot cache at midnight ET every day. This endpoint may not work on a weekend where there were no eligible messages sent over exchange feeds. We recommend using historic requests during the weekend.
+
+        '
+      x-sample-urls:
+      - url: http://127.0.0.1:25503/v3/stock/snapshot/ohlc?symbol=*
+        description: Returns OHLC for stocks for all symbols
+      - url: http://127.0.0.1:25503/v3/stock/snapshot/ohlc?symbol=AAPL&venue=nqb
+        description: Returns OHLC for a given stock trade from the Nasdaq Basic feed
+      - url: http://127.0.0.1:25503/v3/stock/snapshot/ohlc?symbol=AAPL&venue=nqb&format=html
+        description: Click to open in browser (HTML)
+      parameters:
+      - $ref: '#/components/parameters/multi_symbol'
+      - $ref: '#/components/parameters/venue'
+      - $ref: '#/components/parameters/min_time'
+      - $ref: '#/components/parameters/format'
+      responses:
+        '200':
+          description: Returns OHLC for stocks for all symbols
+          content:
+            text/csv:
+              schema:
+                type: array
+                items: &id005
+                  type: object
+                  properties:
+                    timestamp:
+                      type: string
+                      format: date-time
+                      description: The timestamp in YYYY-MM-DDTHH:mm:ss.SSS format.
+                    symbol:
+                      type: string
+                      description: The symbol of the contract, or stock / underlying asset / option / index.
+                    open:
+                      type: number
+                      description: The opening trade price.
+                    high:
+                      type: number
+                      description: The highest traded price.
+                    low:
+                      type: number
+                      description: The lowest traded price.
+                    close:
+                      type: number
+                      description: The closing traded price.
+                    volume:
+                      type: integer
+                      description: The amount of contracts / shares traded.
+                    count:
+                      type: integer
+                      description: The amount of trades.
+              example: "timestamp,symbol,open,high,low,close,volume,count\r\n2025-08-20T16:10:04.43,CVCO,492.0000,492.0000,480.5477,485.1100,119656,7684\r\n2025-08-20T16:11:13.962,IFRX,0.8900,0.9199,0.8529,0.8929,57048,138\r\n2025-08-20T16:04:10.564,KLXY,0.0000,0.0000,0.0000,0.0000,9,6\r\n2025-08-20T16:04:07.554,HCOW,23.5600,23.6976,23.5600,23.6616,3648,44\r\n2025-08-20T16:22:32.726,SCS,16.2000,16.3200,16.1550,16.1800,992620,7690\r\n"
+            application/json:
+              schema: &id006
+                type: array
+                items: *id005
+              example: "{\n  \"response\": [\n    {\"volume\":119656,\"symbol\":\"CVCO\",\"high\":492.0000,\"low\":480.5477,\"count\":7684,\"close\":485.1100,\"open\":492.0000,\"timestamp\":\"2025-08-20T16:10:04.43\"},\n    {\"volume\":57048,\"symbol\":\"IFRX\",\"high\":0.9199,\"low\":0.8529,\"count\":138,\"close\":0.8929,\"open\":0.8900,\"timestamp\":\"2025-08-20T16:11:13.962\"},\n    {\"volume\":9,\"symbol\":\"KLXY\",\"high\":0.0000,\"low\":0.0000,\"count\":6,\"close\":0.0000,\"open\":0.0000,\"timestamp\":\"2025-08-20T16:04:10.564\"},\n    {\"volume\":3648,\"symbol\":\"HCOW\",\"high\":23.6976,\"low\":23.5600,\"count\":44,\"close\":23.6616,\"open\":23.5600,\"timestamp\":\"2025-08-20T16:04:07.554\"},\n    {\"volume\":992620,\"symbol\":\"SCS\",\"high\":16.3200,\"low\":16.1550,\"count\":7690,\"close\":16.1800,\"open\":16.2000,\"timestamp\":\"2025-08-20T16:22:32.726\"}\n  ]\n}\n"
+            application/x-ndjson:
+              schema: *id006
+              example: '{"volume":119656,"symbol":"CVCO","high":492.0000,"low":480.5477,"count":7684,"close":485.1100,"open":492.0000,"timestamp":"2025-08-20T16:10:04.43"}
+
+                {"volume":57048,"symbol":"IFRX","high":0.9199,"low":0.8529,"count":138,"close":0.8929,"open":0.8900,"timestamp":"2025-08-20T16:11:13.962"}
+
+                {"volume":9,"symbol":"KLXY","high":0.0000,"low":0.0000,"count":6,"close":0.0000,"open":0.0000,"timestamp":"2025-08-20T16:04:10.564"}
+
+                {"volume":3648,"symbol":"HCOW","high":23.6976,"low":23.5600,"count":44,"close":23.6616,"open":23.5600,"timestamp":"2025-08-20T16:04:07.554"}
+
+                {"volume":992620,"symbol":"SCS","high":16.3200,"low":16.1550,"count":7690,"close":16.1800,"open":16.2000,"timestamp":"2025-08-20T16:22:32.726"}'
+            python/pandas:
+              schema: *id006
+              example: 'timestamp symbol    open    high     low     close    volume   count
+
+                0 2026-04-27 12:13:13.669000-04:00   AAPL  266.09  268.36  265.07  266.9199  10436064  212955
+
+                '
+            python/polars:
+              schema: *id006
+              example: 'shape: (1, 8)
+
+                ┌────────────────────────────────┬────────┬────────┬────────┬────────┬──────────┬──────────┬────────┐
+
+                │ timestamp                      ┆ symbol ┆ open   ┆ high   ┆ low    ┆ close    ┆ volume   ┆ count  │
+
+                │ ---                            ┆ ---    ┆ ---    ┆ ---    ┆ ---    ┆ ---      ┆ ---      ┆ ---    │
+
+                │ datetime[ms, America/New_York] ┆ str    ┆ f64    ┆ f64    ┆ f64    ┆ f64      ┆ i64      ┆ i64    │
+
+                ╞════════════════════════════════╪════════╪════════╪════════╪════════╪══════════╪══════════╪════════╡
+
+                │ 2026-04-27 12:13:13.669 EDT    ┆ AAPL   ┆ 266.09 ┆ 268.36 ┆ 265.07 ┆ 266.9199 ┆ 10436064 ┆ 212955 │
+
+                └────────────────────────────────┴────────┴────────┴────────┴────────┴──────────┴──────────┴────────┘
+
+                '
+  /stock/snapshot/trade:
+    x-skip-concurrent-limit: true
+    x-min-subscription: standard
+    get:
+      summary: Trade
+      operationId: stock_snapshot_trade
+      x-codeSamples:
+      - lang: Python
+        label: pandas
+        source: 'from thetadata import ThetaClient
+
+
+          client = ThetaClient(dataframe_type=''pandas'')
+
+          df = client.stock_snapshot_trade(symbol=[''AAPL''])
+
+          '
+      - lang: Python
+        label: polars
+        source: 'from thetadata import ThetaClient
+
+
+          client = ThetaClient(dataframe_type=''polars'')
+
+          df = client.stock_snapshot_trade(symbol=[''AAPL''])
+
+          '
+      tags:
+      - Stock
+      description: '
+
+        Returns a real-time last trade from the [Nasdaq Basic feed](/Articles/Data-And-Requests/The-SIPs) if the account has a [stocks standard or pro subscription](https://www.thetadata.net/subscribe.html#stocks).
+
+
+        - Theta Data resets its snapshot cache at midnight ET every day. This endpoint may not work on a weekend where there were no eligible messages sent over exchange feeds. We recommend using historic requests during the weekend.
+
+        '
+      x-sample-urls:
+      - url: http://127.0.0.1:25503/v3/stock/snapshot/trade?symbol=AAPL
+        description: Returns last trade for stocks for a given symbol
+      - url: http://127.0.0.1:25503/v3/stock/snapshot/trade?symbol=AAPL&format=html
+        description: Click to open in browser (HTML)
+      parameters:
+      - $ref: '#/components/parameters/multi_symbol'
+      - $ref: '#/components/parameters/venue'
+      - $ref: '#/components/parameters/min_time'
+      - $ref: '#/components/parameters/format'
+      responses:
+        '200':
+          description: Returns last trade for stocks for a given symbol
+          content:
+            text/csv:
+              schema:
+                type: array
+                items: &id007
+                  type: object
+                  properties:
+                    timestamp:
+                      type: string
+                      format: date-time
+                      description: The timestamp in YYYY-MM-DDTHH:mm:ss.SSS format.
+                    symbol:
+                      type: string
+                      description: The symbol of the contract, or stock / underlying asset / option / index.
+                    sequence:
+                      type: integer
+                      description: The exchange [sequence](/Articles/Data-And-Requests/Making-Requests.html#trade-sequences).
+                    size:
+                      type: integer
+                      description: The amount of contracts / shares traded.
+                    condition:
+                      type: integer
+                      description: The trade [condition](/Articles/Errors-Exchanges-Conditions/Trade-Conditions.html).
+                    price:
+                      type: number
+                      description: The trade price.
+              example: "timestamp,symbol,sequence,size,condition,price\r\n2025-08-20T16:36:05.549,AAPL,63539137,23,1,225.7500\r\n"
+            application/json:
+              schema: &id008
+                type: array
+                items: *id007
+              example: "{\n  \"response\": [\n    {\"symbol\":\"AAPL\",\"sequence\":63539137,\"condition\":1,\"size\":23,\"price\":225.7500,\"timestamp\":\"2025-08-20T16:36:05.549\"}\n  ]\n}\n"
+            application/x-ndjson:
+              schema: *id008
+              example: '{"symbol":"AAPL","sequence":63539137,"condition":1,"size":23,"price":225.7500,"timestamp":"2025-08-20T16:36:05.549"}'
+            python/pandas:
+              schema: *id008
+              example: 'timestamp symbol  sequence  size  condition     price
+
+                0 2026-04-27 12:13:13.669000-04:00   AAPL  35639213    21         96  266.9263
+
+                '
+            python/polars:
+              schema: *id008
+              example: 'shape: (1, 6)
+
+                ┌────────────────────────────────┬────────┬──────────┬──────┬───────────┬──────────┐
+
+                │ timestamp                      ┆ symbol ┆ sequence ┆ size ┆ condition ┆ price    │
+
+                │ ---                            ┆ ---    ┆ ---      ┆ ---  ┆ ---       ┆ ---      │
+
+                │ datetime[ms, America/New_York] ┆ str    ┆ i64      ┆ i64  ┆ i64       ┆ f64      │
+
+                ╞════════════════════════════════╪════════╪══════════╪══════╪═══════════╪══════════╡
+
+                │ 2026-04-27 12:13:13.669 EDT    ┆ AAPL   ┆ 35639213 ┆ 21   ┆ 96        ┆ 266.9263 │
+
+                └────────────────────────────────┴────────┴──────────┴──────┴───────────┴──────────┘
+
+                '
+  /stock/snapshot/quote:
+    x-skip-concurrent-limit: true
+    x-min-subscription: value
+    x-symbol-wildcard: true
+    get:
+      summary: Quote
+      operationId: stock_snapshot_quote
+      x-codeSamples:
+      - lang: Python
+        label: pandas
+        source: 'from thetadata import ThetaClient
+
+
+          client = ThetaClient(dataframe_type=''pandas'')
+
+          df = client.stock_snapshot_quote(symbol=[''AAPL''])
+
+          '
+      - lang: Python
+        label: polars
+        source: 'from thetadata import ThetaClient
+
+
+          client = ThetaClient(dataframe_type=''polars'')
+
+          df = client.stock_snapshot_quote(symbol=[''AAPL''])
+
+          '
+      tags:
+      - Stock
+      description: '* Returns a real-time last BBO quote from the [Nasdaq Basic feed](/Articles/Data-And-Requests/The-SIPs) if the account has a [stocks standard or pro subscription](https://www.thetadata.net/subscribe.html#stocks).
+
+        * Returns a 15-minute delayed NBBO quote from the [UTP & CTA feeds](/Articles/Data-And-Requests/The-SIPs) account has the [stocks value subscription](https://www.thetadata.net/subscribe.html#stocks) subscription.
+
+        - Theta Data resets its snapshot cache at midnight ET every day. This endpoint may not work on a weekend where there were no eligible messages sent over exchange feeds. We recommend using historic requests during the weekend.
+
+        '
+      x-sample-urls:
+      - url: http://127.0.0.1:25503/v3/stock/snapshot/quote?symbol=*
+        description: Returns last quote for stocks for all symbols
+      - url: http://127.0.0.1:25503/v3/stock/snapshot/quote?symbol=AAPL&venue=nqb
+        description: Returns OHLC for a given stock trade from the Nasdaq Basic feed
+      - url: http://127.0.0.1:25503/v3/stock/snapshot/quote?symbol=AAPL&format=html
+        description: Click to open in browser (HTML)
+      parameters:
+      - $ref: '#/components/parameters/multi_symbol'
+      - $ref: '#/components/parameters/venue'
+      - $ref: '#/components/parameters/min_time'
+      - $ref: '#/components/parameters/format'
+      responses:
+        '200':
+          description: Returns last quote for stocks for all symbols
+          content:
+            text/csv:
+              schema:
+                type: array
+                items: &id009
+                  type: object
+                  properties:
+                    timestamp:
+                      type: string
+                      format: date-time
+                      description: The timestamp in YYYY-MM-DDTHH:mm:ss.SSS format.
+                    symbol:
+                      type: string
+                      description: The symbol of the contract, or stock / underlying asset / option / index.
+                    bid_size:
+                      type: integer
+                      description: The last NBBO bid size.
+                    bid_exchange:
+                      type: integer
+                      description: The last NBBO bid [exchange](/Articles/Errors-Exchanges-Conditions/Exchanges.html).
+                    bid:
+                      type: number
+                      description: The last NBBO bid price.
+                    bid_condition:
+                      type: integer
+                      description: The last NBBO bid [condition](/Articles/Errors-Exchanges-Conditions/Quote-Conditions.html).
+                    ask_size:
+                      type: integer
+                      description: The last NBBO ask size.
+                    ask_exchange:
+                      type: integer
+                      description: The last NBBO ask [exchange](/Articles/Errors-Exchanges-Conditions/Exchanges.html).
+                    ask:
+                      type: number
+                      description: The last NBBO ask price.
+                    ask_condition:
+                      type: integer
+                      description: The last NBBO ask [condition](/Articles/Errors-Exchanges-Conditions/Quote-Conditions.html).
+              example: "timestamp,symbol,bid_size,bid_exchange,bid,bid_condition,ask_size,ask_exchange,ask,ask_condition\r\n2025-08-20T16:03:05.142,CVCO,1,29,475.75,0,3,29,494.33,0\r\n2025-08-20T16:10:05.032,KLXY,200,29,12.40,0,200,29,37.18,0\r\n2025-08-20T16:21:05.781,IFRX,100,29,0.7510,0,45,29,0.9500,0\r\n2025-08-20T16:19:55.101,SCS,100,29,14.64,0,100,29,17.60,0\r\n2025-08-20T16:33:50.877,BBC,100,29,13.29,0,2800,29,24.06,0\r\n"
+            application/json:
+              schema: &id010
+                type: array
+                items: *id009
+              example: "{\n  \"response\": [\n    {\"symbol\":\"CVCO\",\"ask_size\":3,\"bid_size\":1,\"ask_exchange\":29,\"ask_condition\":0,\"bid_exchange\":29,\"ask\":494.33,\"bid\":475.75,\"bid_condition\":0,\"timestamp\":\"2025-08-20T16:03:05.142\"},\n    {\"symbol\":\"KLXY\",\"ask_size\":200,\"bid_size\":200,\"ask_exchange\":29,\"ask_condition\":0,\"bid_exchange\":29,\"ask\":37.18,\"bid\":12.40,\"bid_condition\":0,\"timestamp\":\"2025-08-20T16:10:05.032\"},\n    {\"symbol\":\"IFRX\",\"ask_size\":45,\"bid_size\":100,\"ask_exchange\":29,\"ask_condition\":0,\"bid_exchange\":29,\"ask\":0.9500,\"bid\":0.7510,\"bid_condition\":0,\"timestamp\":\"2025-08-20T16:21:05.781\"},\n    {\"symbol\":\"SCS\",\"ask_size\":100,\"bid_size\":100,\"ask_exchange\":29,\"ask_condition\":0,\"bid_exchange\":29,\"ask\":17.60,\"bid\":14.64,\"bid_condition\":0,\"timestamp\":\"2025-08-20T16:19:55.101\"},\n    {\"symbol\":\"BBC\",\"ask_size\":2800,\"bid_size\":100,\"ask_exchange\":29,\"ask_condition\":0,\"bid_exchange\":29,\"ask\":24.06,\"bid\":13.29,\"bid_condition\":0,\"timestamp\":\"2025-08-20T16:33:50.877\"}\n  ]\n}\n"
+            application/x-ndjson:
+              schema: *id010
+              example: '{"symbol":"CVCO","ask_size":3,"bid_size":1,"ask_exchange":29,"ask_condition":0,"bid_exchange":29,"ask":494.33,"bid":475.75,"bid_condition":0,"timestamp":"2025-08-20T16:03:05.142"}
+
+                {"symbol":"KLXY","ask_size":200,"bid_size":200,"ask_exchange":29,"ask_condition":0,"bid_exchange":29,"ask":37.18,"bid":12.40,"bid_condition":0,"timestamp":"2025-08-20T16:10:05.032"}
+
+                {"symbol":"IFRX","ask_size":45,"bid_size":100,"ask_exchange":29,"ask_condition":0,"bid_exchange":29,"ask":0.9500,"bid":0.7510,"bid_condition":0,"timestamp":"2025-08-20T16:21:05.781"}
+
+                {"symbol":"SCS","ask_size":100,"bid_size":100,"ask_exchange":29,"ask_condition":0,"bid_exchange":29,"ask":17.60,"bid":14.64,"bid_condition":0,"timestamp":"2025-08-20T16:19:55.101"}
+
+                {"symbol":"BBC","ask_size":2800,"bid_size":100,"ask_exchange":29,"ask_condition":0,"bid_exchange":29,"ask":24.06,"bid":13.29,"bid_condition":0,"timestamp":"2025-08-20T16:33:50.877"}'
+            python/pandas:
+              schema: *id010
+              example: 'timestamp symbol  bid_size  bid_exchange    bid  bid_condition  ask_size  ask_exchange     ask  ask_condition
+
+                0 2026-04-27 12:13:13.953000-04:00   AAPL       158            29  266.9              0        22            29  266.92              0
+
+                '
+            python/polars:
+              schema: *id010
+              example: 'shape: (1, 10)
+
+                ┌────────────────────────────────┬────────┬──────────┬──────────────┬───────┬───────────────┬──────────┬──────────────┬────────┬───────────────┐
+
+                │ timestamp                      ┆ symbol ┆ bid_size ┆ bid_exchange ┆ bid   ┆ bid_condition ┆ ask_size ┆ ask_exchange ┆ ask    ┆ ask_condition │
+
+                │ ---                            ┆ ---    ┆ ---      ┆ ---          ┆ ---   ┆ ---           ┆ ---      ┆ ---          ┆ ---    ┆ ---           │
+
+                │ datetime[ms, America/New_York] ┆ str    ┆ i64      ┆ i64          ┆ f64   ┆ i64           ┆ i64      ┆ i64          ┆ f64    ┆ i64           │
+
+                ╞════════════════════════════════╪════════╪══════════╪══════════════╪═══════╪═══════════════╪══════════╪══════════════╪════════╪═══════════════╡
+
+                │ 2026-04-27 12:13:13.953 EDT    ┆ AAPL   ┆ 158      ┆ 29           ┆ 266.9 ┆ 0             ┆ 22       ┆ 29           ┆ 266.92 ┆ 0             │
+
+                └────────────────────────────────┴────────┴──────────┴──────────────┴───────┴───────────────┴──────────┴──────────────┴────────┴───────────────┘
+
+                '
+  /stock/snapshot/market_value:
+    x-skip-concurrent-limit: true
+    x-min-subscription: standard
+    x-symbol-wildcard: true
+    get:
+      summary: Market Value
+      operationId: stock_snapshot_market_value
+      x-codeSamples:
+      - lang: Python
+        label: pandas
+        source: 'from thetadata import ThetaClient
+
+
+          client = ThetaClient(dataframe_type=''pandas'')
+
+          df = client.stock_snapshot_market_value(symbol=[''AAPL''])
+
+          '
+      - lang: Python
+        label: polars
+        source: 'from thetadata import ThetaClient
+
+
+          client = ThetaClient(dataframe_type=''polars'')
+
+          df = client.stock_snapshot_market_value(symbol=[''AAPL''])
+
+          '
+      tags:
+      - Stock
+      description: '* Returns a real-time market value derived from the last BBO quote from the [Nasdaq Basic feed](/Articles/Data-And-Requests/The-SIPs) if the account has a [stocks standard or pro subscription](https://www.thetadata.net/subscribe.html#stocks).
+
+        * Returns a 15-minute delayed market value derived from an NBBO quote from the [UTP & CTA feeds](/Articles/Data-And-Requests/The-SIPs) if the account has the [stocks value subscription](https://www.thetadata.net/subscribe.html#stocks) subscription.
+
+        - Theta Data resets its snapshot cache at midnight ET every day. This endpoint may not work on a weekend where there were no eligible messages sent over exchange feeds. We recommend using historic requests during the weekend.
+
+        '
+      x-sample-urls:
+      - url: http://127.0.0.1:25503/v3/stock/snapshot/market_value?symbol=*
+        description: Returns last market value for stocks for all symbols
+      - url: http://127.0.0.1:25503/v3/stock/snapshot/market_value?symbol=AAPL&venue=nqb
+        description: Returns market value for a given stock trade from the Nasdaq Basic feed
+      - url: http://127.0.0.1:25503/v3/stock/snapshot/market_value?symbol=*&format=html
+        description: Click to open in browser (HTML)
+      parameters:
+      - $ref: '#/components/parameters/multi_symbol'
+      - $ref: '#/components/parameters/venue'
+      - $ref: '#/components/parameters/min_time'
+      - $ref: '#/components/parameters/format'
+      responses:
+        '200':
+          description: Returns last market value for stocks for all symbols
+          content:
+            text/csv:
+              schema:
+                type: array
+                items: &id011
+                  type: object
+                  properties:
+                    timestamp:
+                      type: string
+                      format: date-time
+                      description: The timestamp in YYYY-MM-DDTHH:mm:ss.SSS format.
+                    symbol:
+                      type: string
+                      description: The symbol of the contract, or stock / underlying asset / option / index.
+                    market_bid:
+                      type: number
+                      description: The last market bid
+                    market_ask:
+                      type: number
+                      description: The last market ask
+                    market_price:
+                      type: number
+                      description: The last market value price
+              example: "timestamp,symbol,market_bid,market_ask,market_price\r\n2025-12-16T11:47:50.854,CVCO,590.60,595.55,593.07\r\n2025-12-16T11:02:05.409,KLXY,26.77,27.69,27.23\r\n2025-12-16T11:47:52.923,FXR,80.23,80.27,80.25\r\n2025-12-16T11:47:53.496,AAPL,273.22,273.23,273.22"
+            application/json:
+              schema: &id012
+                type: array
+                items: *id011
+              example: "{\n  \"response\": [\n    {\"symbol\":\"CVCO\",\"market_bid\":590.60,\"market_ask\":595.55,\"market_price\":593.07,\"timestamp\":\"2025-12-16T11:47:50.854\"},\n    {\"symbol\":\"KLXY\",\"market_bid\":26.77,\"market_ask\":27.69,\"market_price\":27.23,\"timestamp\":\"2025-12-16T11:02:05.409\"},\n    {\"symbol\":\"FXR\",\"market_bid\":80.23,\"market_ask\":80.27,\"market_price\":80.25,\"timestamp\":\"2025-12-16T11:47:52.923\"},\n    {\"symbol\":\"AAPL\",\"market_bid\":273.22,\"market_ask\":273.23,\"market_price\":273.22,\"timestamp\":\"2025-12-16T11:47:53.496\"}\n  ]\n}\n"
+            application/x-ndjson:
+              schema: *id012
+              example: '{"symbol":"CVCO","market_bid":590.60,"market_ask":595.55,"market_price":593.07,"timestamp":"2025-12-16T11:47:50.854"}
+
+                {"symbol":"KLXY","market_bid":26.77,"market_ask":27.69,"market_price":27.23,"timestamp":"2025-12-16T11:02:05.409"}
+
+                {"symbol":"FXR","market_bid":80.23,"market_ask":80.27,"market_price":80.25,"timestamp":"2025-12-16T11:47:52.923"}
+
+                {"symbol":"AAPL","market_bid":273.22,"market_ask":273.23,"market_price":273.22,"timestamp":"2025-12-16T11:47:53.496"}'
+            python/pandas:
+              schema: *id012
+              example: 'timestamp symbol  market_bid  market_ask  market_price
+
+                0 2026-04-27 12:13:13.953000-04:00   AAPL       266.9      266.91         266.9
+
+                '
+            python/polars:
+              schema: *id012
+              example: 'shape: (1, 5)
+
+                ┌────────────────────────────────┬────────┬────────────┬────────────┬──────────────┐
+
+                │ timestamp                      ┆ symbol ┆ market_bid ┆ market_ask ┆ market_price │
+
+                │ ---                            ┆ ---    ┆ ---        ┆ ---        ┆ ---          │
+
+                │ datetime[ms, America/New_York] ┆ str    ┆ f64        ┆ f64        ┆ f64          │
+
+                ╞════════════════════════════════╪════════╪════════════╪════════════╪══════════════╡
+
+                │ 2026-04-27 12:13:13.953 EDT    ┆ AAPL   ┆ 266.9      ┆ 266.91     ┆ 266.9        │
+
+                └────────────────────────────────┴────────┴────────────┴────────────┴──────────────┘
+
+                '
+  /stock/history/eod:
+    x-concurrent-limit-ttl-ms: '580'
+    x-min-subscription: free
+    x-history-access: true
+    get:
+      summary: End of Day
+      operationId: stock_history_eod
+      x-codeSamples:
+      - lang: Python
+        label: pandas
+        source: "from thetadata import ThetaClient\nfrom datetime import date\n\nclient = ThetaClient(dataframe_type='pandas')\ndf = client.stock_history_eod(\n    symbol='AAPL',\n    start_date=date(2024, 1, 1),\n    end_date=date(2024, 1, 31),\n)\n"
+      - lang: Python
+        label: polars
+        source: "from thetadata import ThetaClient\nfrom datetime import date\n\nclient = ThetaClient(dataframe_type='polars')\ndf = client.stock_history_eod(\n    symbol='AAPL',\n    start_date=date(2024, 1, 1),\n    end_date=date(2024, 1, 31),\n)\n"
+      tags:
+      - Stock
+      description: '
+
+        Since [the equity SIPs](/Articles/Data-And-Requests/The-SIPs.html) only generate a partial EOD report, Theta Data generates a national EOD report at 17:15 ET each day. ``created`` represents the datetime the report was generated and ``last_trade`` represents the datetime of the last trade. The quote in the response represents the last NBBO reported by [CTA or UTP](/Articles/Data-And-Requests/The-SIPs.html) at the time of report generation. You can read more about EOD & OHLC data [here](/Articles/Data-And-Requests/OHLC-EOD.html). Theta Data plans to avail SIP EOD reports in the near future.
+
+        '
+      x-sample-urls:
+      - url: http://127.0.0.1:25503/v3/stock/history/eod?symbol=AAPL&start_date=20240101&end_date=20240131
+        description: Returns EOD report for a given symbol between specified dates (inclusive)
+      - url: http://127.0.0.1:25503/v3/stock/history/eod?symbol=AAPL&start_date=20240101&end_date=20240131&format=html
+        description: Click to open in browser (HTML)
+      parameters:
+      - $ref: '#/components/parameters/single_symbol'
+      - $ref: '#/components/parameters/start_date'
+      - $ref: '#/components/parameters/end_date'
+      - $ref: '#/components/parameters/format'
+      responses:
+        '200':
+          description: Returns EOD report for a given symbol between specified dates (inclusive)
+          content:
+            text/csv:
+              schema:
+                type: array
+                items: &id013
+                  type: object
+                  properties:
+                    created:
+                      type: string
+                      format: date-time
+                      description: The date formated as YYYY-MM-DDTHH:mm:ss.SSS format.
+                    last_trade:
+                      type: string
+                      format: date-time
+                      description: The last trade date formated as YYYY-MM-DDTHH:mm:ss.SSS format.
+                    open:
+                      type: number
+                      description: The opening trade price.
+                    high:
+                      type: number
+                      description: The highest traded price.
+                    low:
+                      type: number
+                      description: The lowest traded price.
+                    close:
+                      type: number
+                      description: The closing traded price.
+                    volume:
+                      type: integer
+                      description: The amount of contracts / shares traded.
+                    count:
+                      type: integer
+                      description: The amount of trades.
+                    bid_size:
+                      type: integer
+                      description: The last NBBO bid size.
+                    bid_exchange:
+                      type: integer
+                      description: The last NBBO bid [exchange](/Articles/Errors-Exchanges-Conditions/Exchanges.html).
+                    bid:
+                      type: number
+                      description: The last NBBO bid price.
+                    bid_condition:
+                      type: integer
+                      description: The last NBBO bid [condition](/Articles/Errors-Exchanges-Conditions/Quote-Conditions.html).
+                    ask_size:
+                      type: integer
+                      description: The last NBBO ask size.
+                    ask_exchange:
+                      type: integer
+                      description: The last NBBO ask [exchange](/Articles/Errors-Exchanges-Conditions/Exchanges.html).
+                    ask:
+                      type: number
+                      description: The last NBBO ask price.
+                    ask_condition:
+                      type: integer
+                      description: The last NBBO ask [condition](/Articles/Errors-Exchanges-Conditions/Quote-Conditions.html).
+              example: "created,last_trade,open,high,low,close,volume,count,bid_size,bid_exchange,bid,bid_condition,ask_size,ask_exchange,ask,ask_condition\r\n2024-01-02T17:17:53.606,2024-01-02T17:17:51.877,187.030,188.440,183.885,185.640,80680243,1003582,2,7,18.534,0,2,1,18.536,0\r\n2024-01-03T17:16:29.883,2024-01-03T17:16:28.586,184.200,185.880,183.430,184.250,58308345,654127,5,7,18.405,0,2,1,18.410,0\r\n2024-01-04T17:17:06.02,2024-01-04T17:17:02.445,182.0000,183.0872,180.8800,181.9100,71197269,709246,8,60,1.8176,0,2,7,1.8179,0\r\n2024-01-05T17:16:57.032,2024-01-05T17:16:49.821,181.900,182.760,180.170,181.180,61949135,679405,3,1,18.103,0,3,7,18.105,0\r\n2024-01-08T17:17:01.83,2024-01-08T17:17:01.484,182.000,185.600,181.500,185.560,59029146,665626,4,1,18.528,0,1,65,18.537,0\r\n"
+            application/json:
+              schema: &id014
+                type: array
+                items: *id013
+              example: "{\n  \"response\": [\n    {\"ask_size\":2,\"last_trade\":\"2024-01-02T17:17:51.877\",\"created\":\"2024-01-02T17:17:53.606\",\"ask_condition\":0,\"count\":1003582,\"volume\":80680243,\"high\":188.440,\"low\":183.885,\"bid_size\":2,\"ask_exchange\":1,\"bid_exchange\":7,\"ask\":18.536,\"bid\":18.534,\"bid_condition\":0,\"close\":185.640,\"open\":187.030},\n    {\"ask_size\":2,\"last_trade\":\"2024-01-03T17:16:28.586\",\"created\":\"2024-01-03T17:16:29.883\",\"ask_condition\":0,\"count\":654127,\"volume\":58308345,\"high\":185.880,\"low\":183.430,\"bid_size\":5,\"ask_exchange\":1,\"bid_exchange\":7,\"ask\":18.410,\"bid\":18.405,\"bid_condition\":0,\"close\":184.250,\"open\":184.200},\n    {\"ask_size\":2,\"last_trade\":\"2024-01-04T17:17:02.445\",\"created\":\"2024-01-04T17:17:06.02\",\"ask_condition\":0,\"count\":709246,\"volume\":71197269,\"high\":183.0872,\"low\":180.8800,\"bid_size\":8,\"ask_exchange\":7,\"bid_exchange\":60,\"ask\":1.8179,\"bid\":1.8176,\"bid_condition\":0,\"close\":181.9100,\"open\":182.0000},\n    {\"ask_size\":3,\"last_trade\":\"2024-01-05T17:16:49.821\",\"created\":\"2024-01-05T17:16:57.032\",\"ask_condition\":0,\"count\":679405,\"volume\":61949135,\"high\":182.760,\"low\":180.170,\"bid_size\":3,\"ask_exchange\":7,\"bid_exchange\":1,\"ask\":18.105,\"bid\":18.103,\"bid_condition\":0,\"close\":181.180,\"open\":181.900},\n    {\"ask_size\":1,\"last_trade\":\"2024-01-08T17:17:01.484\",\"created\":\"2024-01-08T17:17:01.83\",\"ask_condition\":0,\"count\":665626,\"volume\":59029146,\"high\":185.600,\"low\":181.500,\"bid_size\":4,\"ask_exchange\":65,\"bid_exchange\":1,\"ask\":18.537,\"bid\":18.528,\"bid_condition\":0,\"close\":185.560,\"open\":182.000}\n  ]\n}\n"
+            application/x-ndjson:
+              schema: *id014
+              example: '{"ask_size":2,"last_trade":"2024-01-02T17:17:51.877","created":"2024-01-02T17:17:53.606","ask_condition":0,"count":1003582,"volume":80680243,"high":188.440,"low":183.885,"bid_size":2,"ask_exchange":1,"bid_exchange":7,"ask":18.536,"bid":18.534,"bid_condition":0,"close":185.640,"open":187.030}
+
+                {"ask_size":2,"last_trade":"2024-01-03T17:16:28.586","created":"2024-01-03T17:16:29.883","ask_condition":0,"count":654127,"volume":58308345,"high":185.880,"low":183.430,"bid_size":5,"ask_exchange":1,"bid_exchange":7,"ask":18.410,"bid":18.405,"bid_condition":0,"close":184.250,"open":184.200}
+
+                {"ask_size":2,"last_trade":"2024-01-04T17:17:02.445","created":"2024-01-04T17:17:06.02","ask_condition":0,"count":709246,"volume":71197269,"high":183.0872,"low":180.8800,"bid_size":8,"ask_exchange":7,"bid_exchange":60,"ask":1.8179,"bid":1.8176,"bid_condition":0,"close":181.9100,"open":182.0000}
+
+                {"ask_size":3,"last_trade":"2024-01-05T17:16:49.821","created":"2024-01-05T17:16:57.032","ask_condition":0,"count":679405,"volume":61949135,"high":182.760,"low":180.170,"bid_size":3,"ask_exchange":7,"bid_exchange":1,"ask":18.105,"bid":18.103,"bid_condition":0,"close":181.180,"open":181.900}
+
+                {"ask_size":1,"last_trade":"2024-01-08T17:17:01.484","created":"2024-01-08T17:17:01.83","ask_condition":0,"count":665626,"volume":59029146,"high":185.600,"low":181.500,"bid_size":4,"ask_exchange":65,"bid_exchange":1,"ask":18.537,"bid":18.528,"bid_condition":0,"close":185.560,"open":182.000}'
+            python/pandas:
+              schema: *id014
+              example: 'created                       last_trade    open    high     low   close    volume   count  bid_size  bid_exchange     bid  bid_condition  ask_size  ask_exchange     ask  ask_condition
+
+                0 2025-10-02 17:15:40.365000-04:00 2025-10-02 17:15:30.829000-04:00  256.60  258.18  254.15  257.13  42543552  483678         1            60  257.40              0        19             7  257.50              0
+
+                1 2025-10-03 17:15:50.597000-04:00 2025-10-03 17:15:27.845000-04:00  254.64  259.24  253.95  258.02  49090168  704668         2             7  257.81              0         3             1  257.98              0
+
+                '
+            python/polars:
+              schema: *id014
+              example: 'shape: (2, 16)
+
+                ┌────────────────────────────────┬────────────────────────────────┬────────┬────────┬────────┬────────┬──────────┬────────┬──────────┬──────────────┬────────┬───────────────┬──────────┬──────────────┬────────┬───────────────┐
+
+                │ created                        ┆ last_trade                     ┆ open   ┆ high   ┆ low    ┆ close  ┆ volume   ┆ count  ┆ bid_size ┆ bid_exchange ┆ bid    ┆ bid_condition ┆ ask_size ┆ ask_exchange ┆ ask    ┆ ask_condition │
+
+                │ ---                            ┆ ---                            ┆ ---    ┆ ---    ┆ ---    ┆ ---    ┆ ---      ┆ ---    ┆ ---      ┆ ---          ┆ ---    ┆ ---           ┆ ---      ┆ ---          ┆ ---    ┆ ---           │
+
+                │ datetime[ms, America/New_York] ┆ datetime[ms, America/New_York] ┆ f64    ┆ f64    ┆ f64    ┆ f64    ┆ i64      ┆ i64    ┆ i64      ┆ i64          ┆ f64    ┆ i64           ┆ i64      ┆ i64          ┆ f64    ┆ i64           │
+
+                ╞════════════════════════════════╪════════════════════════════════╪════════╪════════╪════════╪════════╪══════════╪════════╪══════════╪══════════════╪════════╪═══════════════╪══════════╪══════════════╪════════╪═══════════════╡
+
+                │ 2025-10-02 17:15:40.365 EDT    ┆ 2025-10-02 17:15:30.829 EDT    ┆ 256.6  ┆ 258.18 ┆ 254.15 ┆ 257.13 ┆ 42543552 ┆ 483678 ┆ 1        ┆ 60           ┆ 257.4  ┆ 0             ┆ 19       ┆ 7            ┆ 257.5  ┆ 0             │
+
+                │ 2025-10-03 17:15:50.597 EDT    ┆ 2025-10-03 17:15:27.845 EDT    ┆ 254.64 ┆ 259.24 ┆ 253.95 ┆ 258.02 ┆ 49090168 ┆ 704668 ┆ 2        ┆ 7            ┆ 257.81 ┆ 0             ┆ 3        ┆ 1            ┆ 257.98 ┆ 0             │
+
+                └────────────────────────────────┴────────────────────────────────┴────────┴────────┴────────┴────────┴──────────┴────────┴──────────┴──────────────┴────────┴───────────────┴──────────┴──────────────┴────────┴───────────────┘
+
+                '
+  /stock/history/ohlc:
+    x-concurrent-limit-ttl-ms: '695'
+    x-min-subscription: value
+    x-history-access: true
+    get:
+      summary: Open High Low Close
+      operationId: stock_history_ohlc
+      x-codeSamples:
+      - lang: Python
+        label: pandas
+        source: 'from thetadata import ThetaClient
+
+
+          client = ThetaClient(dataframe_type=''pandas'')
+
+          df = client.stock_history_ohlc(symbol=''AAPL'', interval=''1m'')
+
+          '
+      - lang: Python
+        label: polars
+        source: 'from thetadata import ThetaClient
+
+
+          client = ThetaClient(dataframe_type=''polars'')
+
+          df = client.stock_history_ohlc(symbol=''AAPL'', interval=''1m'')
+
+          '
+      tags:
+      - Stock
+      description: "- Aggregated OHLC bars that use [SIP rules](/Articles/Data-And-Requests/OHLC-EOD.html) for each bar. Time timestamp of the bar represents the opening time of the bar. For a trade to be part of the bar:  ``bar time`` <= ``trade time`` < ``bar timestamp + ivl``, where ivl is the specified interval size in milliseconds. \n- Set the ``venue`` parameter to ``nqb`` to access current-day real-time historic data from the [Nasdaq Basic feed](/Articles/Data-And-Requests/The-SIPs) if the account has a [stocks standard or pro subscription](https://www.thetadata.net/subscribe.html#stocks).\n- Multi-day requests are limited to 1 month of data.\n"
+      x-sample-urls:
+      - url: http://127.0.0.1:25503/v3/stock/history/ohlc?symbol=AAPL&date=20240102&interval=1m
+        description: Returns OHLC for a given symbol on the specified date with a one minute interval
+      - url: http://127.0.0.1:25503/v3/stock/history/ohlc?symbol=AAPL&date=20240102&interval=1m&format=html
+        description: Click to open in browser (HTML)
+      - url: http://127.0.0.1:25503/v3/stock/history/ohlc?symbol=AAPL&start_date=20240102&end_date=20240109&interval=1m
+        description: Returns OHLC for a given symbol between specified dates (inclusive) with a one minute interval
+      - url: http://127.0.0.1:25503/v3/stock/history/ohlc?symbol=AAPL&start_date=20240102&end_date=20240109&interval=1m&format=html
+        description: Click to open in browser (HTML)
+      parameters:
+      - $ref: '#/components/parameters/single_symbol'
+      - $ref: '#/components/parameters/opt_date'
+      - $ref: '#/components/parameters/interval'
+      - $ref: '#/components/parameters/start_time'
+      - $ref: '#/components/parameters/end_time'
+      - $ref: '#/components/parameters/venue'
+      - $ref: '#/components/parameters/format'
+      - $ref: '#/components/parameters/opt_start_date'
+      - $ref: '#/components/parameters/opt_end_date'
+      responses:
+        '200':
+          description: Returns OHLC for a given symbol between specified dates (inclusive) with a one minute interval
+          content:
+            text/csv:
+              schema:
+                type: array
+                items: &id015
+                  type: object
+                  properties:
+                    timestamp:
+                      type: string
+                      format: date-time
+                      description: The timestamp in YYYY-MM-DDTHH:mm:ss.SSS format.
+                    open:
+                      type: number
+                      description: The opening trade price.
+                    high:
+                      type: number
+                      description: The highest traded price.
+                    low:
+                      type: number
+                      description: The lowest traded price.
+                    close:
+                      type: number
+                      description: The closing traded price.
+                    volume:
+                      type: integer
+                      description: The amount of contracts / shares traded.
+                    count:
+                      type: integer
+                      description: The amount of trades.
+                    vwap:
+                      type: number
+                      description: The volume weighted average price of the trading session.
+              example: "timestamp,open,high,low,close,volume,count,vwap\r\n2024-01-02T09:30:00,187.1500,188.050,186.350,187.830,3256708,37886,187.25\r\n2024-01-02T09:31:00,187.830,188.120,187.630,187.765,809707,7481,187.38\r\n2024-01-02T09:32:00,187.770,188.440,187.730,188.2984,687086,7103,187.48\r\n2024-01-02T09:33:00,188.3050,188.310,187.810,188.160,485275,6245,187.53\r\n2024-01-02T09:34:00,188.150,188.150,187.670,187.730,415948,5942,187.55\r\n"
+            application/json:
+              schema: &id016
+                type: array
+                items: *id015
+              example: "{\n  \"response\": [\n    {\"volume\":3256708,\"high\":188.050,\"low\":186.350,\"vwap\":187.25,\"count\":37886,\"close\":187.830,\"open\":187.1500,\"timestamp\":\"2024-01-02T09:30:00\"},\n    {\"volume\":809707,\"high\":188.120,\"low\":187.630,\"vwap\":187.38,\"count\":7481,\"close\":187.765,\"open\":187.830,\"timestamp\":\"2024-01-02T09:31:00\"},\n    {\"volume\":687086,\"high\":188.440,\"low\":187.730,\"vwap\":187.48,\"count\":7103,\"close\":188.2984,\"open\":187.770,\"timestamp\":\"2024-01-02T09:32:00\"},\n    {\"volume\":485275,\"high\":188.310,\"low\":187.810,\"vwap\":187.53,\"count\":6245,\"close\":188.160,\"open\":188.3050,\"timestamp\":\"2024-01-02T09:33:00\"},\n    {\"volume\":415948,\"high\":188.150,\"low\":187.670,\"vwap\":187.55,\"count\":5942,\"close\":187.730,\"open\":188.150,\"timestamp\":\"2024-01-02T09:34:00\"}\n  ]\n}\n"
+            application/x-ndjson:
+              schema: *id016
+              example: '{"volume":3256708,"high":188.050,"low":186.350,"vwap":187.25,"count":37886,"close":187.830,"open":187.1500,"timestamp":"2024-01-02T09:30:00"}
+
+                {"volume":809707,"high":188.120,"low":187.630,"vwap":187.38,"count":7481,"close":187.765,"open":187.830,"timestamp":"2024-01-02T09:31:00"}
+
+                {"volume":687086,"high":188.440,"low":187.730,"vwap":187.48,"count":7103,"close":188.2984,"open":187.770,"timestamp":"2024-01-02T09:32:00"}
+
+                {"volume":485275,"high":188.310,"low":187.810,"vwap":187.53,"count":6245,"close":188.160,"open":188.3050,"timestamp":"2024-01-02T09:33:00"}
+
+                {"volume":415948,"high":188.150,"low":187.670,"vwap":187.55,"count":5942,"close":187.730,"open":188.150,"timestamp":"2024-01-02T09:34:00"}'
+            python/pandas:
+              schema: *id016
+              example: 'timestamp      open      high       low     close  volume  count    vwap
+
+                0  2025-10-02 09:30:00-04:00  256.5750  256.8300  256.2100  256.4600  929518  13659  256.57
+
+                1  2025-10-02 09:31:00-04:00  256.4700  256.8500  256.3500  256.3700  183344   2498  256.58
+
+                2  2025-10-02 09:32:00-04:00  256.3500  257.3000  256.2600  257.1600  388614   4928  256.64
+
+                3  2025-10-02 09:33:00-04:00  257.1400  257.2450  256.6300  256.7500  233456   3195  256.68
+
+                4  2025-10-02 09:34:00-04:00  256.7375  257.0500  255.8000  255.8900  224588   3292  256.65
+
+                5  2025-10-02 09:35:00-04:00  255.8900  256.1400  255.3100  255.4000  324623   4018  256.51
+
+                6  2025-10-02 09:36:00-04:00  255.3900  255.6200  255.1000  255.2150  176060   2968  256.44
+
+                7  2025-10-02 09:37:00-04:00  255.2000  255.3700  255.0900  255.1450  217195   3137  256.34
+
+                8  2025-10-02 09:38:00-04:00  255.1650  255.3050  254.8301  254.8700  285347   4128  256.22
+
+                9  2025-10-02 09:39:00-04:00  254.8650  254.9400  254.5000  254.5550  192953   2880  256.13
+
+                10 2025-10-02 09:40:00-04:00  254.5300  254.5600  254.1500  254.2100  262004   3643  256.00
+
+                11 2025-10-02 09:41:00-04:00  254.2400  254.5500  254.2100  254.3600  186084   2943  255.92
+
+                12 2025-10-02 09:42:00-04:00  254.3700  254.5744  254.2600  254.4000  200902   2464  255.84
+
+                13 2025-10-02 09:43:00-04:00  254.4200  254.8400  254.4200  254.8100  130322   2104  255.80
+
+                14 2025-10-02 09:44:00-04:00  254.7900  254.9600  254.7053  254.7550  185496   2400  255.76
+
+                15 2025-10-02 09:45:00-04:00  254.7600  255.1300  254.5250  255.1106  165523   2497  255.72
+
+                16 2025-10-02 09:46:00-04:00  255.0900  255.4199  255.0600  255.1600  137451   2204  255.71
+
+                17 2025-10-02 09:47:00-04:00  255.1500  255.2200  254.8020  254.9650  129188   2162  255.69
+
+                18 2025-10-02 09:48:00-04:00  254.9600  255.1850  254.9200  255.1150  136240   2052  255.67
+
+                19 2025-10-02 09:49:00-04:00  255.1150  255.3100  255.0700  255.1400  129102   1876  255.66
+
+                20 2025-10-02 09:50:00-04:00  255.1300  255.2200  254.9300  255.1500  118183   1781  255.64
+
+                21 2025-10-02 09:51:00-04:00  255.1400  255.5200  255.0700  255.3900  194992   2073  255.63
+
+                22 2025-10-02 09:52:00-04:00  255.3700  255.7400  255.3101  255.3600  125463   1782  255.63
+
+                23 2025-10-02 09:53:00-04:00  255.4000  255.7750  255.3650  255.7350  151982   1741  255.62
+
+                24 2025-10-02 09:54:00-04:00  255.7350  255.9750  255.6600  255.6750  141129   1799  255.63
+
+                25 2025-10-02 09:55:00-04:00  255.6600  255.9300  255.6600  255.7900  107766   1357  255.63
+
+                26 2025-10-02 09:56:00-04:00  255.8100  255.8444  255.6900  255.7400   66568   1103  255.64
+
+                27 2025-10-02 09:57:00-04:00  255.7650  255.7650  255.5300  255.5750   85323   1332  255.64
+
+                28 2025-10-02 09:58:00-04:00  255.5700  255.9700  255.5500  255.9700  132838   1663  255.64
+
+                29 2025-10-02 09:59:00-04:00  255.9650  256.0800  255.8700  256.0350  204495   1973  255.65
+
+                30 2025-10-02 10:00:00-04:00       NaN       NaN       NaN       NaN       0      0  255.65
+
+                '
+            python/polars:
+              schema: *id016
+              example: 'shape: (31, 8)
+
+                ┌────────────────────────────────┬──────────┬──────────┬────────┬─────────┬────────┬───────┬────────┐
+
+                │ timestamp                      ┆ open     ┆ high     ┆ low    ┆ close   ┆ volume ┆ count ┆ vwap   │
+
+                │ ---                            ┆ ---      ┆ ---      ┆ ---    ┆ ---     ┆ ---    ┆ ---   ┆ ---    │
+
+                │ datetime[ms, America/New_York] ┆ f64      ┆ f64      ┆ f64    ┆ f64     ┆ i64    ┆ i64   ┆ f64    │
+
+                ╞════════════════════════════════╪══════════╪══════════╪════════╪═════════╪════════╪═══════╪════════╡
+
+                │ 2025-10-02 09:30:00 EDT        ┆ 256.575  ┆ 256.83   ┆ 256.21 ┆ 256.46  ┆ 929518 ┆ 13659 ┆ 256.57 │
+
+                │ 2025-10-02 09:31:00 EDT        ┆ 256.47   ┆ 256.85   ┆ 256.35 ┆ 256.37  ┆ 183344 ┆ 2498  ┆ 256.58 │
+
+                │ 2025-10-02 09:32:00 EDT        ┆ 256.35   ┆ 257.3    ┆ 256.26 ┆ 257.16  ┆ 388614 ┆ 4928  ┆ 256.64 │
+
+                │ 2025-10-02 09:33:00 EDT        ┆ 257.14   ┆ 257.245  ┆ 256.63 ┆ 256.75  ┆ 233456 ┆ 3195  ┆ 256.68 │
+
+                │ 2025-10-02 09:34:00 EDT        ┆ 256.7375 ┆ 257.05   ┆ 255.8  ┆ 255.89  ┆ 224588 ┆ 3292  ┆ 256.65 │
+
+                │ …                              ┆ …        ┆ …        ┆ …      ┆ …       ┆ …      ┆ …     ┆ …      │
+
+                │ 2025-10-02 09:56:00 EDT        ┆ 255.81   ┆ 255.8444 ┆ 255.69 ┆ 255.74  ┆ 66568  ┆ 1103  ┆ 255.64 │
+
+                │ 2025-10-02 09:57:00 EDT        ┆ 255.765  ┆ 255.765  ┆ 255.53 ┆ 255.575 ┆ 85323  ┆ 1332  ┆ 255.64 │
+
+                │ 2025-10-02 09:58:00 EDT        ┆ 255.57   ┆ 255.97   ┆ 255.55 ┆ 255.97  ┆ 132838 ┆ 1663  ┆ 255.64 │
+
+                │ 2025-10-02 09:59:00 EDT        ┆ 255.965  ┆ 256.08   ┆ 255.87 ┆ 256.035 ┆ 204495 ┆ 1973  ┆ 255.65 │
+
+                │ 2025-10-02 10:00:00 EDT        ┆ NaN      ┆ NaN      ┆ NaN    ┆ NaN     ┆ 0      ┆ 0     ┆ 255.65 │
+
+                └────────────────────────────────┴──────────┴──────────┴────────┴─────────┴────────┴───────┴────────┘
+
+                '
+  /stock/history/trade:
+    x-concurrent-limit-ttl-ms: '365'
+    x-min-subscription: standard
+    x-history-access: true
+    get:
+      summary: Trade
+      operationId: stock_history_trade
+      x-codeSamples:
+      - lang: Python
+        label: pandas
+        source: 'from thetadata import ThetaClient
+
+
+          client = ThetaClient(dataframe_type=''pandas'')
+
+          df = client.stock_history_trade(symbol=''AAPL'')
+
+          '
+      - lang: Python
+        label: polars
+        source: 'from thetadata import ThetaClient
+
+
+          client = ThetaClient(dataframe_type=''polars'')
+
+          df = client.stock_history_trade(symbol=''AAPL'')
+
+          '
+      tags:
+      - Stock
+      description: 'Returns every trade reported by [UTP & CTA](/Articles/Data-And-Requests/The-SIPs). Set the ``venue`` parameter to ``nqb`` to access current-day real-time historic data from the [Nasdaq Basic feed](/Articles/Data-And-Requests/The-SIPs) if the account has a [stocks standard or pro subscription](https://www.thetadata.net/subscribe.html#stocks).
+
+        - Multi-day requests are limited to 1 month of data.
+
+        '
+      x-sample-urls:
+      - url: http://127.0.0.1:25503/v3/stock/history/trade?symbol=AAPL&date=20240102
+        description: Returns every trade for a given symbol on specified date
+      - url: http://127.0.0.1:25503/v3/stock/history/trade?symbol=AAPL&date=20240102&format=html
+        description: Click to open in browser (HTML)
+      - url: http://127.0.0.1:25503/v3/stock/history/trade?symbol=AAPL&start_date=20240102&end_date=20240105
+        description: Returns every trade for a given symbol between specified dates (inclusive)
+      - url: http://127.0.0.1:25503/v3/stock/history/trade?symbol=AAPL&start_date=20240102&end_date=20240105&format=html
+        description: Click to open in browser (HTML)
+      parameters:
+      - $ref: '#/components/parameters/single_symbol'
+      - $ref: '#/components/parameters/opt_date'
+      - $ref: '#/components/parameters/start_time'
+      - $ref: '#/components/parameters/end_time'
+      - $ref: '#/components/parameters/venue'
+      - $ref: '#/components/parameters/format'
+      - $ref: '#/components/parameters/opt_start_date'
+      - $ref: '#/components/parameters/opt_end_date'
+      responses:
+        '200':
+          description: Returns every trade for a given symbol between specified dates (inclusive) with a one minute interval
+          content:
+            text/csv:
+              schema:
+                type: array
+                items: &id017
+                  type: object
+                  properties:
+                    timestamp:
+                      type: string
+                      format: date-time
+                      description: The timestamp in YYYY-MM-DDTHH:mm:ss.SSS format.
+                    sequence:
+                      type: integer
+                      description: The exchange [sequence](/Articles/Data-And-Requests/Making-Requests.html#trade-sequences).
+                    ext_condition1:
+                      type: integer
+                      description: Additional trade [condition](/Articles/Errors-Exchanges-Conditions/Trade-Conditions.html)(s). These can be ignored for options.
+                    ext_condition2:
+                      type: integer
+                      description: Additional trade [condition](/Articles/Errors-Exchanges-Conditions/Trade-Conditions.html)(s). These can be ignored for options.
+                    ext_condition3:
+                      type: integer
+                      description: Additional trade [condition](/Articles/Errors-Exchanges-Conditions/Trade-Conditions.html)(s). These can be ignored for options.
+                    ext_condition4:
+                      type: integer
+                      description: Additional trade [condition](/Articles/Errors-Exchanges-Conditions/Trade-Conditions.html)(s). These can be ignored for options.
+                    condition:
+                      type: integer
+                      description: The trade [condition](/Articles/Errors-Exchanges-Conditions/Trade-Conditions.html).
+                    size:
+                      type: integer
+                      description: The amount of contracts / shares traded.
+                    exchange:
+                      type: integer
+                      description: The [exchange](/Articles/Errors-Exchanges-Conditions/Exchanges.html) the trade was executed.
+                    price:
+                      type: number
+                      description: The trade price.
+              example: "timestamp,sequence,ext_condition1,ext_condition2,ext_condition3,ext_condition4,condition,size,exchange,price\r\n2024-01-02T09:30:00.011,14920,32,95,1,115,1,2,7,187.1800\r\n2024-01-02T09:30:00.014,8931,32,255,1,115,1,1,1,187.1800\r\n2024-01-02T09:30:00.014,8932,32,255,1,115,1,5,1,187.1800\r\n2024-01-02T09:30:00.014,8933,32,255,1,115,1,3,1,187.1900\r\n2024-01-02T09:30:00.014,8934,32,255,1,115,1,91,1,187.1900\r\n"
+            application/json:
+              schema: &id018
+                type: array
+                items: *id017
+              example: "{\n  \"response\": [\n    {\"sequence\":14920,\"condition\":1,\"size\":2,\"price\":187.1800,\"ext_condition2\":95,\"ext_condition1\":32,\"ext_condition4\":115,\"exchange\":7,\"ext_condition3\":1,\"timestamp\":\"2024-01-02T09:30:00.011\"},\n    {\"sequence\":8931,\"condition\":1,\"size\":1,\"price\":187.1800,\"ext_condition2\":255,\"ext_condition1\":32,\"ext_condition4\":115,\"exchange\":1,\"ext_condition3\":1,\"timestamp\":\"2024-01-02T09:30:00.014\"},\n    {\"sequence\":8932,\"condition\":1,\"size\":5,\"price\":187.1800,\"ext_condition2\":255,\"ext_condition1\":32,\"ext_condition4\":115,\"exchange\":1,\"ext_condition3\":1,\"timestamp\":\"2024-01-02T09:30:00.014\"},\n    {\"sequence\":8933,\"condition\":1,\"size\":3,\"price\":187.1900,\"ext_condition2\":255,\"ext_condition1\":32,\"ext_condition4\":115,\"exchange\":1,\"ext_condition3\":1,\"timestamp\":\"2024-01-02T09:30:00.014\"},\n    {\"sequence\":8934,\"condition\":1,\"size\":91,\"price\":187.1900,\"ext_condition2\":255,\"ext_condition1\":32,\"ext_condition4\":115,\"exchange\":1,\"ext_condition3\":1,\"timestamp\":\"2024-01-02T09:30:00.014\"}\n  ]\n}\n"
+            application/x-ndjson:
+              schema: *id018
+              example: '{"sequence":14920,"condition":1,"size":2,"price":187.1800,"ext_condition2":95,"ext_condition1":32,"ext_condition4":115,"exchange":7,"ext_condition3":1,"timestamp":"2024-01-02T09:30:00.011"}
+
+                {"sequence":8931,"condition":1,"size":1,"price":187.1800,"ext_condition2":255,"ext_condition1":32,"ext_condition4":115,"exchange":1,"ext_condition3":1,"timestamp":"2024-01-02T09:30:00.014"}
+
+                {"sequence":8932,"condition":1,"size":5,"price":187.1800,"ext_condition2":255,"ext_condition1":32,"ext_condition4":115,"exchange":1,"ext_condition3":1,"timestamp":"2024-01-02T09:30:00.014"}
+
+                {"sequence":8933,"condition":1,"size":3,"price":187.1900,"ext_condition2":255,"ext_condition1":32,"ext_condition4":115,"exchange":1,"ext_condition3":1,"timestamp":"2024-01-02T09:30:00.014"}
+
+                {"sequence":8934,"condition":1,"size":91,"price":187.1900,"ext_condition2":255,"ext_condition1":32,"ext_condition4":115,"exchange":1,"ext_condition3":1,"timestamp":"2024-01-02T09:30:00.014"}'
+            python/pandas:
+              schema: *id018
+              example: 'timestamp  sequence  ext_condition1  ext_condition2  ext_condition3  ext_condition4  condition  size  exchange     price
+
+                0     2025-10-02 09:30:00.011000-04:00   3900079              32             255               1             115          1     1         1  256.5700
+
+                1     2025-10-02 09:30:00.011000-04:00   3900080              32             255               1             115          1     8         1  256.6000
+
+                2     2025-10-02 09:30:00.011000-04:00   3900081              32             255               1             115          1    73         1  256.6000
+
+                3     2025-10-02 09:30:00.012000-04:00   3900115              32             255               1             115          1     1         1  256.6000
+
+                4     2025-10-02 09:30:00.023000-04:00   3900926              32              95             255             115        115     1        65  256.6000
+
+                ...                                ...       ...             ...             ...             ...             ...        ...   ...       ...       ...
+
+                13656 2025-10-02 09:30:59.805000-04:00   4592411              32             255             255             115        115     3        57  256.4300
+
+                13657 2025-10-02 09:30:59.818000-04:00   4592453              32              96             255             115         96     1        57  256.4300
+
+                13658 2025-10-02 09:30:59.944000-04:00   4592956              32             255             255             115        115    16        57  256.4500
+
+                13659 2025-10-02 09:30:59.953000-04:00   4592982              32             255             255             115        115    44        57  256.4001
+
+                13660 2025-10-02 09:30:59.974000-04:00   4593045              32             255             255             115        115     1        59  256.5000
+
+
+                [13661 rows x 10 columns]
+
+                '
+            python/polars:
+              schema: *id018
+              example: 'shape: (13_661, 10)
+
+                ┌────────────────────────────────┬──────────┬────────────────┬────────────────┬────────────────┬────────────────┬───────────┬──────┬──────────┬──────────┐
+
+                │ timestamp                      ┆ sequence ┆ ext_condition1 ┆ ext_condition2 ┆ ext_condition3 ┆ ext_condition4 ┆ condition ┆ size ┆ exchange ┆ price    │
+
+                │ ---                            ┆ ---      ┆ ---            ┆ ---            ┆ ---            ┆ ---            ┆ ---       ┆ ---  ┆ ---      ┆ ---      │
+
+                │ datetime[ms, America/New_York] ┆ i64      ┆ i64            ┆ i64            ┆ i64            ┆ i64            ┆ i64       ┆ i64  ┆ i64      ┆ f64      │
+
+                ╞════════════════════════════════╪══════════╪════════════════╪════════════════╪════════════════╪════════════════╪═══════════╪══════╪══════════╪══════════╡
+
+                │ 2025-10-02 09:30:00.011 EDT    ┆ 3900079  ┆ 32             ┆ 255            ┆ 1              ┆ 115            ┆ 1         ┆ 1    ┆ 1        ┆ 256.57   │
+
+                │ 2025-10-02 09:30:00.011 EDT    ┆ 3900080  ┆ 32             ┆ 255            ┆ 1              ┆ 115            ┆ 1         ┆ 8    ┆ 1        ┆ 256.6    │
+
+                │ 2025-10-02 09:30:00.011 EDT    ┆ 3900081  ┆ 32             ┆ 255            ┆ 1              ┆ 115            ┆ 1         ┆ 73   ┆ 1        ┆ 256.6    │
+
+                │ 2025-10-02 09:30:00.012 EDT    ┆ 3900115  ┆ 32             ┆ 255            ┆ 1              ┆ 115            ┆ 1         ┆ 1    ┆ 1        ┆ 256.6    │
+
+                │ 2025-10-02 09:30:00.023 EDT    ┆ 3900926  ┆ 32             ┆ 95             ┆ 255            ┆ 115            ┆ 115       ┆ 1    ┆ 65       ┆ 256.6    │
+
+                │ …                              ┆ …        ┆ …              ┆ …              ┆ …              ┆ …              ┆ …         ┆ …    ┆ …        ┆ …        │
+
+                │ 2025-10-02 09:30:59.805 EDT    ┆ 4592411  ┆ 32             ┆ 255            ┆ 255            ┆ 115            ┆ 115       ┆ 3    ┆ 57       ┆ 256.43   │
+
+                │ 2025-10-02 09:30:59.818 EDT    ┆ 4592453  ┆ 32             ┆ 96             ┆ 255            ┆ 115            ┆ 96        ┆ 1    ┆ 57       ┆ 256.43   │
+
+                │ 2025-10-02 09:30:59.944 EDT    ┆ 4592956  ┆ 32             ┆ 255            ┆ 255            ┆ 115            ┆ 115       ┆ 16   ┆ 57       ┆ 256.45   │
+
+                │ 2025-10-02 09:30:59.953 EDT    ┆ 4592982  ┆ 32             ┆ 255            ┆ 255            ┆ 115            ┆ 115       ┆ 44   ┆ 57       ┆ 256.4001 │
+
+                │ 2025-10-02 09:30:59.974 EDT    ┆ 4593045  ┆ 32             ┆ 255            ┆ 255            ┆ 115            ┆ 115       ┆ 1    ┆ 59       ┆ 256.5    │
+
+                └────────────────────────────────┴──────────┴────────────────┴────────────────┴────────────────┴────────────────┴───────────┴──────┴──────────┴──────────┘
+
+                '
+  /stock/history/quote:
+    x-concurrent-limit-ttl-ms: '570'
+    x-min-subscription: value
+    x-history-access: true
+    get:
+      summary: Quote
+      operationId: stock_history_quote
+      x-codeSamples:
+      - lang: Python
+        label: pandas
+        source: 'from thetadata import ThetaClient
+
+
+          client = ThetaClient(dataframe_type=''pandas'')
+
+          df = client.stock_history_quote(symbol=''AAPL'', interval=''1m'')
+
+          '
+      - lang: Python
+        label: polars
+        source: 'from thetadata import ThetaClient
+
+
+          client = ThetaClient(dataframe_type=''polars'')
+
+          df = client.stock_history_quote(symbol=''AAPL'', interval=''1m'')
+
+          '
+      tags:
+      - Stock
+      description: "- Returns every NBBO quote reported by [UTP and CTA](/Articles/Data-And-Requests/The-SIPs). \n- If the ``interval`` parameter is specified, the quote for each interval represents the last quote prior to the interval's timestamp. \n- Set the ``venue`` parameter to ``nqb`` to access current-day real-time historic data from the [Nasdaq Basic feed](/Articles/Data-And-Requests/The-SIPs) if the account has a [stocks standard or pro subscription](https://www.thetadata.net/subscribe.html#stocks).\n- Multi-day requests are limited to 1 month of data.\n"
+      x-sample-urls:
+      - url: http://127.0.0.1:25503/v3/stock/history/quote?symbol=AAPL&date=20240102&interval=1m
+        description: Returns every quote for a given symbol on the specified date with a one minute interval
+      - url: http://127.0.0.1:25503/v3/stock/history/quote?symbol=AAPL&date=20240102&interval=1m&format=html
+        description: Click to open in browser (HTML)
+      - url: http://127.0.0.1:25503/v3/stock/history/quote?symbol=AAPL&start_date=20240102&end_date=20240109&interval=1m
+        description: Returns every quote for a given symbol between specified dates (inclusive) with a one minute interval
+      - url: http://127.0.0.1:25503/v3/stock/history/quote?symbol=AAPL&start_date=20240102&end_date=20240109&interval=1m&format=html
+        description: Click to open in browser (HTML)
+      parameters:
+      - $ref: '#/components/parameters/single_symbol'
+      - $ref: '#/components/parameters/opt_date'
+      - $ref: '#/components/parameters/interval'
+      - $ref: '#/components/parameters/start_time'
+      - $ref: '#/components/parameters/end_time'
+      - $ref: '#/components/parameters/venue'
+      - $ref: '#/components/parameters/format'
+      - $ref: '#/components/parameters/opt_start_date'
+      - $ref: '#/components/parameters/opt_end_date'
+      responses:
+        '200':
+          description: Returns every quote for a given symbol between specified dates (inclusive) with a one minute interval
+          content:
+            text/csv:
+              schema:
+                type: array
+                items: &id019
+                  type: object
+                  properties:
+                    timestamp:
+                      type: string
+                      format: date-time
+                      description: The timestamp in YYYY-MM-DDTHH:mm:ss.SSS format.
+                    bid_size:
+                      type: integer
+                      description: The last NBBO bid size.
+                    bid_exchange:
+                      type: integer
+                      description: The last NBBO bid [exchange](/Articles/Errors-Exchanges-Conditions/Exchanges.html).
+                    bid:
+                      type: number
+                      description: The last NBBO bid price.
+                    bid_condition:
+                      type: integer
+                      description: The last NBBO bid [condition](/Articles/Errors-Exchanges-Conditions/Quote-Conditions.html).
+                    ask_size:
+                      type: integer
+                      description: The last NBBO ask size.
+                    ask_exchange:
+                      type: integer
+                      description: The last NBBO ask [exchange](/Articles/Errors-Exchanges-Conditions/Exchanges.html).
+                    ask:
+                      type: number
+                      description: The last NBBO ask price.
+                    ask_condition:
+                      type: integer
+                      description: The last NBBO ask [condition](/Articles/Errors-Exchanges-Conditions/Quote-Conditions.html).
+              example: "timestamp,bid_size,bid_exchange,bid,bid_condition,ask_size,ask_exchange,ask,ask_condition\r\n2024-01-02T09:30:00,30,7,187.10,0,1,1,187.20,0\r\n2024-01-02T09:31:00,2,1,187.83,0,4,1,187.86,0\r\n2024-01-02T09:32:00,2,60,187.74,0,1,73,187.77,0\r\n2024-01-02T09:33:00,2,60,188.29,0,2,73,188.32,0\r\n2024-01-02T09:34:00,5,1,188.14,0,2,7,188.16,0\r\n"
+            application/json:
+              schema: &id020
+                type: array
+                items: *id019
+              example: "{\n  \"response\": [\n    {\"ask_size\":1,\"bid_size\":30,\"ask_exchange\":1,\"ask_condition\":0,\"bid_exchange\":7,\"ask\":187.20,\"bid\":187.10,\"bid_condition\":0,\"timestamp\":\"2024-01-02T09:30:00\"},\n    {\"ask_size\":4,\"bid_size\":2,\"ask_exchange\":1,\"ask_condition\":0,\"bid_exchange\":1,\"ask\":187.86,\"bid\":187.83,\"bid_condition\":0,\"timestamp\":\"2024-01-02T09:31:00\"},\n    {\"ask_size\":1,\"bid_size\":2,\"ask_exchange\":73,\"ask_condition\":0,\"bid_exchange\":60,\"ask\":187.77,\"bid\":187.74,\"bid_condition\":0,\"timestamp\":\"2024-01-02T09:32:00\"},\n    {\"ask_size\":2,\"bid_size\":2,\"ask_exchange\":73,\"ask_condition\":0,\"bid_exchange\":60,\"ask\":188.32,\"bid\":188.29,\"bid_condition\":0,\"timestamp\":\"2024-01-02T09:33:00\"},\n    {\"ask_size\":2,\"bid_size\":5,\"ask_exchange\":7,\"ask_condition\":0,\"bid_exchange\":1,\"ask\":188.16,\"bid\":188.14,\"bid_condition\":0,\"timestamp\":\"2024-01-02T09:34:00\"}\n  ]\n}\n"
+            application/x-ndjson:
+              schema: *id020
+              example: '{"ask_size":1,"bid_size":30,"ask_exchange":1,"ask_condition":0,"bid_exchange":7,"ask":187.20,"bid":187.10,"bid_condition":0,"timestamp":"2024-01-02T09:30:00"}
+
+                {"ask_size":4,"bid_size":2,"ask_exchange":1,"ask_condition":0,"bid_exchange":1,"ask":187.86,"bid":187.83,"bid_condition":0,"timestamp":"2024-01-02T09:31:00"}
+
+                {"ask_size":1,"bid_size":2,"ask_exchange":73,"ask_condition":0,"bid_exchange":60,"ask":187.77,"bid":187.74,"bid_condition":0,"timestamp":"2024-01-02T09:32:00"}
+
+                {"ask_size":2,"bid_size":2,"ask_exchange":73,"ask_condition":0,"bid_exchange":60,"ask":188.32,"bid":188.29,"bid_condition":0,"timestamp":"2024-01-02T09:33:00"}
+
+                {"ask_size":2,"bid_size":5,"ask_exchange":7,"ask_condition":0,"bid_exchange":1,"ask":188.16,"bid":188.14,"bid_condition":0,"timestamp":"2024-01-02T09:34:00"}'
+            python/pandas:
+              schema: *id020
+              example: 'timestamp  bid_size  bid_exchange     bid  bid_condition  ask_size  ask_exchange     ask  ask_condition
+
+                0  2025-10-02 09:30:00-04:00         3             1  256.55              0       238             7  256.60              0
+
+                1  2025-10-02 09:31:00-04:00         7             1  256.40              0         1            73  256.50              0
+
+                2  2025-10-02 09:32:00-04:00         2            68  256.33              0         2             1  256.42              0
+
+                3  2025-10-02 09:33:00-04:00         5             1  257.14              0         2             1  257.18              0
+
+                4  2025-10-02 09:34:00-04:00         2             1  256.74              0         2             1  256.79              0
+
+                5  2025-10-02 09:35:00-04:00         1             1  255.88              0         2             7  255.91              0
+
+                6  2025-10-02 09:36:00-04:00         2             1  255.39              0         1             7  255.43              0
+
+                7  2025-10-02 09:37:00-04:00         1             1  255.20              0         1            60  255.23              0
+
+                8  2025-10-02 09:38:00-04:00         2             7  255.13              0         3             7  255.18              0
+
+                9  2025-10-02 09:39:00-04:00         2             1  254.84              0         2             1  254.89              0
+
+                10 2025-10-02 09:40:00-04:00         6             1  254.53              0         2             1  254.57              0
+
+                11 2025-10-02 09:41:00-04:00         2             1  254.20              0         3             1  254.23              0
+
+                12 2025-10-02 09:42:00-04:00         1             1  254.36              0         1            60  254.38              0
+
+                13 2025-10-02 09:43:00-04:00         2            68  254.39              0         1             1  254.42              0
+
+                14 2025-10-02 09:44:00-04:00         2             1  254.78              0         1            60  254.83              0
+
+                15 2025-10-02 09:45:00-04:00         1            60  254.74              0         2             1  254.78              0
+
+                16 2025-10-02 09:46:00-04:00         3            73  255.09              0         2            68  255.13              0
+
+                17 2025-10-02 09:47:00-04:00         4            60  255.15              0         1             1  255.17              0
+
+                18 2025-10-02 09:48:00-04:00         3            68  254.94              0         2            68  254.99              0
+
+                19 2025-10-02 09:49:00-04:00         1            60  255.10              0         2            60  255.13              0
+
+                20 2025-10-02 09:50:00-04:00         1             1  255.10              0         1             1  255.13              0
+
+                21 2025-10-02 09:51:00-04:00         2            68  255.14              0         4            60  255.17              0
+
+                22 2025-10-02 09:52:00-04:00         2            60  255.37              0         1             1  255.40              0
+
+                23 2025-10-02 09:53:00-04:00         1             1  255.35              0         3            68  255.40              0
+
+                24 2025-10-02 09:54:00-04:00         1             7  255.73              0         6             1  255.74              0
+
+                25 2025-10-02 09:55:00-04:00         2             7  255.66              0         2            64  255.69              0
+
+                26 2025-10-02 09:56:00-04:00         6             1  255.77              0         3             1  255.81              0
+
+                27 2025-10-02 09:57:00-04:00         2             7  255.74              0         1             7  255.78              0
+
+                28 2025-10-02 09:58:00-04:00         1             1  255.56              0         8            60  255.59              0
+
+                29 2025-10-02 09:59:00-04:00         3             1  255.95              0        20             1  255.98              0
+
+                30 2025-10-02 10:00:00-04:00         2             1  255.99              0         4            65  256.09              0
+
+                '
+            python/polars:
+              schema: *id020
+              example: 'shape: (31, 9)
+
+                ┌────────────────────────────────┬──────────┬──────────────┬────────┬───────────────┬──────────┬──────────────┬────────┬───────────────┐
+
+                │ timestamp                      ┆ bid_size ┆ bid_exchange ┆ bid    ┆ bid_condition ┆ ask_size ┆ ask_exchange ┆ ask    ┆ ask_condition │
+
+                │ ---                            ┆ ---      ┆ ---          ┆ ---    ┆ ---           ┆ ---      ┆ ---          ┆ ---    ┆ ---           │
+
+                │ datetime[ms, America/New_York] ┆ i64      ┆ i64          ┆ f64    ┆ i64           ┆ i64      ┆ i64          ┆ f64    ┆ i64           │
+
+                ╞════════════════════════════════╪══════════╪══════════════╪════════╪═══════════════╪══════════╪══════════════╪════════╪═══════════════╡
+
+                │ 2025-10-02 09:30:00 EDT        ┆ 3        ┆ 1            ┆ 256.55 ┆ 0             ┆ 238      ┆ 7            ┆ 256.6  ┆ 0             │
+
+                │ 2025-10-02 09:31:00 EDT        ┆ 7        ┆ 1            ┆ 256.4  ┆ 0             ┆ 1        ┆ 73           ┆ 256.5  ┆ 0             │
+
+                │ 2025-10-02 09:32:00 EDT        ┆ 2        ┆ 68           ┆ 256.33 ┆ 0             ┆ 2        ┆ 1            ┆ 256.42 ┆ 0             │
+
+                │ 2025-10-02 09:33:00 EDT        ┆ 5        ┆ 1            ┆ 257.14 ┆ 0             ┆ 2        ┆ 1            ┆ 257.18 ┆ 0             │
+
+                │ 2025-10-02 09:34:00 EDT        ┆ 2        ┆ 1            ┆ 256.74 ┆ 0             ┆ 2        ┆ 1            ┆ 256.79 ┆ 0             │
+
+                │ …                              ┆ …        ┆ …            ┆ …      ┆ …             ┆ …        ┆ …            ┆ …      ┆ …             │
+
+                │ 2025-10-02 09:56:00 EDT        ┆ 6        ┆ 1            ┆ 255.77 ┆ 0             ┆ 3        ┆ 1            ┆ 255.81 ┆ 0             │
+
+                │ 2025-10-02 09:57:00 EDT        ┆ 2        ┆ 7            ┆ 255.74 ┆ 0             ┆ 1        ┆ 7            ┆ 255.78 ┆ 0             │
+
+                │ 2025-10-02 09:58:00 EDT        ┆ 1        ┆ 1            ┆ 255.56 ┆ 0             ┆ 8        ┆ 60           ┆ 255.59 ┆ 0             │
+
+                │ 2025-10-02 09:59:00 EDT        ┆ 3        ┆ 1            ┆ 255.95 ┆ 0             ┆ 20       ┆ 1            ┆ 255.98 ┆ 0             │
+
+                │ 2025-10-02 10:00:00 EDT        ┆ 2        ┆ 1            ┆ 255.99 ┆ 0             ┆ 4        ┆ 65           ┆ 256.09 ┆ 0             │
+
+                └────────────────────────────────┴──────────┴──────────────┴────────┴───────────────┴──────────┴──────────────┴────────┴───────────────┘
+
+                '
+  /stock/history/trade_quote:
+    x-concurrent-limit-ttl-ms: '1858'
+    x-min-subscription: standard
+    x-history-access: true
+    get:
+      summary: Trade Quote
+      operationId: stock_history_trade_quote
+      x-codeSamples:
+      - lang: Python
+        label: pandas
+        source: 'from thetadata import ThetaClient
+
+
+          client = ThetaClient(dataframe_type=''pandas'')
+
+          df = client.stock_history_trade_quote(symbol=''AAPL'')
+
+          '
+      - lang: Python
+        label: polars
+        source: 'from thetadata import ThetaClient
+
+
+          client = ThetaClient(dataframe_type=''polars'')
+
+          df = client.stock_history_trade_quote(symbol=''AAPL'')
+
+          '
+      tags:
+      - Stock
+      description: 'Returns every trade reported by [UTP & CTA](/Articles/Data-And-Requests/The-SIPs) paired with the last BBO quote reported by [UTP or CTA](/Articles/Data-And-Requests/The-SIPs) at the time of trade. A quote is matched with a trade if its timestamp ``<=`` the trade timestamp. If you prefer to match quotes with timestamps that are ``<`` the trade timestamp, specify the ``exclusive`` parameter to ``true``. Set the ``venue`` parameter to ``nqb`` to access current-day real-time historic data from the [Nasdaq Basic feed](/Articles/Data-And-Requests/The-SIPs) if the account has a [stocks standard or pro subscription](https://www.thetadata.net/subscribe.html#stocks).
+
+        - Multi-day requests are limited to 1 month of data.
+
+        '
+      x-sample-urls:
+      - url: http://127.0.0.1:25503/v3/stock/history/trade_quote?symbol=AAPL&date=20240102
+        description: Returns every trade quote for a given symbol on specified date
+      - url: http://127.0.0.1:25503/v3/stock/history/trade_quote?symbol=AAPL&date=20240102&format=html
+        description: Click to open in browser (HTML)
+      - url: http://127.0.0.1:25503/v3/stock/history/trade_quote?symbol=AAPL&start_date=20240102&end_date=20240105
+        description: Returns every trade quote for a given symbol between specified dates (inclusive)
+      - url: http://127.0.0.1:25503/v3/stock/history/trade_quote?symbol=AAPL&start_date=20240102&end_date=20240105&format=html
+        description: Click to open in browser (HTML)
+      parameters:
+      - $ref: '#/components/parameters/single_symbol'
+      - $ref: '#/components/parameters/opt_date'
+      - $ref: '#/components/parameters/start_time'
+      - $ref: '#/components/parameters/end_time'
+      - $ref: '#/components/parameters/exclusive'
+      - $ref: '#/components/parameters/venue'
+      - $ref: '#/components/parameters/format'
+      - $ref: '#/components/parameters/opt_start_date'
+      - $ref: '#/components/parameters/opt_end_date'
+      responses:
+        '200':
+          description: Returns every trade quote for a given symbol between specified dates (inclusive)
+          content:
+            text/csv:
+              schema:
+                type: array
+                items: &id021
+                  type: object
+                  properties:
+                    trade_timestamp:
+                      type: string
+                      format: date-time
+                      description: The trade date formated as YYYY-MM-DDTHH:mm:ss.SSS format.
+                    quote_timestamp:
+                      type: string
+                      format: date-time
+                      description: The quote date formated as YYYY-MM-DDTHH:mm:ss.SSS format.
+                    sequence:
+                      type: integer
+                      description: The exchange [sequence](/Articles/Data-And-Requests/Making-Requests.html#trade-sequences).
+                    ext_condition1:
+                      type: integer
+                      description: Additional trade [condition](/Articles/Errors-Exchanges-Conditions/Trade-Conditions.html)(s). These can be ignored for options.
+                    ext_condition2:
+                      type: integer
+                      description: Additional trade [condition](/Articles/Errors-Exchanges-Conditions/Trade-Conditions.html)(s). These can be ignored for options.
+                    ext_condition3:
+                      type: integer
+                      description: Additional trade [condition](/Articles/Errors-Exchanges-Conditions/Trade-Conditions.html)(s). These can be ignored for options.
+                    ext_condition4:
+                      type: integer
+                      description: Additional trade [condition](/Articles/Errors-Exchanges-Conditions/Trade-Conditions.html)(s). These can be ignored for options.
+                    condition:
+                      type: integer
+                      description: The trade [condition](/Articles/Errors-Exchanges-Conditions/Trade-Conditions.html).
+                    size:
+                      type: integer
+                      description: The amount of contracts / shares traded.
+                    exchange:
+                      type: integer
+                      description: The [exchange](/Articles/Errors-Exchanges-Conditions/Exchanges.html) the trade was executed.
+                    price:
+                      type: number
+                      description: The trade price.
+                    bid_size:
+                      type: integer
+                      description: The last NBBO bid size.
+                    bid_exchange:
+                      type: integer
+                      description: The last NBBO bid [exchange](/Articles/Errors-Exchanges-Conditions/Exchanges.html).
+                    bid:
+                      type: number
+                      description: The last NBBO bid price.
+                    bid_condition:
+                      type: integer
+                      description: The last NBBO bid [condition](/Articles/Errors-Exchanges-Conditions/Quote-Conditions.html).
+                    ask_size:
+                      type: integer
+                      description: The last NBBO ask size.
+                    ask_exchange:
+                      type: integer
+                      description: The last NBBO ask [exchange](/Articles/Errors-Exchanges-Conditions/Exchanges.html).
+                    ask:
+                      type: number
+                      description: The last NBBO ask price.
+                    ask_condition:
+                      type: integer
+                      description: The last NBBO ask [condition](/Articles/Errors-Exchanges-Conditions/Quote-Conditions.html).
+              example: "trade_timestamp,quote_timestamp,sequence,ext_condition1,ext_condition2,ext_condition3,ext_condition4,condition,size,exchange,price,bid_size,bid_exchange,bid,bid_condition,ask_size,ask_exchange,ask,ask_condition\r\n2023-01-03T09:30:00.002,2023-01-03T09:30:00.001,562,32,255,255,115,115,1,60,130.3300,4,7,130.2600,0,1,7,130.4000,0\r\n2023-01-03T09:30:00.003,2023-01-03T09:30:00.002,563,32,255,255,115,115,24,60,130.3300,4,7,130.2600,0,1,7,130.4000,0\r\n2023-01-03T09:30:00.003,2023-01-03T09:30:00.002,564,32,255,255,115,115,40,60,130.3300,4,7,130.2600,0,1,7,130.4000,0\r\n2023-01-03T09:30:00.036,2023-01-03T09:30:00.017,6081,32,95,1,115,1,19,1,130.2500,4,7,130.2600,0,1,1,130.3900,0\r\n2023-01-03T09:30:00.057,2023-01-03T09:30:00.017,6082,32,255,1,115,1,30,1,130.2500,4,7,130.2600,0,1,1,130.3900,0\r\n"
+            application/json:
+              schema: &id022
+                type: array
+                items: *id021
+              example: "{\n  \"response\": [\n    {\"ask_size\":1,\"trade_timestamp\":\"2023-01-03T09:30:00.002\",\"ask_condition\":0,\"sequence\":562,\"condition\":115,\"size\":1,\"bid_size\":4,\"ask_exchange\":7,\"price\":130.3300,\"ext_condition2\":255,\"bid_exchange\":7,\"ask\":130.4000,\"quote_timestamp\":\"2023-01-03T09:30:00.001\",\"ext_condition1\":32,\"ext_condition4\":115,\"exchange\":60,\"ext_condition3\":255,\"bid\":130.2600,\"bid_condition\":0},\n    {\"ask_size\":1,\"trade_timestamp\":\"2023-01-03T09:30:00.003\",\"ask_condition\":0,\"sequence\":563,\"condition\":115,\"size\":24,\"bid_size\":4,\"ask_exchange\":7,\"price\":130.3300,\"ext_condition2\":255,\"bid_exchange\":7,\"ask\":130.4000,\"quote_timestamp\":\"2023-01-03T09:30:00.002\",\"ext_condition1\":32,\"ext_condition4\":115,\"exchange\":60,\"ext_condition3\":255,\"bid\":130.2600,\"bid_condition\":0},\n    {\"ask_size\":1,\"trade_timestamp\":\"2023-01-03T09:30:00.003\",\"ask_condition\":0,\"sequence\":564,\"condition\":115,\"size\":40,\"bid_size\":4,\"ask_exchange\":7,\"price\":130.3300,\"ext_condition2\":255,\"bid_exchange\":7,\"ask\":130.4000,\"quote_timestamp\":\"2023-01-03T09:30:00.002\",\"ext_condition1\":32,\"ext_condition4\":115,\"exchange\":60,\"ext_condition3\":255,\"bid\":130.2600,\"bid_condition\":0},\n    {\"ask_size\":1,\"trade_timestamp\":\"2023-01-03T09:30:00.036\",\"ask_condition\":0,\"sequence\":6081,\"condition\":1,\"size\":19,\"bid_size\":4,\"ask_exchange\":1,\"price\":130.2500,\"ext_condition2\":95,\"bid_exchange\":7,\"ask\":130.3900,\"quote_timestamp\":\"2023-01-03T09:30:00.017\",\"ext_condition1\":32,\"ext_condition4\":115,\"exchange\":1,\"ext_condition3\":1,\"bid\":130.2600,\"bid_condition\":0},\n    {\"ask_size\":1,\"trade_timestamp\":\"2023-01-03T09:30:00.057\",\"ask_condition\":0,\"sequence\":6082,\"condition\":1,\"size\":30,\"bid_size\":4,\"ask_exchange\":1,\"price\":130.2500,\"ext_condition2\":255,\"bid_exchange\":7,\"ask\":130.3900,\"quote_timestamp\":\"2023-01-03T09:30:00.017\",\"ext_condition1\":32,\"ext_condition4\":115,\"exchange\":1,\"ext_condition3\":1,\"bid\":130.2600,\"bid_condition\":0}\n  ]\n}\n"
+            application/x-ndjson:
+              schema: *id022
+              example: '{"ask_size":1,"trade_timestamp":"2023-01-03T09:30:00.002","ask_condition":0,"sequence":562,"condition":115,"size":1,"bid_size":4,"ask_exchange":7,"price":130.3300,"ext_condition2":255,"bid_exchange":7,"ask":130.4000,"quote_timestamp":"2023-01-03T09:30:00.001","ext_condition1":32,"ext_condition4":115,"exchange":60,"ext_condition3":255,"bid":130.2600,"bid_condition":0}
+
+                {"ask_size":1,"trade_timestamp":"2023-01-03T09:30:00.003","ask_condition":0,"sequence":563,"condition":115,"size":24,"bid_size":4,"ask_exchange":7,"price":130.3300,"ext_condition2":255,"bid_exchange":7,"ask":130.4000,"quote_timestamp":"2023-01-03T09:30:00.002","ext_condition1":32,"ext_condition4":115,"exchange":60,"ext_condition3":255,"bid":130.2600,"bid_condition":0}
+
+                {"ask_size":1,"trade_timestamp":"2023-01-03T09:30:00.003","ask_condition":0,"sequence":564,"condition":115,"size":40,"bid_size":4,"ask_exchange":7,"price":130.3300,"ext_condition2":255,"bid_exchange":7,"ask":130.4000,"quote_timestamp":"2023-01-03T09:30:00.002","ext_condition1":32,"ext_condition4":115,"exchange":60,"ext_condition3":255,"bid":130.2600,"bid_condition":0}
+
+                {"ask_size":1,"trade_timestamp":"2023-01-03T09:30:00.036","ask_condition":0,"sequence":6081,"condition":1,"size":19,"bid_size":4,"ask_exchange":1,"price":130.2500,"ext_condition2":95,"bid_exchange":7,"ask":130.3900,"quote_timestamp":"2023-01-03T09:30:00.017","ext_condition1":32,"ext_condition4":115,"exchange":1,"ext_condition3":1,"bid":130.2600,"bid_condition":0}
+
+                {"ask_size":1,"trade_timestamp":"2023-01-03T09:30:00.057","ask_condition":0,"sequence":6082,"condition":1,"size":30,"bid_size":4,"ask_exchange":1,"price":130.2500,"ext_condition2":255,"bid_exchange":7,"ask":130.3900,"quote_timestamp":"2023-01-03T09:30:00.017","ext_condition1":32,"ext_condition4":115,"exchange":1,"ext_condition3":1,"bid":130.2600,"bid_condition":0}'
+            python/pandas:
+              schema: *id022
+              example: 'trade_timestamp                  quote_timestamp  sequence  ext_condition1  ext_condition2  ext_condition3  ext_condition4  condition  size  exchange   price  bid_size  bid_exchange     bid  bid_condition  ask_size  ask_exchange     ask  ask_condition
+
+                0      2025-10-02 09:30:00.011000-04:00 2025-10-02 09:30:00.007000-04:00   3900079              32             255               1             115          1     1         1  256.57         3             1  256.55              0       238             7  256.60              0
+
+                1      2025-10-02 09:30:00.011000-04:00 2025-10-02 09:30:00.007000-04:00   3900080              32             255               1             115          1     8         1  256.60         3             1  256.55              0       238             7  256.60              0
+
+                2      2025-10-02 09:30:00.011000-04:00 2025-10-02 09:30:00.007000-04:00   3900081              32             255               1             115          1    73         1  256.60         3             1  256.55              0       238             7  256.60              0
+
+                3      2025-10-02 09:30:00.012000-04:00 2025-10-02 09:30:00.012000-04:00   3900115              32             255               1             115          1     1         1  256.60         3             1  256.55              0       238             7  256.60              0
+
+                4      2025-10-02 09:30:00.023000-04:00 2025-10-02 09:30:00.023000-04:00   3900926              32              95             255             115        115     1        65  256.60         5             1  256.55              0       238             7  256.60              0
+
+                ...                                 ...                              ...       ...             ...             ...             ...             ...        ...   ...       ...     ...       ...           ...     ...            ...       ...           ...     ...            ...
+
+                465835 2025-10-02 15:59:59.999000-04:00 2025-10-02 15:59:59.999000-04:00  60929507              32             255             255             255          0   100         1  257.14       168             1  257.13              0         3             1  257.20              0
+
+                465836 2025-10-02 15:59:59.999000-04:00 2025-10-02 15:59:59.999000-04:00  60929513              32             255             255             255          0   100         1  257.14       168             1  257.13              0         3             1  257.20              0
+
+                465837 2025-10-02 15:59:59.999000-04:00 2025-10-02 15:59:59.999000-04:00  60929526              32              95             255             255         95   100         1  257.14       168             1  257.13              0         3             1  257.20              0
+
+                465838 2025-10-02 15:59:59.999000-04:00 2025-10-02 15:59:59.999000-04:00  60929531              32              95             255             255         95   100         1  257.14       168             1  257.13              0         3             1  257.20              0
+
+                465839        2025-10-02 16:00:00-04:00        2025-10-02 16:00:00-04:00  60929549              32             255             255             115        115     2        63  257.14       168             1  257.13              0         1             1  257.14              0
+
+
+                [465840 rows x 19 columns]
+
+                '
+            python/polars:
+              schema: *id022
+              example: 'shape: (465_840, 19)
+
+                ┌────────────────────────────────┬────────────────────────────────┬──────────┬────────────────┬────────────────┬────────────────┬────────────────┬───────────┬──────┬──────────┬────────┬──────────┬──────────────┬────────┬───────────────┬──────────┬──────────────┬────────┬───────────────┐
+
+                │ trade_timestamp                ┆ quote_timestamp                ┆ sequence ┆ ext_condition1 ┆ ext_condition2 ┆ ext_condition3 ┆ ext_condition4 ┆ condition ┆ size ┆ exchange ┆ price  ┆ bid_size ┆ bid_exchange ┆ bid    ┆ bid_condition ┆ ask_size ┆ ask_exchange ┆ ask    ┆ ask_condition │
+
+                │ ---                            ┆ ---                            ┆ ---      ┆ ---            ┆ ---            ┆ ---            ┆ ---            ┆ ---       ┆ ---  ┆ ---      ┆ ---    ┆ ---      ┆ ---          ┆ ---    ┆ ---           ┆ ---      ┆ ---          ┆ ---    ┆ ---           │
+
+                │ datetime[ms, America/New_York] ┆ datetime[ms, America/New_York] ┆ i64      ┆ i64            ┆ i64            ┆ i64            ┆ i64            ┆ i64       ┆ i64  ┆ i64      ┆ f64    ┆ i64      ┆ i64          ┆ f64    ┆ i64           ┆ i64      ┆ i64          ┆ f64    ┆ i64           │
+
+                ╞════════════════════════════════╪════════════════════════════════╪══════════╪════════════════╪════════════════╪════════════════╪════════════════╪═══════════╪══════╪══════════╪════════╪══════════╪══════════════╪════════╪═══════════════╪══════════╪══════════════╪════════╪═══════════════╡
+
+                │ 2025-10-02 09:30:00.011 EDT    ┆ 2025-10-02 09:30:00.007 EDT    ┆ 3900079  ┆ 32             ┆ 255            ┆ 1              ┆ 115            ┆ 1         ┆ 1    ┆ 1        ┆ 256.57 ┆ 3        ┆ 1            ┆ 256.55 ┆ 0             ┆ 238      ┆ 7            ┆ 256.6  ┆ 0             │
+
+                │ 2025-10-02 09:30:00.011 EDT    ┆ 2025-10-02 09:30:00.007 EDT    ┆ 3900080  ┆ 32             ┆ 255            ┆ 1              ┆ 115            ┆ 1         ┆ 8    ┆ 1        ┆ 256.6  ┆ 3        ┆ 1            ┆ 256.55 ┆ 0             ┆ 238      ┆ 7            ┆ 256.6  ┆ 0             │
+
+                │ 2025-10-02 09:30:00.011 EDT    ┆ 2025-10-02 09:30:00.007 EDT    ┆ 3900081  ┆ 32             ┆ 255            ┆ 1              ┆ 115            ┆ 1         ┆ 73   ┆ 1        ┆ 256.6  ┆ 3        ┆ 1            ┆ 256.55 ┆ 0             ┆ 238      ┆ 7            ┆ 256.6  ┆ 0             │
+
+                │ 2025-10-02 09:30:00.012 EDT    ┆ 2025-10-02 09:30:00.012 EDT    ┆ 3900115  ┆ 32             ┆ 255            ┆ 1              ┆ 115            ┆ 1         ┆ 1    ┆ 1        ┆ 256.6  ┆ 3        ┆ 1            ┆ 256.55 ┆ 0             ┆ 238      ┆ 7            ┆ 256.6  ┆ 0             │
+
+                │ 2025-10-02 09:30:00.023 EDT    ┆ 2025-10-02 09:30:00.023 EDT    ┆ 3900926  ┆ 32             ┆ 95             ┆ 255            ┆ 115            ┆ 115       ┆ 1    ┆ 65       ┆ 256.6  ┆ 5        ┆ 1            ┆ 256.55 ┆ 0             ┆ 238      ┆ 7            ┆ 256.6  ┆ 0             │
+
+                │ …                              ┆ …                              ┆ …        ┆ …              ┆ …              ┆ …              ┆ …              ┆ …         ┆ …    ┆ …        ┆ …      ┆ …        ┆ …            ┆ …      ┆ …             ┆ …        ┆ …            ┆ …      ┆ …             │
+
+                │ 2025-10-02 15:59:59.999 EDT    ┆ 2025-10-02 15:59:59.999 EDT    ┆ 60929507 ┆ 32             ┆ 255            ┆ 255            ┆ 255            ┆ 0         ┆ 100  ┆ 1        ┆ 257.14 ┆ 168      ┆ 1            ┆ 257.13 ┆ 0             ┆ 3        ┆ 1            ┆ 257.2  ┆ 0             │
+
+                │ 2025-10-02 15:59:59.999 EDT    ┆ 2025-10-02 15:59:59.999 EDT    ┆ 60929513 ┆ 32             ┆ 255            ┆ 255            ┆ 255            ┆ 0         ┆ 100  ┆ 1        ┆ 257.14 ┆ 168      ┆ 1            ┆ 257.13 ┆ 0             ┆ 3        ┆ 1            ┆ 257.2  ┆ 0             │
+
+                │ 2025-10-02 15:59:59.999 EDT    ┆ 2025-10-02 15:59:59.999 EDT    ┆ 60929526 ┆ 32             ┆ 95             ┆ 255            ┆ 255            ┆ 95        ┆ 100  ┆ 1        ┆ 257.14 ┆ 168      ┆ 1            ┆ 257.13 ┆ 0             ┆ 3        ┆ 1            ┆ 257.2  ┆ 0             │
+
+                │ 2025-10-02 15:59:59.999 EDT    ┆ 2025-10-02 15:59:59.999 EDT    ┆ 60929531 ┆ 32             ┆ 95             ┆ 255            ┆ 255            ┆ 95        ┆ 100  ┆ 1        ┆ 257.14 ┆ 168      ┆ 1            ┆ 257.13 ┆ 0             ┆ 3        ┆ 1            ┆ 257.2  ┆ 0             │
+
+                │ 2025-10-02 16:00:00 EDT        ┆ 2025-10-02 16:00:00 EDT        ┆ 60929549 ┆ 32             ┆ 255            ┆ 255            ┆ 115            ┆ 115       ┆ 2    ┆ 63       ┆ 257.14 ┆ 168      ┆ 1            ┆ 257.13 ┆ 0             ┆ 1        ┆ 1            ┆ 257.14 ┆ 0             │
+
+                └────────────────────────────────┴────────────────────────────────┴──────────┴────────────────┴────────────────┴────────────────┴────────────────┴───────────┴──────┴──────────┴────────┴──────────┴──────────────┴────────┴───────────────┴──────────┴──────────────┴────────┴───────────────┘
+
+                '
+  /stock/at_time/trade:
+    x-concurrent-limit-ttl-ms: '652'
+    x-min-subscription: standard
+    x-history-access: true
+    get:
+      summary: Trade
+      operationId: stock_at_time_trade
+      x-codeSamples:
+      - lang: Python
+        label: pandas
+        source: "from thetadata import ThetaClient\nfrom datetime import date\n\nclient = ThetaClient(dataframe_type='pandas')\ndf = client.stock_at_time_trade(\n    symbol='SPY',\n    start_date=date(2024, 1, 16),\n    end_date=date(2024, 1, 16),\n    time_of_day='09:30:00.100',\n)\n"
+      - lang: Python
+        label: polars
+        source: "from thetadata import ThetaClient\nfrom datetime import date\n\nclient = ThetaClient(dataframe_type='polars')\ndf = client.stock_at_time_trade(\n    symbol='SPY',\n    start_date=date(2024, 1, 16),\n    end_date=date(2024, 1, 16),\n    time_of_day='09:30:00.100',\n)\n"
+      tags:
+      - Stock
+      description: '#### Real-time request:
+
+        - Returns a real-time session from the [Nasdaq Basic feed](/Articles/Data-And-Requests/The-SIPs.html#nasdaq-basic) if the account has a [stocks standard or pro subscription](https://www.thetadata.net/subscribe.html#stocks).
+
+        - Returns a 15-minute delayed session from the [UTP & CTA feeds](/Articles/Data-And-Requests/The-SIPs.html#equities-cta-utp) account has the [stocks value subscription](https://www.thetadata.net/subscribe.html#stocks) subscription.
+
+
+        #### Historical request:
+
+        Returns the last trade reported by [UTP & CTA feeds](/Articles/Data-And-Requests/The-SIPs.html#equities-cta-utp) at a specified millisecond of the day.
+
+        Trade condition mappings can be found [here](/Articles/Errors-Exchanges-Conditions/Trade-Conditions.html).
+
+        '
+      x-sample-urls:
+      - url: http://127.0.0.1:25503/v3/stock/at_time/trade?symbol=SPY&start_date=20240116&end_date=20240116&time_of_day=09:30:00.100
+        description: Returns the last trade for a given symbol and specified time of day
+      - url: http://127.0.0.1:25503/v3/stock/at_time/trade?symbol=SPY&start_date=20240116&end_date=20240116&time_of_day=09:30:00.100&format=html
+        description: Click to open in browser (HTML)
+      parameters:
+      - $ref: '#/components/parameters/single_symbol'
+      - $ref: '#/components/parameters/start_date'
+      - $ref: '#/components/parameters/end_date'
+      - $ref: '#/components/parameters/time_of_day'
+      - $ref: '#/components/parameters/venue'
+      - $ref: '#/components/parameters/format'
+      responses:
+        '200':
+          description: Returns the last trade for a given symbol and specified time of day
+          content:
+            text/csv:
+              schema:
+                type: array
+                items: &id023
+                  type: object
+                  properties:
+                    timestamp:
+                      type: string
+                      format: date-time
+                      description: The timestamp in YYYY-MM-DDTHH:mm:ss.SSS format.
+                    sequence:
+                      type: integer
+                      description: The exchange [sequence](/Articles/Data-And-Requests/Making-Requests.html#trade-sequences).
+                    ext_condition1:
+                      type: integer
+                      description: Additional trade [condition](/Articles/Errors-Exchanges-Conditions/Trade-Conditions.html)(s). These can be ignored for options.
+                    ext_condition2:
+                      type: integer
+                      description: Additional trade [condition](/Articles/Errors-Exchanges-Conditions/Trade-Conditions.html)(s). These can be ignored for options.
+                    ext_condition3:
+                      type: integer
+                      description: Additional trade [condition](/Articles/Errors-Exchanges-Conditions/Trade-Conditions.html)(s). These can be ignored for options.
+                    ext_condition4:
+                      type: integer
+                      description: Additional trade [condition](/Articles/Errors-Exchanges-Conditions/Trade-Conditions.html)(s). These can be ignored for options.
+                    condition:
+                      type: integer
+                      description: The trade [condition](/Articles/Errors-Exchanges-Conditions/Trade-Conditions.html).
+                    size:
+                      type: integer
+                      description: The amount of contracts / shares traded.
+                    exchange:
+                      type: integer
+                      description: The [exchange](/Articles/Errors-Exchanges-Conditions/Exchanges.html) the trade was executed.
+                    price:
+                      type: number
+                      description: The trade price.
+              example: "timestamp,sequence,ext_condition1,ext_condition2,ext_condition3,ext_condition4,condition,size,exchange,price\r\n2024-01-16T09:30:00.088,405549,255,255,255,115,115,1,57,475.280\r\n"
+            application/json:
+              schema: &id024
+                type: array
+                items: *id023
+              example: "{\n  \"response\": [\n      {\"sequence\":405549,\"condition\":115,\"size\":1,\"price\":475.280,\"ext_condition2\":255,\"ext_condition1\":255,\"ext_condition4\":115,\"exchange\":57,\"ext_condition3\":255,\"timestamp\":\"2024-01-16T09:30:00.088\"}                  \n  ]\n}\n"
+            application/x-ndjson:
+              schema: *id024
+              example: '{"sequence":405549,"condition":115,"size":1,"price":475.280,"ext_condition2":255,"ext_condition1":255,"ext_condition4":115,"exchange":57,"ext_condition3":255,"timestamp":"2024-01-16T09:30:00.088"}'
+            python/pandas:
+              schema: *id024
+              example: 'timestamp  sequence  ext_condition1  ext_condition2  ext_condition3  ext_condition4  condition  size  exchange   price
+
+                0 2025-10-02 09:29:59.861000-04:00   3899004              32             255               1             115          1    68         7  256.59
+
+                '
+            python/polars:
+              schema: *id024
+              example: 'shape: (1, 10)
+
+                ┌────────────────────────────────┬──────────┬────────────────┬────────────────┬────────────────┬────────────────┬───────────┬──────┬──────────┬────────┐
+
+                │ timestamp                      ┆ sequence ┆ ext_condition1 ┆ ext_condition2 ┆ ext_condition3 ┆ ext_condition4 ┆ condition ┆ size ┆ exchange ┆ price  │
+
+                │ ---                            ┆ ---      ┆ ---            ┆ ---            ┆ ---            ┆ ---            ┆ ---       ┆ ---  ┆ ---      ┆ ---    │
+
+                │ datetime[ms, America/New_York] ┆ i64      ┆ i64            ┆ i64            ┆ i64            ┆ i64            ┆ i64       ┆ i64  ┆ i64      ┆ f64    │
+
+                ╞════════════════════════════════╪══════════╪════════════════╪════════════════╪════════════════╪════════════════╪═══════════╪══════╪══════════╪════════╡
+
+                │ 2025-10-02 09:29:59.861 EDT    ┆ 3899004  ┆ 32             ┆ 255            ┆ 1              ┆ 115            ┆ 1         ┆ 68   ┆ 7        ┆ 256.59 │
+
+                └────────────────────────────────┴──────────┴────────────────┴────────────────┴────────────────┴────────────────┴───────────┴──────┴──────────┴────────┘
+
+                '
+  /stock/at_time/quote:
+    x-concurrent-limit-ttl-ms: '997'
+    x-min-subscription: value
+    x-history-access: true
+    get:
+      summary: Quote
+      operationId: stock_at_time_quote
+      x-codeSamples:
+      - lang: Python
+        label: pandas
+        source: "from thetadata import ThetaClient\nfrom datetime import date\n\nclient = ThetaClient(dataframe_type='pandas')\ndf = client.stock_at_time_quote(\n    symbol='SPY',\n    start_date=date(2024, 1, 16),\n    end_date=date(2024, 1, 16),\n    time_of_day='09:30:00.100',\n)\n"
+      - lang: Python
+        label: polars
+        source: "from thetadata import ThetaClient\nfrom datetime import date\n\nclient = ThetaClient(dataframe_type='polars')\ndf = client.stock_at_time_quote(\n    symbol='SPY',\n    start_date=date(2024, 1, 16),\n    end_date=date(2024, 1, 16),\n    time_of_day='09:30:00.100',\n)\n"
+      tags:
+      - Stock
+      description: "#### Real-time request:\n  - Subscription tier standard or higher will default to NQB.\n  - Real-time last BBO quote at-time_of_day-time from the [Nasdaq Basic feed](/Articles/Data-And-Requests/The-SIPs.html#nasdaq-basic) if the account has a [stocks standard or pro subscription](https://www.thetadata.net/subscribe.html#stocks).\n  - 15-minute delayed NBBO quote at-time_of_day-time from the [UTP & CTA feeds](/Articles/Data-And-Requests/The-SIPs.html#equities-cta-utp) account has the [stocks value subscription](https://www.thetadata.net/subscribe.html#stocks) subscription.\n\n#### Historical request:\n  Returns the last NBBO quote reported by [UTP & CTA feeds](/Articles/Data-And-Requests/The-SIPs.html#equities-cta-utp) at a specified millisecond of the day.\n"
+      x-sample-urls:
+      - url: http://127.0.0.1:25503/v3/stock/at_time/quote?symbol=SPY&start_date=20240116&end_date=20240116&time_of_day=09:30:00.100
+        description: Returns the last quote for a given symbol between specified dates (inclusive) with a one minute interval
+      - url: http://127.0.0.1:25503/v3/stock/at_time/quote?symbol=SPY&start_date=20240116&end_date=20240116&time_of_day=09:30:00.100&format=html
+        description: Click to open in browser (HTML)
+      parameters:
+      - $ref: '#/components/parameters/single_symbol'
+      - $ref: '#/components/parameters/start_date'
+      - $ref: '#/components/parameters/end_date'
+      - $ref: '#/components/parameters/time_of_day'
+      - $ref: '#/components/parameters/venue'
+      - $ref: '#/components/parameters/format'
+      responses:
+        '200':
+          description: Returns the last quote for a given symbol between specified dates (inclusive) with a one minute interval
+          content:
+            text/csv:
+              schema:
+                type: array
+                items: &id025
+                  type: object
+                  properties:
+                    timestamp:
+                      type: string
+                      format: date-time
+                      description: The timestamp in YYYY-MM-DDTHH:mm:ss.SSS format.
+                    bid_size:
+                      type: integer
+                      description: The last NBBO bid size.
+                    bid_exchange:
+                      type: integer
+                      description: The last NBBO bid [exchange](/Articles/Errors-Exchanges-Conditions/Exchanges.html).
+                    bid:
+                      type: number
+                      description: The last NBBO bid price.
+                    bid_condition:
+                      type: integer
+                      description: The last NBBO bid [condition](/Articles/Errors-Exchanges-Conditions/Quote-Conditions.html).
+                    ask_size:
+                      type: integer
+                      description: The last NBBO ask size.
+                    ask_exchange:
+                      type: integer
+                      description: The last NBBO ask [exchange](/Articles/Errors-Exchanges-Conditions/Exchanges.html).
+                    ask:
+                      type: number
+                      description: The last NBBO ask price.
+                    ask_condition:
+                      type: integer
+                      description: The last NBBO ask [condition](/Articles/Errors-Exchanges-Conditions/Quote-Conditions.html).
+              example: "timestamp,bid_size,bid_exchange,bid,bid_condition,ask_size,ask_exchange,ask,ask_condition\r\n2024-01-16T09:30:00.1,15,1,475.28,0,8,7,475.28,0\r\n"
+            application/json:
+              schema: &id026
+                type: array
+                items: *id025
+              example: "{\n  \"response\": [\n    {\"ask_size\":8,\"bid_size\":15,\"ask_exchange\":7,\"ask_condition\":0,\"bid_exchange\":1,\"ask\":475.28,\"bid\":475.28,\"bid_condition\":0,\"timestamp\":\"2024-01-16T09:30:00.1\"}\n  ]\n}\n"
+            application/x-ndjson:
+              schema: *id026
+              example: '{"ask_size":8,"bid_size":15,"ask_exchange":7,"ask_condition":0,"bid_exchange":1,"ask":475.28,"bid":475.28,"bid_condition":0,"timestamp":"2024-01-16T09:30:00.1"}'
+            python/pandas:
+              schema: *id026
+              example: 'timestamp  bid_size  bid_exchange     bid  bid_condition  ask_size  ask_exchange    ask  ask_condition
+
+                0 2025-10-02 09:30:00-04:00         3             1  256.55              0       238             7  256.6              0
+
+                '
+            python/polars:
+              schema: *id026
+              example: 'shape: (1, 9)
+
+                ┌────────────────────────────────┬──────────┬──────────────┬────────┬───────────────┬──────────┬──────────────┬───────┬───────────────┐
+
+                │ timestamp                      ┆ bid_size ┆ bid_exchange ┆ bid    ┆ bid_condition ┆ ask_size ┆ ask_exchange ┆ ask   ┆ ask_condition │
+
+                │ ---                            ┆ ---      ┆ ---          ┆ ---    ┆ ---           ┆ ---      ┆ ---          ┆ ---   ┆ ---           │
+
+                │ datetime[ms, America/New_York] ┆ i64      ┆ i64          ┆ f64    ┆ i64           ┆ i64      ┆ i64          ┆ f64   ┆ i64           │
+
+                ╞════════════════════════════════╪══════════╪══════════════╪════════╪═══════════════╪══════════╪══════════════╪═══════╪═══════════════╡
+
+                │ 2025-10-02 09:30:00 EDT        ┆ 3        ┆ 1            ┆ 256.55 ┆ 0             ┆ 238      ┆ 7            ┆ 256.6 ┆ 0             │
+
+                └────────────────────────────────┴──────────┴──────────────┴────────┴───────────────┴──────────┴──────────────┴───────┴───────────────┘
+
+                '
+  /stock/flat_file/trade_quote:
+    x-concurrent-limit-ttl-ms: '1800000'
+    x-hide-from-docs: true
+    x-min-subscription: professional
+    get:
+      summary: Stock Flat File Trade Quote
+      operationId: stock_flat_file_trade_quote
+      x-codeSamples:
+      - lang: Python
+        label: pandas
+        source: 'from thetadata import ThetaClient
+
+          from datetime import date
+
+
+          client = ThetaClient(dataframe_type=''pandas'')
+
+          df = client.stock_flat_file_trade_quote(date=date(2024, 1, 2))
+
+          '
+      - lang: Python
+        label: polars
+        source: 'from thetadata import ThetaClient
+
+          from datetime import date
+
+
+          client = ThetaClient(dataframe_type=''polars'')
+
+          df = client.stock_flat_file_trade_quote(date=date(2024, 1, 2))
+
+          '
+      tags:
+      - Stock
+      description: 'Bulk download all stock trade/quote ticks for a given date as a CSV stream. Returns one row per tick, grouped by symbol. Requires a Professional stock subscription.
+
+        '
+      parameters:
+      - $ref: '#/components/parameters/date'
+      - $ref: '#/components/parameters/format'
+      responses:
+        '200':
+          description: CSV stream of all stock trade/quote ticks for the given date
+          content:
+            text/csv:
+              schema:
+                type: array
+                items: &id027
+                  type: object
+                  properties:
+                    root:
+                      type: string
+                      description: The stock symbol.
+                    ms_of_day:
+                      type: integer
+                      description: Milliseconds since midnight.
+                    date:
+                      type: integer
+                      description: Date as YYYYMMDD integer.
+            application/json:
+              schema: &id028
+                type: array
+                items: *id027
+            application/x-ndjson:
+              schema: *id028
+  /stock/flat_file/eod:
+    x-concurrent-limit-ttl-ms: '1800000'
+    x-hide-from-docs: true
+    x-min-subscription: professional
+    get:
+      summary: Stock Flat File EOD
+      operationId: stock_flat_file_eod
+      x-codeSamples:
+      - lang: Python
+        label: pandas
+        source: 'from thetadata import ThetaClient
+
+          from datetime import date
+
+
+          client = ThetaClient(dataframe_type=''pandas'')
+
+          df = client.stock_flat_file_eod(date=date(2024, 1, 2))
+
+          '
+      - lang: Python
+        label: polars
+        source: 'from thetadata import ThetaClient
+
+          from datetime import date
+
+
+          client = ThetaClient(dataframe_type=''polars'')
+
+          df = client.stock_flat_file_eod(date=date(2024, 1, 2))
+
+          '
+      tags:
+      - Stock
+      description: 'Bulk download all stock end-of-day ticks for a given date as a CSV stream. Returns one row per tick, grouped by symbol. Requires a Professional stock subscription.
+
+        '
+      parameters:
+      - $ref: '#/components/parameters/date'
+      - $ref: '#/components/parameters/format'
+      responses:
+        '200':
+          description: CSV stream of all stock EOD ticks for the given date
+          content:
+            text/csv:
+              schema:
+                type: array
+                items: &id029
+                  type: object
+                  properties:
+                    root:
+                      type: string
+                      description: The stock symbol.
+                    ms_of_day:
+                      type: integer
+                      description: Milliseconds since midnight.
+                    date:
+                      type: integer
+                      description: Date as YYYYMMDD integer.
+            application/json:
+              schema: &id030
+                type: array
+                items: *id029
+            application/x-ndjson:
+              schema: *id030
+components:
+  parameters:
+    start_date:
+      name: start_date
+      in: query
+      description: The start date (inclusive).
+      required: true
+      schema:
+        type: string
+        format: date
+    end_time:
+      name: end_time
+      in: query
+      description: The end time (inclusive) in the specified day (format 24-hour HH:MM:SS.SSS).
+      required: false
+      schema:
+        type: string
+        format: time
+        default: '16:00:00'
+    date:
+      name: date
+      in: query
+      description: The date to fetch data for.
+      required: true
+      schema:
+        type: string
+        format: date
+    time_of_day:
+      name: time_of_day
+      in: query
+      description: The time of the day to fetch data for; assumed to be America/New_York.
+      required: true
+      schema:
+        type: string
+        format: time
+    opt_end_date:
+      name: end_date
+      in: query
+      description: The end date (inclusive).
+      required: false
+      schema:
+        type: string
+        format: date
+    start_time:
+      name: start_time
+      in: query
+      description: The start time (inclusive) in the specified day (format 24-hour HH:MM:SS.SSS).
+      required: false
+      schema:
+        type: string
+        format: time
+        default: 09:30:00
+    exclusive:
+      name: exclusive
+      in: query
+      description: If you prefer to match quotes with timestamps that are < the trade timestamp.
+      required: false
+      schema:
+        type: boolean
+        default: true
+    single_symbol:
+      name: symbol
+      in: query
+      description: The stock or index symbol, or underlying symbol for options.
+      required: true
+      schema:
+        type: string
+    opt_start_date:
+      name: start_date
+      in: query
+      description: The start date (inclusive).
+      required: false
+      schema:
+        type: string
+        format: date
+    venue:
+      name: venue
+      in: query
+      description: Used to specify the venue of the real time or historic request. ``nqb`` = Nasdaq Basic; ``utp_cta`` = merged UTP & CTA.
+      required: false
+      schema:
+        type: string
+        enum:
+        - nqb
+        - utp_cta
+        default: nqb
+    end_date:
+      name: end_date
+      in: query
+      description: The end date (inclusive).
+      required: true
+      schema:
+        type: string
+        format: date
+    min_time:
+      name: min_time
+      in: query
+      description: Filters snapshots to include only data with a timestamp greater or equal to the specified value (HH:mm:ss.SSS format).
+      required: false
+      schema:
+        type: string
+        format: time
+    format:
+      name: format
+      in: query
+      description: The format of the data when returned to the user.
+      required: false
+      schema:
+        type: string
+        enum:
+        - csv
+        - json
+        - ndjson
+        - html
+        default: csv
+    opt_date:
+      name: date
+      in: query
+      description: The date to fetch data for. If present, this overrides start_date and end_date.
+      required: false
+      schema:
+        type: string
+        format: date
+    interval:
+      name: interval
+      in: query
+      description: The size of the time interval must be one of the available options listed below. Intervals less than 1m are available only for single-day requests.
+      required: true
+      schema:
+        type: string
+        enum:
+        - tick
+        - 10ms
+        - 100ms
+        - 500ms
+        - 1s
+        - 5s
+        - 10s
+        - 15s
+        - 30s
+        - 1m
+        - 5m
+        - 10m
+        - 15m
+        - 30m
+        - 1h
+        default: 1s
+    request_type:
+      name: request_type
+      in: path
+      description: The request type.
+      required: true
+      schema:
+        type: string
+        enum:
+        - trade
+        - quote
+    multi_symbol:
+      name: symbol
+      in: query
+      description: The stock or index symbol, or underlying symbol for options. Specify '*' for all symbols or a comma separated list when appropriate.
+      required: true
+      schema:
+        type: array
+        items:
+          type: string

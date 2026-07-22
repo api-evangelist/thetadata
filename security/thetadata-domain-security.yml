@@ -1,0 +1,28 @@
+generated: '2026-07-22'
+method: probed
+source: live DNS/TLS/HTTP probes of apis.yml + OpenAPI hosts
+hosts:
+- host: thetadata.net
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Sep 24 13:54:04 2026 GMT
+  hsts: false
+- host: docs.thetadata.us
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Oct 19 14:31:18 2026 GMT
+  hsts: false
+- host: 127.0.0.1
+  https: false
+domains:
+- domain: thetadata.net
+  dnssec: false
+  caa: []
+  spf: true
+  dmarc: true
+  dmarc_policy: none
+- domain: thetadata.us
+  dnssec: true
+  caa: []
+  spf: false
+  dmarc: false

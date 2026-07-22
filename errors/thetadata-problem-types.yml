@@ -1,0 +1,83 @@
+generated: '2026-07-22'
+method: searched
+format: text-plain-status-codes
+source: >-
+  https://docs.thetadata.us/Articles/Errors-Exchanges-Conditions/Error-Codes.html
+  and the Error-Handling section of
+  https://docs.thetadata.us/Articles/Data-And-Requests/Making-Requests.html.
+description: >-
+  ThetaData's v3 REST error catalog, captured verbatim from the docs. Errors
+  are NOT RFC 9457 problem+json: when a request fails, a plain text response
+  describing the error is returned and the HTTP status code corresponds to the
+  registry below. ThetaData uses custom 47x and 57x status codes alongside
+  standard 404/429. The docs stress that applications must properly handle
+  DISCONNECTED (474) and NO_DATA (472).
+envelope:
+  media_type: text/plain
+  shape: A text response describing the error; HTTP status carries the error code.
+problems:
+  - status: 200
+    title: OKAY, NO ERROR
+    meaning: No error.
+  - status: 404
+    title: NO_IMPL
+    meaning: >-
+      There is no implementation of this request. Either the request is invalid
+      or an outdated Theta Terminal version is in use.
+    remediation: Update the Theta Terminal to the latest version; verify the request path.
+  - status: 429
+    title: OS_LIMIT
+    meaning: >-
+      The operating system is throttling requests (large amounts of small
+      low-latency requests), or the terminal request queue overflowed.
+    remediation: Retry the request until the error clears; keep within concurrency limits.
+  - status: 470
+    title: GENERAL
+    meaning: A general error.
+  - status: 471
+    title: PERMISSION
+    meaning: The account does not have the permissions (subscription tier) required to execute the request.
+    remediation: Upgrade the subscription tier that covers the requested data.
+  - status: 472
+    title: NO_DATA
+    meaning: There was no data found for the specified request.
+  - status: 473
+    title: INVALID_PARAMS
+    meaning: The parameters / syntax of the request is invalid.
+    remediation: Check parameter syntax; updating the Theta Terminal can resolve this.
+  - status: 474
+    title: DISCONNECTED
+    meaning: Connection has been lost to Theta Data MDDS.
+    remediation: Handle in application code; check /v3/terminal/mdds/status.
+  - status: 475
+    title: TERMINAL_PARSE
+    meaning: There was an issue parsing the request after it was received.
+  - status: 476
+    title: WRONG_IP
+    meaning: >-
+      The IP address does not match the IP the first request was made on. The
+      same IP must be used while the terminal runs; 127.0.0.1 and localhost
+      cannot be mixed.
+    remediation: Use one consistent host form (127.0.0.1 OR localhost) for all requests.
+  - status: 477
+    title: NO_PAGE_FOUND
+    meaning: The page does not exist or expired.
+  - status: 478
+    title: INVALID_SESSION_ID
+    meaning: Invalid session ID; can occur if more than one terminal is running.
+    remediation: Run a single Theta Terminal instance per session.
+  - status: 570
+    title: LARGE_REQUEST
+    meaning: The request asks for too much data.
+    remediation: >-
+      Follow the request-sizing guidelines
+      (https://docs.thetadata.us/Articles/Data-And-Requests/Request-Sizing.html);
+      keep responses under ~1 million ticks.
+  - status: 571
+    title: SERVER_STARTING
+    meaning: The server is forcibly and intentionally restarting.
+    remediation: Retry after the restart completes.
+  - status: 572
+    title: UNCAUGHT_ERROR
+    meaning: Unexpected error.
+    remediation: Reach out to support (Discord) with the exact request made.

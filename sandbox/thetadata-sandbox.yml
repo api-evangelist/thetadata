@@ -1,0 +1,52 @@
+generated: '2026-07-22'
+method: searched
+source: >-
+  https://docs.thetadata.us/Articles/Data-And-Requests/Staging-Environment.html,
+  https://docs.thetadata.us/Streaming/Getting-Started.html (Dev FPSS),
+  https://docs.thetadata.us/Articles/Getting-Started/Sample-Data.html,
+  https://docs.thetadata.us/Articles/Getting-Started/Subscriptions.html.
+description: >-
+  ThetaData's test/non-production surfaces: a staging environment for the REST
+  API (a second, independent MDDS connection), a dev FPSS replay server for
+  streaming development while markets are closed, a no-account sample data
+  bundle, and a free EOD tier. All values below are published verbatim in the
+  docs.
+environments:
+  - name: production
+    selector: 'config [env] mdds_type = "PROD" (terminal) or ThetaClient() default (Python)'
+    rest_port_convention: 25503
+  - name: staging
+    selector: >-
+      config [env] mdds_type = "STAGE" (terminal, e.g. on port 25504) or
+      ThetaClient(mdds_type="STAGE") / THETADATA_MDDS_TYPE=STAGE (Python)
+    rest_port_convention: 25504
+    purpose: >-
+      A separate connection to the ThetaData system, independent of the main
+      production connection — lets two real-time streams run simultaneously
+      (compare streams side by side, run multiple workflows without
+      interference). Both clients authenticate independently.
+streaming_dev:
+  name: Dev FPSS
+  selector: 'config [fpss] fpss_region="fpss_dev_hosts" (production: "fpss_nj_hosts", stage: "fpss_stage_hosts")'
+  behavior: >-
+    Infinite loop replay of a single past trading day, replayed as fast as
+    possible (more messages/sec than production) so streaming can be tested
+    while the market is closed. The replayed day is random, so some contracts
+    may be expired or not yet exist.
+sample_data:
+  url: https://docs.thetadata.us/sample_data.zip
+  requires_account: false
+  contents:
+    - {file: trade.csv, description: Every trade reported by UTP & CTA for one day}
+    - {file: quote_tick.csv, description: Every NBBO quote reported by UTP and CTA}
+    - {file: quote_1m.csv, description: Most recent NBBO quote for each minute of the session}
+    - {file: ohlc.csv, description: OHLCV, trade count and VWAP per minute}
+    - {file: eod.csv, description: End of day snapshot of OHLCV and NBBO quote}
+free_tier:
+  description: >-
+    1 year of free historical EOD data for US stocks and options (rate-limited;
+    see rate-limits/thetadata-rate-limits.yml), usable as a no-cost evaluation
+    mode with a real account.
+notes: >-
+  There are no magic test symbols or fabricated fixtures — staging and dev FPSS
+  serve real market data over separate connections.

@@ -1,0 +1,24 @@
+generated: '2026-07-22'
+method: generated
+source: >-
+  Packaged Agent Skills generated from ThetaData's OpenAPI 3.1 spec; every step
+  is grounded in an operationId verified verbatim in ../openapi/*.yml, with
+  cross-cutting rules cited from ../conventions/, ../errors/,
+  ../authentication/, ../rate-limits/ and ../plans/. ThetaData publishes no
+  skills/AGENTS.md of its own (checked docs + GitHub 2026-07-22).
+skills:
+  - file: thetadata-option-chain-snapshot.md
+    name: Snapshot a live option chain with Greeks
+    api: openapi/thetadata-option-api-openapi.yml
+    operations: [option_list_expirations, option_list_strikes, option_snapshot_quote, option_snapshot_greeks_all]
+  - file: thetadata-historical-options-research.md
+    name: Pull historical option data for research or backtesting
+    api: openapi/thetadata-option-api-openapi.yml
+    operations: [option_list_expirations, option_history_eod, option_history_trade, option_history_greeks_eod]
+  - file: thetadata-stock-market-day.md
+    name: Read a stock's market day (calendar, history, live snapshot)
+    api: openapi/thetadata-stock-api-openapi.yml
+    operations: [stock_list_symbols, stock_history_eod, stock_snapshot_quote]
+    additional_apis:
+      - api: openapi/thetadata-calendar-api-openapi.yml
+        operations: [calendar_open_today]

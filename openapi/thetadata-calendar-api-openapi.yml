@@ -1,0 +1,391 @@
+openapi: 3.1.0
+info:
+  title: Theta Data v3 At-Time Calendar API
+  description: Real-time and historic stock, options, and index data!
+  version: 3.0.0
+  x-java-package: net.thetadata.generated
+servers:
+- url: http://127.0.0.1:25503/v3
+  description: dev
+security: []
+tags:
+- name: Calendar
+paths:
+  /calendar/today:
+    x-concurrent-limit-ttl-ms: '17'
+    x-min-subscription: free
+    get:
+      summary: Today
+      operationId: calendar_open_today
+      x-codeSamples:
+      - lang: Python
+        label: pandas
+        source: 'from thetadata import ThetaClient
+
+
+          client = ThetaClient(dataframe_type=''pandas'')
+
+          df = client.calendar_open_today()
+
+          '
+      - lang: Python
+        label: polars
+        source: 'from thetadata import ThetaClient
+
+
+          client = ThetaClient(dataframe_type=''polars'')
+
+          df = client.calendar_open_today()
+
+          '
+      tags:
+      - Calendar
+      description: '- Retrieves current day equity market schedule
+
+        - *On days when the market closes early at 1:00 PM ET; eligible options will trade until 1:15 PM.
+
+        - **Some NYSE exchanges will continue late trading until 5:00 PM ET on early close days.
+
+        '
+      x-sample-urls:
+      - url: http://127.0.0.1:25503/v3/calendar/today
+        description: Current day equity market schedule
+      - url: http://127.0.0.1:25503/v3/calendar/today?format=html
+        description: Click to open in browser (HTML)
+      parameters:
+      - $ref: '#/components/parameters/format'
+      responses:
+        '200':
+          description: Returns current day schedule
+          content:
+            text/csv:
+              schema:
+                type: array
+                items: &id001
+                  type: object
+                  properties:
+                    type:
+                      type: string
+                      description: The schedule type (open, full_close, early_close, weekend).
+                    open:
+                      type: string
+                      description: Market open time in HH:mm:ss format.
+                    close:
+                      type: string
+                      description: Market close time in HH:mm:ss format.
+              example: "type,open,close\r\nopen,09:30:00,16:00:00\r\n"
+            application/json:
+              schema: &id002
+                type: array
+                items: *id001
+              example: "{\n  \"response\": [\n    {\"type\":\"open\",\"open\":\"09:30:00\",\"close\":\"16:00:00\"}\n  ]\n}\n"
+            application/x-ndjson:
+              schema: *id002
+              example: '{"type":"open","open":"09:30:00","close":"16:00:00"}'
+            python/pandas:
+              schema: *id002
+              example: 'type      open     close
+
+                0  open  09:30:00  16:00:00
+
+                '
+            python/polars:
+              schema: *id002
+              example: 'shape: (1, 3)
+
+                ┌──────┬──────────┬──────────┐
+
+                │ type ┆ open     ┆ close    │
+
+                │ ---  ┆ ---      ┆ ---      │
+
+                │ str  ┆ str      ┆ str      │
+
+                ╞══════╪══════════╪══════════╡
+
+                │ open ┆ 09:30:00 ┆ 16:00:00 │
+
+                └──────┴──────────┴──────────┘
+
+                '
+  /calendar/on_date:
+    x-concurrent-limit-ttl-ms: '17'
+    x-min-subscription: value
+    get:
+      summary: On Date
+      operationId: calendar_on_date
+      x-codeSamples:
+      - lang: Python
+        label: pandas
+        source: 'from thetadata import ThetaClient
+
+          from datetime import date
+
+
+          client = ThetaClient(dataframe_type=''pandas'')
+
+          df = client.calendar_on_date(date=date(2025, 12, 25))
+
+          '
+      - lang: Python
+        label: polars
+        source: 'from thetadata import ThetaClient
+
+          from datetime import date
+
+
+          client = ThetaClient(dataframe_type=''polars'')
+
+          df = client.calendar_on_date(date=date(2025, 12, 25))
+
+          '
+      tags:
+      - Calendar
+      description: '- Retrieves equity market schedule for a given date
+
+        - Note: Holiday data is available 01/01/2012 through the end of the calendar year that immediately follows the current year
+
+        - *On days when the market closes early at 1:00 PM ET; eligible options will trade until 1:15 PM.
+
+        - **Some NYSE exchanges will continue late trading until 5:00 PM ET on early close days.
+
+        '
+      x-sample-urls:
+      - url: http://127.0.0.1:25503/v3/calendar/on_date?date=20251225
+        description: Returns equity market schedule for the requested date
+      - url: http://127.0.0.1:25503/v3/calendar/on_date?date=20251225&format=html
+        description: Click to open in browser (HTML)
+      parameters:
+      - $ref: '#/components/parameters/date'
+      - $ref: '#/components/parameters/format'
+      responses:
+        '200':
+          description: Returns requested day schedule
+          content:
+            text/csv:
+              schema:
+                type: array
+                items: &id003
+                  type: object
+                  properties:
+                    type:
+                      type: string
+                      description: The schedule type (open, full_close, early_close, weekend).
+                    open:
+                      type: string
+                      description: Market open time in HH:mm:ss format.
+                    close:
+                      type: string
+                      description: Market close time in HH:mm:ss format.
+              example: "type,open,close\r\nfull_close,,\r\n"
+            application/json:
+              schema: &id004
+                type: array
+                items: *id003
+              example: "{\n  \"response\": [\n    {\"type\":\"full_close\",\"open\":null,\"close\":null}\n  ]\n}\n"
+            application/x-ndjson:
+              schema: *id004
+              example: '{"type":"early_close","open":null,"close":null}'
+            python/pandas:
+              schema: *id004
+              example: 'type  open close
+
+                0  full_close  None  None
+
+                '
+            python/polars:
+              schema: *id004
+              example: 'shape: (1, 3)
+
+                ┌────────────┬──────┬───────┐
+
+                │ type       ┆ open ┆ close │
+
+                │ ---        ┆ ---  ┆ ---   │
+
+                │ str        ┆ null ┆ null  │
+
+                ╞════════════╪══════╪═══════╡
+
+                │ full_close ┆ null ┆ null  │
+
+                └────────────┴──────┴───────┘
+
+                '
+  /calendar/year_holidays:
+    x-concurrent-limit-ttl-ms: '15'
+    x-min-subscription: value
+    get:
+      summary: Year Holidays
+      operationId: calendar_year
+      x-codeSamples:
+      - lang: Python
+        label: pandas
+        source: 'from thetadata import ThetaClient
+
+
+          client = ThetaClient(dataframe_type=''pandas'')
+
+          df = client.calendar_year(year=''2024'')
+
+          '
+      - lang: Python
+        label: polars
+        source: 'from thetadata import ThetaClient
+
+
+          client = ThetaClient(dataframe_type=''polars'')
+
+          df = client.calendar_year(year=''2024'')
+
+          '
+      tags:
+      - Calendar
+      description: '- Retrieves equity market holidays for a given year
+
+        - Note: Holiday data is available 01/01/2012 through the end of the calendar year that immediately follows the current year
+
+        - *On days when the market closes early at 1:00 PM ET; eligible options will trade until 1:15 PM.
+
+        - **Some NYSE exchanges will continue late trading until 5:00 PM ET on early close days.
+
+        '
+      x-sample-urls:
+      - url: http://127.0.0.1:25503/v3/calendar/year_holidays?year=2024
+        description: Returns equity market holidays for the requested year
+      - url: http://127.0.0.1:25503/v3/calendar/year_holidays?year=2024&format=html
+        description: Click to open in browser (HTML)
+      parameters:
+      - $ref: '#/components/parameters/year'
+      - $ref: '#/components/parameters/format'
+      responses:
+        '200':
+          description: Returns holidays for a given year
+          content:
+            text/csv:
+              schema:
+                type: array
+                items: &id005
+                  type: object
+                  properties:
+                    date:
+                      type: string
+                      description: The date of a closure
+                    type:
+                      type: string
+                      description: The closure type (full_close, early_close).
+                    open:
+                      type: string
+                      description: Market open time in HH:mm:ss format.
+                    close:
+                      type: string
+                      description: Market close time in HH:mm:ss format.
+              example: "date,type,open,close\r\n2024-12-24,early_close,09:30:00,13:00:00\r\n\r\n2024-12-25,full_close,,\r\n"
+            application/json:
+              schema: &id006
+                type: array
+                items: *id005
+              example: "{\n  \"response\": [\n    {\"date\":\"2024-12-24\",\"type\":\"early_close\",\"open\":\"09:30:00\",\"close\":\"13:00:00\"},\n    {\"date\":\"2024-12-25\",\"type\":\"full_close\",\"open\":null,\"close\":null}\n  ]\n}\n"
+            application/x-ndjson:
+              schema: *id006
+              example: '{"date":"2024-12-24","type":"full_close","open":null,"close":null}
+
+                {"date":"2024-12-24","type":"early_close","open":"09:30:00","close":"13:00:00"}'
+            python/pandas:
+              schema: *id006
+              example: 'date         type      open     close
+
+                0   2026-01-01   full_close       NaN       NaN
+
+                1   2026-01-19   full_close       NaN       NaN
+
+                2   2026-02-16   full_close       NaN       NaN
+
+                3   2026-04-03   full_close       NaN       NaN
+
+                4   2026-05-25   full_close       NaN       NaN
+
+                5   2026-06-19   full_close       NaN       NaN
+
+                6   2026-07-03   full_close       NaN       NaN
+
+                7   2026-09-07   full_close       NaN       NaN
+
+                8   2026-11-26   full_close       NaN       NaN
+
+                9   2026-11-27  early_close  09:30:00  13:00:00
+
+                10  2026-12-24  early_close  09:30:00  13:00:00
+
+                11  2026-12-25   full_close       NaN       NaN
+
+                '
+            python/polars:
+              schema: *id006
+              example: 'shape: (12, 4)
+
+                ┌────────────┬─────────────┬──────────┬──────────┐
+
+                │ date       ┆ type        ┆ open     ┆ close    │
+
+                │ ---        ┆ ---         ┆ ---      ┆ ---      │
+
+                │ str        ┆ str         ┆ str      ┆ str      │
+
+                ╞════════════╪═════════════╪══════════╪══════════╡
+
+                │ 2026-01-01 ┆ full_close  ┆ null     ┆ null     │
+
+                │ 2026-01-19 ┆ full_close  ┆ null     ┆ null     │
+
+                │ 2026-02-16 ┆ full_close  ┆ null     ┆ null     │
+
+                │ 2026-04-03 ┆ full_close  ┆ null     ┆ null     │
+
+                │ 2026-05-25 ┆ full_close  ┆ null     ┆ null     │
+
+                │ …          ┆ …           ┆ …        ┆ …        │
+
+                │ 2026-09-07 ┆ full_close  ┆ null     ┆ null     │
+
+                │ 2026-11-26 ┆ full_close  ┆ null     ┆ null     │
+
+                │ 2026-11-27 ┆ early_close ┆ 09:30:00 ┆ 13:00:00 │
+
+                │ 2026-12-24 ┆ early_close ┆ 09:30:00 ┆ 13:00:00 │
+
+                │ 2026-12-25 ┆ full_close  ┆ null     ┆ null     │
+
+                └────────────┴─────────────┴──────────┴──────────┘
+
+                '
+components:
+  parameters:
+    date:
+      name: date
+      in: query
+      description: The date to fetch data for.
+      required: true
+      schema:
+        type: string
+        format: date
+    year:
+      name: year
+      in: query
+      description: The year to fetch data for.
+      required: true
+      schema:
+        type: string
+    format:
+      name: format
+      in: query
+      description: The format of the data when returned to the user.
+      required: false
+      schema:
+        type: string
+        enum:
+        - csv
+        - json
+        - ndjson
+        - html
+        default: csv

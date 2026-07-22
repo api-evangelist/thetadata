@@ -1,0 +1,46 @@
+generated: '2026-07-22'
+method: derived
+source: >-
+  Derived from openapi/_original/thetadata-v3-openapi.yml (security: [], GET-only
+  operations, response media types) and the docs
+  (Error-Codes, Making-Requests, json-guide, well-known probes of 2026-07-22).
+standards:
+  - id: openapi-3.1
+    conforms: true
+    evidence: Published source-of-truth spec at https://docs.thetadata.us/openapiv3.yaml (openapi 3.1.0).
+  - id: oauth2
+    conforms: false
+    evidence: No oauth2 securityScheme; auth is session-level API key / credentials at terminal launch.
+  - id: oidc
+    conforms: false
+    evidence: /.well-known/openid-configuration 404 on thetadata.net (probed 2026-07-22).
+  - id: rfc9457-problem-details
+    conforms: false
+    evidence: Errors are plain-text bodies with custom 47x/57x HTTP status codes, not application/problem+json.
+  - id: rfc9116-security-txt
+    conforms: false
+    evidence: /.well-known/security.txt 404 on thetadata.net and docs.thetadata.us (probed 2026-07-22).
+  - id: rfc8594-sunset
+    conforms: false
+    evidence: No Sunset/Deprecation headers documented; v2->v3 handled via migration guide.
+  - id: json-api
+    conforms: false
+    evidence: Responses are csv/json/ndjson/html row-oriented market data, not JSON:API documents.
+  - id: pagination
+    conforms: false
+    evidence: >-
+      v3 deliberately removed pagination ("no more next-page header" — v3 beta
+      announcement); responses are single-query, size-guided instead.
+  - id: idempotency
+    conforms: true
+    evidence: All 66 operations are HTTP GET reads; the surface is idempotent by construction (see conventions/).
+  - id: websocket
+    conforms: true
+    evidence: JSON WebSocket streaming at ws://127.0.0.1:25520/v1/events (QUOTE/TRADE/STATUS messages).
+  - id: mcp
+    conforms: true
+    evidence: Official MCP server over SSE built into Theta Terminal v3 (docs.thetadata.us/Mcp/Getting-Started.html).
+notes: >-
+  No published compliance program (SOC 2 / ISO 27001 etc.) was found — no trust
+  center or certification pages (probe-security-programs 2026-07-22 found
+  none) — so no Compliance pointer is emitted.

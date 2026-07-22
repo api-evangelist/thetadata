@@ -1,0 +1,1340 @@
+openapi: 3.1.0
+info:
+  title: Theta Data v3 At-Time List API
+  description: Real-time and historic stock, options, and index data!
+  version: 3.0.0
+  x-java-package: net.thetadata.generated
+servers:
+- url: http://127.0.0.1:25503/v3
+  description: dev
+security: []
+tags:
+- name: List
+paths:
+  /stock/list/symbols:
+    x-concurrent-limit-ttl-ms: '339'
+    x-min-subscription: free
+    get:
+      summary: Symbols
+      operationId: stock_list_symbols
+      x-codeSamples:
+      - lang: Python
+        label: pandas
+        source: 'from thetadata import ThetaClient
+
+
+          client = ThetaClient(dataframe_type=''pandas'')
+
+          df = client.stock_list_symbols()
+
+          '
+      - lang: Python
+        label: polars
+        source: 'from thetadata import ThetaClient
+
+
+          client = ThetaClient(dataframe_type=''polars'')
+
+          df = client.stock_list_symbols()
+
+          '
+      tags:
+      - List
+      description: 'A symbol can be defined as a unique identifier for a stock / underlying asset. Common terms also include: root, ticker, and underlying. This endpoint returns all traded symbols for stocks. This endpoint is updated overnight.
+
+        '
+      x-sample-urls:
+      - url: http://127.0.0.1:25503/v3/stock/list/symbols
+        description: List all stock symbols
+      - url: http://127.0.0.1:25503/v3/stock/list/symbols?format=html
+        description: Click to open in browser (HTML)
+      parameters:
+      - $ref: '#/components/parameters/format'
+      responses:
+        '200':
+          description: List all stock symbols
+          content:
+            text/csv:
+              schema:
+                type: array
+                items: &id001
+                  type: object
+                  properties:
+                    symbol:
+                      type: string
+                      description: The symbol of the contract, or stock / underlying asset / option / index.
+              example: "symbol\r\nA\r\nAA\r\nAAA\r\nAAAA\r\nAAAP\r\n"
+            application/json:
+              schema: &id002
+                type: array
+                items: *id001
+              example: "{\n  \"response\": [\n    {\"symbol\": \"A\"},\n    {\"symbol\": \"AA\"},\n    {\"symbol\": \"AAA\"},\n    {\"symbol\": \"AAAA\"},\n    {\"symbol\": \"AAAP\"}\n  ]\n}\n"
+            application/x-ndjson:
+              schema: *id002
+              example: '{"symbol":"A"}
+
+                {"symbol":"AA"}
+
+                {"symbol":"AAA"}
+
+                {"symbol":"AAAA"}
+
+                {"symbol":"AAAP"}'
+            python/pandas:
+              schema: *id002
+              example: 'symbol
+
+                0      .PR.I.PR.A
+
+                1      .PR.I.PR.B
+
+                2        .PR.S/WI
+
+                3               A
+
+                4              AA
+
+                ...           ...
+
+                25524         ZYN
+
+                25525        ZYNE
+
+                25526        ZYXI
+
+                25527         ZZK
+
+                25528         ZZZ
+
+
+                [25529 rows x 1 columns]
+
+                '
+            python/polars:
+              schema: *id002
+              example: 'shape: (25_529, 1)
+
+                ┌────────────┐
+
+                │ symbol     │
+
+                │ ---        │
+
+                │ str        │
+
+                ╞════════════╡
+
+                │ .PR.I.PR.A │
+
+                │ .PR.I.PR.B │
+
+                │ .PR.S/WI   │
+
+                │ A          │
+
+                │ AA         │
+
+                │ …          │
+
+                │ ZYN        │
+
+                │ ZYNE       │
+
+                │ ZYXI       │
+
+                │ ZZK        │
+
+                │ ZZZ        │
+
+                └────────────┘
+
+                '
+  /stock/list/dates/{request_type}:
+    x-concurrent-limit-ttl-ms: '20'
+    x-min-subscription: free
+    x-symbol-wildcard: true
+    get:
+      summary: Dates
+      operationId: stock_list_dates
+      x-codeSamples:
+      - lang: Python
+        label: pandas
+        source: 'from thetadata import ThetaClient
+
+
+          client = ThetaClient(dataframe_type=''pandas'')
+
+          df = client.stock_list_dates(request_type=''quote'', symbol=[''AAPL''])
+
+          '
+      - lang: Python
+        label: polars
+        source: 'from thetadata import ThetaClient
+
+
+          client = ThetaClient(dataframe_type=''polars'')
+
+          df = client.stock_list_dates(request_type=''quote'', symbol=[''AAPL''])
+
+          '
+      tags:
+      - List
+      description: 'Lists all dates of data that are available for a stock with a given request type and symbol. This endpoint is updated overnight.
+
+        '
+      x-sample-urls:
+      - url: http://127.0.0.1:25503/v3/stock/list/dates/quote?symbol=AAPL
+        description: List all dates for a stock quote for a given symbol
+      - url: http://127.0.0.1:25503/v3/stock/list/dates/trade?symbol=AAPL,SPY
+        description: List all dates for a stock trade for multiple symbols
+      - url: http://127.0.0.1:25503/v3/stock/list/dates/trade?symbol=*
+        description: List all dates for a stock trade for all symbols
+      - url: http://127.0.0.1:25503/v3/stock/list/dates/quote?symbol=AAPL&format=html
+        description: Click to open in browser (HTML)
+      parameters:
+      - $ref: '#/components/parameters/request_type'
+      - $ref: '#/components/parameters/multi_symbol'
+      - $ref: '#/components/parameters/format'
+      responses:
+        '200':
+          description: List all dates for a stock quote for a given symbol
+          content:
+            text/csv:
+              schema:
+                type: array
+                items: &id003
+                  type: object
+                  properties:
+                    date:
+                      type: string
+                      format: date
+                      description: The date formated as YYYY-MM-DD.
+              example: "date\r\n2016-08-16\r\n2016-08-17\r\n2016-08-18\r\n2016-08-19\r\n2016-08-23\r\n"
+            application/json:
+              schema: &id004
+                type: array
+                items: *id003
+              example: "{\n  \"response\": [\n    {\"date\": \"2016-08-16\"},\n    {\"date\": \"2016-08-17\"},\n    {\"date\": \"2016-08-18\"},\n    {\"date\": \"2016-08-19\"},\n    {\"date\": \"2016-08-23\"}\n  ]\n}\n"
+            application/x-ndjson:
+              schema: *id004
+              example: '{"date":"2016-08-16"}
+
+                {"date":"2016-08-17"}
+
+                {"date":"2016-08-18"}
+
+                {"date":"2016-08-19"}
+
+                {"date":"2016-08-23"}'
+            python/pandas:
+              schema: *id004
+              example: 'date
+
+                0     2012-06-01
+
+                1     2012-06-04
+
+                2     2012-06-05
+
+                3     2012-06-06
+
+                4     2012-06-07
+
+                ...          ...
+
+                3496  2026-04-20
+
+                3497  2026-04-21
+
+                3498  2026-04-22
+
+                3499  2026-04-23
+
+                3500  2026-04-24
+
+
+                [3501 rows x 1 columns]
+
+                '
+            python/polars:
+              schema: *id004
+              example: 'shape: (3_501, 1)
+
+                ┌────────────┐
+
+                │ date       │
+
+                │ ---        │
+
+                │ str        │
+
+                ╞════════════╡
+
+                │ 2012-06-01 │
+
+                │ 2012-06-04 │
+
+                │ 2012-06-05 │
+
+                │ 2012-06-06 │
+
+                │ 2012-06-07 │
+
+                │ …          │
+
+                │ 2026-04-20 │
+
+                │ 2026-04-21 │
+
+                │ 2026-04-22 │
+
+                │ 2026-04-23 │
+
+                │ 2026-04-24 │
+
+                └────────────┘
+
+                '
+  /option/list/symbols:
+    x-concurrent-limit-ttl-ms: '210'
+    x-min-subscription: free
+    get:
+      summary: Symbols
+      operationId: option_list_symbols
+      x-codeSamples:
+      - lang: Python
+        label: pandas
+        source: 'from thetadata import ThetaClient
+
+
+          client = ThetaClient(dataframe_type=''pandas'')
+
+          df = client.option_list_symbols()
+
+          '
+      - lang: Python
+        label: polars
+        source: 'from thetadata import ThetaClient
+
+
+          client = ThetaClient(dataframe_type=''polars'')
+
+          df = client.option_list_symbols()
+
+          '
+      tags:
+      - List
+      description: 'A symbol can be defined as a unique identifier for a stock / underlying asset. Common terms also include: root, ticker, and underlying. This endpoint returns all traded symbols for options. This endpoint is updated overnight.
+
+        '
+      x-sample-urls:
+      - url: http://127.0.0.1:25503/v3/option/list/symbols
+        description: List all symbols for options
+      - url: http://127.0.0.1:25503/v3/option/list/symbols?format=html
+        description: Click to open in browser (HTML)
+      parameters:
+      - $ref: '#/components/parameters/format'
+      responses:
+        '200':
+          description: List all symbols for options
+          content:
+            text/csv:
+              schema:
+                type: array
+                items: &id005
+                  type: object
+                  properties:
+                    symbol:
+                      type: string
+                      description: The symbol of the contract, or stock / underlying asset / option / index.
+              example: "symbol\r\nA\r\nAA\r\nAAAP\r\nAAAU\r\nAABA\r\n"
+            application/json:
+              schema: &id006
+                type: array
+                items: *id005
+              example: "{\n  \"response\": [\n    {\"symbol\":\"A\"},\n    {\"symbol\":\"AA\"},\n    {\"symbol\":\"AAAP\"},\n    {\"symbol\":\"AAAU\"},\n    {\"symbol\":\"AABA\"}\n  ]\n}\n"
+            application/x-ndjson:
+              schema: *id006
+              example: '{"symbol":"A"}
+
+                {"symbol":"AA"}
+
+                {"symbol":"AAAP"}
+
+                {"symbol":"AAAU"}
+
+                {"symbol":"AABA"}'
+            python/pandas:
+              schema: *id006
+              example: 'symbol
+
+                0      1BXSL
+
+                1      1CORZ
+
+                2      1INVH
+
+                3      1LNCO
+
+                4      1ZURA
+
+                ...      ...
+
+                15373    ZZV
+
+                15374    ZZZ
+
+                15375   ZZZ1
+
+                15376    ÓPX
+
+                15377   ÓPXW
+
+
+                [15378 rows x 1 columns]
+
+                '
+            python/polars:
+              schema: *id006
+              example: 'shape: (15_378, 1)
+
+                ┌────────┐
+
+                │ symbol │
+
+                │ ---    │
+
+                │ str    │
+
+                ╞════════╡
+
+                │ 1BXSL  │
+
+                │ 1CORZ  │
+
+                │ 1INVH  │
+
+                │ 1LNCO  │
+
+                │ 1ZURA  │
+
+                │ …      │
+
+                │ ZZV    │
+
+                │ ZZZ    │
+
+                │ ZZZ1   │
+
+                │ ÓPX    │
+
+                │ ÓPXW   │
+
+                └────────┘
+
+                '
+  /option/list/dates/{request_type}:
+    x-concurrent-limit-ttl-ms: '548'
+    x-min-subscription: free
+    get:
+      summary: Dates
+      operationId: option_list_dates
+      x-codeSamples:
+      - lang: Python
+        label: pandas
+        source: "from thetadata import ThetaClient\nfrom datetime import date\n\nclient = ThetaClient(dataframe_type='pandas')\ndf = client.option_list_dates(\n    request_type='quote',\n    symbol='AAPL',\n    expiration=date(2022, 9, 30),\n)\n"
+      - lang: Python
+        label: polars
+        source: "from thetadata import ThetaClient\nfrom datetime import date\n\nclient = ThetaClient(dataframe_type='polars')\ndf = client.option_list_dates(\n    request_type='quote',\n    symbol='AAPL',\n    expiration=date(2022, 9, 30),\n)\n"
+      tags:
+      - List
+      description: 'Lists all dates of data that are available for an option with a given symbol, request type, and expiration.
+
+        This endpoint is updated overnight.
+
+        '
+      x-sample-urls:
+      - url: http://127.0.0.1:25503/v3/option/list/dates/quote?symbol=AAPL&expiration=20220930
+        description: List all dates for an option quote for a given symbol and expiration date
+      - url: http://127.0.0.1:25503/v3/option/list/dates/trade?symbol=AAPL&expiration=20220930
+        description: List all dates for an option trade for a given symbol with any expiration date
+      - url: http://127.0.0.1:25503/v3/option/list/dates/trade?symbol=AAPL&expiration=20220930&format=html
+        description: Click to open in browser (HTML)
+      parameters:
+      - $ref: '#/components/parameters/request_type'
+      - $ref: '#/components/parameters/single_symbol'
+      - $ref: '#/components/parameters/expiration_no_star'
+      - $ref: '#/components/parameters/strike'
+      - $ref: '#/components/parameters/right'
+      - $ref: '#/components/parameters/format'
+      responses:
+        '200':
+          description: List all dates for an option quote for a given symbol and expiration date
+          content:
+            text/csv:
+              schema:
+                type: array
+                items: &id007
+                  type: object
+                  properties:
+                    date:
+                      type: string
+                      format: date
+                      description: The date formated as YYYY-MM-DD.
+              example: "date\r\n2022-09-12\r\n2022-09-13\r\n2022-09-14\r\n2022-09-16\r\n2022-09-19\r\n"
+            application/json:
+              schema: &id008
+                type: array
+                items: *id007
+              example: "{\n  \"response\": [\n    {\"date\":\"2022-09-12\"},\n    {\"date\":\"2022-09-13\"},\n    {\"date\":\"2022-09-14\"},\n    {\"date\":\"2022-09-16\"},\n    {\"date\":\"2022-09-19\"}\n  ]\n}\n"
+            application/x-ndjson:
+              schema: *id008
+              example: '{"date":"2022-09-12"}
+
+                {"date":"2022-09-13"}
+
+                {"date":"2022-09-14"}
+
+                {"date":"2022-09-16"}
+
+                {"date":"2022-09-19"}'
+            python/pandas:
+              schema: *id008
+              example: 'date
+
+                0  2025-08-13
+
+                1  2025-08-29
+
+                2  2025-09-19
+
+                '
+            python/polars:
+              schema: *id008
+              example: 'shape: (3, 1)
+
+                ┌────────────┐
+
+                │ date       │
+
+                │ ---        │
+
+                │ str        │
+
+                ╞════════════╡
+
+                │ 2025-08-13 │
+
+                │ 2025-08-29 │
+
+                │ 2025-09-19 │
+
+                └────────────┘
+
+                '
+  /option/list/expirations:
+    x-concurrent-limit-ttl-ms: '6'
+    x-min-subscription: free
+    get:
+      summary: Expirations
+      operationId: option_list_expirations
+      x-codeSamples:
+      - lang: Python
+        label: pandas
+        source: 'from thetadata import ThetaClient
+
+
+          client = ThetaClient(dataframe_type=''pandas'')
+
+          df = client.option_list_expirations(symbol=[''AAPL''])
+
+          '
+      - lang: Python
+        label: polars
+        source: 'from thetadata import ThetaClient
+
+
+          client = ThetaClient(dataframe_type=''polars'')
+
+          df = client.option_list_expirations(symbol=[''AAPL''])
+
+          '
+      tags:
+      - List
+      description: 'Lists all dates of expirations that are available for an option with a given symbol.
+
+        This endpoint is updated overnight.
+
+        '
+      x-sample-urls:
+      - url: http://127.0.0.1:25503/v3/option/list/expirations?symbol=AAPL
+        description: List all expirations for an option with a given symbol
+      - url: http://127.0.0.1:25503/v3/option/list/expirations?symbol=AAPL&format=html
+        description: Click to open in browser (HTML)
+      parameters:
+      - $ref: '#/components/parameters/multi_symbol'
+      - $ref: '#/components/parameters/format'
+      responses:
+        '200':
+          description: List all expirations for an option with a given symbol
+          content:
+            text/csv:
+              schema:
+                type: array
+                items: &id009
+                  type: object
+                  properties:
+                    symbol:
+                      type: string
+                      description: The symbol of the contract, or stock / underlying asset / option / index.
+                    expiration:
+                      type: string
+                      format: date
+                      description: Expiration date of the contract in YYYY-MM-DD format.
+              example: "symbol,expiration\r\nAAPL,2012-06-01\r\nAAPL,2012-06-08\r\nAAPL,2012-06-16\r\nAAPL,2012-06-22\r\nAAPL,2012-06-29\r\n"
+            application/json:
+              schema: &id010
+                type: array
+                items: *id009
+              example: "{\n  \"response\": [\n    {\"symbol\":\"AAPL\",\"expiration\":\"2012-06-01\"},\n    {\"symbol\":\"AAPL\",\"expiration\":\"2012-06-08\"},\n    {\"symbol\":\"AAPL\",\"expiration\":\"2012-06-16\"},\n    {\"symbol\":\"AAPL\",\"expiration\":\"2012-06-22\"},\n    {\"symbol\":\"AAPL\",\"expiration\":\"2012-06-29\"}\n  ]\n}\n"
+            application/x-ndjson:
+              schema: *id010
+              example: '{"symbol":"AAPL","expiration":"2012-06-01"}
+
+                {"symbol":"AAPL","expiration":"2012-06-08"}
+
+                {"symbol":"AAPL","expiration":"2012-06-16"}
+
+                {"symbol":"AAPL","expiration":"2012-06-22"}
+
+                {"symbol":"AAPL","expiration":"2012-06-29"}'
+            python/pandas:
+              schema: *id010
+              example: 'symbol  expiration
+
+                0       SPY  2012-06-01
+
+                1       SPY  2012-06-08
+
+                2       SPY  2012-06-16
+
+                3       SPY  2012-06-22
+
+                4       SPY  2012-06-29
+
+                ...     ...         ...
+
+                2025    SPY  2027-09-17
+
+                2026    SPY  2027-12-17
+
+                2027    SPY  2028-01-21
+
+                2028    SPY  2028-06-16
+
+                2029    SPY  2028-12-15
+
+
+                [2030 rows x 2 columns]
+
+                '
+            python/polars:
+              schema: *id010
+              example: 'shape: (2_030, 2)
+
+                ┌────────┬────────────┐
+
+                │ symbol ┆ expiration │
+
+                │ ---    ┆ ---        │
+
+                │ str    ┆ str        │
+
+                ╞════════╪════════════╡
+
+                │ SPY    ┆ 2012-06-01 │
+
+                │ SPY    ┆ 2012-06-08 │
+
+                │ SPY    ┆ 2012-06-16 │
+
+                │ SPY    ┆ 2012-06-22 │
+
+                │ SPY    ┆ 2012-06-29 │
+
+                │ …      ┆ …          │
+
+                │ SPY    ┆ 2027-09-17 │
+
+                │ SPY    ┆ 2027-12-17 │
+
+                │ SPY    ┆ 2028-01-21 │
+
+                │ SPY    ┆ 2028-06-16 │
+
+                │ SPY    ┆ 2028-12-15 │
+
+                └────────┴────────────┘
+
+                '
+  /option/list/strikes:
+    x-concurrent-limit-ttl-ms: '18'
+    x-min-subscription: free
+    get:
+      summary: Strikes
+      operationId: option_list_strikes
+      x-codeSamples:
+      - lang: Python
+        label: pandas
+        source: 'from thetadata import ThetaClient
+
+          from datetime import date
+
+
+          client = ThetaClient(dataframe_type=''pandas'')
+
+          df = client.option_list_strikes(symbol=[''AAPL''], expiration=date(2022, 9, 30))
+
+          '
+      - lang: Python
+        label: polars
+        source: 'from thetadata import ThetaClient
+
+          from datetime import date
+
+
+          client = ThetaClient(dataframe_type=''polars'')
+
+          df = client.option_list_strikes(symbol=[''AAPL''], expiration=date(2022, 9, 30))
+
+          '
+      tags:
+      - List
+      description: 'Lists all strikes that are available for an option with a given symbol and expiration date.
+
+        This endpoint is updated overnight.
+
+        '
+      x-sample-urls:
+      - url: http://127.0.0.1:25503/v3/option/list/strikes?symbol=AAPL&expiration=20220930
+        description: List all strikes for an option with a given symbol and expiration date
+      - url: http://127.0.0.1:25503/v3/option/list/strikes?symbol=AAPL&expiration=20220930&format=html
+        description: Click to open in browser (HTML)
+      parameters:
+      - $ref: '#/components/parameters/multi_symbol'
+      - $ref: '#/components/parameters/expiration_no_star'
+      - $ref: '#/components/parameters/format'
+      responses:
+        '200':
+          description: List all strikes for an option with a given symbol and expiration date
+          content:
+            text/csv:
+              schema:
+                type: array
+                items: &id011
+                  type: object
+                  properties:
+                    symbol:
+                      type: string
+                      description: The symbol of the contract, or stock / underlying asset / option / index.
+                    strike:
+                      type: number
+                      description: Strike price of the contract in dollars 180.00
+              example: "symbol,strike\r\nAAPL,80.000\r\nAAPL,128.000\r\nAAPL,160.000\r\nAAPL,144.000\r\nAAPL,240.000\r\n"
+            application/json:
+              schema: &id012
+                type: array
+                items: *id011
+              example: "{\n  \"response\": [\n    {\"symbol\":\"AAPL\",\"strike\":80.000},\n    {\"symbol\":\"AAPL\",\"strike\":128.000},\n    {\"symbol\":\"AAPL\",\"strike\":160.000},\n    {\"symbol\":\"AAPL\",\"strike\":144.000},\n    {\"symbol\":\"AAPL\",\"strike\":240.000}\n  ]\n}\n"
+            application/x-ndjson:
+              schema: *id012
+              example: '{"symbol":"AAPL","strike":80.000}
+
+                {"symbol":"AAPL","strike":128.000}
+
+                {"symbol":"AAPL","strike":160.000}
+
+                {"symbol":"AAPL","strike":144.000}
+
+                {"symbol":"AAPL","strike":240.000}'
+            python/pandas:
+              schema: *id012
+              example: 'symbol  strike
+
+                0      SPY   597.0
+
+                1      SPY   661.0
+
+                2      SPY   725.0
+
+                3      SPY   640.0
+
+                4      SPY   704.0
+
+                ..     ...     ...
+
+                200    SPY   683.0
+
+                201    SPY   470.0
+
+                202    SPY   598.0
+
+                203    SPY   662.0
+
+                204    SPY   790.0
+
+
+                [205 rows x 2 columns]
+
+                '
+            python/polars:
+              schema: *id012
+              example: 'shape: (205, 2)
+
+                ┌────────┬────────┐
+
+                │ symbol ┆ strike │
+
+                │ ---    ┆ ---    │
+
+                │ str    ┆ f64    │
+
+                ╞════════╪════════╡
+
+                │ SPY    ┆ 597.0  │
+
+                │ SPY    ┆ 661.0  │
+
+                │ SPY    ┆ 725.0  │
+
+                │ SPY    ┆ 640.0  │
+
+                │ SPY    ┆ 704.0  │
+
+                │ …      ┆ …      │
+
+                │ SPY    ┆ 683.0  │
+
+                │ SPY    ┆ 470.0  │
+
+                │ SPY    ┆ 598.0  │
+
+                │ SPY    ┆ 662.0  │
+
+                │ SPY    ┆ 790.0  │
+
+                └────────┴────────┘
+
+                '
+  /option/list/contracts/{request_type}:
+    x-concurrent-limit-ttl-ms: '1716'
+    x-min-subscription: value
+    x-history-access: true
+    get:
+      summary: Contracts
+      operationId: option_list_contracts
+      x-codeSamples:
+      - lang: Python
+        label: pandas
+        source: 'from thetadata import ThetaClient
+
+          from datetime import date
+
+
+          client = ThetaClient(dataframe_type=''pandas'')
+
+          df = client.option_list_contracts(request_type=''trade'', date=date(2022, 9, 30))
+
+          '
+      - lang: Python
+        label: polars
+        source: 'from thetadata import ThetaClient
+
+          from datetime import date
+
+
+          client = ThetaClient(dataframe_type=''polars'')
+
+          df = client.option_list_contracts(request_type=''trade'', date=date(2022, 9, 30))
+
+          '
+      tags:
+      - List
+      description: 'Lists all contracts that were traded or quoted on a particular date.
+
+
+        If the ``symbol`` parameter is specified, the returned contracts will be filtered to match the symbol.
+
+        Multiple symbols can be specified by separating them with commas such as ``symbol=AAPL,SPY,AMD``
+
+        This endpoint is updated real-time.
+
+        '
+      x-sample-urls:
+      - url: http://127.0.0.1:25503/v3/option/list/contracts/trade?date=20220930
+        description: List all contracts for an option trade with a given date
+      - url: http://127.0.0.1:25503/v3/option/list/contracts/quote?symbol=AAPL&date=20220930
+        description: List all contracts for an option quote with a given symbol and date
+      - url: http://127.0.0.1:25503/v3/option/list/contracts/quote?symbol=AAPL&date=20220930&format=html
+        description: Click to open in browser (HTML)
+      parameters:
+      - $ref: '#/components/parameters/request_type'
+      - $ref: '#/components/parameters/opt_multi_symbol'
+      - $ref: '#/components/parameters/date'
+      - $ref: '#/components/parameters/max_dte'
+      - $ref: '#/components/parameters/format'
+      responses:
+        '200':
+          description: List all contracts for an option trade with a given date
+          content:
+            text/csv:
+              schema:
+                type: array
+                items: &id013
+                  type: object
+                  properties:
+                    symbol:
+                      type: string
+                      description: The symbol of the contract, or stock / underlying asset / option / index.
+                    expiration:
+                      type: string
+                      format: date
+                      description: Expiration date of the contract in YYYY-MM-DD format.
+                    strike:
+                      type: number
+                      description: Strike price of the contract in dollars 180.00
+                    right:
+                      type: string
+                      description: Indicates whether the contract is a call or put option.
+              example: "symbol,expiration,strike,right\r\nABNB,2023-06-16,260.000,CALL\r\nAAPL,2023-06-16,260.000,CALL\r\nAAL,2022-09-30,14.500,CALL\r\nABNB,2022-11-04,80.000,PUT\r\nAAPL,2022-11-04,80.000,PUT\r\n"
+            application/json:
+              schema: &id014
+                type: array
+                items: *id013
+              example: "{\n  \"response\": [\n    {\"symbol\":\"ABNB\",\"strike\":260.000,\"expiration\":\"2023-06-16\",\"right\":\"CALL\"},\n    {\"symbol\":\"AAPL\",\"strike\":260.000,\"expiration\":\"2023-06-16\",\"right\":\"CALL\"},\n    {\"symbol\":\"AAL\",\"strike\":14.500,\"expiration\":\"2022-09-30\",\"right\":\"CALL\"},\n    {\"symbol\":\"ABNB\",\"strike\":80.000,\"expiration\":\"2022-11-04\",\"right\":\"PUT\"},\n    {\"symbol\":\"AAPL\",\"strike\":80.000,\"expiration\":\"2022-11-04\",\"right\":\"PUT\"}\n  ]\n}\n"
+            application/x-ndjson:
+              schema: *id014
+              example: '{"symbol":"ABNB","strike":260.000,"expiration":"2023-06-16","right":"CALL"}
+
+                {"symbol":"AAPL","strike":260.000,"expiration":"2023-06-16","right":"CALL"}
+
+                {"symbol":"AAL","strike":14.500,"expiration":"2022-09-30","right":"CALL"}
+
+                {"symbol":"ABNB","strike":80.000,"expiration":"2022-11-04","right":"PUT"}
+
+                {"symbol":"AAPL","strike":80.000,"expiration":"2022-11-04","right":"PUT"}'
+            python/pandas:
+              schema: *id014
+              example: 'symbol  expiration  strike right
+
+                0       SPY  2026-03-20   605.0   PUT
+
+                1       SPY  2026-01-16   475.0   PUT
+
+                2       SPY  2025-10-03   608.0   PUT
+
+                3       SPY  2026-06-18   735.0  CALL
+
+                4       SPY  2025-10-06   608.0   PUT
+
+                ...     ...         ...     ...   ...
+
+                4701    SPY  2025-10-10   607.0   PUT
+
+                4702    SPY  2025-10-10   607.0  CALL
+
+                4703    SPY  2025-10-31   607.0   PUT
+
+                4704    SPY  2027-01-15   600.0   PUT
+
+                4705    SPY  2027-01-15   600.0  CALL
+
+
+                [4706 rows x 4 columns]
+
+                '
+            python/polars:
+              schema: *id014
+              example: 'shape: (4_706, 4)
+
+                ┌────────┬────────────┬────────┬───────┐
+
+                │ symbol ┆ expiration ┆ strike ┆ right │
+
+                │ ---    ┆ ---        ┆ ---    ┆ ---   │
+
+                │ str    ┆ str        ┆ f64    ┆ str   │
+
+                ╞════════╪════════════╪════════╪═══════╡
+
+                │ SPY    ┆ 2026-03-20 ┆ 605.0  ┆ PUT   │
+
+                │ SPY    ┆ 2026-01-16 ┆ 475.0  ┆ PUT   │
+
+                │ SPY    ┆ 2025-10-03 ┆ 608.0  ┆ PUT   │
+
+                │ SPY    ┆ 2026-06-18 ┆ 735.0  ┆ CALL  │
+
+                │ SPY    ┆ 2025-10-06 ┆ 608.0  ┆ PUT   │
+
+                │ …      ┆ …          ┆ …      ┆ …     │
+
+                │ SPY    ┆ 2025-10-10 ┆ 607.0  ┆ PUT   │
+
+                │ SPY    ┆ 2025-10-10 ┆ 607.0  ┆ CALL  │
+
+                │ SPY    ┆ 2025-10-31 ┆ 607.0  ┆ PUT   │
+
+                │ SPY    ┆ 2027-01-15 ┆ 600.0  ┆ PUT   │
+
+                │ SPY    ┆ 2027-01-15 ┆ 600.0  ┆ CALL  │
+
+                └────────┴────────────┴────────┴───────┘
+
+                '
+  /index/list/symbols:
+    x-concurrent-limit-ttl-ms: '334'
+    x-min-subscription: free
+    get:
+      summary: Symbols
+      operationId: index_list_symbols
+      x-codeSamples:
+      - lang: Python
+        label: pandas
+        source: 'from thetadata import ThetaClient
+
+
+          client = ThetaClient(dataframe_type=''pandas'')
+
+          df = client.index_list_symbols()
+
+          '
+      - lang: Python
+        label: polars
+        source: 'from thetadata import ThetaClient
+
+
+          client = ThetaClient(dataframe_type=''polars'')
+
+          df = client.index_list_symbols()
+
+          '
+      tags:
+      - List
+      description: 'A symbol can be defined as a unique identifier for a stock / underlying asset. Common terms also include: root, ticker, and underlying. This endpoint returns all traded symbols for options. This endpoint is updated overnight.
+
+        '
+      x-sample-urls:
+      - url: http://127.0.0.1:25503/v3/index/list/symbols
+        description: List all symbols for indices
+      - url: http://127.0.0.1:25503/v3/index/list/symbols?format=html
+        description: Click to open in browser (HTML)
+      parameters:
+      - $ref: '#/components/parameters/format'
+      responses:
+        '200':
+          description: List all symbols for indices
+          content:
+            text/csv:
+              schema:
+                type: array
+                items: &id015
+                  type: object
+                  properties:
+                    symbol:
+                      type: string
+                      description: The symbol of the contract, or stock / underlying asset / option / index.
+              example: "symbol\r\nAASGI\r\nAASUS\r\nACNAC\r\nACNIT\r\nACNRE\r\n"
+            application/json:
+              schema: &id016
+                type: array
+                items: *id015
+              example: "{\n  \"response\": [\n    {\"symbol\":\"AASGI\"},\n    {\"symbol\":\"AASUS\"},\n    {\"symbol\":\"ACNAC\"},\n    {\"symbol\":\"ACNIT\"},\n    {\"symbol\":\"ACNRE\"}\n  ]\n}\n"
+            application/x-ndjson:
+              schema: *id016
+              example: '{"symbol":"AASGI"}
+
+                {"symbol":"AASUS"}
+
+                {"symbol":"ACNAC"}
+
+                {"symbol":"ACNIT"}
+
+                {"symbol":"ACNRE"}'
+            python/pandas:
+              schema: *id016
+              example: "symbol\n0               \n1      .MSDXUTPU\n2       1500GNTR\n3         1500PG\n4       1500PGTR\n...          ...\n13195    ZRX200K\n13196    ZRX3KRP\n13197      ZSLIV\n13198     ZVOLIV\n13199        ZYA\n\n[13200 rows x 1 columns]\n"
+            python/polars:
+              schema: *id016
+              example: 'shape: (13_200, 1)
+
+                ┌───────────┐
+
+                │ symbol    │
+
+                │ ---       │
+
+                │ str       │
+
+                ╞═══════════╡
+
+                │           │
+
+                │ .MSDXUTPU │
+
+                │ 1500GNTR  │
+
+                │ 1500PG    │
+
+                │ 1500PGTR  │
+
+                │ …         │
+
+                │ ZRX200K   │
+
+                │ ZRX3KRP   │
+
+                │ ZSLIV     │
+
+                │ ZVOLIV    │
+
+                │ ZYA       │
+
+                └───────────┘
+
+                '
+  /index/list/dates:
+    x-concurrent-limit-ttl-ms: '12'
+    x-min-subscription: free
+    get:
+      summary: Dates
+      operationId: index_list_dates
+      x-codeSamples:
+      - lang: Python
+        label: pandas
+        source: 'from thetadata import ThetaClient
+
+
+          client = ThetaClient(dataframe_type=''pandas'')
+
+          df = client.index_list_dates(symbol=[''SPX''])
+
+          '
+      - lang: Python
+        label: polars
+        source: 'from thetadata import ThetaClient
+
+
+          client = ThetaClient(dataframe_type=''polars'')
+
+          df = client.index_list_dates(symbol=[''SPX''])
+
+          '
+      tags:
+      - List
+      description: 'Lists all dates of data that are available for a index with a given request type and symbol. This endpoint is updated overnight.
+
+        '
+      x-sample-urls:
+      - url: http://127.0.0.1:25503/v3/index/list/dates?symbol=SPX
+        description: List all dates for a index for a given symbol
+      - url: http://127.0.0.1:25503/v3/index/list/dates?symbol=SPX&format=html
+        description: Click to open in browser (HTML)
+      parameters:
+      - $ref: '#/components/parameters/multi_symbol'
+      - $ref: '#/components/parameters/format'
+      responses:
+        '200':
+          description: List all dates for a index for a given symbol
+          content:
+            text/csv:
+              schema:
+                type: array
+                items: &id017
+                  type: object
+                  properties:
+                    date:
+                      type: string
+                      format: date
+                      description: The date formated as YYYY-MM-DD.
+              example: "date\r\n2023-04-17\r\n2023-04-18\r\n2023-04-19\r\n2023-04-20\r\n2023-04-21\r\n"
+            application/json:
+              schema: &id018
+                type: array
+                items: *id017
+              example: "{\n  \"response\": [\n    {\"date\":\"2023-04-17\"},\n    {\"date\":\"2023-04-18\"},\n    {\"date\":\"2023-04-19\"},\n    {\"date\":\"2023-04-20\"},\n    {\"date\":\"2023-04-21\"}\n  ]\n}\n"
+            application/x-ndjson:
+              schema: *id018
+              example: '{"date":"2023-04-17"}
+
+                {"date":"2023-04-18"}
+
+                {"date":"2023-04-19"}
+
+                {"date":"2023-04-20"}
+
+                {"date":"2023-04-21"}'
+            python/pandas:
+              schema: *id018
+              example: 'date
+
+                0     2017-01-03
+
+                1     2017-01-04
+
+                2     2017-01-05
+
+                3     2017-01-06
+
+                4     2017-01-09
+
+                ...          ...
+
+                2335  2026-04-20
+
+                2336  2026-04-21
+
+                2337  2026-04-22
+
+                2338  2026-04-23
+
+                2339  2026-04-24
+
+
+                [2340 rows x 1 columns]
+
+                '
+            python/polars:
+              schema: *id018
+              example: 'shape: (2_340, 1)
+
+                ┌────────────┐
+
+                │ date       │
+
+                │ ---        │
+
+                │ str        │
+
+                ╞════════════╡
+
+                │ 2017-01-03 │
+
+                │ 2017-01-04 │
+
+                │ 2017-01-05 │
+
+                │ 2017-01-06 │
+
+                │ 2017-01-09 │
+
+                │ …          │
+
+                │ 2026-04-20 │
+
+                │ 2026-04-21 │
+
+                │ 2026-04-22 │
+
+                │ 2026-04-23 │
+
+                │ 2026-04-24 │
+
+                └────────────┘
+
+                '
+components:
+  parameters:
+    expiration_no_star:
+      name: expiration
+      in: query
+      description: The expiration of the contract in `YYYY-MM-DD` or `YYYYMMDD` format.
+      required: true
+      schema:
+        type: string
+        format: date
+    right:
+      name: right
+      in: query
+      description: The right (call or put) of the contract.
+      required: false
+      schema:
+        type: string
+        enum:
+        - call
+        - put
+        - both
+        default: both
+    date:
+      name: date
+      in: query
+      description: The date to fetch data for.
+      required: true
+      schema:
+        type: string
+        format: date
+    max_dte:
+      name: max_dte
+      in: query
+      description: If specified, only contracts with a full calendar day 'Days to Expiration' (DTE) less than or equal to this number will be returned.
+      required: false
+      schema:
+        minimum: 0
+        type: integer
+        format: int32
+    strike:
+      name: strike
+      in: query
+      description: The strike price of the contract in dollars (ie `100.00` for `$100.00`), or `*` for all strikes.
+      required: false
+      schema:
+        type: string
+        default: '*'
+    single_symbol:
+      name: symbol
+      in: query
+      description: The stock or index symbol, or underlying symbol for options.
+      required: true
+      schema:
+        type: string
+    format:
+      name: format
+      in: query
+      description: The format of the data when returned to the user.
+      required: false
+      schema:
+        type: string
+        enum:
+        - csv
+        - json
+        - ndjson
+        - html
+        default: csv
+    opt_multi_symbol:
+      name: symbol
+      in: query
+      description: The stock or index symbol, or underlying symbol for options.
+      required: false
+      schema:
+        type: array
+        items:
+          type: string
+    request_type:
+      name: request_type
+      in: path
+      description: The request type.
+      required: true
+      schema:
+        type: string
+        enum:
+        - trade
+        - quote
+    multi_symbol:
+      name: symbol
+      in: query
+      description: The stock or index symbol, or underlying symbol for options. Specify '*' for all symbols or a comma separated list when appropriate.
+      required: true
+      schema:
+        type: array
+        items:
+          type: string

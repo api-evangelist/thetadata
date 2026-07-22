@@ -1,0 +1,41 @@
+generated: '2026-07-22'
+method: searched
+description: >-
+  Results of probing the /.well-known/ discovery surface for the ThetaData web
+  and docs hosts. The REST API, streaming, and MCP surfaces are served locally
+  by the Theta Terminal (127.0.0.1) so they expose no public well-known
+  documents. No document returned a 200; statuses recorded at fetch time
+  (2026-07-22). Absence is valid recorded data.
+hosts:
+  - host: https://thetadata.net
+    documents:
+      - path: /.well-known/security.txt
+        status: 404
+      - path: /security.txt
+        status: 404
+      - path: /.well-known/openid-configuration
+        status: 404
+      - path: /.well-known/oauth-authorization-server
+        status: 404
+      - path: /.well-known/api-catalog
+        status: 404
+      - path: /.well-known/ai-plugin.json
+        status: 404
+  - host: https://docs.thetadata.us
+    documents:
+      - path: /.well-known/security.txt
+        status: 404
+      - path: /llms.txt
+        status: 404
+      - path: /openapi.json
+        status: 404
+      - path: /openapi.yaml
+        status: 404
+      - path: /openapiv3.yaml
+        status: 200
+        type: application/yaml
+        notes: >-
+          The published OpenAPI 3.1 source-of-truth spec (already captured
+          verbatim at openapi/_original/thetadata-v3-openapi.yml). Not a
+          /.well-known/ document but recorded here as the one machine-readable
+          discovery document the docs host serves.

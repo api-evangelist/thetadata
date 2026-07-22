@@ -1,0 +1,54 @@
+generated: '2026-07-22'
+method: searched
+source: >-
+  https://docs.thetadata.us/Articles/Getting-Started/Getting-Started.html
+  (Authentication section) and
+  https://docs.thetadata.us/Python-Library/Getting-Started.html.
+docs: https://docs.thetadata.us/Articles/Getting-Started/Getting-Started.html
+description: >-
+  ThetaData authenticates at the session level, not per HTTP request. The
+  published OpenAPI declares security: [] because the local REST API served by
+  the Theta Terminal (127.0.0.1:25503/v3) is an unauthenticated loopback
+  surface; credentials are supplied when the terminal (or the Python library
+  client) starts, which opens an authenticated session to ThetaData's MDDS
+  servers. Requests are additionally IP-pinned to the first requester (error
+  476 WRONG_IP) and a single terminal session is enforced (error 478
+  INVALID_SESSION_ID).
+summary:
+  types: [apiKey, credentials]
+  applied_at: session (Theta Terminal launch / ThetaClient construction), not per-request
+  api_key_in: [cli-argument, environment-variable, dotenv-file]
+  oauth2_flows: []
+schemes:
+  - name: api_key
+    type: apiKey
+    description: >-
+      API key generated from the user portal (https://thetadata.net/portal).
+      Requires Theta Terminal version 20260615+ or Python library 1.0.9+.
+    provisioning: https://thetadata.net/portal
+    delivery:
+      - method: cli-argument
+        example: java -jar ThetaTerminalv3.jar --api-key <key>
+      - method: environment-variable
+        name: THETADATA_API_KEY
+      - method: dotenv-file
+        notes: .env next to ThetaTerminalv3.jar (or --dotenv-dir), containing THETADATA_API_KEY
+    priority: CLI argument, then environment variable, then .env file
+  - name: credentials
+    type: credentials
+    description: >-
+      Account email + password as an alternative to an API key. Terminal reads
+      creds.txt (email line 1, password line 2) next to the JAR or via
+      --creds-file; the Python library accepts email/password arguments, a
+      creds_file path, or the THETADATA_CREDENTIALS_FILE environment variable.
+python_library:
+  priority: >-
+    Explicit creds_file, then API key (api_key argument or THETADATA_API_KEY,
+    including .env), then email/password arguments, then default creds.txt.
+  transport: Authenticates over HTTPS; requests data over gRPC (no terminal needed).
+local_rest_api:
+  scheme: none (loopback)
+  notes: >-
+    openapi security is empty by design — only the local machine can reach the
+    terminal's HTTP server; entitlements are enforced server-side per
+    subscription (error 471 PERMISSION).
