@@ -1,0 +1,225 @@
+{
+  "info": {
+    "_postman_id": "32882ebf-a9d3-4d1c-ae4a-baa69495e90b",
+    "name": "Theta Data v3 At-Time Single Day API",
+    "description": "Real-time and historic stock, options, and index data!",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-07-28T03:11:40.000Z",
+    "updatedAt": "2026-07-28T03:11:41.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-32882ebf-a9d3-4d1c-ae4a-baa69495e90b"
+  },
+  "item": [
+    {
+      "name": "calendar",
+      "item": [
+        {
+          "name": "today",
+          "item": [
+            {
+              "name": "Today",
+              "id": "c4d61356-bc5b-4cb7-b1eb-ad7499e08c88",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "text/csv"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/calendar/today?format=csv",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "calendar",
+                    "today"
+                  ],
+                  "query": [
+                    {
+                      "description": "The format of the data when returned to the user.",
+                      "key": "format",
+                      "value": "csv"
+                    }
+                  ]
+                },
+                "description": "- Retrieves current day equity market schedule\n- *On days when the market closes early at 1:00 PM ET; eligible options will trade until 1:15 PM.\n- **Some NYSE exchanges will continue late trading until 5:00 PM ET on early close days.\n"
+              },
+              "response": [
+                {
+                  "id": "83d6a117-e8d1-4ac9-911f-7e599b55bf79",
+                  "name": "Returns current day schedule",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "text/csv"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/calendar/today?format=csv",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "calendar",
+                        "today"
+                      ],
+                      "query": [
+                        {
+                          "description": "The format of the data when returned to the user.",
+                          "key": "format",
+                          "value": "csv"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "[\n  {\n    \"type\": \"<string>\",\n    \"open\": \"<string>\",\n    \"close\": \"<string>\"\n  },\n  {\n    \"type\": \"<string>\",\n    \"open\": \"<string>\",\n    \"close\": \"<string>\"\n  }\n]",
+                  "createdAt": "2026-07-28T03:11:41.000Z",
+                  "updatedAt": "2026-07-28T03:11:41.000Z",
+                  "uid": "35240-83d6a117-e8d1-4ac9-911f-7e599b55bf79"
+                }
+              ],
+              "createdAt": "2026-07-28T03:11:41.000Z",
+              "updatedAt": "2026-07-28T03:11:41.000Z",
+              "uid": "35240-c4d61356-bc5b-4cb7-b1eb-ad7499e08c88"
+            }
+          ],
+          "id": "f6240a0b-4f1f-4990-9311-a144da18fce4",
+          "createdAt": "2026-07-28T03:11:41.000Z",
+          "updatedAt": "2026-07-28T03:11:41.000Z",
+          "uid": "35240-f6240a0b-4f1f-4990-9311-a144da18fce4"
+        },
+        {
+          "name": "on_date",
+          "item": [
+            {
+              "name": "On Date",
+              "id": "4e65e626-7199-4a9b-bb47-fd71808b494e",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "text/csv"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/calendar/on_date?date=<date>&format=csv",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "calendar",
+                    "on_date"
+                  ],
+                  "query": [
+                    {
+                      "description": "(Required) The date to fetch data for.",
+                      "key": "date",
+                      "value": "<date>"
+                    },
+                    {
+                      "description": "The format of the data when returned to the user.",
+                      "key": "format",
+                      "value": "csv"
+                    }
+                  ]
+                },
+                "description": "- Retrieves equity market schedule for a given date\n- Note: Holiday data is available 01/01/2012 through the end of the calendar year that immediately follows the current year\n- *On days when the market closes early at 1:00 PM ET; eligible options will trade until 1:15 PM.\n- **Some NYSE exchanges will continue late trading until 5:00 PM ET on early close days.\n"
+              },
+              "response": [
+                {
+                  "id": "ef2be50e-727a-4deb-b0e7-79506e3d72fd",
+                  "name": "Returns requested day schedule",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "text/csv"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/calendar/on_date?date=<date>&format=csv",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "calendar",
+                        "on_date"
+                      ],
+                      "query": [
+                        {
+                          "description": "(Required) The date to fetch data for.",
+                          "key": "date",
+                          "value": "<date>"
+                        },
+                        {
+                          "description": "The format of the data when returned to the user.",
+                          "key": "format",
+                          "value": "csv"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "[\n  {\n    \"type\": \"<string>\",\n    \"open\": \"<string>\",\n    \"close\": \"<string>\"\n  },\n  {\n    \"type\": \"<string>\",\n    \"open\": \"<string>\",\n    \"close\": \"<string>\"\n  }\n]",
+                  "createdAt": "2026-07-28T03:11:41.000Z",
+                  "updatedAt": "2026-07-28T03:11:41.000Z",
+                  "uid": "35240-ef2be50e-727a-4deb-b0e7-79506e3d72fd"
+                }
+              ],
+              "createdAt": "2026-07-28T03:11:41.000Z",
+              "updatedAt": "2026-07-28T03:11:41.000Z",
+              "uid": "35240-4e65e626-7199-4a9b-bb47-fd71808b494e"
+            }
+          ],
+          "id": "69cc61ef-131b-48e0-ad0e-f0a2862b0630",
+          "createdAt": "2026-07-28T03:11:41.000Z",
+          "updatedAt": "2026-07-28T03:11:41.000Z",
+          "uid": "35240-69cc61ef-131b-48e0-ad0e-f0a2862b0630"
+        }
+      ],
+      "id": "762752ec-bf4f-4c99-9235-108cbb485f2d",
+      "createdAt": "2026-07-28T03:11:41.000Z",
+      "updatedAt": "2026-07-28T03:11:41.000Z",
+      "uid": "35240-762752ec-bf4f-4c99-9235-108cbb485f2d"
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://127.0.0.1:25503/v3"
+    }
+  ]
+}

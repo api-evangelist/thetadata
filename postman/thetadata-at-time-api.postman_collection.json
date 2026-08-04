@@ -1,0 +1,869 @@
+{
+  "info": {
+    "_postman_id": "f4a973b5-d2c2-487f-b976-d78f0d7d5028",
+    "name": "Theta Data v3 At-Time API",
+    "description": "Real-time and historic stock, options, and index data!",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-07-28T03:11:24.000Z",
+    "updatedAt": "2026-07-28T03:11:24.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-f4a973b5-d2c2-487f-b976-d78f0d7d5028"
+  },
+  "item": [
+    {
+      "name": "stock",
+      "item": [
+        {
+          "name": "at_time",
+          "item": [
+            {
+              "name": "trade",
+              "item": [
+                {
+                  "name": "Trade",
+                  "id": "a09afa8f-f988-4a0f-8f8d-19a370d43d91",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "text/csv"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/stock/at_time/trade?symbol=<string>&start_date=<date>&end_date=<date>&time_of_day=<time>&venue=nqb&format=csv",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "stock",
+                        "at_time",
+                        "trade"
+                      ],
+                      "query": [
+                        {
+                          "description": "(Required) The stock or index symbol, or underlying symbol for options.",
+                          "key": "symbol",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "(Required) The start date (inclusive).",
+                          "key": "start_date",
+                          "value": "<date>"
+                        },
+                        {
+                          "description": "(Required) The end date (inclusive).",
+                          "key": "end_date",
+                          "value": "<date>"
+                        },
+                        {
+                          "description": "(Required) The time of the day to fetch data for; assumed to be America/New_York.",
+                          "key": "time_of_day",
+                          "value": "<time>"
+                        },
+                        {
+                          "description": "Used to specify the venue of the real time or historic request. ``nqb`` = Nasdaq Basic; ``utp_cta`` = merged UTP & CTA.",
+                          "key": "venue",
+                          "value": "nqb"
+                        },
+                        {
+                          "description": "The format of the data when returned to the user.",
+                          "key": "format",
+                          "value": "csv"
+                        }
+                      ]
+                    },
+                    "description": "#### Real-time request:\n- Returns a real-time session from the [Nasdaq Basic feed](/Articles/Data-And-Requests/The-SIPs.html#nasdaq-basic) if the account has a [stocks standard or pro subscription](https://www.thetadata.net/subscribe.html#stocks).\n- Returns a 15-minute delayed session from the [UTP & CTA feeds](/Articles/Data-And-Requests/The-SIPs.html#equities-cta-utp) account has the [stocks value subscription](https://www.thetadata.net/subscribe.html#stocks) subscription.\n\n#### Historical request:\nReturns the last trade reported by [UTP & CTA feeds](/Articles/Data-And-Requests/The-SIPs.html#equities-cta-utp) at a specified millisecond of the day.\nTrade condition mappings can be found [here](/Articles/Errors-Exchanges-Conditions/Trade-Conditions.html).\n"
+                  },
+                  "response": [
+                    {
+                      "id": "e192c422-2002-4897-85fb-b742e0389372",
+                      "name": "Returns the last trade for a given symbol and specified time of day",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "text/csv"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/stock/at_time/trade?symbol=<string>&start_date=<date>&end_date=<date>&time_of_day=<time>&venue=nqb&format=csv",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "stock",
+                            "at_time",
+                            "trade"
+                          ],
+                          "query": [
+                            {
+                              "description": "(Required) The stock or index symbol, or underlying symbol for options.",
+                              "key": "symbol",
+                              "value": "<string>"
+                            },
+                            {
+                              "description": "(Required) The start date (inclusive).",
+                              "key": "start_date",
+                              "value": "<date>"
+                            },
+                            {
+                              "description": "(Required) The end date (inclusive).",
+                              "key": "end_date",
+                              "value": "<date>"
+                            },
+                            {
+                              "description": "(Required) The time of the day to fetch data for; assumed to be America/New_York.",
+                              "key": "time_of_day",
+                              "value": "<time>"
+                            },
+                            {
+                              "description": "Used to specify the venue of the real time or historic request. ``nqb`` = Nasdaq Basic; ``utp_cta`` = merged UTP & CTA.",
+                              "key": "venue",
+                              "value": "nqb"
+                            },
+                            {
+                              "description": "The format of the data when returned to the user.",
+                              "key": "format",
+                              "value": "csv"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "[\n  {\n    \"timestamp\": \"<dateTime>\",\n    \"sequence\": \"<integer>\",\n    \"ext_condition1\": \"<integer>\",\n    \"ext_condition2\": \"<integer>\",\n    \"ext_condition3\": \"<integer>\",\n    \"ext_condition4\": \"<integer>\",\n    \"condition\": \"<integer>\",\n    \"size\": \"<integer>\",\n    \"exchange\": \"<integer>\",\n    \"price\": \"<number>\"\n  },\n  {\n    \"timestamp\": \"<dateTime>\",\n    \"sequence\": \"<integer>\",\n    \"ext_condition1\": \"<integer>\",\n    \"ext_condition2\": \"<integer>\",\n    \"ext_condition3\": \"<integer>\",\n    \"ext_condition4\": \"<integer>\",\n    \"condition\": \"<integer>\",\n    \"size\": \"<integer>\",\n    \"exchange\": \"<integer>\",\n    \"price\": \"<number>\"\n  }\n]",
+                      "createdAt": "2026-07-28T03:11:25.000Z",
+                      "updatedAt": "2026-07-28T03:11:25.000Z",
+                      "uid": "35240-e192c422-2002-4897-85fb-b742e0389372"
+                    }
+                  ],
+                  "createdAt": "2026-07-28T03:11:25.000Z",
+                  "updatedAt": "2026-07-28T03:11:25.000Z",
+                  "uid": "35240-a09afa8f-f988-4a0f-8f8d-19a370d43d91"
+                }
+              ],
+              "id": "662f6f02-06be-4b7c-9d22-c108aba07185",
+              "createdAt": "2026-07-28T03:11:25.000Z",
+              "updatedAt": "2026-07-28T03:11:25.000Z",
+              "uid": "35240-662f6f02-06be-4b7c-9d22-c108aba07185"
+            },
+            {
+              "name": "quote",
+              "item": [
+                {
+                  "name": "Quote",
+                  "id": "2f503634-c4e8-4d2b-8a42-067c35b11c41",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "text/csv"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/stock/at_time/quote?symbol=<string>&start_date=<date>&end_date=<date>&time_of_day=<time>&venue=nqb&format=csv",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "stock",
+                        "at_time",
+                        "quote"
+                      ],
+                      "query": [
+                        {
+                          "description": "(Required) The stock or index symbol, or underlying symbol for options.",
+                          "key": "symbol",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "(Required) The start date (inclusive).",
+                          "key": "start_date",
+                          "value": "<date>"
+                        },
+                        {
+                          "description": "(Required) The end date (inclusive).",
+                          "key": "end_date",
+                          "value": "<date>"
+                        },
+                        {
+                          "description": "(Required) The time of the day to fetch data for; assumed to be America/New_York.",
+                          "key": "time_of_day",
+                          "value": "<time>"
+                        },
+                        {
+                          "description": "Used to specify the venue of the real time or historic request. ``nqb`` = Nasdaq Basic; ``utp_cta`` = merged UTP & CTA.",
+                          "key": "venue",
+                          "value": "nqb"
+                        },
+                        {
+                          "description": "The format of the data when returned to the user.",
+                          "key": "format",
+                          "value": "csv"
+                        }
+                      ]
+                    },
+                    "description": "#### Real-time request:\n  - Subscription tier standard or higher will default to NQB.\n  - Real-time last BBO quote at-time_of_day-time from the [Nasdaq Basic feed](/Articles/Data-And-Requests/The-SIPs.html#nasdaq-basic) if the account has a [stocks standard or pro subscription](https://www.thetadata.net/subscribe.html#stocks).\n  - 15-minute delayed NBBO quote at-time_of_day-time from the [UTP & CTA feeds](/Articles/Data-And-Requests/The-SIPs.html#equities-cta-utp) account has the [stocks value subscription](https://www.thetadata.net/subscribe.html#stocks) subscription.\n\n#### Historical request:\n  Returns the last NBBO quote reported by [UTP & CTA feeds](/Articles/Data-And-Requests/The-SIPs.html#equities-cta-utp) at a specified millisecond of the day.\n"
+                  },
+                  "response": [
+                    {
+                      "id": "1dc2c068-c62b-4464-a903-e11df2d8cbd7",
+                      "name": "Returns the last quote for a given symbol between specified dates (inclusive) with a one minute interval",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "text/csv"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/stock/at_time/quote?symbol=<string>&start_date=<date>&end_date=<date>&time_of_day=<time>&venue=nqb&format=csv",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "stock",
+                            "at_time",
+                            "quote"
+                          ],
+                          "query": [
+                            {
+                              "description": "(Required) The stock or index symbol, or underlying symbol for options.",
+                              "key": "symbol",
+                              "value": "<string>"
+                            },
+                            {
+                              "description": "(Required) The start date (inclusive).",
+                              "key": "start_date",
+                              "value": "<date>"
+                            },
+                            {
+                              "description": "(Required) The end date (inclusive).",
+                              "key": "end_date",
+                              "value": "<date>"
+                            },
+                            {
+                              "description": "(Required) The time of the day to fetch data for; assumed to be America/New_York.",
+                              "key": "time_of_day",
+                              "value": "<time>"
+                            },
+                            {
+                              "description": "Used to specify the venue of the real time or historic request. ``nqb`` = Nasdaq Basic; ``utp_cta`` = merged UTP & CTA.",
+                              "key": "venue",
+                              "value": "nqb"
+                            },
+                            {
+                              "description": "The format of the data when returned to the user.",
+                              "key": "format",
+                              "value": "csv"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "[\n  {\n    \"timestamp\": \"<dateTime>\",\n    \"bid_size\": \"<integer>\",\n    \"bid_exchange\": \"<integer>\",\n    \"bid\": \"<number>\",\n    \"bid_condition\": \"<integer>\",\n    \"ask_size\": \"<integer>\",\n    \"ask_exchange\": \"<integer>\",\n    \"ask\": \"<number>\",\n    \"ask_condition\": \"<integer>\"\n  },\n  {\n    \"timestamp\": \"<dateTime>\",\n    \"bid_size\": \"<integer>\",\n    \"bid_exchange\": \"<integer>\",\n    \"bid\": \"<number>\",\n    \"bid_condition\": \"<integer>\",\n    \"ask_size\": \"<integer>\",\n    \"ask_exchange\": \"<integer>\",\n    \"ask\": \"<number>\",\n    \"ask_condition\": \"<integer>\"\n  }\n]",
+                      "createdAt": "2026-07-28T03:11:25.000Z",
+                      "updatedAt": "2026-07-28T03:11:25.000Z",
+                      "uid": "35240-1dc2c068-c62b-4464-a903-e11df2d8cbd7"
+                    }
+                  ],
+                  "createdAt": "2026-07-28T03:11:25.000Z",
+                  "updatedAt": "2026-07-28T03:11:25.000Z",
+                  "uid": "35240-2f503634-c4e8-4d2b-8a42-067c35b11c41"
+                }
+              ],
+              "id": "ce77a076-a8bc-4c0b-b437-1a152075619c",
+              "createdAt": "2026-07-28T03:11:25.000Z",
+              "updatedAt": "2026-07-28T03:11:25.000Z",
+              "uid": "35240-ce77a076-a8bc-4c0b-b437-1a152075619c"
+            }
+          ],
+          "id": "5fbc6ab4-37b3-4ea3-9dea-bd54b76bc40e",
+          "createdAt": "2026-07-28T03:11:25.000Z",
+          "updatedAt": "2026-07-28T03:11:25.000Z",
+          "uid": "35240-5fbc6ab4-37b3-4ea3-9dea-bd54b76bc40e"
+        }
+      ],
+      "id": "32c7201e-88d8-4343-a020-e2d84f8bca4c",
+      "createdAt": "2026-07-28T03:11:25.000Z",
+      "updatedAt": "2026-07-28T03:11:25.000Z",
+      "uid": "35240-32c7201e-88d8-4343-a020-e2d84f8bca4c"
+    },
+    {
+      "name": "option",
+      "item": [
+        {
+          "name": "at_time",
+          "item": [
+            {
+              "name": "trade",
+              "item": [
+                {
+                  "name": "Trade",
+                  "id": "1db39e72-3abf-4459-b474-255c21aad7f3",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "text/csv"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/option/at_time/trade?symbol=<string>&start_date=<date>&end_date=<date>&time_of_day=<time>&expiration=<date>&strike=*&right=both&max_dte=<integer>&strike_range=<integer>&format=csv",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "option",
+                        "at_time",
+                        "trade"
+                      ],
+                      "query": [
+                        {
+                          "description": "(Required) The stock or index symbol, or underlying symbol for options.",
+                          "key": "symbol",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "(Required) The start date (inclusive).",
+                          "key": "start_date",
+                          "value": "<date>"
+                        },
+                        {
+                          "description": "(Required) The end date (inclusive).",
+                          "key": "end_date",
+                          "value": "<date>"
+                        },
+                        {
+                          "description": "(Required) The time of the day to fetch data for; assumed to be America/New_York.",
+                          "key": "time_of_day",
+                          "value": "<time>"
+                        },
+                        {
+                          "description": "(Required) The expiration of the contract in `YYYY-MM-DD` or `YYYYMMDD` format, or `*` for all expirations.",
+                          "key": "expiration",
+                          "value": "<date>"
+                        },
+                        {
+                          "description": "The strike price of the contract in dollars (ie `100.00` for `$100.00`), or `*` for all strikes.",
+                          "key": "strike",
+                          "value": "*"
+                        },
+                        {
+                          "description": "The right (call or put) of the contract.",
+                          "key": "right",
+                          "value": "both"
+                        },
+                        {
+                          "description": "If specified, only contracts with a full calendar day 'Days to Expiration' (DTE) less than or equal to this number will be returned.",
+                          "key": "max_dte",
+                          "value": "<integer>"
+                        },
+                        {
+                          "description": "Limits the number of contracts returned relative to the underlying's spot price. For a specified value 'n', this returns 'n' strikes above and 'n' strikes below the spot price, plus one at-the-money (ATM) strike (where spot price = strike price), if available. This results in a maximum of `2n + 1` strikes.",
+                          "key": "strike_range",
+                          "value": "<integer>"
+                        },
+                        {
+                          "description": "The format of the data when returned to the user.",
+                          "key": "format",
+                          "value": "csv"
+                        }
+                      ]
+                    },
+                    "description": "- Returns the last trade reported by [OPRA](/Articles/Data-And-Requests/The-SIPs.html) at a specified millisecond of the day.\n- Trade condition mappings can be found [here](/Articles/Errors-Exchanges-Conditions/Trade-Conditions.html).\n- Extended trade conditions are not reported by [OPRA](/Articles/Data-And-Requests/The-SIPs.html) for options, so they can be ignored.\n- The ``time_of_day``parameter represents the 00:00:00.000 ET that the trade should be provided for.\n"
+                  },
+                  "response": [
+                    {
+                      "id": "6ba4735c-abe7-4615-b21d-aa4cda45d0b5",
+                      "name": "Returns the last trade for an option contract",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "text/csv"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/option/at_time/trade?symbol=<string>&start_date=<date>&end_date=<date>&time_of_day=<time>&expiration=<date>&strike=*&right=both&max_dte=<integer>&strike_range=<integer>&format=csv",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "option",
+                            "at_time",
+                            "trade"
+                          ],
+                          "query": [
+                            {
+                              "description": "(Required) The stock or index symbol, or underlying symbol for options.",
+                              "key": "symbol",
+                              "value": "<string>"
+                            },
+                            {
+                              "description": "(Required) The start date (inclusive).",
+                              "key": "start_date",
+                              "value": "<date>"
+                            },
+                            {
+                              "description": "(Required) The end date (inclusive).",
+                              "key": "end_date",
+                              "value": "<date>"
+                            },
+                            {
+                              "description": "(Required) The time of the day to fetch data for; assumed to be America/New_York.",
+                              "key": "time_of_day",
+                              "value": "<time>"
+                            },
+                            {
+                              "description": "(Required) The expiration of the contract in `YYYY-MM-DD` or `YYYYMMDD` format, or `*` for all expirations.",
+                              "key": "expiration",
+                              "value": "<date>"
+                            },
+                            {
+                              "description": "The strike price of the contract in dollars (ie `100.00` for `$100.00`), or `*` for all strikes.",
+                              "key": "strike",
+                              "value": "*"
+                            },
+                            {
+                              "description": "The right (call or put) of the contract.",
+                              "key": "right",
+                              "value": "both"
+                            },
+                            {
+                              "description": "If specified, only contracts with a full calendar day 'Days to Expiration' (DTE) less than or equal to this number will be returned.",
+                              "key": "max_dte",
+                              "value": "<integer>"
+                            },
+                            {
+                              "description": "Limits the number of contracts returned relative to the underlying's spot price. For a specified value 'n', this returns 'n' strikes above and 'n' strikes below the spot price, plus one at-the-money (ATM) strike (where spot price = strike price), if available. This results in a maximum of `2n + 1` strikes.",
+                              "key": "strike_range",
+                              "value": "<integer>"
+                            },
+                            {
+                              "description": "The format of the data when returned to the user.",
+                              "key": "format",
+                              "value": "csv"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "[\n  {\n    \"symbol\": \"<string>\",\n    \"expiration\": \"<date>\",\n    \"strike\": \"<number>\",\n    \"right\": \"<string>\",\n    \"timestamp\": \"<dateTime>\",\n    \"sequence\": \"<integer>\",\n    \"ext_condition1\": \"<integer>\",\n    \"ext_condition2\": \"<integer>\",\n    \"ext_condition3\": \"<integer>\",\n    \"ext_condition4\": \"<integer>\",\n    \"condition\": \"<integer>\",\n    \"size\": \"<integer>\",\n    \"exchange\": \"<integer>\",\n    \"price\": \"<number>\"\n  },\n  {\n    \"symbol\": \"<string>\",\n    \"expiration\": \"<date>\",\n    \"strike\": \"<number>\",\n    \"right\": \"<string>\",\n    \"timestamp\": \"<dateTime>\",\n    \"sequence\": \"<integer>\",\n    \"ext_condition1\": \"<integer>\",\n    \"ext_condition2\": \"<integer>\",\n    \"ext_condition3\": \"<integer>\",\n    \"ext_condition4\": \"<integer>\",\n    \"condition\": \"<integer>\",\n    \"size\": \"<integer>\",\n    \"exchange\": \"<integer>\",\n    \"price\": \"<number>\"\n  }\n]",
+                      "createdAt": "2026-07-28T03:11:25.000Z",
+                      "updatedAt": "2026-07-28T03:11:25.000Z",
+                      "uid": "35240-6ba4735c-abe7-4615-b21d-aa4cda45d0b5"
+                    }
+                  ],
+                  "createdAt": "2026-07-28T03:11:25.000Z",
+                  "updatedAt": "2026-07-28T03:11:25.000Z",
+                  "uid": "35240-1db39e72-3abf-4459-b474-255c21aad7f3"
+                }
+              ],
+              "id": "ac419f6d-03f7-4ad8-b52d-2ba63a33ac48",
+              "createdAt": "2026-07-28T03:11:25.000Z",
+              "updatedAt": "2026-07-28T03:11:25.000Z",
+              "uid": "35240-ac419f6d-03f7-4ad8-b52d-2ba63a33ac48"
+            },
+            {
+              "name": "quote",
+              "item": [
+                {
+                  "name": "Quote",
+                  "id": "0b032c28-57a0-46f1-93fb-79044450a7f5",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "text/csv"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/option/at_time/quote?symbol=<string>&start_date=<date>&end_date=<date>&time_of_day=<time>&expiration=<date>&strike=*&right=both&max_dte=<integer>&strike_range=<integer>&format=csv",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "option",
+                        "at_time",
+                        "quote"
+                      ],
+                      "query": [
+                        {
+                          "description": "(Required) The stock or index symbol, or underlying symbol for options.",
+                          "key": "symbol",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "(Required) The start date (inclusive).",
+                          "key": "start_date",
+                          "value": "<date>"
+                        },
+                        {
+                          "description": "(Required) The end date (inclusive).",
+                          "key": "end_date",
+                          "value": "<date>"
+                        },
+                        {
+                          "description": "(Required) The time of the day to fetch data for; assumed to be America/New_York.",
+                          "key": "time_of_day",
+                          "value": "<time>"
+                        },
+                        {
+                          "description": "(Required) The expiration of the contract in `YYYY-MM-DD` or `YYYYMMDD` format, or `*` for all expirations.",
+                          "key": "expiration",
+                          "value": "<date>"
+                        },
+                        {
+                          "description": "The strike price of the contract in dollars (ie `100.00` for `$100.00`), or `*` for all strikes.",
+                          "key": "strike",
+                          "value": "*"
+                        },
+                        {
+                          "description": "The right (call or put) of the contract.",
+                          "key": "right",
+                          "value": "both"
+                        },
+                        {
+                          "description": "If specified, only contracts with a full calendar day 'Days to Expiration' (DTE) less than or equal to this number will be returned.",
+                          "key": "max_dte",
+                          "value": "<integer>"
+                        },
+                        {
+                          "description": "Limits the number of contracts returned relative to the underlying's spot price. For a specified value 'n', this returns 'n' strikes above and 'n' strikes below the spot price, plus one at-the-money (ATM) strike (where spot price = strike price), if available. This results in a maximum of `2n + 1` strikes.",
+                          "key": "strike_range",
+                          "value": "<integer>"
+                        },
+                        {
+                          "description": "The format of the data when returned to the user.",
+                          "key": "format",
+                          "value": "csv"
+                        }
+                      ]
+                    },
+                    "description": "- Returns the last NBBO quote reported by [OPRA](/Articles/Data-And-Requests/The-SIPs.html) at a specified millisecond of the day.\n- The ``time_of_day``parameter represents the 00:00:00.000 ET that the quote should be provided for.\n- Using a sub-minute ``time_of_day`` (e.g. ``09:30:10.000``) will significantly slow the request and may cause it to hang, particularly when using ``expiration=*``. Use a minute-boundary time (e.g. ``09:30:00.000``) instead.\n"
+                  },
+                  "response": [
+                    {
+                      "id": "7a38bc3c-6e8b-439e-826f-f0bb5d97f3e0",
+                      "name": "Returns the last quote for an option contract",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "text/csv"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/option/at_time/quote?symbol=<string>&start_date=<date>&end_date=<date>&time_of_day=<time>&expiration=<date>&strike=*&right=both&max_dte=<integer>&strike_range=<integer>&format=csv",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "option",
+                            "at_time",
+                            "quote"
+                          ],
+                          "query": [
+                            {
+                              "description": "(Required) The stock or index symbol, or underlying symbol for options.",
+                              "key": "symbol",
+                              "value": "<string>"
+                            },
+                            {
+                              "description": "(Required) The start date (inclusive).",
+                              "key": "start_date",
+                              "value": "<date>"
+                            },
+                            {
+                              "description": "(Required) The end date (inclusive).",
+                              "key": "end_date",
+                              "value": "<date>"
+                            },
+                            {
+                              "description": "(Required) The time of the day to fetch data for; assumed to be America/New_York.",
+                              "key": "time_of_day",
+                              "value": "<time>"
+                            },
+                            {
+                              "description": "(Required) The expiration of the contract in `YYYY-MM-DD` or `YYYYMMDD` format, or `*` for all expirations.",
+                              "key": "expiration",
+                              "value": "<date>"
+                            },
+                            {
+                              "description": "The strike price of the contract in dollars (ie `100.00` for `$100.00`), or `*` for all strikes.",
+                              "key": "strike",
+                              "value": "*"
+                            },
+                            {
+                              "description": "The right (call or put) of the contract.",
+                              "key": "right",
+                              "value": "both"
+                            },
+                            {
+                              "description": "If specified, only contracts with a full calendar day 'Days to Expiration' (DTE) less than or equal to this number will be returned.",
+                              "key": "max_dte",
+                              "value": "<integer>"
+                            },
+                            {
+                              "description": "Limits the number of contracts returned relative to the underlying's spot price. For a specified value 'n', this returns 'n' strikes above and 'n' strikes below the spot price, plus one at-the-money (ATM) strike (where spot price = strike price), if available. This results in a maximum of `2n + 1` strikes.",
+                              "key": "strike_range",
+                              "value": "<integer>"
+                            },
+                            {
+                              "description": "The format of the data when returned to the user.",
+                              "key": "format",
+                              "value": "csv"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "[\n  {\n    \"symbol\": \"<string>\",\n    \"expiration\": \"<date>\",\n    \"strike\": \"<number>\",\n    \"right\": \"<string>\",\n    \"timestamp\": \"<dateTime>\",\n    \"bid_size\": \"<integer>\",\n    \"bid_exchange\": \"<integer>\",\n    \"bid\": \"<number>\",\n    \"bid_condition\": \"<integer>\",\n    \"ask_size\": \"<integer>\",\n    \"ask_exchange\": \"<integer>\",\n    \"ask\": \"<number>\",\n    \"ask_condition\": \"<integer>\"\n  },\n  {\n    \"symbol\": \"<string>\",\n    \"expiration\": \"<date>\",\n    \"strike\": \"<number>\",\n    \"right\": \"<string>\",\n    \"timestamp\": \"<dateTime>\",\n    \"bid_size\": \"<integer>\",\n    \"bid_exchange\": \"<integer>\",\n    \"bid\": \"<number>\",\n    \"bid_condition\": \"<integer>\",\n    \"ask_size\": \"<integer>\",\n    \"ask_exchange\": \"<integer>\",\n    \"ask\": \"<number>\",\n    \"ask_condition\": \"<integer>\"\n  }\n]",
+                      "createdAt": "2026-07-28T03:11:25.000Z",
+                      "updatedAt": "2026-07-28T03:11:25.000Z",
+                      "uid": "35240-7a38bc3c-6e8b-439e-826f-f0bb5d97f3e0"
+                    }
+                  ],
+                  "createdAt": "2026-07-28T03:11:25.000Z",
+                  "updatedAt": "2026-07-28T03:11:25.000Z",
+                  "uid": "35240-0b032c28-57a0-46f1-93fb-79044450a7f5"
+                }
+              ],
+              "id": "337733a9-d4a7-4f85-aca8-33d358620cdc",
+              "createdAt": "2026-07-28T03:11:25.000Z",
+              "updatedAt": "2026-07-28T03:11:25.000Z",
+              "uid": "35240-337733a9-d4a7-4f85-aca8-33d358620cdc"
+            }
+          ],
+          "id": "c8a62d87-551a-4dda-8c7f-4277b94b8886",
+          "createdAt": "2026-07-28T03:11:25.000Z",
+          "updatedAt": "2026-07-28T03:11:25.000Z",
+          "uid": "35240-c8a62d87-551a-4dda-8c7f-4277b94b8886"
+        }
+      ],
+      "id": "06f48672-6783-4adc-ada6-b57b67a8fe35",
+      "createdAt": "2026-07-28T03:11:25.000Z",
+      "updatedAt": "2026-07-28T03:11:25.000Z",
+      "uid": "35240-06f48672-6783-4adc-ada6-b57b67a8fe35"
+    },
+    {
+      "name": "index",
+      "item": [
+        {
+          "name": "at_time",
+          "item": [
+            {
+              "name": "price",
+              "item": [
+                {
+                  "name": "Price",
+                  "id": "d1eb21b5-6662-4f6a-91c3-a06e7a2a6002",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "text/csv"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/index/at_time/price?symbol=<string>&start_date=<date>&end_date=<date>&time_of_day=<time>&format=csv",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "index",
+                        "at_time",
+                        "price"
+                      ],
+                      "query": [
+                        {
+                          "description": "(Required) The stock or index symbol, or underlying symbol for options.",
+                          "key": "symbol",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "(Required) The start date (inclusive).",
+                          "key": "start_date",
+                          "value": "<date>"
+                        },
+                        {
+                          "description": "(Required) The end date (inclusive).",
+                          "key": "end_date",
+                          "value": "<date>"
+                        },
+                        {
+                          "description": "(Required) The time of the day to fetch data for; assumed to be America/New_York.",
+                          "key": "time_of_day",
+                          "value": "<time>"
+                        },
+                        {
+                          "description": "The format of the data when returned to the user.",
+                          "key": "format",
+                          "value": "csv"
+                        }
+                      ]
+                    },
+                    "description": "- Retrieves historical indices price reports. [Exchanges](/Articles/Data-And-Requests/The-SIPs.html) typically generate a price report every second for popular indices like SPX.\n- The ``time_of_day`` parameter represents the 00:00:00.000 ET that the price should be provided for.\n"
+                  },
+                  "response": [
+                    {
+                      "id": "a48c8c05-eab9-4697-abcf-d153215cf67e",
+                      "name": "Returns specific at time historical index price reports",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "text/csv"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/index/at_time/price?symbol=<string>&start_date=<date>&end_date=<date>&time_of_day=<time>&format=csv",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "index",
+                            "at_time",
+                            "price"
+                          ],
+                          "query": [
+                            {
+                              "description": "(Required) The stock or index symbol, or underlying symbol for options.",
+                              "key": "symbol",
+                              "value": "<string>"
+                            },
+                            {
+                              "description": "(Required) The start date (inclusive).",
+                              "key": "start_date",
+                              "value": "<date>"
+                            },
+                            {
+                              "description": "(Required) The end date (inclusive).",
+                              "key": "end_date",
+                              "value": "<date>"
+                            },
+                            {
+                              "description": "(Required) The time of the day to fetch data for; assumed to be America/New_York.",
+                              "key": "time_of_day",
+                              "value": "<time>"
+                            },
+                            {
+                              "description": "The format of the data when returned to the user.",
+                              "key": "format",
+                              "value": "csv"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "[\n  {\n    \"timestamp\": \"<dateTime>\",\n    \"sequence\": \"<integer>\",\n    \"ext_condition1\": \"<integer>\",\n    \"ext_condition2\": \"<integer>\",\n    \"ext_condition3\": \"<integer>\",\n    \"ext_condition4\": \"<integer>\",\n    \"condition\": \"<integer>\",\n    \"size\": \"<integer>\",\n    \"exchange\": \"<integer>\",\n    \"price\": \"<number>\"\n  },\n  {\n    \"timestamp\": \"<dateTime>\",\n    \"sequence\": \"<integer>\",\n    \"ext_condition1\": \"<integer>\",\n    \"ext_condition2\": \"<integer>\",\n    \"ext_condition3\": \"<integer>\",\n    \"ext_condition4\": \"<integer>\",\n    \"condition\": \"<integer>\",\n    \"size\": \"<integer>\",\n    \"exchange\": \"<integer>\",\n    \"price\": \"<number>\"\n  }\n]",
+                      "createdAt": "2026-07-28T03:11:25.000Z",
+                      "updatedAt": "2026-07-28T03:11:25.000Z",
+                      "uid": "35240-a48c8c05-eab9-4697-abcf-d153215cf67e"
+                    }
+                  ],
+                  "createdAt": "2026-07-28T03:11:25.000Z",
+                  "updatedAt": "2026-07-28T03:11:25.000Z",
+                  "uid": "35240-d1eb21b5-6662-4f6a-91c3-a06e7a2a6002"
+                }
+              ],
+              "id": "a8306557-9efc-454b-9438-7b9135c356e9",
+              "createdAt": "2026-07-28T03:11:25.000Z",
+              "updatedAt": "2026-07-28T03:11:25.000Z",
+              "uid": "35240-a8306557-9efc-454b-9438-7b9135c356e9"
+            }
+          ],
+          "id": "4b751e67-2d6d-43c8-a686-fd52419b75ec",
+          "createdAt": "2026-07-28T03:11:25.000Z",
+          "updatedAt": "2026-07-28T03:11:25.000Z",
+          "uid": "35240-4b751e67-2d6d-43c8-a686-fd52419b75ec"
+        }
+      ],
+      "id": "f2afbea4-a88d-4570-b289-f8b962c670f6",
+      "createdAt": "2026-07-28T03:11:25.000Z",
+      "updatedAt": "2026-07-28T03:11:25.000Z",
+      "uid": "35240-f2afbea4-a88d-4570-b289-f8b962c670f6"
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://127.0.0.1:25503/v3"
+    }
+  ]
+}

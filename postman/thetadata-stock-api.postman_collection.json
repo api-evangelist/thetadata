@@ -1,0 +1,2138 @@
+{
+  "info": {
+    "_postman_id": "b5a1e404-e113-436c-944c-bd9b528de7ba",
+    "name": "Theta Data v3 At-Time Stock API",
+    "description": "Real-time and historic stock, options, and index data!",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-07-28T03:11:44.000Z",
+    "updatedAt": "2026-07-28T03:11:45.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-b5a1e404-e113-436c-944c-bd9b528de7ba"
+  },
+  "item": [
+    {
+      "name": "stock",
+      "item": [
+        {
+          "name": "list",
+          "item": [
+            {
+              "name": "symbols",
+              "item": [
+                {
+                  "name": "Symbols",
+                  "id": "30edac40-1584-41e8-b728-b00784b3a73f",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "text/csv"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/stock/list/symbols?format=csv",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "stock",
+                        "list",
+                        "symbols"
+                      ],
+                      "query": [
+                        {
+                          "description": "The format of the data when returned to the user.",
+                          "key": "format",
+                          "value": "csv"
+                        }
+                      ]
+                    },
+                    "description": "A symbol can be defined as a unique identifier for a stock / underlying asset. Common terms also include: root, ticker, and underlying. This endpoint returns all traded symbols for stocks. This endpoint is updated overnight.\n"
+                  },
+                  "response": [
+                    {
+                      "id": "d1243d6f-85ef-4c53-a282-65c86846a553",
+                      "name": "List all stock symbols",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "text/csv"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/stock/list/symbols?format=csv",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "stock",
+                            "list",
+                            "symbols"
+                          ],
+                          "query": [
+                            {
+                              "description": "The format of the data when returned to the user.",
+                              "key": "format",
+                              "value": "csv"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "[\n  {\n    \"symbol\": \"<string>\"\n  },\n  {\n    \"symbol\": \"<string>\"\n  }\n]",
+                      "createdAt": "2026-07-28T03:11:45.000Z",
+                      "updatedAt": "2026-07-28T03:11:45.000Z",
+                      "uid": "35240-d1243d6f-85ef-4c53-a282-65c86846a553"
+                    }
+                  ],
+                  "createdAt": "2026-07-28T03:11:45.000Z",
+                  "updatedAt": "2026-07-28T03:11:45.000Z",
+                  "uid": "35240-30edac40-1584-41e8-b728-b00784b3a73f"
+                }
+              ],
+              "id": "9802dcd0-b7ce-49b9-a75e-2dd57ee02eee",
+              "createdAt": "2026-07-28T03:11:45.000Z",
+              "updatedAt": "2026-07-28T03:11:45.000Z",
+              "uid": "35240-9802dcd0-b7ce-49b9-a75e-2dd57ee02eee"
+            },
+            {
+              "name": "dates",
+              "item": [
+                {
+                  "name": "{request_type}",
+                  "item": [
+                    {
+                      "name": "Dates",
+                      "id": "a5b62491-96f3-4731-860f-9de18e92a25a",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      },
+                      "request": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "text/csv"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/stock/list/dates/:request_type?symbol=<string>&symbol=<string>&format=csv",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "stock",
+                            "list",
+                            "dates",
+                            ":request_type"
+                          ],
+                          "query": [
+                            {
+                              "description": "(Required) The stock or index symbol, or underlying symbol for options. Specify '*' for all symbols or a comma separated list when appropriate.",
+                              "key": "symbol",
+                              "value": "<string>"
+                            },
+                            {
+                              "description": "(Required) The stock or index symbol, or underlying symbol for options. Specify '*' for all symbols or a comma separated list when appropriate.",
+                              "key": "symbol",
+                              "value": "<string>"
+                            },
+                            {
+                              "description": "The format of the data when returned to the user.",
+                              "key": "format",
+                              "value": "csv"
+                            }
+                          ],
+                          "variable": [
+                            {
+                              "id": "f47a3efd-6de7-4849-9de5-bf6542c6d6f5",
+                              "key": "request_type",
+                              "value": "quote",
+                              "description": "(Required) The request type."
+                            }
+                          ]
+                        },
+                        "description": "Lists all dates of data that are available for a stock with a given request type and symbol. This endpoint is updated overnight.\n"
+                      },
+                      "response": [
+                        {
+                          "id": "82db5db1-eec9-41a1-90fe-0dfe29476483",
+                          "name": "List all dates for a stock quote for a given symbol",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "text/csv"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/stock/list/dates/:request_type?symbol=<string>&format=csv",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "stock",
+                                "list",
+                                "dates",
+                                ":request_type"
+                              ],
+                              "query": [
+                                {
+                                  "description": "(Required) The stock or index symbol, or underlying symbol for options. Specify '*' for all symbols or a comma separated list when appropriate.",
+                                  "key": "symbol",
+                                  "value": "<string>"
+                                },
+                                {
+                                  "description": "The format of the data when returned to the user.",
+                                  "key": "format",
+                                  "value": "csv"
+                                }
+                              ],
+                              "variable": [
+                                {
+                                  "key": "request_type"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "[\n  {\n    \"date\": \"<date>\"\n  },\n  {\n    \"date\": \"<date>\"\n  }\n]",
+                          "createdAt": "2026-07-28T03:11:45.000Z",
+                          "updatedAt": "2026-07-28T03:11:45.000Z",
+                          "uid": "35240-82db5db1-eec9-41a1-90fe-0dfe29476483"
+                        }
+                      ],
+                      "createdAt": "2026-07-28T03:11:45.000Z",
+                      "updatedAt": "2026-07-28T03:11:45.000Z",
+                      "uid": "35240-a5b62491-96f3-4731-860f-9de18e92a25a"
+                    }
+                  ],
+                  "id": "1692b869-5444-4ae8-838b-443662ab747a",
+                  "createdAt": "2026-07-28T03:11:45.000Z",
+                  "updatedAt": "2026-07-28T03:11:45.000Z",
+                  "uid": "35240-1692b869-5444-4ae8-838b-443662ab747a"
+                }
+              ],
+              "id": "9437f656-8e31-4c74-bb00-c0369dd649fb",
+              "createdAt": "2026-07-28T03:11:45.000Z",
+              "updatedAt": "2026-07-28T03:11:45.000Z",
+              "uid": "35240-9437f656-8e31-4c74-bb00-c0369dd649fb"
+            }
+          ],
+          "id": "2e665d94-341c-481c-a5e4-256569fdbe4f",
+          "createdAt": "2026-07-28T03:11:45.000Z",
+          "updatedAt": "2026-07-28T03:11:45.000Z",
+          "uid": "35240-2e665d94-341c-481c-a5e4-256569fdbe4f"
+        },
+        {
+          "name": "snapshot",
+          "item": [
+            {
+              "name": "ohlc",
+              "item": [
+                {
+                  "name": "Open High Low Close",
+                  "id": "c2397225-b872-4fc9-bd54-76bcce42ce4f",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "text/csv"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/stock/snapshot/ohlc?symbol=<string>&symbol=<string>&venue=nqb&min_time=<time>&format=csv",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "stock",
+                        "snapshot",
+                        "ohlc"
+                      ],
+                      "query": [
+                        {
+                          "description": "(Required) The stock or index symbol, or underlying symbol for options. Specify '*' for all symbols or a comma separated list when appropriate.",
+                          "key": "symbol",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "(Required) The stock or index symbol, or underlying symbol for options. Specify '*' for all symbols or a comma separated list when appropriate.",
+                          "key": "symbol",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Used to specify the venue of the real time or historic request. ``nqb`` = Nasdaq Basic; ``utp_cta`` = merged UTP & CTA.",
+                          "key": "venue",
+                          "value": "nqb"
+                        },
+                        {
+                          "description": "Filters snapshots to include only data with a timestamp greater or equal to the specified value (HH:mm:ss.SSS format).",
+                          "key": "min_time",
+                          "value": "<time>"
+                        },
+                        {
+                          "description": "The format of the data when returned to the user.",
+                          "key": "format",
+                          "value": "csv"
+                        }
+                      ]
+                    },
+                    "description": "\nProvides a real-time Open, High, Low, Close for the current day.\n* Returns a real-time session OHLC from the [Nasdaq Basic feed](/Articles/Data-And-Requests/The-SIPs) if the account has a [stocks standard or pro subscription](https://www.thetadata.net/subscribe.html#stocks).\n* Returns a 15-minute delayed session OHLC from the [UTP & CTA feeds](/Articles/Data-And-Requests/The-SIPs) if the account has the stocks value subscription.\n* Theta Data resets its snapshot cache at midnight ET every day. This endpoint may not work on a weekend where there were no eligible messages sent over exchange feeds. We recommend using historic requests during the weekend.\n"
+                  },
+                  "response": [
+                    {
+                      "id": "fa0e814b-a5ed-4b4a-ae91-69e4dffa1af1",
+                      "name": "Returns OHLC for stocks for all symbols",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "text/csv"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/stock/snapshot/ohlc?symbol=<string>&venue=nqb&min_time=<time>&format=csv",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "stock",
+                            "snapshot",
+                            "ohlc"
+                          ],
+                          "query": [
+                            {
+                              "description": "(Required) The stock or index symbol, or underlying symbol for options. Specify '*' for all symbols or a comma separated list when appropriate.",
+                              "key": "symbol",
+                              "value": "<string>"
+                            },
+                            {
+                              "description": "Used to specify the venue of the real time or historic request. ``nqb`` = Nasdaq Basic; ``utp_cta`` = merged UTP & CTA.",
+                              "key": "venue",
+                              "value": "nqb"
+                            },
+                            {
+                              "description": "Filters snapshots to include only data with a timestamp greater or equal to the specified value (HH:mm:ss.SSS format).",
+                              "key": "min_time",
+                              "value": "<time>"
+                            },
+                            {
+                              "description": "The format of the data when returned to the user.",
+                              "key": "format",
+                              "value": "csv"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "[\n  {\n    \"timestamp\": \"<dateTime>\",\n    \"symbol\": \"<string>\",\n    \"open\": \"<number>\",\n    \"high\": \"<number>\",\n    \"low\": \"<number>\",\n    \"close\": \"<number>\",\n    \"volume\": \"<integer>\",\n    \"count\": \"<integer>\"\n  },\n  {\n    \"timestamp\": \"<dateTime>\",\n    \"symbol\": \"<string>\",\n    \"open\": \"<number>\",\n    \"high\": \"<number>\",\n    \"low\": \"<number>\",\n    \"close\": \"<number>\",\n    \"volume\": \"<integer>\",\n    \"count\": \"<integer>\"\n  }\n]",
+                      "createdAt": "2026-07-28T03:11:45.000Z",
+                      "updatedAt": "2026-07-28T03:11:45.000Z",
+                      "uid": "35240-fa0e814b-a5ed-4b4a-ae91-69e4dffa1af1"
+                    }
+                  ],
+                  "createdAt": "2026-07-28T03:11:45.000Z",
+                  "updatedAt": "2026-07-28T03:11:45.000Z",
+                  "uid": "35240-c2397225-b872-4fc9-bd54-76bcce42ce4f"
+                }
+              ],
+              "id": "5e01fc1d-681f-419e-ba8c-a72755320a61",
+              "createdAt": "2026-07-28T03:11:45.000Z",
+              "updatedAt": "2026-07-28T03:11:45.000Z",
+              "uid": "35240-5e01fc1d-681f-419e-ba8c-a72755320a61"
+            },
+            {
+              "name": "trade",
+              "item": [
+                {
+                  "name": "Trade",
+                  "id": "a37b44b0-c4ab-4d2c-aa74-7056eea1b58e",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "text/csv"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/stock/snapshot/trade?symbol=<string>&symbol=<string>&venue=nqb&min_time=<time>&format=csv",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "stock",
+                        "snapshot",
+                        "trade"
+                      ],
+                      "query": [
+                        {
+                          "description": "(Required) The stock or index symbol, or underlying symbol for options. Specify '*' for all symbols or a comma separated list when appropriate.",
+                          "key": "symbol",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "(Required) The stock or index symbol, or underlying symbol for options. Specify '*' for all symbols or a comma separated list when appropriate.",
+                          "key": "symbol",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Used to specify the venue of the real time or historic request. ``nqb`` = Nasdaq Basic; ``utp_cta`` = merged UTP & CTA.",
+                          "key": "venue",
+                          "value": "nqb"
+                        },
+                        {
+                          "description": "Filters snapshots to include only data with a timestamp greater or equal to the specified value (HH:mm:ss.SSS format).",
+                          "key": "min_time",
+                          "value": "<time>"
+                        },
+                        {
+                          "description": "The format of the data when returned to the user.",
+                          "key": "format",
+                          "value": "csv"
+                        }
+                      ]
+                    },
+                    "description": "\nReturns a real-time last trade from the [Nasdaq Basic feed](/Articles/Data-And-Requests/The-SIPs) if the account has a [stocks standard or pro subscription](https://www.thetadata.net/subscribe.html#stocks).\n\n- Theta Data resets its snapshot cache at midnight ET every day. This endpoint may not work on a weekend where there were no eligible messages sent over exchange feeds. We recommend using historic requests during the weekend.\n"
+                  },
+                  "response": [
+                    {
+                      "id": "84051432-a778-4f15-bf25-2c525b06da7b",
+                      "name": "Returns last trade for stocks for a given symbol",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "text/csv"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/stock/snapshot/trade?symbol=<string>&venue=nqb&min_time=<time>&format=csv",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "stock",
+                            "snapshot",
+                            "trade"
+                          ],
+                          "query": [
+                            {
+                              "description": "(Required) The stock or index symbol, or underlying symbol for options. Specify '*' for all symbols or a comma separated list when appropriate.",
+                              "key": "symbol",
+                              "value": "<string>"
+                            },
+                            {
+                              "description": "Used to specify the venue of the real time or historic request. ``nqb`` = Nasdaq Basic; ``utp_cta`` = merged UTP & CTA.",
+                              "key": "venue",
+                              "value": "nqb"
+                            },
+                            {
+                              "description": "Filters snapshots to include only data with a timestamp greater or equal to the specified value (HH:mm:ss.SSS format).",
+                              "key": "min_time",
+                              "value": "<time>"
+                            },
+                            {
+                              "description": "The format of the data when returned to the user.",
+                              "key": "format",
+                              "value": "csv"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "[\n  {\n    \"timestamp\": \"<dateTime>\",\n    \"symbol\": \"<string>\",\n    \"sequence\": \"<integer>\",\n    \"size\": \"<integer>\",\n    \"condition\": \"<integer>\",\n    \"price\": \"<number>\"\n  },\n  {\n    \"timestamp\": \"<dateTime>\",\n    \"symbol\": \"<string>\",\n    \"sequence\": \"<integer>\",\n    \"size\": \"<integer>\",\n    \"condition\": \"<integer>\",\n    \"price\": \"<number>\"\n  }\n]",
+                      "createdAt": "2026-07-28T03:11:45.000Z",
+                      "updatedAt": "2026-07-28T03:11:45.000Z",
+                      "uid": "35240-84051432-a778-4f15-bf25-2c525b06da7b"
+                    }
+                  ],
+                  "createdAt": "2026-07-28T03:11:45.000Z",
+                  "updatedAt": "2026-07-28T03:11:45.000Z",
+                  "uid": "35240-a37b44b0-c4ab-4d2c-aa74-7056eea1b58e"
+                }
+              ],
+              "id": "03e7ba94-da60-4afb-af5a-aa2fc051e239",
+              "createdAt": "2026-07-28T03:11:45.000Z",
+              "updatedAt": "2026-07-28T03:11:45.000Z",
+              "uid": "35240-03e7ba94-da60-4afb-af5a-aa2fc051e239"
+            },
+            {
+              "name": "quote",
+              "item": [
+                {
+                  "name": "Quote",
+                  "id": "31b0d526-dff0-4c3f-8121-9379368a1277",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "text/csv"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/stock/snapshot/quote?symbol=<string>&symbol=<string>&venue=nqb&min_time=<time>&format=csv",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "stock",
+                        "snapshot",
+                        "quote"
+                      ],
+                      "query": [
+                        {
+                          "description": "(Required) The stock or index symbol, or underlying symbol for options. Specify '*' for all symbols or a comma separated list when appropriate.",
+                          "key": "symbol",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "(Required) The stock or index symbol, or underlying symbol for options. Specify '*' for all symbols or a comma separated list when appropriate.",
+                          "key": "symbol",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Used to specify the venue of the real time or historic request. ``nqb`` = Nasdaq Basic; ``utp_cta`` = merged UTP & CTA.",
+                          "key": "venue",
+                          "value": "nqb"
+                        },
+                        {
+                          "description": "Filters snapshots to include only data with a timestamp greater or equal to the specified value (HH:mm:ss.SSS format).",
+                          "key": "min_time",
+                          "value": "<time>"
+                        },
+                        {
+                          "description": "The format of the data when returned to the user.",
+                          "key": "format",
+                          "value": "csv"
+                        }
+                      ]
+                    },
+                    "description": "* Returns a real-time last BBO quote from the [Nasdaq Basic feed](/Articles/Data-And-Requests/The-SIPs) if the account has a [stocks standard or pro subscription](https://www.thetadata.net/subscribe.html#stocks).\n* Returns a 15-minute delayed NBBO quote from the [UTP & CTA feeds](/Articles/Data-And-Requests/The-SIPs) account has the [stocks value subscription](https://www.thetadata.net/subscribe.html#stocks) subscription.\n- Theta Data resets its snapshot cache at midnight ET every day. This endpoint may not work on a weekend where there were no eligible messages sent over exchange feeds. We recommend using historic requests during the weekend.\n"
+                  },
+                  "response": [
+                    {
+                      "id": "f983d01a-fda9-4e7f-94d3-42d9f20ef4cc",
+                      "name": "Returns last quote for stocks for all symbols",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "text/csv"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/stock/snapshot/quote?symbol=<string>&venue=nqb&min_time=<time>&format=csv",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "stock",
+                            "snapshot",
+                            "quote"
+                          ],
+                          "query": [
+                            {
+                              "description": "(Required) The stock or index symbol, or underlying symbol for options. Specify '*' for all symbols or a comma separated list when appropriate.",
+                              "key": "symbol",
+                              "value": "<string>"
+                            },
+                            {
+                              "description": "Used to specify the venue of the real time or historic request. ``nqb`` = Nasdaq Basic; ``utp_cta`` = merged UTP & CTA.",
+                              "key": "venue",
+                              "value": "nqb"
+                            },
+                            {
+                              "description": "Filters snapshots to include only data with a timestamp greater or equal to the specified value (HH:mm:ss.SSS format).",
+                              "key": "min_time",
+                              "value": "<time>"
+                            },
+                            {
+                              "description": "The format of the data when returned to the user.",
+                              "key": "format",
+                              "value": "csv"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "[\n  {\n    \"timestamp\": \"<dateTime>\",\n    \"symbol\": \"<string>\",\n    \"bid_size\": \"<integer>\",\n    \"bid_exchange\": \"<integer>\",\n    \"bid\": \"<number>\",\n    \"bid_condition\": \"<integer>\",\n    \"ask_size\": \"<integer>\",\n    \"ask_exchange\": \"<integer>\",\n    \"ask\": \"<number>\",\n    \"ask_condition\": \"<integer>\"\n  },\n  {\n    \"timestamp\": \"<dateTime>\",\n    \"symbol\": \"<string>\",\n    \"bid_size\": \"<integer>\",\n    \"bid_exchange\": \"<integer>\",\n    \"bid\": \"<number>\",\n    \"bid_condition\": \"<integer>\",\n    \"ask_size\": \"<integer>\",\n    \"ask_exchange\": \"<integer>\",\n    \"ask\": \"<number>\",\n    \"ask_condition\": \"<integer>\"\n  }\n]",
+                      "createdAt": "2026-07-28T03:11:45.000Z",
+                      "updatedAt": "2026-07-28T03:11:45.000Z",
+                      "uid": "35240-f983d01a-fda9-4e7f-94d3-42d9f20ef4cc"
+                    }
+                  ],
+                  "createdAt": "2026-07-28T03:11:45.000Z",
+                  "updatedAt": "2026-07-28T03:11:45.000Z",
+                  "uid": "35240-31b0d526-dff0-4c3f-8121-9379368a1277"
+                }
+              ],
+              "id": "6ce9d852-87b4-4666-86ff-712180c39b75",
+              "createdAt": "2026-07-28T03:11:45.000Z",
+              "updatedAt": "2026-07-28T03:11:45.000Z",
+              "uid": "35240-6ce9d852-87b4-4666-86ff-712180c39b75"
+            },
+            {
+              "name": "market_value",
+              "item": [
+                {
+                  "name": "Market Value",
+                  "id": "bbac21cc-8e0e-4467-b382-ce26d5afb615",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "text/csv"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/stock/snapshot/market_value?symbol=<string>&symbol=<string>&venue=nqb&min_time=<time>&format=csv",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "stock",
+                        "snapshot",
+                        "market_value"
+                      ],
+                      "query": [
+                        {
+                          "description": "(Required) The stock or index symbol, or underlying symbol for options. Specify '*' for all symbols or a comma separated list when appropriate.",
+                          "key": "symbol",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "(Required) The stock or index symbol, or underlying symbol for options. Specify '*' for all symbols or a comma separated list when appropriate.",
+                          "key": "symbol",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Used to specify the venue of the real time or historic request. ``nqb`` = Nasdaq Basic; ``utp_cta`` = merged UTP & CTA.",
+                          "key": "venue",
+                          "value": "nqb"
+                        },
+                        {
+                          "description": "Filters snapshots to include only data with a timestamp greater or equal to the specified value (HH:mm:ss.SSS format).",
+                          "key": "min_time",
+                          "value": "<time>"
+                        },
+                        {
+                          "description": "The format of the data when returned to the user.",
+                          "key": "format",
+                          "value": "csv"
+                        }
+                      ]
+                    },
+                    "description": "* Returns a real-time market value derived from the last BBO quote from the [Nasdaq Basic feed](/Articles/Data-And-Requests/The-SIPs) if the account has a [stocks standard or pro subscription](https://www.thetadata.net/subscribe.html#stocks).\n* Returns a 15-minute delayed market value derived from an NBBO quote from the [UTP & CTA feeds](/Articles/Data-And-Requests/The-SIPs) if the account has the [stocks value subscription](https://www.thetadata.net/subscribe.html#stocks) subscription.\n- Theta Data resets its snapshot cache at midnight ET every day. This endpoint may not work on a weekend where there were no eligible messages sent over exchange feeds. We recommend using historic requests during the weekend.\n"
+                  },
+                  "response": [
+                    {
+                      "id": "6c2b15ec-e180-462b-b677-520b6c2af167",
+                      "name": "Returns last market value for stocks for all symbols",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "text/csv"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/stock/snapshot/market_value?symbol=<string>&venue=nqb&min_time=<time>&format=csv",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "stock",
+                            "snapshot",
+                            "market_value"
+                          ],
+                          "query": [
+                            {
+                              "description": "(Required) The stock or index symbol, or underlying symbol for options. Specify '*' for all symbols or a comma separated list when appropriate.",
+                              "key": "symbol",
+                              "value": "<string>"
+                            },
+                            {
+                              "description": "Used to specify the venue of the real time or historic request. ``nqb`` = Nasdaq Basic; ``utp_cta`` = merged UTP & CTA.",
+                              "key": "venue",
+                              "value": "nqb"
+                            },
+                            {
+                              "description": "Filters snapshots to include only data with a timestamp greater or equal to the specified value (HH:mm:ss.SSS format).",
+                              "key": "min_time",
+                              "value": "<time>"
+                            },
+                            {
+                              "description": "The format of the data when returned to the user.",
+                              "key": "format",
+                              "value": "csv"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "[\n  {\n    \"timestamp\": \"<dateTime>\",\n    \"symbol\": \"<string>\",\n    \"market_bid\": \"<number>\",\n    \"market_ask\": \"<number>\",\n    \"market_price\": \"<number>\"\n  },\n  {\n    \"timestamp\": \"<dateTime>\",\n    \"symbol\": \"<string>\",\n    \"market_bid\": \"<number>\",\n    \"market_ask\": \"<number>\",\n    \"market_price\": \"<number>\"\n  }\n]",
+                      "createdAt": "2026-07-28T03:11:45.000Z",
+                      "updatedAt": "2026-07-28T03:11:45.000Z",
+                      "uid": "35240-6c2b15ec-e180-462b-b677-520b6c2af167"
+                    }
+                  ],
+                  "createdAt": "2026-07-28T03:11:45.000Z",
+                  "updatedAt": "2026-07-28T03:11:45.000Z",
+                  "uid": "35240-bbac21cc-8e0e-4467-b382-ce26d5afb615"
+                }
+              ],
+              "id": "e08e235a-ac1f-442d-8664-c77eb63001d5",
+              "createdAt": "2026-07-28T03:11:45.000Z",
+              "updatedAt": "2026-07-28T03:11:45.000Z",
+              "uid": "35240-e08e235a-ac1f-442d-8664-c77eb63001d5"
+            }
+          ],
+          "id": "c2f5b401-6416-4ffa-b332-fe11645079c8",
+          "createdAt": "2026-07-28T03:11:45.000Z",
+          "updatedAt": "2026-07-28T03:11:45.000Z",
+          "uid": "35240-c2f5b401-6416-4ffa-b332-fe11645079c8"
+        },
+        {
+          "name": "history",
+          "item": [
+            {
+              "name": "eod",
+              "item": [
+                {
+                  "name": "End of Day",
+                  "id": "58c105bb-a6e4-42ab-9d3d-7531d79fe997",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "text/csv"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/stock/history/eod?symbol=<string>&start_date=<date>&end_date=<date>&format=csv",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "stock",
+                        "history",
+                        "eod"
+                      ],
+                      "query": [
+                        {
+                          "description": "(Required) The stock or index symbol, or underlying symbol for options.",
+                          "key": "symbol",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "(Required) The start date (inclusive).",
+                          "key": "start_date",
+                          "value": "<date>"
+                        },
+                        {
+                          "description": "(Required) The end date (inclusive).",
+                          "key": "end_date",
+                          "value": "<date>"
+                        },
+                        {
+                          "description": "The format of the data when returned to the user.",
+                          "key": "format",
+                          "value": "csv"
+                        }
+                      ]
+                    },
+                    "description": "\nSince [the equity SIPs](/Articles/Data-And-Requests/The-SIPs.html) only generate a partial EOD report, Theta Data generates a national EOD report at 17:15 ET each day. ``created`` represents the datetime the report was generated and ``last_trade`` represents the datetime of the last trade. The quote in the response represents the last NBBO reported by [CTA or UTP](/Articles/Data-And-Requests/The-SIPs.html) at the time of report generation. You can read more about EOD & OHLC data [here](/Articles/Data-And-Requests/OHLC-EOD.html). Theta Data plans to avail SIP EOD reports in the near future.\n"
+                  },
+                  "response": [
+                    {
+                      "id": "6a6c64c4-e518-4b66-a52b-7e811820d95d",
+                      "name": "Returns EOD report for a given symbol between specified dates (inclusive)",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "text/csv"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/stock/history/eod?symbol=<string>&start_date=<date>&end_date=<date>&format=csv",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "stock",
+                            "history",
+                            "eod"
+                          ],
+                          "query": [
+                            {
+                              "description": "(Required) The stock or index symbol, or underlying symbol for options.",
+                              "key": "symbol",
+                              "value": "<string>"
+                            },
+                            {
+                              "description": "(Required) The start date (inclusive).",
+                              "key": "start_date",
+                              "value": "<date>"
+                            },
+                            {
+                              "description": "(Required) The end date (inclusive).",
+                              "key": "end_date",
+                              "value": "<date>"
+                            },
+                            {
+                              "description": "The format of the data when returned to the user.",
+                              "key": "format",
+                              "value": "csv"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "[\n  {\n    \"created\": \"<dateTime>\",\n    \"last_trade\": \"<dateTime>\",\n    \"open\": \"<number>\",\n    \"high\": \"<number>\",\n    \"low\": \"<number>\",\n    \"close\": \"<number>\",\n    \"volume\": \"<integer>\",\n    \"count\": \"<integer>\",\n    \"bid_size\": \"<integer>\",\n    \"bid_exchange\": \"<integer>\",\n    \"bid\": \"<number>\",\n    \"bid_condition\": \"<integer>\",\n    \"ask_size\": \"<integer>\",\n    \"ask_exchange\": \"<integer>\",\n    \"ask\": \"<number>\",\n    \"ask_condition\": \"<integer>\"\n  },\n  {\n    \"created\": \"<dateTime>\",\n    \"last_trade\": \"<dateTime>\",\n    \"open\": \"<number>\",\n    \"high\": \"<number>\",\n    \"low\": \"<number>\",\n    \"close\": \"<number>\",\n    \"volume\": \"<integer>\",\n    \"count\": \"<integer>\",\n    \"bid_size\": \"<integer>\",\n    \"bid_exchange\": \"<integer>\",\n    \"bid\": \"<number>\",\n    \"bid_condition\": \"<integer>\",\n    \"ask_size\": \"<integer>\",\n    \"ask_exchange\": \"<integer>\",\n    \"ask\": \"<number>\",\n    \"ask_condition\": \"<integer>\"\n  }\n]",
+                      "createdAt": "2026-07-28T03:11:45.000Z",
+                      "updatedAt": "2026-07-28T03:11:45.000Z",
+                      "uid": "35240-6a6c64c4-e518-4b66-a52b-7e811820d95d"
+                    }
+                  ],
+                  "createdAt": "2026-07-28T03:11:45.000Z",
+                  "updatedAt": "2026-07-28T03:11:45.000Z",
+                  "uid": "35240-58c105bb-a6e4-42ab-9d3d-7531d79fe997"
+                }
+              ],
+              "id": "848f4106-c670-40d9-9bb8-16717156f38b",
+              "createdAt": "2026-07-28T03:11:45.000Z",
+              "updatedAt": "2026-07-28T03:11:45.000Z",
+              "uid": "35240-848f4106-c670-40d9-9bb8-16717156f38b"
+            },
+            {
+              "name": "ohlc",
+              "item": [
+                {
+                  "name": "Open High Low Close",
+                  "id": "eab08342-dba9-44e9-a8ab-1ec20336fb6f",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "text/csv"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/stock/history/ohlc?symbol=<string>&date=<date>&interval=1s&start_time=09:30:00&end_time=16:00:00&venue=nqb&format=csv&start_date=<date>&end_date=<date>",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "stock",
+                        "history",
+                        "ohlc"
+                      ],
+                      "query": [
+                        {
+                          "description": "(Required) The stock or index symbol, or underlying symbol for options.",
+                          "key": "symbol",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "The date to fetch data for. If present, this overrides start_date and end_date.",
+                          "key": "date",
+                          "value": "<date>"
+                        },
+                        {
+                          "description": "(Required) The size of the time interval must be one of the available options listed below. Intervals less than 1m are available only for single-day requests.",
+                          "key": "interval",
+                          "value": "1s"
+                        },
+                        {
+                          "description": "The start time (inclusive) in the specified day (format 24-hour HH:MM:SS.SSS).",
+                          "key": "start_time",
+                          "value": "09:30:00"
+                        },
+                        {
+                          "description": "The end time (inclusive) in the specified day (format 24-hour HH:MM:SS.SSS).",
+                          "key": "end_time",
+                          "value": "16:00:00"
+                        },
+                        {
+                          "description": "Used to specify the venue of the real time or historic request. ``nqb`` = Nasdaq Basic; ``utp_cta`` = merged UTP & CTA.",
+                          "key": "venue",
+                          "value": "nqb"
+                        },
+                        {
+                          "description": "The format of the data when returned to the user.",
+                          "key": "format",
+                          "value": "csv"
+                        },
+                        {
+                          "description": "The start date (inclusive).",
+                          "key": "start_date",
+                          "value": "<date>"
+                        },
+                        {
+                          "description": "The end date (inclusive).",
+                          "key": "end_date",
+                          "value": "<date>"
+                        }
+                      ]
+                    },
+                    "description": "- Aggregated OHLC bars that use [SIP rules](/Articles/Data-And-Requests/OHLC-EOD.html) for each bar. Time timestamp of the bar represents the opening time of the bar. For a trade to be part of the bar:  ``bar time`` <= ``trade time`` < ``bar timestamp + ivl``, where ivl is the specified interval size in milliseconds. \n- Set the ``venue`` parameter to ``nqb`` to access current-day real-time historic data from the [Nasdaq Basic feed](/Articles/Data-And-Requests/The-SIPs) if the account has a [stocks standard or pro subscription](https://www.thetadata.net/subscribe.html#stocks).\n- Multi-day requests are limited to 1 month of data.\n"
+                  },
+                  "response": [
+                    {
+                      "id": "263e1d95-942d-4753-8cb3-57ec3ea00ddc",
+                      "name": "Returns OHLC for a given symbol between specified dates (inclusive) with a one minute interval",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "text/csv"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/stock/history/ohlc?symbol=<string>&date=<date>&interval=1s&start_time=09:30:00&end_time=16:00:00&venue=nqb&format=csv&start_date=<date>&end_date=<date>",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "stock",
+                            "history",
+                            "ohlc"
+                          ],
+                          "query": [
+                            {
+                              "description": "(Required) The stock or index symbol, or underlying symbol for options.",
+                              "key": "symbol",
+                              "value": "<string>"
+                            },
+                            {
+                              "description": "The date to fetch data for. If present, this overrides start_date and end_date.",
+                              "key": "date",
+                              "value": "<date>"
+                            },
+                            {
+                              "description": "(Required) The size of the time interval must be one of the available options listed below. Intervals less than 1m are available only for single-day requests.",
+                              "key": "interval",
+                              "value": "1s"
+                            },
+                            {
+                              "description": "The start time (inclusive) in the specified day (format 24-hour HH:MM:SS.SSS).",
+                              "key": "start_time",
+                              "value": "09:30:00"
+                            },
+                            {
+                              "description": "The end time (inclusive) in the specified day (format 24-hour HH:MM:SS.SSS).",
+                              "key": "end_time",
+                              "value": "16:00:00"
+                            },
+                            {
+                              "description": "Used to specify the venue of the real time or historic request. ``nqb`` = Nasdaq Basic; ``utp_cta`` = merged UTP & CTA.",
+                              "key": "venue",
+                              "value": "nqb"
+                            },
+                            {
+                              "description": "The format of the data when returned to the user.",
+                              "key": "format",
+                              "value": "csv"
+                            },
+                            {
+                              "description": "The start date (inclusive).",
+                              "key": "start_date",
+                              "value": "<date>"
+                            },
+                            {
+                              "description": "The end date (inclusive).",
+                              "key": "end_date",
+                              "value": "<date>"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "[\n  {\n    \"timestamp\": \"<dateTime>\",\n    \"open\": \"<number>\",\n    \"high\": \"<number>\",\n    \"low\": \"<number>\",\n    \"close\": \"<number>\",\n    \"volume\": \"<integer>\",\n    \"count\": \"<integer>\",\n    \"vwap\": \"<number>\"\n  },\n  {\n    \"timestamp\": \"<dateTime>\",\n    \"open\": \"<number>\",\n    \"high\": \"<number>\",\n    \"low\": \"<number>\",\n    \"close\": \"<number>\",\n    \"volume\": \"<integer>\",\n    \"count\": \"<integer>\",\n    \"vwap\": \"<number>\"\n  }\n]",
+                      "createdAt": "2026-07-28T03:11:45.000Z",
+                      "updatedAt": "2026-07-28T03:11:45.000Z",
+                      "uid": "35240-263e1d95-942d-4753-8cb3-57ec3ea00ddc"
+                    }
+                  ],
+                  "createdAt": "2026-07-28T03:11:45.000Z",
+                  "updatedAt": "2026-07-28T03:11:45.000Z",
+                  "uid": "35240-eab08342-dba9-44e9-a8ab-1ec20336fb6f"
+                }
+              ],
+              "id": "dc2066bf-85dc-4fe6-93ff-08688ba41f12",
+              "createdAt": "2026-07-28T03:11:45.000Z",
+              "updatedAt": "2026-07-28T03:11:45.000Z",
+              "uid": "35240-dc2066bf-85dc-4fe6-93ff-08688ba41f12"
+            },
+            {
+              "name": "trade",
+              "item": [
+                {
+                  "name": "Trade",
+                  "id": "4f1e37f0-b4ed-4409-953e-13574e7f64db",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "text/csv"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/stock/history/trade?symbol=<string>&date=<date>&start_time=09:30:00&end_time=16:00:00&venue=nqb&format=csv&start_date=<date>&end_date=<date>",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "stock",
+                        "history",
+                        "trade"
+                      ],
+                      "query": [
+                        {
+                          "description": "(Required) The stock or index symbol, or underlying symbol for options.",
+                          "key": "symbol",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "The date to fetch data for. If present, this overrides start_date and end_date.",
+                          "key": "date",
+                          "value": "<date>"
+                        },
+                        {
+                          "description": "The start time (inclusive) in the specified day (format 24-hour HH:MM:SS.SSS).",
+                          "key": "start_time",
+                          "value": "09:30:00"
+                        },
+                        {
+                          "description": "The end time (inclusive) in the specified day (format 24-hour HH:MM:SS.SSS).",
+                          "key": "end_time",
+                          "value": "16:00:00"
+                        },
+                        {
+                          "description": "Used to specify the venue of the real time or historic request. ``nqb`` = Nasdaq Basic; ``utp_cta`` = merged UTP & CTA.",
+                          "key": "venue",
+                          "value": "nqb"
+                        },
+                        {
+                          "description": "The format of the data when returned to the user.",
+                          "key": "format",
+                          "value": "csv"
+                        },
+                        {
+                          "description": "The start date (inclusive).",
+                          "key": "start_date",
+                          "value": "<date>"
+                        },
+                        {
+                          "description": "The end date (inclusive).",
+                          "key": "end_date",
+                          "value": "<date>"
+                        }
+                      ]
+                    },
+                    "description": "Returns every trade reported by [UTP & CTA](/Articles/Data-And-Requests/The-SIPs). Set the ``venue`` parameter to ``nqb`` to access current-day real-time historic data from the [Nasdaq Basic feed](/Articles/Data-And-Requests/The-SIPs) if the account has a [stocks standard or pro subscription](https://www.thetadata.net/subscribe.html#stocks).\n- Multi-day requests are limited to 1 month of data.\n"
+                  },
+                  "response": [
+                    {
+                      "id": "2844ba6a-3a2d-46d4-8fa1-6257e3fa935f",
+                      "name": "Returns every trade for a given symbol between specified dates (inclusive) with a one minute interval",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "text/csv"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/stock/history/trade?symbol=<string>&date=<date>&start_time=09:30:00&end_time=16:00:00&venue=nqb&format=csv&start_date=<date>&end_date=<date>",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "stock",
+                            "history",
+                            "trade"
+                          ],
+                          "query": [
+                            {
+                              "description": "(Required) The stock or index symbol, or underlying symbol for options.",
+                              "key": "symbol",
+                              "value": "<string>"
+                            },
+                            {
+                              "description": "The date to fetch data for. If present, this overrides start_date and end_date.",
+                              "key": "date",
+                              "value": "<date>"
+                            },
+                            {
+                              "description": "The start time (inclusive) in the specified day (format 24-hour HH:MM:SS.SSS).",
+                              "key": "start_time",
+                              "value": "09:30:00"
+                            },
+                            {
+                              "description": "The end time (inclusive) in the specified day (format 24-hour HH:MM:SS.SSS).",
+                              "key": "end_time",
+                              "value": "16:00:00"
+                            },
+                            {
+                              "description": "Used to specify the venue of the real time or historic request. ``nqb`` = Nasdaq Basic; ``utp_cta`` = merged UTP & CTA.",
+                              "key": "venue",
+                              "value": "nqb"
+                            },
+                            {
+                              "description": "The format of the data when returned to the user.",
+                              "key": "format",
+                              "value": "csv"
+                            },
+                            {
+                              "description": "The start date (inclusive).",
+                              "key": "start_date",
+                              "value": "<date>"
+                            },
+                            {
+                              "description": "The end date (inclusive).",
+                              "key": "end_date",
+                              "value": "<date>"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "[\n  {\n    \"timestamp\": \"<dateTime>\",\n    \"sequence\": \"<integer>\",\n    \"ext_condition1\": \"<integer>\",\n    \"ext_condition2\": \"<integer>\",\n    \"ext_condition3\": \"<integer>\",\n    \"ext_condition4\": \"<integer>\",\n    \"condition\": \"<integer>\",\n    \"size\": \"<integer>\",\n    \"exchange\": \"<integer>\",\n    \"price\": \"<number>\"\n  },\n  {\n    \"timestamp\": \"<dateTime>\",\n    \"sequence\": \"<integer>\",\n    \"ext_condition1\": \"<integer>\",\n    \"ext_condition2\": \"<integer>\",\n    \"ext_condition3\": \"<integer>\",\n    \"ext_condition4\": \"<integer>\",\n    \"condition\": \"<integer>\",\n    \"size\": \"<integer>\",\n    \"exchange\": \"<integer>\",\n    \"price\": \"<number>\"\n  }\n]",
+                      "createdAt": "2026-07-28T03:11:45.000Z",
+                      "updatedAt": "2026-07-28T03:11:45.000Z",
+                      "uid": "35240-2844ba6a-3a2d-46d4-8fa1-6257e3fa935f"
+                    }
+                  ],
+                  "createdAt": "2026-07-28T03:11:45.000Z",
+                  "updatedAt": "2026-07-28T03:11:45.000Z",
+                  "uid": "35240-4f1e37f0-b4ed-4409-953e-13574e7f64db"
+                }
+              ],
+              "id": "dd0bd938-dc38-4934-97b4-78a993326b9d",
+              "createdAt": "2026-07-28T03:11:45.000Z",
+              "updatedAt": "2026-07-28T03:11:45.000Z",
+              "uid": "35240-dd0bd938-dc38-4934-97b4-78a993326b9d"
+            },
+            {
+              "name": "quote",
+              "item": [
+                {
+                  "name": "Quote",
+                  "id": "69658b23-6943-4947-a500-d7027aba7abb",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "text/csv"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/stock/history/quote?symbol=<string>&date=<date>&interval=1s&start_time=09:30:00&end_time=16:00:00&venue=nqb&format=csv&start_date=<date>&end_date=<date>",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "stock",
+                        "history",
+                        "quote"
+                      ],
+                      "query": [
+                        {
+                          "description": "(Required) The stock or index symbol, or underlying symbol for options.",
+                          "key": "symbol",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "The date to fetch data for. If present, this overrides start_date and end_date.",
+                          "key": "date",
+                          "value": "<date>"
+                        },
+                        {
+                          "description": "(Required) The size of the time interval must be one of the available options listed below. Intervals less than 1m are available only for single-day requests.",
+                          "key": "interval",
+                          "value": "1s"
+                        },
+                        {
+                          "description": "The start time (inclusive) in the specified day (format 24-hour HH:MM:SS.SSS).",
+                          "key": "start_time",
+                          "value": "09:30:00"
+                        },
+                        {
+                          "description": "The end time (inclusive) in the specified day (format 24-hour HH:MM:SS.SSS).",
+                          "key": "end_time",
+                          "value": "16:00:00"
+                        },
+                        {
+                          "description": "Used to specify the venue of the real time or historic request. ``nqb`` = Nasdaq Basic; ``utp_cta`` = merged UTP & CTA.",
+                          "key": "venue",
+                          "value": "nqb"
+                        },
+                        {
+                          "description": "The format of the data when returned to the user.",
+                          "key": "format",
+                          "value": "csv"
+                        },
+                        {
+                          "description": "The start date (inclusive).",
+                          "key": "start_date",
+                          "value": "<date>"
+                        },
+                        {
+                          "description": "The end date (inclusive).",
+                          "key": "end_date",
+                          "value": "<date>"
+                        }
+                      ]
+                    },
+                    "description": "- Returns every NBBO quote reported by [UTP and CTA](/Articles/Data-And-Requests/The-SIPs). \n- If the ``interval`` parameter is specified, the quote for each interval represents the last quote prior to the interval's timestamp. \n- Set the ``venue`` parameter to ``nqb`` to access current-day real-time historic data from the [Nasdaq Basic feed](/Articles/Data-And-Requests/The-SIPs) if the account has a [stocks standard or pro subscription](https://www.thetadata.net/subscribe.html#stocks).\n- Multi-day requests are limited to 1 month of data.\n"
+                  },
+                  "response": [
+                    {
+                      "id": "c30400b6-f3f8-41ed-b527-5c68370cb075",
+                      "name": "Returns every quote for a given symbol between specified dates (inclusive) with a one minute interval",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "text/csv"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/stock/history/quote?symbol=<string>&date=<date>&interval=1s&start_time=09:30:00&end_time=16:00:00&venue=nqb&format=csv&start_date=<date>&end_date=<date>",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "stock",
+                            "history",
+                            "quote"
+                          ],
+                          "query": [
+                            {
+                              "description": "(Required) The stock or index symbol, or underlying symbol for options.",
+                              "key": "symbol",
+                              "value": "<string>"
+                            },
+                            {
+                              "description": "The date to fetch data for. If present, this overrides start_date and end_date.",
+                              "key": "date",
+                              "value": "<date>"
+                            },
+                            {
+                              "description": "(Required) The size of the time interval must be one of the available options listed below. Intervals less than 1m are available only for single-day requests.",
+                              "key": "interval",
+                              "value": "1s"
+                            },
+                            {
+                              "description": "The start time (inclusive) in the specified day (format 24-hour HH:MM:SS.SSS).",
+                              "key": "start_time",
+                              "value": "09:30:00"
+                            },
+                            {
+                              "description": "The end time (inclusive) in the specified day (format 24-hour HH:MM:SS.SSS).",
+                              "key": "end_time",
+                              "value": "16:00:00"
+                            },
+                            {
+                              "description": "Used to specify the venue of the real time or historic request. ``nqb`` = Nasdaq Basic; ``utp_cta`` = merged UTP & CTA.",
+                              "key": "venue",
+                              "value": "nqb"
+                            },
+                            {
+                              "description": "The format of the data when returned to the user.",
+                              "key": "format",
+                              "value": "csv"
+                            },
+                            {
+                              "description": "The start date (inclusive).",
+                              "key": "start_date",
+                              "value": "<date>"
+                            },
+                            {
+                              "description": "The end date (inclusive).",
+                              "key": "end_date",
+                              "value": "<date>"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "[\n  {\n    \"timestamp\": \"<dateTime>\",\n    \"bid_size\": \"<integer>\",\n    \"bid_exchange\": \"<integer>\",\n    \"bid\": \"<number>\",\n    \"bid_condition\": \"<integer>\",\n    \"ask_size\": \"<integer>\",\n    \"ask_exchange\": \"<integer>\",\n    \"ask\": \"<number>\",\n    \"ask_condition\": \"<integer>\"\n  },\n  {\n    \"timestamp\": \"<dateTime>\",\n    \"bid_size\": \"<integer>\",\n    \"bid_exchange\": \"<integer>\",\n    \"bid\": \"<number>\",\n    \"bid_condition\": \"<integer>\",\n    \"ask_size\": \"<integer>\",\n    \"ask_exchange\": \"<integer>\",\n    \"ask\": \"<number>\",\n    \"ask_condition\": \"<integer>\"\n  }\n]",
+                      "createdAt": "2026-07-28T03:11:45.000Z",
+                      "updatedAt": "2026-07-28T03:11:45.000Z",
+                      "uid": "35240-c30400b6-f3f8-41ed-b527-5c68370cb075"
+                    }
+                  ],
+                  "createdAt": "2026-07-28T03:11:45.000Z",
+                  "updatedAt": "2026-07-28T03:11:45.000Z",
+                  "uid": "35240-69658b23-6943-4947-a500-d7027aba7abb"
+                }
+              ],
+              "id": "d5b7ad5f-d1b1-45fd-83a8-0a13cae9fc46",
+              "createdAt": "2026-07-28T03:11:45.000Z",
+              "updatedAt": "2026-07-28T03:11:45.000Z",
+              "uid": "35240-d5b7ad5f-d1b1-45fd-83a8-0a13cae9fc46"
+            },
+            {
+              "name": "trade_quote",
+              "item": [
+                {
+                  "name": "Trade Quote",
+                  "id": "a638f215-284d-4af6-9dce-24c2cfa86991",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "text/csv"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/stock/history/trade_quote?symbol=<string>&date=<date>&start_time=09:30:00&end_time=16:00:00&exclusive=true&venue=nqb&format=csv&start_date=<date>&end_date=<date>",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "stock",
+                        "history",
+                        "trade_quote"
+                      ],
+                      "query": [
+                        {
+                          "description": "(Required) The stock or index symbol, or underlying symbol for options.",
+                          "key": "symbol",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "The date to fetch data for. If present, this overrides start_date and end_date.",
+                          "key": "date",
+                          "value": "<date>"
+                        },
+                        {
+                          "description": "The start time (inclusive) in the specified day (format 24-hour HH:MM:SS.SSS).",
+                          "key": "start_time",
+                          "value": "09:30:00"
+                        },
+                        {
+                          "description": "The end time (inclusive) in the specified day (format 24-hour HH:MM:SS.SSS).",
+                          "key": "end_time",
+                          "value": "16:00:00"
+                        },
+                        {
+                          "description": "If you prefer to match quotes with timestamps that are < the trade timestamp.",
+                          "key": "exclusive",
+                          "value": "true"
+                        },
+                        {
+                          "description": "Used to specify the venue of the real time or historic request. ``nqb`` = Nasdaq Basic; ``utp_cta`` = merged UTP & CTA.",
+                          "key": "venue",
+                          "value": "nqb"
+                        },
+                        {
+                          "description": "The format of the data when returned to the user.",
+                          "key": "format",
+                          "value": "csv"
+                        },
+                        {
+                          "description": "The start date (inclusive).",
+                          "key": "start_date",
+                          "value": "<date>"
+                        },
+                        {
+                          "description": "The end date (inclusive).",
+                          "key": "end_date",
+                          "value": "<date>"
+                        }
+                      ]
+                    },
+                    "description": "Returns every trade reported by [UTP & CTA](/Articles/Data-And-Requests/The-SIPs) paired with the last BBO quote reported by [UTP or CTA](/Articles/Data-And-Requests/The-SIPs) at the time of trade. A quote is matched with a trade if its timestamp ``<=`` the trade timestamp. If you prefer to match quotes with timestamps that are ``<`` the trade timestamp, specify the ``exclusive`` parameter to ``true``. Set the ``venue`` parameter to ``nqb`` to access current-day real-time historic data from the [Nasdaq Basic feed](/Articles/Data-And-Requests/The-SIPs) if the account has a [stocks standard or pro subscription](https://www.thetadata.net/subscribe.html#stocks).\n- Multi-day requests are limited to 1 month of data.\n"
+                  },
+                  "response": [
+                    {
+                      "id": "7d771f5e-197c-4453-a3d9-9a87d9261faa",
+                      "name": "Returns every trade quote for a given symbol between specified dates (inclusive)",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "text/csv"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/stock/history/trade_quote?symbol=<string>&date=<date>&start_time=09:30:00&end_time=16:00:00&exclusive=true&venue=nqb&format=csv&start_date=<date>&end_date=<date>",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "stock",
+                            "history",
+                            "trade_quote"
+                          ],
+                          "query": [
+                            {
+                              "description": "(Required) The stock or index symbol, or underlying symbol for options.",
+                              "key": "symbol",
+                              "value": "<string>"
+                            },
+                            {
+                              "description": "The date to fetch data for. If present, this overrides start_date and end_date.",
+                              "key": "date",
+                              "value": "<date>"
+                            },
+                            {
+                              "description": "The start time (inclusive) in the specified day (format 24-hour HH:MM:SS.SSS).",
+                              "key": "start_time",
+                              "value": "09:30:00"
+                            },
+                            {
+                              "description": "The end time (inclusive) in the specified day (format 24-hour HH:MM:SS.SSS).",
+                              "key": "end_time",
+                              "value": "16:00:00"
+                            },
+                            {
+                              "description": "If you prefer to match quotes with timestamps that are < the trade timestamp.",
+                              "key": "exclusive",
+                              "value": "true"
+                            },
+                            {
+                              "description": "Used to specify the venue of the real time or historic request. ``nqb`` = Nasdaq Basic; ``utp_cta`` = merged UTP & CTA.",
+                              "key": "venue",
+                              "value": "nqb"
+                            },
+                            {
+                              "description": "The format of the data when returned to the user.",
+                              "key": "format",
+                              "value": "csv"
+                            },
+                            {
+                              "description": "The start date (inclusive).",
+                              "key": "start_date",
+                              "value": "<date>"
+                            },
+                            {
+                              "description": "The end date (inclusive).",
+                              "key": "end_date",
+                              "value": "<date>"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "[\n  {\n    \"trade_timestamp\": \"<dateTime>\",\n    \"quote_timestamp\": \"<dateTime>\",\n    \"sequence\": \"<integer>\",\n    \"ext_condition1\": \"<integer>\",\n    \"ext_condition2\": \"<integer>\",\n    \"ext_condition3\": \"<integer>\",\n    \"ext_condition4\": \"<integer>\",\n    \"condition\": \"<integer>\",\n    \"size\": \"<integer>\",\n    \"exchange\": \"<integer>\",\n    \"price\": \"<number>\",\n    \"bid_size\": \"<integer>\",\n    \"bid_exchange\": \"<integer>\",\n    \"bid\": \"<number>\",\n    \"bid_condition\": \"<integer>\",\n    \"ask_size\": \"<integer>\",\n    \"ask_exchange\": \"<integer>\",\n    \"ask\": \"<number>\",\n    \"ask_condition\": \"<integer>\"\n  },\n  {\n    \"trade_timestamp\": \"<dateTime>\",\n    \"quote_timestamp\": \"<dateTime>\",\n    \"sequence\": \"<integer>\",\n    \"ext_condition1\": \"<integer>\",\n    \"ext_condition2\": \"<integer>\",\n    \"ext_condition3\": \"<integer>\",\n    \"ext_condition4\": \"<integer>\",\n    \"condition\": \"<integer>\",\n    \"size\": \"<integer>\",\n    \"exchange\": \"<integer>\",\n    \"price\": \"<number>\",\n    \"bid_size\": \"<integer>\",\n    \"bid_exchange\": \"<integer>\",\n    \"bid\": \"<number>\",\n    \"bid_condition\": \"<integer>\",\n    \"ask_size\": \"<integer>\",\n    \"ask_exchange\": \"<integer>\",\n    \"ask\": \"<number>\",\n    \"ask_condition\": \"<integer>\"\n  }\n]",
+                      "createdAt": "2026-07-28T03:11:45.000Z",
+                      "updatedAt": "2026-07-28T03:11:45.000Z",
+                      "uid": "35240-7d771f5e-197c-4453-a3d9-9a87d9261faa"
+                    }
+                  ],
+                  "createdAt": "2026-07-28T03:11:45.000Z",
+                  "updatedAt": "2026-07-28T03:11:45.000Z",
+                  "uid": "35240-a638f215-284d-4af6-9dce-24c2cfa86991"
+                }
+              ],
+              "id": "cddf435c-846d-475d-a839-0d801cdd242b",
+              "createdAt": "2026-07-28T03:11:45.000Z",
+              "updatedAt": "2026-07-28T03:11:45.000Z",
+              "uid": "35240-cddf435c-846d-475d-a839-0d801cdd242b"
+            }
+          ],
+          "id": "bcc77351-062d-4659-a693-1d757803163d",
+          "createdAt": "2026-07-28T03:11:45.000Z",
+          "updatedAt": "2026-07-28T03:11:45.000Z",
+          "uid": "35240-bcc77351-062d-4659-a693-1d757803163d"
+        },
+        {
+          "name": "at_time",
+          "item": [
+            {
+              "name": "trade",
+              "item": [
+                {
+                  "name": "Trade",
+                  "id": "8a5e2a93-75c1-446b-952c-621da6b44249",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "text/csv"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/stock/at_time/trade?symbol=<string>&start_date=<date>&end_date=<date>&time_of_day=<time>&venue=nqb&format=csv",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "stock",
+                        "at_time",
+                        "trade"
+                      ],
+                      "query": [
+                        {
+                          "description": "(Required) The stock or index symbol, or underlying symbol for options.",
+                          "key": "symbol",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "(Required) The start date (inclusive).",
+                          "key": "start_date",
+                          "value": "<date>"
+                        },
+                        {
+                          "description": "(Required) The end date (inclusive).",
+                          "key": "end_date",
+                          "value": "<date>"
+                        },
+                        {
+                          "description": "(Required) The time of the day to fetch data for; assumed to be America/New_York.",
+                          "key": "time_of_day",
+                          "value": "<time>"
+                        },
+                        {
+                          "description": "Used to specify the venue of the real time or historic request. ``nqb`` = Nasdaq Basic; ``utp_cta`` = merged UTP & CTA.",
+                          "key": "venue",
+                          "value": "nqb"
+                        },
+                        {
+                          "description": "The format of the data when returned to the user.",
+                          "key": "format",
+                          "value": "csv"
+                        }
+                      ]
+                    },
+                    "description": "#### Real-time request:\n- Returns a real-time session from the [Nasdaq Basic feed](/Articles/Data-And-Requests/The-SIPs.html#nasdaq-basic) if the account has a [stocks standard or pro subscription](https://www.thetadata.net/subscribe.html#stocks).\n- Returns a 15-minute delayed session from the [UTP & CTA feeds](/Articles/Data-And-Requests/The-SIPs.html#equities-cta-utp) account has the [stocks value subscription](https://www.thetadata.net/subscribe.html#stocks) subscription.\n\n#### Historical request:\nReturns the last trade reported by [UTP & CTA feeds](/Articles/Data-And-Requests/The-SIPs.html#equities-cta-utp) at a specified millisecond of the day.\nTrade condition mappings can be found [here](/Articles/Errors-Exchanges-Conditions/Trade-Conditions.html).\n"
+                  },
+                  "response": [
+                    {
+                      "id": "04a5b670-ce98-46e4-b7b4-aa63971da1a0",
+                      "name": "Returns the last trade for a given symbol and specified time of day",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "text/csv"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/stock/at_time/trade?symbol=<string>&start_date=<date>&end_date=<date>&time_of_day=<time>&venue=nqb&format=csv",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "stock",
+                            "at_time",
+                            "trade"
+                          ],
+                          "query": [
+                            {
+                              "description": "(Required) The stock or index symbol, or underlying symbol for options.",
+                              "key": "symbol",
+                              "value": "<string>"
+                            },
+                            {
+                              "description": "(Required) The start date (inclusive).",
+                              "key": "start_date",
+                              "value": "<date>"
+                            },
+                            {
+                              "description": "(Required) The end date (inclusive).",
+                              "key": "end_date",
+                              "value": "<date>"
+                            },
+                            {
+                              "description": "(Required) The time of the day to fetch data for; assumed to be America/New_York.",
+                              "key": "time_of_day",
+                              "value": "<time>"
+                            },
+                            {
+                              "description": "Used to specify the venue of the real time or historic request. ``nqb`` = Nasdaq Basic; ``utp_cta`` = merged UTP & CTA.",
+                              "key": "venue",
+                              "value": "nqb"
+                            },
+                            {
+                              "description": "The format of the data when returned to the user.",
+                              "key": "format",
+                              "value": "csv"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "[\n  {\n    \"timestamp\": \"<dateTime>\",\n    \"sequence\": \"<integer>\",\n    \"ext_condition1\": \"<integer>\",\n    \"ext_condition2\": \"<integer>\",\n    \"ext_condition3\": \"<integer>\",\n    \"ext_condition4\": \"<integer>\",\n    \"condition\": \"<integer>\",\n    \"size\": \"<integer>\",\n    \"exchange\": \"<integer>\",\n    \"price\": \"<number>\"\n  },\n  {\n    \"timestamp\": \"<dateTime>\",\n    \"sequence\": \"<integer>\",\n    \"ext_condition1\": \"<integer>\",\n    \"ext_condition2\": \"<integer>\",\n    \"ext_condition3\": \"<integer>\",\n    \"ext_condition4\": \"<integer>\",\n    \"condition\": \"<integer>\",\n    \"size\": \"<integer>\",\n    \"exchange\": \"<integer>\",\n    \"price\": \"<number>\"\n  }\n]",
+                      "createdAt": "2026-07-28T03:11:45.000Z",
+                      "updatedAt": "2026-07-28T03:11:45.000Z",
+                      "uid": "35240-04a5b670-ce98-46e4-b7b4-aa63971da1a0"
+                    }
+                  ],
+                  "createdAt": "2026-07-28T03:11:45.000Z",
+                  "updatedAt": "2026-07-28T03:11:45.000Z",
+                  "uid": "35240-8a5e2a93-75c1-446b-952c-621da6b44249"
+                }
+              ],
+              "id": "ec3e9231-c62e-438c-8676-f6a94326380f",
+              "createdAt": "2026-07-28T03:11:45.000Z",
+              "updatedAt": "2026-07-28T03:11:45.000Z",
+              "uid": "35240-ec3e9231-c62e-438c-8676-f6a94326380f"
+            },
+            {
+              "name": "quote",
+              "item": [
+                {
+                  "name": "Quote",
+                  "id": "f52a0ece-6f19-4b77-b4e3-c37d28ee64dd",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "text/csv"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/stock/at_time/quote?symbol=<string>&start_date=<date>&end_date=<date>&time_of_day=<time>&venue=nqb&format=csv",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "stock",
+                        "at_time",
+                        "quote"
+                      ],
+                      "query": [
+                        {
+                          "description": "(Required) The stock or index symbol, or underlying symbol for options.",
+                          "key": "symbol",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "(Required) The start date (inclusive).",
+                          "key": "start_date",
+                          "value": "<date>"
+                        },
+                        {
+                          "description": "(Required) The end date (inclusive).",
+                          "key": "end_date",
+                          "value": "<date>"
+                        },
+                        {
+                          "description": "(Required) The time of the day to fetch data for; assumed to be America/New_York.",
+                          "key": "time_of_day",
+                          "value": "<time>"
+                        },
+                        {
+                          "description": "Used to specify the venue of the real time or historic request. ``nqb`` = Nasdaq Basic; ``utp_cta`` = merged UTP & CTA.",
+                          "key": "venue",
+                          "value": "nqb"
+                        },
+                        {
+                          "description": "The format of the data when returned to the user.",
+                          "key": "format",
+                          "value": "csv"
+                        }
+                      ]
+                    },
+                    "description": "#### Real-time request:\n  - Subscription tier standard or higher will default to NQB.\n  - Real-time last BBO quote at-time_of_day-time from the [Nasdaq Basic feed](/Articles/Data-And-Requests/The-SIPs.html#nasdaq-basic) if the account has a [stocks standard or pro subscription](https://www.thetadata.net/subscribe.html#stocks).\n  - 15-minute delayed NBBO quote at-time_of_day-time from the [UTP & CTA feeds](/Articles/Data-And-Requests/The-SIPs.html#equities-cta-utp) account has the [stocks value subscription](https://www.thetadata.net/subscribe.html#stocks) subscription.\n\n#### Historical request:\n  Returns the last NBBO quote reported by [UTP & CTA feeds](/Articles/Data-And-Requests/The-SIPs.html#equities-cta-utp) at a specified millisecond of the day.\n"
+                  },
+                  "response": [
+                    {
+                      "id": "9de300f2-a1b2-4b6c-a47d-3db0a853db6f",
+                      "name": "Returns the last quote for a given symbol between specified dates (inclusive) with a one minute interval",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "text/csv"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/stock/at_time/quote?symbol=<string>&start_date=<date>&end_date=<date>&time_of_day=<time>&venue=nqb&format=csv",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "stock",
+                            "at_time",
+                            "quote"
+                          ],
+                          "query": [
+                            {
+                              "description": "(Required) The stock or index symbol, or underlying symbol for options.",
+                              "key": "symbol",
+                              "value": "<string>"
+                            },
+                            {
+                              "description": "(Required) The start date (inclusive).",
+                              "key": "start_date",
+                              "value": "<date>"
+                            },
+                            {
+                              "description": "(Required) The end date (inclusive).",
+                              "key": "end_date",
+                              "value": "<date>"
+                            },
+                            {
+                              "description": "(Required) The time of the day to fetch data for; assumed to be America/New_York.",
+                              "key": "time_of_day",
+                              "value": "<time>"
+                            },
+                            {
+                              "description": "Used to specify the venue of the real time or historic request. ``nqb`` = Nasdaq Basic; ``utp_cta`` = merged UTP & CTA.",
+                              "key": "venue",
+                              "value": "nqb"
+                            },
+                            {
+                              "description": "The format of the data when returned to the user.",
+                              "key": "format",
+                              "value": "csv"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "[\n  {\n    \"timestamp\": \"<dateTime>\",\n    \"bid_size\": \"<integer>\",\n    \"bid_exchange\": \"<integer>\",\n    \"bid\": \"<number>\",\n    \"bid_condition\": \"<integer>\",\n    \"ask_size\": \"<integer>\",\n    \"ask_exchange\": \"<integer>\",\n    \"ask\": \"<number>\",\n    \"ask_condition\": \"<integer>\"\n  },\n  {\n    \"timestamp\": \"<dateTime>\",\n    \"bid_size\": \"<integer>\",\n    \"bid_exchange\": \"<integer>\",\n    \"bid\": \"<number>\",\n    \"bid_condition\": \"<integer>\",\n    \"ask_size\": \"<integer>\",\n    \"ask_exchange\": \"<integer>\",\n    \"ask\": \"<number>\",\n    \"ask_condition\": \"<integer>\"\n  }\n]",
+                      "createdAt": "2026-07-28T03:11:45.000Z",
+                      "updatedAt": "2026-07-28T03:11:45.000Z",
+                      "uid": "35240-9de300f2-a1b2-4b6c-a47d-3db0a853db6f"
+                    }
+                  ],
+                  "createdAt": "2026-07-28T03:11:45.000Z",
+                  "updatedAt": "2026-07-28T03:11:45.000Z",
+                  "uid": "35240-f52a0ece-6f19-4b77-b4e3-c37d28ee64dd"
+                }
+              ],
+              "id": "4edb3f1b-6fcd-43b0-8353-b9a241c41982",
+              "createdAt": "2026-07-28T03:11:45.000Z",
+              "updatedAt": "2026-07-28T03:11:45.000Z",
+              "uid": "35240-4edb3f1b-6fcd-43b0-8353-b9a241c41982"
+            }
+          ],
+          "id": "7e8bef1c-5a1b-42b8-b2ef-f9d6b5ee948a",
+          "createdAt": "2026-07-28T03:11:45.000Z",
+          "updatedAt": "2026-07-28T03:11:45.000Z",
+          "uid": "35240-7e8bef1c-5a1b-42b8-b2ef-f9d6b5ee948a"
+        },
+        {
+          "name": "flat_file",
+          "item": [
+            {
+              "name": "trade_quote",
+              "item": [
+                {
+                  "name": "Stock Flat File Trade Quote",
+                  "id": "1dc9a55e-419e-4862-bde5-caa9d805a2ec",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "text/csv"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/stock/flat_file/trade_quote?date=<date>&format=csv",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "stock",
+                        "flat_file",
+                        "trade_quote"
+                      ],
+                      "query": [
+                        {
+                          "description": "(Required) The date to fetch data for.",
+                          "key": "date",
+                          "value": "<date>"
+                        },
+                        {
+                          "description": "The format of the data when returned to the user.",
+                          "key": "format",
+                          "value": "csv"
+                        }
+                      ]
+                    },
+                    "description": "Bulk download all stock trade/quote ticks for a given date as a CSV stream. Returns one row per tick, grouped by symbol. Requires a Professional stock subscription.\n"
+                  },
+                  "response": [
+                    {
+                      "id": "abd310da-996b-4553-82f1-6bdf1fc4f357",
+                      "name": "CSV stream of all stock trade/quote ticks for the given date",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "text/csv"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/stock/flat_file/trade_quote?date=<date>&format=csv",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "stock",
+                            "flat_file",
+                            "trade_quote"
+                          ],
+                          "query": [
+                            {
+                              "description": "(Required) The date to fetch data for.",
+                              "key": "date",
+                              "value": "<date>"
+                            },
+                            {
+                              "description": "The format of the data when returned to the user.",
+                              "key": "format",
+                              "value": "csv"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "[\n  {\n    \"root\": \"<string>\",\n    \"ms_of_day\": \"<integer>\",\n    \"date\": \"<integer>\"\n  },\n  {\n    \"root\": \"<string>\",\n    \"ms_of_day\": \"<integer>\",\n    \"date\": \"<integer>\"\n  }\n]",
+                      "createdAt": "2026-07-28T03:11:45.000Z",
+                      "updatedAt": "2026-07-28T03:11:45.000Z",
+                      "uid": "35240-abd310da-996b-4553-82f1-6bdf1fc4f357"
+                    }
+                  ],
+                  "createdAt": "2026-07-28T03:11:45.000Z",
+                  "updatedAt": "2026-07-28T03:11:45.000Z",
+                  "uid": "35240-1dc9a55e-419e-4862-bde5-caa9d805a2ec"
+                }
+              ],
+              "id": "4ce0c846-0fa8-4ad7-8ac0-d58b0ae8e11f",
+              "createdAt": "2026-07-28T03:11:45.000Z",
+              "updatedAt": "2026-07-28T03:11:45.000Z",
+              "uid": "35240-4ce0c846-0fa8-4ad7-8ac0-d58b0ae8e11f"
+            },
+            {
+              "name": "eod",
+              "item": [
+                {
+                  "name": "Stock Flat File EOD",
+                  "id": "eeeaefa7-369c-46d9-8897-e10ee87d0dd0",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "text/csv"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/stock/flat_file/eod?date=<date>&format=csv",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "stock",
+                        "flat_file",
+                        "eod"
+                      ],
+                      "query": [
+                        {
+                          "description": "(Required) The date to fetch data for.",
+                          "key": "date",
+                          "value": "<date>"
+                        },
+                        {
+                          "description": "The format of the data when returned to the user.",
+                          "key": "format",
+                          "value": "csv"
+                        }
+                      ]
+                    },
+                    "description": "Bulk download all stock end-of-day ticks for a given date as a CSV stream. Returns one row per tick, grouped by symbol. Requires a Professional stock subscription.\n"
+                  },
+                  "response": [
+                    {
+                      "id": "1f04f08a-86f9-4982-9e37-5443d9c28e5c",
+                      "name": "CSV stream of all stock EOD ticks for the given date",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "text/csv"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/stock/flat_file/eod?date=<date>&format=csv",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "stock",
+                            "flat_file",
+                            "eod"
+                          ],
+                          "query": [
+                            {
+                              "description": "(Required) The date to fetch data for.",
+                              "key": "date",
+                              "value": "<date>"
+                            },
+                            {
+                              "description": "The format of the data when returned to the user.",
+                              "key": "format",
+                              "value": "csv"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "[\n  {\n    \"root\": \"<string>\",\n    \"ms_of_day\": \"<integer>\",\n    \"date\": \"<integer>\"\n  },\n  {\n    \"root\": \"<string>\",\n    \"ms_of_day\": \"<integer>\",\n    \"date\": \"<integer>\"\n  }\n]",
+                      "createdAt": "2026-07-28T03:11:45.000Z",
+                      "updatedAt": "2026-07-28T03:11:45.000Z",
+                      "uid": "35240-1f04f08a-86f9-4982-9e37-5443d9c28e5c"
+                    }
+                  ],
+                  "createdAt": "2026-07-28T03:11:45.000Z",
+                  "updatedAt": "2026-07-28T03:11:45.000Z",
+                  "uid": "35240-eeeaefa7-369c-46d9-8897-e10ee87d0dd0"
+                }
+              ],
+              "id": "c0f1abed-f1a3-44c0-a2e1-8b2d5a452943",
+              "createdAt": "2026-07-28T03:11:45.000Z",
+              "updatedAt": "2026-07-28T03:11:45.000Z",
+              "uid": "35240-c0f1abed-f1a3-44c0-a2e1-8b2d5a452943"
+            }
+          ],
+          "id": "d5ca070f-224e-4017-972f-60feec0088a3",
+          "createdAt": "2026-07-28T03:11:45.000Z",
+          "updatedAt": "2026-07-28T03:11:45.000Z",
+          "uid": "35240-d5ca070f-224e-4017-972f-60feec0088a3"
+        }
+      ],
+      "id": "7e511a91-28f4-44dd-8be6-4ecf4b6de486",
+      "createdAt": "2026-07-28T03:11:45.000Z",
+      "updatedAt": "2026-07-28T03:11:45.000Z",
+      "uid": "35240-7e511a91-28f4-44dd-8be6-4ecf4b6de486"
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://127.0.0.1:25503/v3"
+    }
+  ]
+}

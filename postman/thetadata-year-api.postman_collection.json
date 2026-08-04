@@ -1,0 +1,132 @@
+{
+  "info": {
+    "_postman_id": "3a971687-be0a-4b01-82e8-81d6cc45bb9e",
+    "name": "Theta Data v3 At-Time Year API",
+    "description": "Real-time and historic stock, options, and index data!",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-07-28T03:11:45.000Z",
+    "updatedAt": "2026-07-28T03:11:46.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-3a971687-be0a-4b01-82e8-81d6cc45bb9e"
+  },
+  "item": [
+    {
+      "name": "calendar",
+      "item": [
+        {
+          "name": "year_holidays",
+          "item": [
+            {
+              "name": "Year Holidays",
+              "id": "fc349405-87fe-49fa-9070-17a5accb78a8",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "text/csv"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/calendar/year_holidays?year=<string>&format=csv",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "calendar",
+                    "year_holidays"
+                  ],
+                  "query": [
+                    {
+                      "description": "(Required) The year to fetch data for.",
+                      "key": "year",
+                      "value": "<string>"
+                    },
+                    {
+                      "description": "The format of the data when returned to the user.",
+                      "key": "format",
+                      "value": "csv"
+                    }
+                  ]
+                },
+                "description": "- Retrieves equity market holidays for a given year\n- Note: Holiday data is available 01/01/2012 through the end of the calendar year that immediately follows the current year\n- *On days when the market closes early at 1:00 PM ET; eligible options will trade until 1:15 PM.\n- **Some NYSE exchanges will continue late trading until 5:00 PM ET on early close days.\n"
+              },
+              "response": [
+                {
+                  "id": "a448b9b7-b1c2-4050-8cad-651e2bc08fb1",
+                  "name": "Returns holidays for a given year",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "text/csv"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/calendar/year_holidays?year=<string>&format=csv",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "calendar",
+                        "year_holidays"
+                      ],
+                      "query": [
+                        {
+                          "description": "(Required) The year to fetch data for.",
+                          "key": "year",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "The format of the data when returned to the user.",
+                          "key": "format",
+                          "value": "csv"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "[\n  {\n    \"date\": \"<string>\",\n    \"type\": \"<string>\",\n    \"open\": \"<string>\",\n    \"close\": \"<string>\"\n  },\n  {\n    \"date\": \"<string>\",\n    \"type\": \"<string>\",\n    \"open\": \"<string>\",\n    \"close\": \"<string>\"\n  }\n]",
+                  "createdAt": "2026-07-28T03:11:46.000Z",
+                  "updatedAt": "2026-07-28T03:11:46.000Z",
+                  "uid": "35240-a448b9b7-b1c2-4050-8cad-651e2bc08fb1"
+                }
+              ],
+              "createdAt": "2026-07-28T03:11:46.000Z",
+              "updatedAt": "2026-07-28T03:11:46.000Z",
+              "uid": "35240-fc349405-87fe-49fa-9070-17a5accb78a8"
+            }
+          ],
+          "id": "3ff0779e-b432-46bf-b116-ddfa1f650de4",
+          "createdAt": "2026-07-28T03:11:46.000Z",
+          "updatedAt": "2026-07-28T03:11:46.000Z",
+          "uid": "35240-3ff0779e-b432-46bf-b116-ddfa1f650de4"
+        }
+      ],
+      "id": "35e36437-3764-475e-9ba1-15b401b5418c",
+      "createdAt": "2026-07-28T03:11:46.000Z",
+      "updatedAt": "2026-07-28T03:11:46.000Z",
+      "uid": "35240-35e36437-3764-475e-9ba1-15b401b5418c"
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://127.0.0.1:25503/v3"
+    }
+  ]
+}

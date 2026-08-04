@@ -1,0 +1,163 @@
+{
+  "info": {
+    "_postman_id": "61793619-4496-4c6f-bcaa-1e66c64a379d",
+    "name": "Theta Data v3 At-Time Interest Rate API",
+    "description": "Real-time and historic stock, options, and index data!",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-07-28T03:11:32.000Z",
+    "updatedAt": "2026-07-28T03:11:32.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-61793619-4496-4c6f-bcaa-1e66c64a379d"
+  },
+  "item": [
+    {
+      "name": "interest_rate",
+      "item": [
+        {
+          "name": "history",
+          "item": [
+            {
+              "name": "eod",
+              "item": [
+                {
+                  "name": "End of Day",
+                  "id": "92cdf7ab-b1a3-4419-b893-f233db07bbce",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "text/csv"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/interest_rate/history/eod?symbol=<string>&start_date=<date>&end_date=<date>&format=csv",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "interest_rate",
+                        "history",
+                        "eod"
+                      ],
+                      "query": [
+                        {
+                          "description": "(Required) The stock or index symbol, or underlying symbol for options.",
+                          "key": "symbol",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "(Required) The start date (inclusive).",
+                          "key": "start_date",
+                          "value": "<date>"
+                        },
+                        {
+                          "description": "(Required) The end date (inclusive).",
+                          "key": "end_date",
+                          "value": "<date>"
+                        },
+                        {
+                          "description": "The format of the data when returned to the user.",
+                          "key": "format",
+                          "value": "csv"
+                        }
+                      ]
+                    },
+                    "description": "- Returns the interest rate reported. Depending on the rate, reports can occur in the morning or the afternoon.\n"
+                  },
+                  "response": [
+                    {
+                      "id": "f9045c7c-0d33-4bd7-b783-f74cffcb27e9",
+                      "name": "Returns the interest rate for a given symbol between specified dates (inclusive)",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "text/csv"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/interest_rate/history/eod?symbol=<string>&start_date=<date>&end_date=<date>&format=csv",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "interest_rate",
+                            "history",
+                            "eod"
+                          ],
+                          "query": [
+                            {
+                              "description": "(Required) The stock or index symbol, or underlying symbol for options.",
+                              "key": "symbol",
+                              "value": "<string>"
+                            },
+                            {
+                              "description": "(Required) The start date (inclusive).",
+                              "key": "start_date",
+                              "value": "<date>"
+                            },
+                            {
+                              "description": "(Required) The end date (inclusive).",
+                              "key": "end_date",
+                              "value": "<date>"
+                            },
+                            {
+                              "description": "The format of the data when returned to the user.",
+                              "key": "format",
+                              "value": "csv"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "[\n  {\n    \"created\": \"<date>\",\n    \"rate\": \"<number>\"\n  },\n  {\n    \"created\": \"<date>\",\n    \"rate\": \"<number>\"\n  }\n]",
+                      "createdAt": "2026-07-28T03:11:32.000Z",
+                      "updatedAt": "2026-07-28T03:11:32.000Z",
+                      "uid": "35240-f9045c7c-0d33-4bd7-b783-f74cffcb27e9"
+                    }
+                  ],
+                  "createdAt": "2026-07-28T03:11:32.000Z",
+                  "updatedAt": "2026-07-28T03:11:32.000Z",
+                  "uid": "35240-92cdf7ab-b1a3-4419-b893-f233db07bbce"
+                }
+              ],
+              "id": "ac9c4259-7b27-4cc2-aa19-2d402c578a73",
+              "createdAt": "2026-07-28T03:11:32.000Z",
+              "updatedAt": "2026-07-28T03:11:32.000Z",
+              "uid": "35240-ac9c4259-7b27-4cc2-aa19-2d402c578a73"
+            }
+          ],
+          "id": "9de63007-4aa1-4b38-8e0e-b28f752a08fa",
+          "createdAt": "2026-07-28T03:11:32.000Z",
+          "updatedAt": "2026-07-28T03:11:32.000Z",
+          "uid": "35240-9de63007-4aa1-4b38-8e0e-b28f752a08fa"
+        }
+      ],
+      "id": "f450af81-9cf6-4e6b-afdc-2ce33127c55d",
+      "createdAt": "2026-07-28T03:11:32.000Z",
+      "updatedAt": "2026-07-28T03:11:32.000Z",
+      "uid": "35240-f450af81-9cf6-4e6b-afdc-2ce33127c55d"
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://127.0.0.1:25503/v3"
+    }
+  ]
+}
