@@ -1,0 +1,87 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Theta Data v3 At-Time Calendar API",
+    "version": "3.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Calendar",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Today",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://127.0.0.1:25503/v3/calendar/today",
+            "params": [
+              {
+                "name": "format",
+                "value": "",
+                "type": "query",
+                "description": "The format of the data when returned to the user."
+              }
+            ]
+          },
+          "docs": "- Retrieves current day equity market schedule\n- *On days when the market closes early at 1:00 PM ET; eligible options will trade until 1:15 PM.\n- **Some NYSE exchanges will continue late trading until 5:00 PM ET on early close days.\n"
+        },
+        {
+          "info": {
+            "name": "On Date",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://127.0.0.1:25503/v3/calendar/on_date",
+            "params": [
+              {
+                "name": "date",
+                "value": "",
+                "type": "query",
+                "description": "The date to fetch data for."
+              },
+              {
+                "name": "format",
+                "value": "",
+                "type": "query",
+                "description": "The format of the data when returned to the user."
+              }
+            ]
+          },
+          "docs": "- Retrieves equity market schedule for a given date\n- Note: Holiday data is available 01/01/2012 through the end of the calendar year that immediately follows the current year\n- *On days when the market closes early at 1:00 PM ET; eligible options will trade until 1:15 PM.\n- **Some NYSE exchanges will continue late trading until 5:00 PM ET on early close days.\n"
+        },
+        {
+          "info": {
+            "name": "Year Holidays",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://127.0.0.1:25503/v3/calendar/year_holidays",
+            "params": [
+              {
+                "name": "year",
+                "value": "",
+                "type": "query",
+                "description": "The year to fetch data for."
+              },
+              {
+                "name": "format",
+                "value": "",
+                "type": "query",
+                "description": "The format of the data when returned to the user."
+              }
+            ]
+          },
+          "docs": "- Retrieves equity market holidays for a given year\n- Note: Holiday data is available 01/01/2012 through the end of the calendar year that immediately follows the current year\n- *On days when the market closes early at 1:00 PM ET; eligible options will trade until 1:15 PM.\n- **Some NYSE exchanges will continue late trading until 5:00 PM ET on early close days.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

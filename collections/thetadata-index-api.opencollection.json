@@ -1,0 +1,376 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Theta Data v3 At-Time Index API",
+    "version": "3.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Index",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Symbols",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://127.0.0.1:25503/v3/index/list/symbols",
+            "params": [
+              {
+                "name": "format",
+                "value": "",
+                "type": "query",
+                "description": "The format of the data when returned to the user."
+              }
+            ]
+          },
+          "docs": "A symbol can be defined as a unique identifier for a stock / underlying asset. Common terms also include: root, ticker, and underlying. This endpoint returns all traded symbols for options. This endpoint is updated overnight.\n"
+        },
+        {
+          "info": {
+            "name": "Dates",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://127.0.0.1:25503/v3/index/list/dates",
+            "params": [
+              {
+                "name": "symbol",
+                "value": "",
+                "type": "query",
+                "description": "The stock or index symbol, or underlying symbol for options. Specify '*' for all symbols or a comma separated list when appropriate."
+              },
+              {
+                "name": "format",
+                "value": "",
+                "type": "query",
+                "description": "The format of the data when returned to the user."
+              }
+            ]
+          },
+          "docs": "Lists all dates of data that are available for a index with a given request type and symbol. This endpoint is updated overnight.\n"
+        },
+        {
+          "info": {
+            "name": "Open High Low Close",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://127.0.0.1:25503/v3/index/snapshot/ohlc",
+            "params": [
+              {
+                "name": "symbol",
+                "value": "",
+                "type": "query",
+                "description": "The stock or index symbol, or underlying symbol for options. Specify '*' for all symbols or a comma separated list when appropriate."
+              },
+              {
+                "name": "min_time",
+                "value": "",
+                "type": "query",
+                "description": "Filters snapshots to include only data with a timestamp greater or equal to the specified value (HH:mm:ss.SSS format)."
+              },
+              {
+                "name": "format",
+                "value": "",
+                "type": "query",
+                "description": "The format of the data when returned to the user."
+              }
+            ]
+          },
+          "docs": "- Retrieves the real-time current day OHLC.\n- [Exchanges](/Articles/Data-And-Requests/The-SIPs.html) typically generate a price report every second for popular indices like SPX.\n"
+        },
+        {
+          "info": {
+            "name": "Price",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://127.0.0.1:25503/v3/index/snapshot/price",
+            "params": [
+              {
+                "name": "symbol",
+                "value": "",
+                "type": "query",
+                "description": "The stock or index symbol, or underlying symbol for options. Specify '*' for all symbols or a comma separated list when appropriate."
+              },
+              {
+                "name": "min_time",
+                "value": "",
+                "type": "query",
+                "description": "Filters snapshots to include only data with a timestamp greater or equal to the specified value (HH:mm:ss.SSS format)."
+              },
+              {
+                "name": "format",
+                "value": "",
+                "type": "query",
+                "description": "The format of the data when returned to the user."
+              }
+            ]
+          },
+          "docs": "- Retrieves a real-time last index price.\n- [Exchanges](/Articles/Data-And-Requests/The-SIPs.html) typically generate a price report every second for popular indices like SPX.\n"
+        },
+        {
+          "info": {
+            "name": "Market Value",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://127.0.0.1:25503/v3/index/snapshot/market_value",
+            "params": [
+              {
+                "name": "symbol",
+                "value": "",
+                "type": "query",
+                "description": "The stock or index symbol, or underlying symbol for options. Specify '*' for all symbols or a comma separated list when appropriate."
+              },
+              {
+                "name": "min_time",
+                "value": "",
+                "type": "query",
+                "description": "Filters snapshots to include only data with a timestamp greater or equal to the specified value (HH:mm:ss.SSS format)."
+              },
+              {
+                "name": "format",
+                "value": "",
+                "type": "query",
+                "description": "The format of the data when returned to the user."
+              }
+            ]
+          },
+          "docs": "- Retrieves a real-time last index market value.\n- [Exchanges](/Articles/Data-And-Requests/The-SIPs.html) typically generate a price report every second for popular indices like SPX.\n"
+        },
+        {
+          "info": {
+            "name": "End of Day",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://127.0.0.1:25503/v3/index/history/eod",
+            "params": [
+              {
+                "name": "symbol",
+                "value": "",
+                "type": "query",
+                "description": "The stock or index symbol, or underlying symbol for options."
+              },
+              {
+                "name": "start_date",
+                "value": "",
+                "type": "query",
+                "description": "The start date (inclusive)."
+              },
+              {
+                "name": "end_date",
+                "value": "",
+                "type": "query",
+                "description": "The end date (inclusive)."
+              },
+              {
+                "name": "format",
+                "value": "",
+                "type": "query",
+                "description": "The format of the data when returned to the user."
+              }
+            ]
+          },
+          "docs": "- Since [the indices feeds](/Articles/Data-And-Requests/The-SIPs.html) do not provide a national EOD report, Theta Data generates a national EOD report at 17:15 each day.\n"
+        },
+        {
+          "info": {
+            "name": "Open High Low Close",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://127.0.0.1:25503/v3/index/history/ohlc",
+            "params": [
+              {
+                "name": "symbol",
+                "value": "",
+                "type": "query",
+                "description": "The stock or index symbol, or underlying symbol for options."
+              },
+              {
+                "name": "start_date",
+                "value": "",
+                "type": "query",
+                "description": "The start date (inclusive)."
+              },
+              {
+                "name": "end_date",
+                "value": "",
+                "type": "query",
+                "description": "The end date (inclusive)."
+              },
+              {
+                "name": "interval",
+                "value": "",
+                "type": "query",
+                "description": "The size of the time interval must be one of the available options listed below. Intervals less than 1m are available only for single-day requests."
+              },
+              {
+                "name": "start_time",
+                "value": "",
+                "type": "query",
+                "description": "The start time (inclusive) in the specified day (format 24-hour HH:MM:SS.SSS)."
+              },
+              {
+                "name": "end_time",
+                "value": "",
+                "type": "query",
+                "description": "The end time (inclusive) in the specified day (format 24-hour HH:MM:SS.SSS)."
+              },
+              {
+                "name": "format",
+                "value": "",
+                "type": "query",
+                "description": "The format of the data when returned to the user."
+              }
+            ]
+          },
+          "docs": "- Aggregated OHLC bars that use [SIP rules](/Articles/Data-And-Requests/OHLC-EOD.html) for each bar.\n- Time timestamp of the bar represents the opening time of the bar. For a trade to be part of the bar:  ``bar timestamp`` <= ``trade time`` < ``bar timestamp + interval``.\n- [Exchanges](/Articles/Data-And-Requests/The-SIPs.html) typically generate a price report every second for popular indices like SPX.\n"
+        },
+        {
+          "info": {
+            "name": "Price",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://127.0.0.1:25503/v3/index/history/price",
+            "params": [
+              {
+                "name": "date",
+                "value": "",
+                "type": "query",
+                "description": "The date to fetch data for. If present, this overrides start_date and end_date."
+              },
+              {
+                "name": "symbol",
+                "value": "",
+                "type": "query",
+                "description": "The stock or index symbol, or underlying symbol for options."
+              },
+              {
+                "name": "start_time",
+                "value": "",
+                "type": "query",
+                "description": "The start time (inclusive) in the specified day (format 24-hour HH:MM:SS.SSS)."
+              },
+              {
+                "name": "end_time",
+                "value": "",
+                "type": "query",
+                "description": "The end time (inclusive) in the specified day (format 24-hour HH:MM:SS.SSS)."
+              },
+              {
+                "name": "interval",
+                "value": "",
+                "type": "query",
+                "description": "The size of the time interval must be one of the available options listed below. Intervals less than 1m are available only for single-day requests."
+              },
+              {
+                "name": "format",
+                "value": "",
+                "type": "query",
+                "description": "The format of the data when returned to the user."
+              },
+              {
+                "name": "start_date",
+                "value": "",
+                "type": "query",
+                "description": "The start date (inclusive)."
+              },
+              {
+                "name": "end_date",
+                "value": "",
+                "type": "query",
+                "description": "The end date (inclusive)."
+              }
+            ]
+          },
+          "docs": "- Retrieves historical indices price reports. [Exchanges](/Articles/Data-And-Requests/The-SIPs.html) typically generate a price report every second for popular indices like SPX.\n- When the ``interval`` parameter is specified, the returned data represents the price at the exact time of each timestamp. If the timestamp in the response is 10:30:00, the price field represents the price at that exact time of the day.\n- A price update from the exchange is omitted if the price remained the same from th"
+        },
+        {
+          "info": {
+            "name": "Price",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://127.0.0.1:25503/v3/index/at_time/price",
+            "params": [
+              {
+                "name": "symbol",
+                "value": "",
+                "type": "query",
+                "description": "The stock or index symbol, or underlying symbol for options."
+              },
+              {
+                "name": "start_date",
+                "value": "",
+                "type": "query",
+                "description": "The start date (inclusive)."
+              },
+              {
+                "name": "end_date",
+                "value": "",
+                "type": "query",
+                "description": "The end date (inclusive)."
+              },
+              {
+                "name": "time_of_day",
+                "value": "",
+                "type": "query",
+                "description": "The time of the day to fetch data for; assumed to be America/New_York."
+              },
+              {
+                "name": "format",
+                "value": "",
+                "type": "query",
+                "description": "The format of the data when returned to the user."
+              }
+            ]
+          },
+          "docs": "- Retrieves historical indices price reports. [Exchanges](/Articles/Data-And-Requests/The-SIPs.html) typically generate a price report every second for popular indices like SPX.\n- The ``time_of_day`` parameter represents the 00:00:00.000 ET that the price should be provided for.\n"
+        },
+        {
+          "info": {
+            "name": "Index Flat File EOD",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://127.0.0.1:25503/v3/index/flat_file/eod",
+            "params": [
+              {
+                "name": "date",
+                "value": "",
+                "type": "query",
+                "description": "The date to fetch data for."
+              },
+              {
+                "name": "format",
+                "value": "",
+                "type": "query",
+                "description": "The format of the data when returned to the user."
+              }
+            ]
+          },
+          "docs": "Bulk download all index end-of-day ticks for a given date as a CSV stream. Returns one row per tick, grouped by symbol. Requires a Professional indices subscription.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

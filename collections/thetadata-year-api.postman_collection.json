@@ -1,0 +1,126 @@
+{
+  "item": [
+    {
+      "id": "2636e2fb-818d-4f96-b355-c87e59d36ad3",
+      "name": "Year",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "bdbaa8c9-6fbf-4d5c-91a2-0765bdc452ff",
+          "name": "Year Holidays",
+          "request": {
+            "name": "Year Holidays",
+            "description": {
+              "content": "- Retrieves equity market holidays for a given year\n- Note: Holiday data is available 01/01/2012 through the end of the calendar year that immediately follows the current year\n- *On days when the market closes early at 1:00 PM ET; eligible options will trade until 1:15 PM.\n- **Some NYSE exchanges will continue late trading until 5:00 PM ET on early close days.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "calendar",
+                "year_holidays"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "year",
+                  "value": "<string>",
+                  "description": "(Required) The year to fetch data for."
+                },
+                {
+                  "disabled": false,
+                  "key": "format",
+                  "value": "csv",
+                  "description": "The format of the data when returned to the user."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "text/csv"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "5147282a-75dc-4d13-a4aa-79baa15ee347",
+              "name": "Returns holidays for a given year",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "calendar",
+                    "year_holidays"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "year",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "format",
+                      "value": "csv"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "text/csv"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "\"{\\n  \\\"response\\\": [\\n    {\\\"date\\\":\\\"2024-12-24\\\",\\\"type\\\":\\\"early_close\\\",\\\"open\\\":\\\"09:30:00\\\",\\\"close\\\":\\\"13:00:00\\\"},\\n    {\\\"date\\\":\\\"2024-12-25\\\",\\\"type\\\":\\\"full_close\\\",\\\"open\\\":null,\\\"close\\\":null}\\n  ]\\n}\\n\"",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "http://127.0.0.1:25503/v3",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "5a4a08f0-abd6-4bb5-a3d1-d3129a14bc68",
+    "name": "Theta Data v3 At-Time Year API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Real-time and historic stock, options, and index data!",
+      "type": "text/plain"
+    }
+  }
+}

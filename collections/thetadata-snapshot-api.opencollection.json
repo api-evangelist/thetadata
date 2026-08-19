@@ -1,0 +1,1043 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Theta Data v3 At-Time Snapshot API",
+    "version": "3.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Snapshot",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Open High Low Close",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://127.0.0.1:25503/v3/stock/snapshot/ohlc",
+            "params": [
+              {
+                "name": "symbol",
+                "value": "",
+                "type": "query",
+                "description": "The stock or index symbol, or underlying symbol for options. Specify '*' for all symbols or a comma separated list when appropriate."
+              },
+              {
+                "name": "venue",
+                "value": "",
+                "type": "query",
+                "description": "Used to specify the venue of the real time or historic request. ``nqb`` = Nasdaq Basic; ``utp_cta`` = merged UTP & CTA."
+              },
+              {
+                "name": "min_time",
+                "value": "",
+                "type": "query",
+                "description": "Filters snapshots to include only data with a timestamp greater or equal to the specified value (HH:mm:ss.SSS format)."
+              },
+              {
+                "name": "format",
+                "value": "",
+                "type": "query",
+                "description": "The format of the data when returned to the user."
+              }
+            ]
+          },
+          "docs": "\nProvides a real-time Open, High, Low, Close for the current day.\n* Returns a real-time session OHLC from the [Nasdaq Basic feed](/Articles/Data-And-Requests/The-SIPs) if the account has a [stocks standard or pro subscription](https://www.thetadata.net/subscribe.html#stocks).\n* Returns a 15-minute delayed session OHLC from the [UTP & CTA feeds](/Articles/Data-And-Requests/The-SIPs) if the account has the stocks value subscription.\n* Theta Data resets its snapshot cache at midnight ET every day. "
+        },
+        {
+          "info": {
+            "name": "Trade",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://127.0.0.1:25503/v3/stock/snapshot/trade",
+            "params": [
+              {
+                "name": "symbol",
+                "value": "",
+                "type": "query",
+                "description": "The stock or index symbol, or underlying symbol for options. Specify '*' for all symbols or a comma separated list when appropriate."
+              },
+              {
+                "name": "venue",
+                "value": "",
+                "type": "query",
+                "description": "Used to specify the venue of the real time or historic request. ``nqb`` = Nasdaq Basic; ``utp_cta`` = merged UTP & CTA."
+              },
+              {
+                "name": "min_time",
+                "value": "",
+                "type": "query",
+                "description": "Filters snapshots to include only data with a timestamp greater or equal to the specified value (HH:mm:ss.SSS format)."
+              },
+              {
+                "name": "format",
+                "value": "",
+                "type": "query",
+                "description": "The format of the data when returned to the user."
+              }
+            ]
+          },
+          "docs": "\nReturns a real-time last trade from the [Nasdaq Basic feed](/Articles/Data-And-Requests/The-SIPs) if the account has a [stocks standard or pro subscription](https://www.thetadata.net/subscribe.html#stocks).\n\n- Theta Data resets its snapshot cache at midnight ET every day. This endpoint may not work on a weekend where there were no eligible messages sent over exchange feeds. We recommend using historic requests during the weekend.\n"
+        },
+        {
+          "info": {
+            "name": "Quote",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://127.0.0.1:25503/v3/stock/snapshot/quote",
+            "params": [
+              {
+                "name": "symbol",
+                "value": "",
+                "type": "query",
+                "description": "The stock or index symbol, or underlying symbol for options. Specify '*' for all symbols or a comma separated list when appropriate."
+              },
+              {
+                "name": "venue",
+                "value": "",
+                "type": "query",
+                "description": "Used to specify the venue of the real time or historic request. ``nqb`` = Nasdaq Basic; ``utp_cta`` = merged UTP & CTA."
+              },
+              {
+                "name": "min_time",
+                "value": "",
+                "type": "query",
+                "description": "Filters snapshots to include only data with a timestamp greater or equal to the specified value (HH:mm:ss.SSS format)."
+              },
+              {
+                "name": "format",
+                "value": "",
+                "type": "query",
+                "description": "The format of the data when returned to the user."
+              }
+            ]
+          },
+          "docs": "* Returns a real-time last BBO quote from the [Nasdaq Basic feed](/Articles/Data-And-Requests/The-SIPs) if the account has a [stocks standard or pro subscription](https://www.thetadata.net/subscribe.html#stocks).\n* Returns a 15-minute delayed NBBO quote from the [UTP & CTA feeds](/Articles/Data-And-Requests/The-SIPs) account has the [stocks value subscription](https://www.thetadata.net/subscribe.html#stocks) subscription.\n- Theta Data resets its snapshot cache at midnight ET every day. This endp"
+        },
+        {
+          "info": {
+            "name": "Market Value",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://127.0.0.1:25503/v3/stock/snapshot/market_value",
+            "params": [
+              {
+                "name": "symbol",
+                "value": "",
+                "type": "query",
+                "description": "The stock or index symbol, or underlying symbol for options. Specify '*' for all symbols or a comma separated list when appropriate."
+              },
+              {
+                "name": "venue",
+                "value": "",
+                "type": "query",
+                "description": "Used to specify the venue of the real time or historic request. ``nqb`` = Nasdaq Basic; ``utp_cta`` = merged UTP & CTA."
+              },
+              {
+                "name": "min_time",
+                "value": "",
+                "type": "query",
+                "description": "Filters snapshots to include only data with a timestamp greater or equal to the specified value (HH:mm:ss.SSS format)."
+              },
+              {
+                "name": "format",
+                "value": "",
+                "type": "query",
+                "description": "The format of the data when returned to the user."
+              }
+            ]
+          },
+          "docs": "* Returns a real-time market value derived from the last BBO quote from the [Nasdaq Basic feed](/Articles/Data-And-Requests/The-SIPs) if the account has a [stocks standard or pro subscription](https://www.thetadata.net/subscribe.html#stocks).\n* Returns a 15-minute delayed market value derived from an NBBO quote from the [UTP & CTA feeds](/Articles/Data-And-Requests/The-SIPs) if the account has the [stocks value subscription](https://www.thetadata.net/subscribe.html#stocks) subscription.\n- Theta "
+        },
+        {
+          "info": {
+            "name": "Open High Low Close",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://127.0.0.1:25503/v3/option/snapshot/ohlc",
+            "params": [
+              {
+                "name": "symbol",
+                "value": "",
+                "type": "query",
+                "description": "The stock or index symbol, or underlying symbol for options."
+              },
+              {
+                "name": "expiration",
+                "value": "",
+                "type": "query",
+                "description": "The expiration of the contract in `YYYY-MM-DD` or `YYYYMMDD` format, or `*` for all expirations."
+              },
+              {
+                "name": "strike",
+                "value": "",
+                "type": "query",
+                "description": "The strike price of the contract in dollars (ie `100.00` for `$100.00`), or `*` for all strikes."
+              },
+              {
+                "name": "right",
+                "value": "",
+                "type": "query",
+                "description": "The right (call or put) of the contract."
+              },
+              {
+                "name": "max_dte",
+                "value": "",
+                "type": "query",
+                "description": "If specified, only contracts with a full calendar day 'Days to Expiration' (DTE) less than or equal to this number will be returned."
+              },
+              {
+                "name": "strike_range",
+                "value": "",
+                "type": "query",
+                "description": "Limits the number of contracts returned relative to the underlying's spot price. For a specified value 'n', this returns 'n' strikes above and 'n' strikes below the spot price, plus one at-the-money (ATM) strike (where spot price = strike price), if available. This results in a maximum of `2n + 1` strikes."
+              },
+              {
+                "name": "min_time",
+                "value": "",
+                "type": "query",
+                "description": "Filters snapshots to include only data with a timestamp greater or equal to the specified value (HH:mm:ss.SSS format)."
+              },
+              {
+                "name": "format",
+                "value": "",
+                "type": "query",
+                "description": "The format of the data when returned to the user."
+              }
+            ]
+          },
+          "docs": "- Retrieve a real-time last ohlc of an option contract for the trading day.\n- You might need to change the default expiration date to a different date if it is past the current date.\n"
+        },
+        {
+          "info": {
+            "name": "Trade",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://127.0.0.1:25503/v3/option/snapshot/trade",
+            "params": [
+              {
+                "name": "symbol",
+                "value": "",
+                "type": "query",
+                "description": "The stock or index symbol, or underlying symbol for options."
+              },
+              {
+                "name": "expiration",
+                "value": "",
+                "type": "query",
+                "description": "The expiration of the contract in `YYYY-MM-DD` or `YYYYMMDD` format."
+              },
+              {
+                "name": "strike",
+                "value": "",
+                "type": "query",
+                "description": "The strike price of the contract in dollars (ie `100.00` for `$100.00`), or `*` for all strikes."
+              },
+              {
+                "name": "right",
+                "value": "",
+                "type": "query",
+                "description": "The right (call or put) of the contract."
+              },
+              {
+                "name": "strike_range",
+                "value": "",
+                "type": "query",
+                "description": "Limits the number of contracts returned relative to the underlying's spot price. For a specified value 'n', this returns 'n' strikes above and 'n' strikes below the spot price, plus one at-the-money (ATM) strike (where spot price = strike price), if available. This results in a maximum of `2n + 1` strikes."
+              },
+              {
+                "name": "min_time",
+                "value": "",
+                "type": "query",
+                "description": "Filters snapshots to include only data with a timestamp greater or equal to the specified value (HH:mm:ss.SSS format)."
+              },
+              {
+                "name": "format",
+                "value": "",
+                "type": "query",
+                "description": "The format of the data when returned to the user."
+              }
+            ]
+          },
+          "docs": "- Retrieve the real-time last trade of an option contract.\n- You might need to change the default expiration date to a different date if it is past the current date.\n- This endpoint will return no data if the market was closed for the day. Theta Data resets the snapshot cache at midnight ET every night.\n"
+        },
+        {
+          "info": {
+            "name": "Quote",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://127.0.0.1:25503/v3/option/snapshot/quote",
+            "params": [
+              {
+                "name": "symbol",
+                "value": "",
+                "type": "query",
+                "description": "The stock or index symbol, or underlying symbol for options."
+              },
+              {
+                "name": "expiration",
+                "value": "",
+                "type": "query",
+                "description": "The expiration of the contract in `YYYY-MM-DD` or `YYYYMMDD` format, or `*` for all expirations."
+              },
+              {
+                "name": "strike",
+                "value": "",
+                "type": "query",
+                "description": "The strike price of the contract in dollars (ie `100.00` for `$100.00`), or `*` for all strikes."
+              },
+              {
+                "name": "right",
+                "value": "",
+                "type": "query",
+                "description": "The right (call or put) of the contract."
+              },
+              {
+                "name": "max_dte",
+                "value": "",
+                "type": "query",
+                "description": "If specified, only contracts with a full calendar day 'Days to Expiration' (DTE) less than or equal to this number will be returned."
+              },
+              {
+                "name": "strike_range",
+                "value": "",
+                "type": "query",
+                "description": "Limits the number of contracts returned relative to the underlying's spot price. For a specified value 'n', this returns 'n' strikes above and 'n' strikes below the spot price, plus one at-the-money (ATM) strike (where spot price = strike price), if available. This results in a maximum of `2n + 1` strikes."
+              },
+              {
+                "name": "min_time",
+                "value": "",
+                "type": "query",
+                "description": "Filters snapshots to include only data with a timestamp greater or equal to the specified value (HH:mm:ss.SSS format)."
+              },
+              {
+                "name": "format",
+                "value": "",
+                "type": "query",
+                "description": "The format of the data when returned to the user."
+              }
+            ]
+          },
+          "docs": "\n- Retrieve a real-time last NBBO quote of an option contract.\n- You might need to change the default expiration date to a different date if it is past the current date.\n- This endpoint will return no data if the market was closed for the day. Theta Data resets the snapshot cache at midnight ET every night.\n"
+        },
+        {
+          "info": {
+            "name": "Open Interest",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://127.0.0.1:25503/v3/option/snapshot/open_interest",
+            "params": [
+              {
+                "name": "symbol",
+                "value": "",
+                "type": "query",
+                "description": "The stock or index symbol, or underlying symbol for options."
+              },
+              {
+                "name": "expiration",
+                "value": "",
+                "type": "query",
+                "description": "The expiration of the contract in `YYYY-MM-DD` or `YYYYMMDD` format, or `*` for all expirations."
+              },
+              {
+                "name": "strike",
+                "value": "",
+                "type": "query",
+                "description": "The strike price of the contract in dollars (ie `100.00` for `$100.00`), or `*` for all strikes."
+              },
+              {
+                "name": "right",
+                "value": "",
+                "type": "query",
+                "description": "The right (call or put) of the contract."
+              },
+              {
+                "name": "max_dte",
+                "value": "",
+                "type": "query",
+                "description": "If specified, only contracts with a full calendar day 'Days to Expiration' (DTE) less than or equal to this number will be returned."
+              },
+              {
+                "name": "strike_range",
+                "value": "",
+                "type": "query",
+                "description": "Limits the number of contracts returned relative to the underlying's spot price. For a specified value 'n', this returns 'n' strikes above and 'n' strikes below the spot price, plus one at-the-money (ATM) strike (where spot price = strike price), if available. This results in a maximum of `2n + 1` strikes."
+              },
+              {
+                "name": "min_time",
+                "value": "",
+                "type": "query",
+                "description": "Filters snapshots to include only data with a timestamp greater or equal to the specified value (HH:mm:ss.SSS format)."
+              },
+              {
+                "name": "format",
+                "value": "",
+                "type": "query",
+                "description": "The format of the data when returned to the user."
+              }
+            ]
+          },
+          "docs": "- Retrieve the last open interest message of an option contract.\n- Open interest is reported around 06:30 ET every morning by OPRA and reflects the open interest at the of the previous trading day. \n- You might need to change the default expiration date to a different date if it is past the current date.\n- This endpoint will return no data if the market was closed for the day. Theta Data resets the snapshot cache at midnight ET every night.\n"
+        },
+        {
+          "info": {
+            "name": "Market Value",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://127.0.0.1:25503/v3/option/snapshot/market_value",
+            "params": [
+              {
+                "name": "symbol",
+                "value": "",
+                "type": "query",
+                "description": "The stock or index symbol, or underlying symbol for options."
+              },
+              {
+                "name": "expiration",
+                "value": "",
+                "type": "query",
+                "description": "The expiration of the contract in `YYYY-MM-DD` or `YYYYMMDD` format, or `*` for all expirations."
+              },
+              {
+                "name": "strike",
+                "value": "",
+                "type": "query",
+                "description": "The strike price of the contract in dollars (ie `100.00` for `$100.00`), or `*` for all strikes."
+              },
+              {
+                "name": "right",
+                "value": "",
+                "type": "query",
+                "description": "The right (call or put) of the contract."
+              },
+              {
+                "name": "max_dte",
+                "value": "",
+                "type": "query",
+                "description": "If specified, only contracts with a full calendar day 'Days to Expiration' (DTE) less than or equal to this number will be returned."
+              },
+              {
+                "name": "strike_range",
+                "value": "",
+                "type": "query",
+                "description": "Limits the number of contracts returned relative to the underlying's spot price. For a specified value 'n', this returns 'n' strikes above and 'n' strikes below the spot price, plus one at-the-money (ATM) strike (where spot price = strike price), if available. This results in a maximum of `2n + 1` strikes."
+              },
+              {
+                "name": "min_time",
+                "value": "",
+                "type": "query",
+                "description": "Filters snapshots to include only data with a timestamp greater or equal to the specified value (HH:mm:ss.SSS format)."
+              },
+              {
+                "name": "format",
+                "value": "",
+                "type": "query",
+                "description": "The format of the data when returned to the user."
+              }
+            ]
+          },
+          "docs": "* Returns a real-time market value derived from the last NBBO quote of an option contract.\n"
+        },
+        {
+          "info": {
+            "name": "Implied Volatility",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://127.0.0.1:25503/v3/option/snapshot/greeks/implied_volatility",
+            "params": [
+              {
+                "name": "symbol",
+                "value": "",
+                "type": "query",
+                "description": "The stock or index symbol, or underlying symbol for options."
+              },
+              {
+                "name": "expiration",
+                "value": "",
+                "type": "query",
+                "description": "The expiration of the contract in `YYYY-MM-DD` or `YYYYMMDD` format, or `*` for all expirations."
+              },
+              {
+                "name": "strike",
+                "value": "",
+                "type": "query",
+                "description": "The strike price of the contract in dollars (ie `100.00` for `$100.00`), or `*` for all strikes."
+              },
+              {
+                "name": "right",
+                "value": "",
+                "type": "query",
+                "description": "The right (call or put) of the contract."
+              },
+              {
+                "name": "annual_dividend",
+                "value": "",
+                "type": "query",
+                "description": "The annualized expected dividend amount to be used in Greeks calculations."
+              },
+              {
+                "name": "rate_type",
+                "value": "",
+                "type": "query",
+                "description": "The interest rate type to be used in a Greeks calculation."
+              },
+              {
+                "name": "rate_value",
+                "value": "5",
+                "type": "query",
+                "description": "The interest rate, as a percent, to be used in a Greeks calculation."
+              },
+              {
+                "name": "stock_price",
+                "value": "",
+                "type": "query",
+                "description": "The underlying stock price to be used in the Greeks calculation."
+              },
+              {
+                "name": "version",
+                "value": "",
+                "type": "query",
+                "description": "Used to adjust Greeks calculation methodology. \"1\" uses a fixed .15 DTE for 0DTE; \"latest\" uses real TTE (down to a minimum of 1 hour)"
+              },
+              {
+                "name": "max_dte",
+                "value": "",
+                "type": "query",
+                "description": "If specified, only contracts with a full calendar day 'Days to Expiration' (DTE) less than or equal to this number will be returned."
+              },
+              {
+                "name": "strike_range",
+                "value": "",
+                "type": "query",
+                "description": "Limits the number of contracts returned relative to the underlying's spot price. For a specified value 'n', this returns 'n' strikes above and 'n' strikes below the spot price, plus one at-the-money (ATM) strike (where spot price = strike price), if available. This results in a maximum of `2n + 1` strikes."
+              },
+              {
+                "name": "min_time",
+                "value": "",
+                "type": "query",
+                "description": "Filters snapshots to include only data with a timestamp greater or equal to the specified value (HH:mm:ss.SSS format)."
+              },
+              {
+                "name": "use_market_value",
+                "value": "",
+                "type": "query",
+                "description": "Use the market value bid, ask, and price"
+              },
+              {
+                "name": "format",
+                "value": "",
+                "type": "query",
+                "description": "The format of the data when returned to the user."
+              }
+            ]
+          },
+          "docs": "Returns implied volatilies calculated using the national best bid, mid, and ask price\nof the option respectively. The underlying price represents whatever the last underlying price was at the\n``underlying_timestamp`` field. You can read more about how Theta Data calculates greeks \n[here](/Articles/Data-And-Requests/Option-Greeks.html).\n"
+        },
+        {
+          "info": {
+            "name": "All Greeks",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://127.0.0.1:25503/v3/option/snapshot/greeks/all",
+            "params": [
+              {
+                "name": "symbol",
+                "value": "",
+                "type": "query",
+                "description": "The stock or index symbol, or underlying symbol for options."
+              },
+              {
+                "name": "expiration",
+                "value": "",
+                "type": "query",
+                "description": "The expiration of the contract in `YYYY-MM-DD` or `YYYYMMDD` format, or `*` for all expirations."
+              },
+              {
+                "name": "strike",
+                "value": "",
+                "type": "query",
+                "description": "The strike price of the contract in dollars (ie `100.00` for `$100.00`), or `*` for all strikes."
+              },
+              {
+                "name": "right",
+                "value": "",
+                "type": "query",
+                "description": "The right (call or put) of the contract."
+              },
+              {
+                "name": "annual_dividend",
+                "value": "",
+                "type": "query",
+                "description": "The annualized expected dividend amount to be used in Greeks calculations."
+              },
+              {
+                "name": "rate_type",
+                "value": "",
+                "type": "query",
+                "description": "The interest rate type to be used in a Greeks calculation."
+              },
+              {
+                "name": "rate_value",
+                "value": "5",
+                "type": "query",
+                "description": "The interest rate, as a percent, to be used in a Greeks calculation."
+              },
+              {
+                "name": "stock_price",
+                "value": "",
+                "type": "query",
+                "description": "The underlying stock price to be used in the Greeks calculation."
+              },
+              {
+                "name": "version",
+                "value": "",
+                "type": "query",
+                "description": "Used to adjust Greeks calculation methodology. \"1\" uses a fixed .15 DTE for 0DTE; \"latest\" uses real TTE (down to a minimum of 1 hour)"
+              },
+              {
+                "name": "max_dte",
+                "value": "",
+                "type": "query",
+                "description": "If specified, only contracts with a full calendar day 'Days to Expiration' (DTE) less than or equal to this number will be returned."
+              },
+              {
+                "name": "strike_range",
+                "value": "",
+                "type": "query",
+                "description": "Limits the number of contracts returned relative to the underlying's spot price. For a specified value 'n', this returns 'n' strikes above and 'n' strikes below the spot price, plus one at-the-money (ATM) strike (where spot price = strike price), if available. This results in a maximum of `2n + 1` strikes."
+              },
+              {
+                "name": "min_time",
+                "value": "",
+                "type": "query",
+                "description": "Filters snapshots to include only data with a timestamp greater or equal to the specified value (HH:mm:ss.SSS format)."
+              },
+              {
+                "name": "use_market_value",
+                "value": "",
+                "type": "query",
+                "description": "Use the market value bid, ask, and price"
+              },
+              {
+                "name": "format",
+                "value": "",
+                "type": "query",
+                "description": "The format of the data when returned to the user."
+              }
+            ]
+          },
+          "docs": "- Retrieve a real-time last greeks calculation for all option contracts that lie on a provided expiration.\n- You might need to change the default expiration date to a different date if it is past the current date. Some quotes are omitted in the example to reduce the space of the sample output.\n- Make `expiration` * if you want to get the snapshot for every expiration chain for the underlying.\n> This endpoint will return no data if the market was closed for the day. Theta Data resets the snapshot"
+        },
+        {
+          "info": {
+            "name": "First Order Greeks",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://127.0.0.1:25503/v3/option/snapshot/greeks/first_order",
+            "params": [
+              {
+                "name": "symbol",
+                "value": "",
+                "type": "query",
+                "description": "The stock or index symbol, or underlying symbol for options."
+              },
+              {
+                "name": "expiration",
+                "value": "",
+                "type": "query",
+                "description": "The expiration of the contract in `YYYY-MM-DD` or `YYYYMMDD` format, or `*` for all expirations."
+              },
+              {
+                "name": "strike",
+                "value": "",
+                "type": "query",
+                "description": "The strike price of the contract in dollars (ie `100.00` for `$100.00`), or `*` for all strikes."
+              },
+              {
+                "name": "right",
+                "value": "",
+                "type": "query",
+                "description": "The right (call or put) of the contract."
+              },
+              {
+                "name": "annual_dividend",
+                "value": "",
+                "type": "query",
+                "description": "The annualized expected dividend amount to be used in Greeks calculations."
+              },
+              {
+                "name": "rate_type",
+                "value": "",
+                "type": "query",
+                "description": "The interest rate type to be used in a Greeks calculation."
+              },
+              {
+                "name": "rate_value",
+                "value": "5",
+                "type": "query",
+                "description": "The interest rate, as a percent, to be used in a Greeks calculation."
+              },
+              {
+                "name": "stock_price",
+                "value": "",
+                "type": "query",
+                "description": "The underlying stock price to be used in the Greeks calculation."
+              },
+              {
+                "name": "version",
+                "value": "",
+                "type": "query",
+                "description": "Used to adjust Greeks calculation methodology. \"1\" uses a fixed .15 DTE for 0DTE; \"latest\" uses real TTE (down to a minimum of 1 hour)"
+              },
+              {
+                "name": "max_dte",
+                "value": "",
+                "type": "query",
+                "description": "If specified, only contracts with a full calendar day 'Days to Expiration' (DTE) less than or equal to this number will be returned."
+              },
+              {
+                "name": "strike_range",
+                "value": "",
+                "type": "query",
+                "description": "Limits the number of contracts returned relative to the underlying's spot price. For a specified value 'n', this returns 'n' strikes above and 'n' strikes below the spot price, plus one at-the-money (ATM) strike (where spot price = strike price), if available. This results in a maximum of `2n + 1` strikes."
+              },
+              {
+                "name": "min_time",
+                "value": "",
+                "type": "query",
+                "description": "Filters snapshots to include only data with a timestamp greater or equal to the specified value (HH:mm:ss.SSS format)."
+              },
+              {
+                "name": "use_market_value",
+                "value": "",
+                "type": "query",
+                "description": "Use the market value bid, ask, and price"
+              },
+              {
+                "name": "format",
+                "value": "",
+                "type": "query",
+                "description": "The format of the data when returned to the user."
+              }
+            ]
+          },
+          "docs": "- Retrieve a real-time last greeks calculation for all option contracts that lie on a provided expiration.\n- You might need to change the default expiration date to a different date if it is past the current date. Some quotes are omitted in the example to reduce the space of the sample output.\n- Make `expiration` * if you want to get the snapshot for every expiration chain for the underlying.\n> This endpoint will return no data if the market was closed for the day. Theta Data resets the snapshot"
+        },
+        {
+          "info": {
+            "name": "Second Order Greeks",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://127.0.0.1:25503/v3/option/snapshot/greeks/second_order",
+            "params": [
+              {
+                "name": "symbol",
+                "value": "",
+                "type": "query",
+                "description": "The stock or index symbol, or underlying symbol for options."
+              },
+              {
+                "name": "expiration",
+                "value": "",
+                "type": "query",
+                "description": "The expiration of the contract in `YYYY-MM-DD` or `YYYYMMDD` format, or `*` for all expirations."
+              },
+              {
+                "name": "strike",
+                "value": "",
+                "type": "query",
+                "description": "The strike price of the contract in dollars (ie `100.00` for `$100.00`), or `*` for all strikes."
+              },
+              {
+                "name": "right",
+                "value": "",
+                "type": "query",
+                "description": "The right (call or put) of the contract."
+              },
+              {
+                "name": "annual_dividend",
+                "value": "",
+                "type": "query",
+                "description": "The annualized expected dividend amount to be used in Greeks calculations."
+              },
+              {
+                "name": "rate_type",
+                "value": "",
+                "type": "query",
+                "description": "The interest rate type to be used in a Greeks calculation."
+              },
+              {
+                "name": "rate_value",
+                "value": "5",
+                "type": "query",
+                "description": "The interest rate, as a percent, to be used in a Greeks calculation."
+              },
+              {
+                "name": "stock_price",
+                "value": "",
+                "type": "query",
+                "description": "The underlying stock price to be used in the Greeks calculation."
+              },
+              {
+                "name": "version",
+                "value": "",
+                "type": "query",
+                "description": "Used to adjust Greeks calculation methodology. \"1\" uses a fixed .15 DTE for 0DTE; \"latest\" uses real TTE (down to a minimum of 1 hour)"
+              },
+              {
+                "name": "max_dte",
+                "value": "",
+                "type": "query",
+                "description": "If specified, only contracts with a full calendar day 'Days to Expiration' (DTE) less than or equal to this number will be returned."
+              },
+              {
+                "name": "strike_range",
+                "value": "",
+                "type": "query",
+                "description": "Limits the number of contracts returned relative to the underlying's spot price. For a specified value 'n', this returns 'n' strikes above and 'n' strikes below the spot price, plus one at-the-money (ATM) strike (where spot price = strike price), if available. This results in a maximum of `2n + 1` strikes."
+              },
+              {
+                "name": "min_time",
+                "value": "",
+                "type": "query",
+                "description": "Filters snapshots to include only data with a timestamp greater or equal to the specified value (HH:mm:ss.SSS format)."
+              },
+              {
+                "name": "use_market_value",
+                "value": "",
+                "type": "query",
+                "description": "Use the market value bid, ask, and price"
+              },
+              {
+                "name": "format",
+                "value": "",
+                "type": "query",
+                "description": "The format of the data when returned to the user."
+              }
+            ]
+          },
+          "docs": "- Retrieve a real-time last second order greeks calculation for all option contracts that lie on a provided expiration.\n- You might need to change the default expiration date to a different date if it is past the current date. Some quotes are omitted in the example to reduce the space of the sample output.\n- Make `expiration` * if you want to get the snapshot for every expiration chain for the underlying.\n> This endpoint will return no data if the market was closed for the day. Theta Data resets"
+        },
+        {
+          "info": {
+            "name": "Third Order Greeks",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://127.0.0.1:25503/v3/option/snapshot/greeks/third_order",
+            "params": [
+              {
+                "name": "symbol",
+                "value": "",
+                "type": "query",
+                "description": "The stock or index symbol, or underlying symbol for options."
+              },
+              {
+                "name": "expiration",
+                "value": "",
+                "type": "query",
+                "description": "The expiration of the contract in `YYYY-MM-DD` or `YYYYMMDD` format, or `*` for all expirations."
+              },
+              {
+                "name": "strike",
+                "value": "",
+                "type": "query",
+                "description": "The strike price of the contract in dollars (ie `100.00` for `$100.00`), or `*` for all strikes."
+              },
+              {
+                "name": "right",
+                "value": "",
+                "type": "query",
+                "description": "The right (call or put) of the contract."
+              },
+              {
+                "name": "annual_dividend",
+                "value": "",
+                "type": "query",
+                "description": "The annualized expected dividend amount to be used in Greeks calculations."
+              },
+              {
+                "name": "rate_type",
+                "value": "",
+                "type": "query",
+                "description": "The interest rate type to be used in a Greeks calculation."
+              },
+              {
+                "name": "rate_value",
+                "value": "5",
+                "type": "query",
+                "description": "The interest rate, as a percent, to be used in a Greeks calculation."
+              },
+              {
+                "name": "stock_price",
+                "value": "",
+                "type": "query",
+                "description": "The underlying stock price to be used in the Greeks calculation."
+              },
+              {
+                "name": "version",
+                "value": "",
+                "type": "query",
+                "description": "Used to adjust Greeks calculation methodology. \"1\" uses a fixed .15 DTE for 0DTE; \"latest\" uses real TTE (down to a minimum of 1 hour)"
+              },
+              {
+                "name": "max_dte",
+                "value": "",
+                "type": "query",
+                "description": "If specified, only contracts with a full calendar day 'Days to Expiration' (DTE) less than or equal to this number will be returned."
+              },
+              {
+                "name": "strike_range",
+                "value": "",
+                "type": "query",
+                "description": "Limits the number of contracts returned relative to the underlying's spot price. For a specified value 'n', this returns 'n' strikes above and 'n' strikes below the spot price, plus one at-the-money (ATM) strike (where spot price = strike price), if available. This results in a maximum of `2n + 1` strikes."
+              },
+              {
+                "name": "min_time",
+                "value": "",
+                "type": "query",
+                "description": "Filters snapshots to include only data with a timestamp greater or equal to the specified value (HH:mm:ss.SSS format)."
+              },
+              {
+                "name": "use_market_value",
+                "value": "",
+                "type": "query",
+                "description": "Use the market value bid, ask, and price"
+              },
+              {
+                "name": "format",
+                "value": "",
+                "type": "query",
+                "description": "The format of the data when returned to the user."
+              }
+            ]
+          },
+          "docs": "- Retrieve a real-time last third order greeks calculation for all option contracts that lie on a provided expiration.\n- You might need to change the default expiration date to a different date if it is past the current date. Some quotes are omitted in the example to reduce the space of the sample output.\n- Make `expiration` * if you want to get the snapshot for every expiration chain for the underlying.\n> This endpoint will return no data if the market was closed for the day. Theta Data resets "
+        },
+        {
+          "info": {
+            "name": "Open High Low Close",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://127.0.0.1:25503/v3/index/snapshot/ohlc",
+            "params": [
+              {
+                "name": "symbol",
+                "value": "",
+                "type": "query",
+                "description": "The stock or index symbol, or underlying symbol for options. Specify '*' for all symbols or a comma separated list when appropriate."
+              },
+              {
+                "name": "min_time",
+                "value": "",
+                "type": "query",
+                "description": "Filters snapshots to include only data with a timestamp greater or equal to the specified value (HH:mm:ss.SSS format)."
+              },
+              {
+                "name": "format",
+                "value": "",
+                "type": "query",
+                "description": "The format of the data when returned to the user."
+              }
+            ]
+          },
+          "docs": "- Retrieves the real-time current day OHLC.\n- [Exchanges](/Articles/Data-And-Requests/The-SIPs.html) typically generate a price report every second for popular indices like SPX.\n"
+        },
+        {
+          "info": {
+            "name": "Price",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://127.0.0.1:25503/v3/index/snapshot/price",
+            "params": [
+              {
+                "name": "symbol",
+                "value": "",
+                "type": "query",
+                "description": "The stock or index symbol, or underlying symbol for options. Specify '*' for all symbols or a comma separated list when appropriate."
+              },
+              {
+                "name": "min_time",
+                "value": "",
+                "type": "query",
+                "description": "Filters snapshots to include only data with a timestamp greater or equal to the specified value (HH:mm:ss.SSS format)."
+              },
+              {
+                "name": "format",
+                "value": "",
+                "type": "query",
+                "description": "The format of the data when returned to the user."
+              }
+            ]
+          },
+          "docs": "- Retrieves a real-time last index price.\n- [Exchanges](/Articles/Data-And-Requests/The-SIPs.html) typically generate a price report every second for popular indices like SPX.\n"
+        },
+        {
+          "info": {
+            "name": "Market Value",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://127.0.0.1:25503/v3/index/snapshot/market_value",
+            "params": [
+              {
+                "name": "symbol",
+                "value": "",
+                "type": "query",
+                "description": "The stock or index symbol, or underlying symbol for options. Specify '*' for all symbols or a comma separated list when appropriate."
+              },
+              {
+                "name": "min_time",
+                "value": "",
+                "type": "query",
+                "description": "Filters snapshots to include only data with a timestamp greater or equal to the specified value (HH:mm:ss.SSS format)."
+              },
+              {
+                "name": "format",
+                "value": "",
+                "type": "query",
+                "description": "The format of the data when returned to the user."
+              }
+            ]
+          },
+          "docs": "- Retrieves a real-time last index market value.\n- [Exchanges](/Articles/Data-And-Requests/The-SIPs.html) typically generate a price report every second for popular indices like SPX.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

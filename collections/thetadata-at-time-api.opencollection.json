@@ -1,0 +1,305 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Theta Data v3 At-Time API",
+    "version": "3.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "At-Time",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Trade",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://127.0.0.1:25503/v3/stock/at_time/trade",
+            "params": [
+              {
+                "name": "symbol",
+                "value": "",
+                "type": "query",
+                "description": "The stock or index symbol, or underlying symbol for options."
+              },
+              {
+                "name": "start_date",
+                "value": "",
+                "type": "query",
+                "description": "The start date (inclusive)."
+              },
+              {
+                "name": "end_date",
+                "value": "",
+                "type": "query",
+                "description": "The end date (inclusive)."
+              },
+              {
+                "name": "time_of_day",
+                "value": "",
+                "type": "query",
+                "description": "The time of the day to fetch data for; assumed to be America/New_York."
+              },
+              {
+                "name": "venue",
+                "value": "",
+                "type": "query",
+                "description": "Used to specify the venue of the real time or historic request. ``nqb`` = Nasdaq Basic; ``utp_cta`` = merged UTP & CTA."
+              },
+              {
+                "name": "format",
+                "value": "",
+                "type": "query",
+                "description": "The format of the data when returned to the user."
+              }
+            ]
+          },
+          "docs": "#### Real-time request:\n- Returns a real-time session from the [Nasdaq Basic feed](/Articles/Data-And-Requests/The-SIPs.html#nasdaq-basic) if the account has a [stocks standard or pro subscription](https://www.thetadata.net/subscribe.html#stocks).\n- Returns a 15-minute delayed session from the [UTP & CTA feeds](/Articles/Data-And-Requests/The-SIPs.html#equities-cta-utp) account has the [stocks value subscription](https://www.thetadata.net/subscribe.html#stocks) subscription.\n\n#### Historical req"
+        },
+        {
+          "info": {
+            "name": "Quote",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://127.0.0.1:25503/v3/stock/at_time/quote",
+            "params": [
+              {
+                "name": "symbol",
+                "value": "",
+                "type": "query",
+                "description": "The stock or index symbol, or underlying symbol for options."
+              },
+              {
+                "name": "start_date",
+                "value": "",
+                "type": "query",
+                "description": "The start date (inclusive)."
+              },
+              {
+                "name": "end_date",
+                "value": "",
+                "type": "query",
+                "description": "The end date (inclusive)."
+              },
+              {
+                "name": "time_of_day",
+                "value": "",
+                "type": "query",
+                "description": "The time of the day to fetch data for; assumed to be America/New_York."
+              },
+              {
+                "name": "venue",
+                "value": "",
+                "type": "query",
+                "description": "Used to specify the venue of the real time or historic request. ``nqb`` = Nasdaq Basic; ``utp_cta`` = merged UTP & CTA."
+              },
+              {
+                "name": "format",
+                "value": "",
+                "type": "query",
+                "description": "The format of the data when returned to the user."
+              }
+            ]
+          },
+          "docs": "#### Real-time request:\n  - Subscription tier standard or higher will default to NQB.\n  - Real-time last BBO quote at-time_of_day-time from the [Nasdaq Basic feed](/Articles/Data-And-Requests/The-SIPs.html#nasdaq-basic) if the account has a [stocks standard or pro subscription](https://www.thetadata.net/subscribe.html#stocks).\n  - 15-minute delayed NBBO quote at-time_of_day-time from the [UTP & CTA feeds](/Articles/Data-And-Requests/The-SIPs.html#equities-cta-utp) account has the [stocks value s"
+        },
+        {
+          "info": {
+            "name": "Trade",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://127.0.0.1:25503/v3/option/at_time/trade",
+            "params": [
+              {
+                "name": "symbol",
+                "value": "",
+                "type": "query",
+                "description": "The stock or index symbol, or underlying symbol for options."
+              },
+              {
+                "name": "start_date",
+                "value": "",
+                "type": "query",
+                "description": "The start date (inclusive)."
+              },
+              {
+                "name": "end_date",
+                "value": "",
+                "type": "query",
+                "description": "The end date (inclusive)."
+              },
+              {
+                "name": "time_of_day",
+                "value": "",
+                "type": "query",
+                "description": "The time of the day to fetch data for; assumed to be America/New_York."
+              },
+              {
+                "name": "expiration",
+                "value": "",
+                "type": "query",
+                "description": "The expiration of the contract in `YYYY-MM-DD` or `YYYYMMDD` format, or `*` for all expirations."
+              },
+              {
+                "name": "strike",
+                "value": "",
+                "type": "query",
+                "description": "The strike price of the contract in dollars (ie `100.00` for `$100.00`), or `*` for all strikes."
+              },
+              {
+                "name": "right",
+                "value": "",
+                "type": "query",
+                "description": "The right (call or put) of the contract."
+              },
+              {
+                "name": "max_dte",
+                "value": "",
+                "type": "query",
+                "description": "If specified, only contracts with a full calendar day 'Days to Expiration' (DTE) less than or equal to this number will be returned."
+              },
+              {
+                "name": "strike_range",
+                "value": "",
+                "type": "query",
+                "description": "Limits the number of contracts returned relative to the underlying's spot price. For a specified value 'n', this returns 'n' strikes above and 'n' strikes below the spot price, plus one at-the-money (ATM) strike (where spot price = strike price), if available. This results in a maximum of `2n + 1` strikes."
+              },
+              {
+                "name": "format",
+                "value": "",
+                "type": "query",
+                "description": "The format of the data when returned to the user."
+              }
+            ]
+          },
+          "docs": "- Returns the last trade reported by [OPRA](/Articles/Data-And-Requests/The-SIPs.html) at a specified millisecond of the day.\n- Trade condition mappings can be found [here](/Articles/Errors-Exchanges-Conditions/Trade-Conditions.html).\n- Extended trade conditions are not reported by [OPRA](/Articles/Data-And-Requests/The-SIPs.html) for options, so they can be ignored.\n- The ``time_of_day``parameter represents the 00:00:00.000 ET that the trade should be provided for.\n"
+        },
+        {
+          "info": {
+            "name": "Quote",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://127.0.0.1:25503/v3/option/at_time/quote",
+            "params": [
+              {
+                "name": "symbol",
+                "value": "",
+                "type": "query",
+                "description": "The stock or index symbol, or underlying symbol for options."
+              },
+              {
+                "name": "start_date",
+                "value": "",
+                "type": "query",
+                "description": "The start date (inclusive)."
+              },
+              {
+                "name": "end_date",
+                "value": "",
+                "type": "query",
+                "description": "The end date (inclusive)."
+              },
+              {
+                "name": "time_of_day",
+                "value": "",
+                "type": "query",
+                "description": "The time of the day to fetch data for; assumed to be America/New_York."
+              },
+              {
+                "name": "expiration",
+                "value": "",
+                "type": "query",
+                "description": "The expiration of the contract in `YYYY-MM-DD` or `YYYYMMDD` format, or `*` for all expirations."
+              },
+              {
+                "name": "strike",
+                "value": "",
+                "type": "query",
+                "description": "The strike price of the contract in dollars (ie `100.00` for `$100.00`), or `*` for all strikes."
+              },
+              {
+                "name": "right",
+                "value": "",
+                "type": "query",
+                "description": "The right (call or put) of the contract."
+              },
+              {
+                "name": "max_dte",
+                "value": "",
+                "type": "query",
+                "description": "If specified, only contracts with a full calendar day 'Days to Expiration' (DTE) less than or equal to this number will be returned."
+              },
+              {
+                "name": "strike_range",
+                "value": "",
+                "type": "query",
+                "description": "Limits the number of contracts returned relative to the underlying's spot price. For a specified value 'n', this returns 'n' strikes above and 'n' strikes below the spot price, plus one at-the-money (ATM) strike (where spot price = strike price), if available. This results in a maximum of `2n + 1` strikes."
+              },
+              {
+                "name": "format",
+                "value": "",
+                "type": "query",
+                "description": "The format of the data when returned to the user."
+              }
+            ]
+          },
+          "docs": "- Returns the last NBBO quote reported by [OPRA](/Articles/Data-And-Requests/The-SIPs.html) at a specified millisecond of the day.\n- The ``time_of_day``parameter represents the 00:00:00.000 ET that the quote should be provided for.\n- Using a sub-minute ``time_of_day`` (e.g. ``09:30:10.000``) will significantly slow the request and may cause it to hang, particularly when using ``expiration=*``. Use a minute-boundary time (e.g. ``09:30:00.000``) instead.\n"
+        },
+        {
+          "info": {
+            "name": "Price",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://127.0.0.1:25503/v3/index/at_time/price",
+            "params": [
+              {
+                "name": "symbol",
+                "value": "",
+                "type": "query",
+                "description": "The stock or index symbol, or underlying symbol for options."
+              },
+              {
+                "name": "start_date",
+                "value": "",
+                "type": "query",
+                "description": "The start date (inclusive)."
+              },
+              {
+                "name": "end_date",
+                "value": "",
+                "type": "query",
+                "description": "The end date (inclusive)."
+              },
+              {
+                "name": "time_of_day",
+                "value": "",
+                "type": "query",
+                "description": "The time of the day to fetch data for; assumed to be America/New_York."
+              },
+              {
+                "name": "format",
+                "value": "",
+                "type": "query",
+                "description": "The format of the data when returned to the user."
+              }
+            ]
+          },
+          "docs": "- Retrieves historical indices price reports. [Exchanges](/Articles/Data-And-Requests/The-SIPs.html) typically generate a price report every second for popular indices like SPX.\n- The ``time_of_day`` parameter represents the 00:00:00.000 ET that the price should be provided for.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

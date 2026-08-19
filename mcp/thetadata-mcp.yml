@@ -225,3 +225,12 @@ tools:
 - name: stock_snapshot_trade
   description: Trade — GET /stock/snapshot/trade
   source_operation: openapi/thetadata-snapshot-api-openapi.yml#stock_snapshot_trade
+deployment:
+  mode: none
+  endpoint: http://127.0.0.1:25503/mcp/sse
+  verified: probed
+  probe: dead
+  note: the endpoint this manifest claimed did not answer; recorded as none rather than deleted so the
+    claim stays auditable
+  checked: '2026-08-12'
+  source: catalog MCP census

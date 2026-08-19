@@ -1,0 +1,608 @@
+{
+  "item": [
+    {
+      "id": "3ca7551c-89b2-4eb7-8d77-8f762be313f3",
+      "name": "FlatFile",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "6e483da1-ff18-4a95-9c8a-8a39a46211a6",
+          "name": "Option Flat File Trade Quote",
+          "request": {
+            "name": "Option Flat File Trade Quote",
+            "description": {
+              "content": "Bulk download all option trade/quote ticks for a given date as a CSV stream. Returns one row per tick, grouped by contract. Requires a Professional options subscription.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "option",
+                "flat_file",
+                "trade_quote"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "date",
+                  "value": "<date>",
+                  "description": "(Required) The date to fetch data for."
+                },
+                {
+                  "disabled": false,
+                  "key": "format",
+                  "value": "csv",
+                  "description": "The format of the data when returned to the user."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "text/csv"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "042e1b4c-e884-4b87-a8d8-077870939e81",
+              "name": "CSV stream of all option trade/quote ticks for the given date",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "option",
+                    "flat_file",
+                    "trade_quote"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "date",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "format",
+                      "value": "csv"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "text/csv"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"root\": \"string\",\n    \"expiration\": \"1973-09-23\",\n    \"strike\": 3854.2207567129417,\n    \"right\": \"string\",\n    \"ms_of_day\": 2284,\n    \"date\": 2555\n  },\n  {\n    \"root\": \"string\",\n    \"expiration\": \"1952-03-19\",\n    \"strike\": 2641.514642936721,\n    \"right\": \"string\",\n    \"ms_of_day\": 2621,\n    \"date\": 6375\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "eb7a53eb-43a8-41e1-85ca-2f5788bab44d",
+          "name": "Option Flat File EOD",
+          "request": {
+            "name": "Option Flat File EOD",
+            "description": {
+              "content": "Bulk download all option end-of-day ticks for a given date as a CSV stream. Returns one row per tick, grouped by contract. Requires a Professional options subscription.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "option",
+                "flat_file",
+                "eod"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "date",
+                  "value": "<date>",
+                  "description": "(Required) The date to fetch data for."
+                },
+                {
+                  "disabled": false,
+                  "key": "format",
+                  "value": "csv",
+                  "description": "The format of the data when returned to the user."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "text/csv"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "7f24588d-bd86-4e5f-b6ee-5b54c0646a8e",
+              "name": "CSV stream of all option EOD ticks for the given date",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "option",
+                    "flat_file",
+                    "eod"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "date",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "format",
+                      "value": "csv"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "text/csv"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"root\": \"string\",\n    \"expiration\": \"1973-09-23\",\n    \"strike\": 3854.2207567129417,\n    \"right\": \"string\",\n    \"ms_of_day\": 2284,\n    \"date\": 2555\n  },\n  {\n    \"root\": \"string\",\n    \"expiration\": \"1952-03-19\",\n    \"strike\": 2641.514642936721,\n    \"right\": \"string\",\n    \"ms_of_day\": 2621,\n    \"date\": 6375\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "16ad5a06-0183-4aae-a46f-6073eb3b20cb",
+          "name": "Option Flat File Open Interest",
+          "request": {
+            "name": "Option Flat File Open Interest",
+            "description": {
+              "content": "Bulk download all option open interest ticks for a given date as a CSV stream. Returns one row per tick, grouped by contract. Requires a Professional options subscription.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "option",
+                "flat_file",
+                "open_interest"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "date",
+                  "value": "<date>",
+                  "description": "(Required) The date to fetch data for."
+                },
+                {
+                  "disabled": false,
+                  "key": "format",
+                  "value": "csv",
+                  "description": "The format of the data when returned to the user."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "text/csv"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "4badfc5f-bbe5-4ed6-984e-12cdcb0e0462",
+              "name": "CSV stream of all option open interest ticks for the given date",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "option",
+                    "flat_file",
+                    "open_interest"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "date",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "format",
+                      "value": "csv"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "text/csv"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"root\": \"string\",\n    \"expiration\": \"1987-06-03\",\n    \"strike\": 8178.253144091178,\n    \"right\": \"string\",\n    \"ms_of_day\": 2815,\n    \"open_interest\": 667,\n    \"date\": 5577\n  },\n  {\n    \"root\": \"string\",\n    \"expiration\": \"2011-01-31\",\n    \"strike\": 9453.738246555808,\n    \"right\": \"string\",\n    \"ms_of_day\": 2849,\n    \"open_interest\": 6775,\n    \"date\": 5130\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "1ecb0d3c-ae7a-4d09-b504-9fd19fa5452e",
+          "name": "Stock Flat File Trade Quote",
+          "request": {
+            "name": "Stock Flat File Trade Quote",
+            "description": {
+              "content": "Bulk download all stock trade/quote ticks for a given date as a CSV stream. Returns one row per tick, grouped by symbol. Requires a Professional stock subscription.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "stock",
+                "flat_file",
+                "trade_quote"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "date",
+                  "value": "<date>",
+                  "description": "(Required) The date to fetch data for."
+                },
+                {
+                  "disabled": false,
+                  "key": "format",
+                  "value": "csv",
+                  "description": "The format of the data when returned to the user."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "text/csv"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "10ed4cba-a8b3-4698-b146-c5f1eb78c68f",
+              "name": "CSV stream of all stock trade/quote ticks for the given date",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "stock",
+                    "flat_file",
+                    "trade_quote"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "date",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "format",
+                      "value": "csv"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "text/csv"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"root\": \"string\",\n    \"ms_of_day\": 7688,\n    \"date\": 5179\n  },\n  {\n    \"root\": \"string\",\n    \"ms_of_day\": 4953,\n    \"date\": 4936\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "e0d8dc61-91f3-430d-993b-f4a7d37c4f02",
+          "name": "Stock Flat File EOD",
+          "request": {
+            "name": "Stock Flat File EOD",
+            "description": {
+              "content": "Bulk download all stock end-of-day ticks for a given date as a CSV stream. Returns one row per tick, grouped by symbol. Requires a Professional stock subscription.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "stock",
+                "flat_file",
+                "eod"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "date",
+                  "value": "<date>",
+                  "description": "(Required) The date to fetch data for."
+                },
+                {
+                  "disabled": false,
+                  "key": "format",
+                  "value": "csv",
+                  "description": "The format of the data when returned to the user."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "text/csv"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "35979be2-f998-456d-8aa9-d9b0f039804c",
+              "name": "CSV stream of all stock EOD ticks for the given date",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "stock",
+                    "flat_file",
+                    "eod"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "date",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "format",
+                      "value": "csv"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "text/csv"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"root\": \"string\",\n    \"ms_of_day\": 7688,\n    \"date\": 5179\n  },\n  {\n    \"root\": \"string\",\n    \"ms_of_day\": 4953,\n    \"date\": 4936\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "bfb6b8ca-6623-4b59-a109-d151fbdc418f",
+          "name": "Index Flat File EOD",
+          "request": {
+            "name": "Index Flat File EOD",
+            "description": {
+              "content": "Bulk download all index end-of-day ticks for a given date as a CSV stream. Returns one row per tick, grouped by symbol. Requires a Professional indices subscription.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "index",
+                "flat_file",
+                "eod"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "date",
+                  "value": "<date>",
+                  "description": "(Required) The date to fetch data for."
+                },
+                {
+                  "disabled": false,
+                  "key": "format",
+                  "value": "csv",
+                  "description": "The format of the data when returned to the user."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "text/csv"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "1569c706-bef0-4f02-888f-72a13a6929e1",
+              "name": "CSV stream of all index EOD ticks for the given date",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "index",
+                    "flat_file",
+                    "eod"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "date",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "format",
+                      "value": "csv"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "text/csv"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"root\": \"string\",\n    \"ms_of_day\": 2598,\n    \"date\": 9692\n  },\n  {\n    \"root\": \"string\",\n    \"ms_of_day\": 4858,\n    \"date\": 9116\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "http://127.0.0.1:25503/v3",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "6cfe73ae-f57a-475f-9a5b-f7d6d4d2dedd",
+    "name": "Theta Data v3 At-Time FlatFile API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Real-time and historic stock, options, and index data!",
+      "type": "text/plain"
+    }
+  }
+}

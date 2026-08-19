@@ -1,0 +1,1212 @@
+{
+  "item": [
+    {
+      "id": "b8821131-ae6b-4877-9f11-8f059c4fa929",
+      "name": "Index",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "da08c31d-49db-49bc-a7d7-0597ce021811",
+          "name": "Symbols",
+          "request": {
+            "name": "Symbols",
+            "description": {
+              "content": "A symbol can be defined as a unique identifier for a stock / underlying asset. Common terms also include: root, ticker, and underlying. This endpoint returns all traded symbols for options. This endpoint is updated overnight.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "index",
+                "list",
+                "symbols"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "format",
+                  "value": "csv",
+                  "description": "The format of the data when returned to the user."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "text/csv"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "4e679418-4d41-4031-bc28-a8766539e90a",
+              "name": "List all symbols for indices",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "index",
+                    "list",
+                    "symbols"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "format",
+                      "value": "csv"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "text/csv"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "\"{\\n  \\\"response\\\": [\\n    {\\\"symbol\\\":\\\"AASGI\\\"},\\n    {\\\"symbol\\\":\\\"AASUS\\\"},\\n    {\\\"symbol\\\":\\\"ACNAC\\\"},\\n    {\\\"symbol\\\":\\\"ACNIT\\\"},\\n    {\\\"symbol\\\":\\\"ACNRE\\\"}\\n  ]\\n}\\n\"",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "ec68a2ac-7024-470f-8c7c-a6dc66c8066b",
+          "name": "Dates",
+          "request": {
+            "name": "Dates",
+            "description": {
+              "content": "Lists all dates of data that are available for a index with a given request type and symbol. This endpoint is updated overnight.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "index",
+                "list",
+                "dates"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "symbol",
+                  "value": "<string>",
+                  "description": "(Required) The stock or index symbol, or underlying symbol for options. Specify '*' for all symbols or a comma separated list when appropriate."
+                },
+                {
+                  "disabled": false,
+                  "key": "symbol",
+                  "value": "<string>",
+                  "description": "(Required) The stock or index symbol, or underlying symbol for options. Specify '*' for all symbols or a comma separated list when appropriate."
+                },
+                {
+                  "disabled": false,
+                  "key": "format",
+                  "value": "csv",
+                  "description": "The format of the data when returned to the user."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "text/csv"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "5c26545f-e224-4779-80e9-685283bedb35",
+              "name": "List all dates for a index for a given symbol",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "index",
+                    "list",
+                    "dates"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "symbol",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "symbol",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "format",
+                      "value": "csv"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "text/csv"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "\"{\\n  \\\"response\\\": [\\n    {\\\"date\\\":\\\"2023-04-17\\\"},\\n    {\\\"date\\\":\\\"2023-04-18\\\"},\\n    {\\\"date\\\":\\\"2023-04-19\\\"},\\n    {\\\"date\\\":\\\"2023-04-20\\\"},\\n    {\\\"date\\\":\\\"2023-04-21\\\"}\\n  ]\\n}\\n\"",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "cfd2e3a1-7c6b-412b-a7ee-371156d49f8a",
+          "name": "Open High Low Close",
+          "request": {
+            "name": "Open High Low Close",
+            "description": {
+              "content": "- Retrieves the real-time current day OHLC.\n- [Exchanges](/Articles/Data-And-Requests/The-SIPs.html) typically generate a price report every second for popular indices like SPX.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "index",
+                "snapshot",
+                "ohlc"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "symbol",
+                  "value": "<string>",
+                  "description": "(Required) The stock or index symbol, or underlying symbol for options. Specify '*' for all symbols or a comma separated list when appropriate."
+                },
+                {
+                  "disabled": false,
+                  "key": "symbol",
+                  "value": "<string>",
+                  "description": "(Required) The stock or index symbol, or underlying symbol for options. Specify '*' for all symbols or a comma separated list when appropriate."
+                },
+                {
+                  "disabled": false,
+                  "key": "min_time",
+                  "value": "<time>",
+                  "description": "Filters snapshots to include only data with a timestamp greater or equal to the specified value (HH:mm:ss.SSS format)."
+                },
+                {
+                  "disabled": false,
+                  "key": "format",
+                  "value": "csv",
+                  "description": "The format of the data when returned to the user."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "text/csv"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "84dc3460-9670-4941-8176-93ac3eccab5b",
+              "name": "Returns OHLC for a given index price change",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "index",
+                    "snapshot",
+                    "ohlc"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "symbol",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "symbol",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "min_time",
+                      "value": "<time>"
+                    },
+                    {
+                      "key": "format",
+                      "value": "csv"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "text/csv"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "\"{\\n  \\\"response\\\": [\\n     {\\\"volume\\\":0,\\\"symbol\\\":\\\"SPX\\\",\\\"high\\\":6408.40,\\\"low\\\":6343.86,\\\"count\\\":0,\\\"close\\\":6395.78,\\\"open\\\":6406.62,\\\"timestamp\\\":\\\"2025-08-20T16:02:06\\\"}\\n  ]\\n}\\n\"",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "5ac55463-392a-4b65-8822-ad8de191e3e4",
+          "name": "Price",
+          "request": {
+            "name": "Price",
+            "description": {
+              "content": "- Retrieves a real-time last index price.\n- [Exchanges](/Articles/Data-And-Requests/The-SIPs.html) typically generate a price report every second for popular indices like SPX.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "index",
+                "snapshot",
+                "price"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "symbol",
+                  "value": "<string>",
+                  "description": "(Required) The stock or index symbol, or underlying symbol for options. Specify '*' for all symbols or a comma separated list when appropriate."
+                },
+                {
+                  "disabled": false,
+                  "key": "symbol",
+                  "value": "<string>",
+                  "description": "(Required) The stock or index symbol, or underlying symbol for options. Specify '*' for all symbols or a comma separated list when appropriate."
+                },
+                {
+                  "disabled": false,
+                  "key": "min_time",
+                  "value": "<time>",
+                  "description": "Filters snapshots to include only data with a timestamp greater or equal to the specified value (HH:mm:ss.SSS format)."
+                },
+                {
+                  "disabled": false,
+                  "key": "format",
+                  "value": "csv",
+                  "description": "The format of the data when returned to the user."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "text/csv"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "5985e64b-e160-4bf9-b083-a37a4a7df6fb",
+              "name": "Returns last index price",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "index",
+                    "snapshot",
+                    "price"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "symbol",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "symbol",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "min_time",
+                      "value": "<time>"
+                    },
+                    {
+                      "key": "format",
+                      "value": "csv"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "text/csv"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "\"{\\n  \\\"response\\\": [\\n    {\\\"symbol\\\":\\\"SPX\\\",\\\"price\\\":6395.78,\\\"timestamp\\\":\\\"2025-08-20T16:02:06\\\"}\\n  ]\\n}\\n\"",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "45fedf23-521e-49e7-b4d6-20b4d1bd5de0",
+          "name": "Market Value",
+          "request": {
+            "name": "Market Value",
+            "description": {
+              "content": "- Retrieves a real-time last index market value.\n- [Exchanges](/Articles/Data-And-Requests/The-SIPs.html) typically generate a price report every second for popular indices like SPX.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "index",
+                "snapshot",
+                "market_value"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "symbol",
+                  "value": "<string>",
+                  "description": "(Required) The stock or index symbol, or underlying symbol for options. Specify '*' for all symbols or a comma separated list when appropriate."
+                },
+                {
+                  "disabled": false,
+                  "key": "symbol",
+                  "value": "<string>",
+                  "description": "(Required) The stock or index symbol, or underlying symbol for options. Specify '*' for all symbols or a comma separated list when appropriate."
+                },
+                {
+                  "disabled": false,
+                  "key": "min_time",
+                  "value": "<time>",
+                  "description": "Filters snapshots to include only data with a timestamp greater or equal to the specified value (HH:mm:ss.SSS format)."
+                },
+                {
+                  "disabled": false,
+                  "key": "format",
+                  "value": "csv",
+                  "description": "The format of the data when returned to the user."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "text/csv"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "a78a8e1e-a69a-49b6-8353-8bd8dc8be1ec",
+              "name": "Returns last index market value",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "index",
+                    "snapshot",
+                    "market_value"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "symbol",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "symbol",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "min_time",
+                      "value": "<time>"
+                    },
+                    {
+                      "key": "format",
+                      "value": "csv"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "text/csv"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "\"{\\n  \\\"response\\\": [\\n    {\\\"symbol\\\":\\\"SPX\\\",\\\"market_price\\\":6395.81,\\\"timestamp\\\":\\\"2025-08-20T16:02:06\\\"}\\n  ]\\n}\\n\"",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "5eaed667-932b-4b89-acb8-4d59919af472",
+          "name": "End of Day",
+          "request": {
+            "name": "End of Day",
+            "description": {
+              "content": "- Since [the indices feeds](/Articles/Data-And-Requests/The-SIPs.html) do not provide a national EOD report, Theta Data generates a national EOD report at 17:15 each day.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "index",
+                "history",
+                "eod"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "symbol",
+                  "value": "<string>",
+                  "description": "(Required) The stock or index symbol, or underlying symbol for options."
+                },
+                {
+                  "disabled": false,
+                  "key": "start_date",
+                  "value": "<date>",
+                  "description": "(Required) The start date (inclusive)."
+                },
+                {
+                  "disabled": false,
+                  "key": "end_date",
+                  "value": "<date>",
+                  "description": "(Required) The end date (inclusive)."
+                },
+                {
+                  "disabled": false,
+                  "key": "format",
+                  "value": "csv",
+                  "description": "The format of the data when returned to the user."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "text/csv"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "78fc7cdd-912f-439d-b076-edd071c61085",
+              "name": "Returns EOD report for a given symbol between specified dates (inclusive)",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "index",
+                    "history",
+                    "eod"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "symbol",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "start_date",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "end_date",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "format",
+                      "value": "csv"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "text/csv"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "\"{\\n  \\\"response\\\": [\\n    {\\\"ask_size\\\":0,\\\"last_trade\\\":\\\"2024-11-04T16:03:03\\\",\\\"created\\\":\\\"2024-11-04T17:19:50.198\\\",\\\"ask_condition\\\":0,\\\"count\\\":0,\\\"volume\\\":0,\\\"high\\\":5741.43,\\\"low\\\":5696.51,\\\"bid_size\\\":0,\\\"ask_exchange\\\":0,\\\"bid_exchange\\\":0,\\\"ask\\\":0.00,\\\"bid\\\":0.00,\\\"bid_condition\\\":0,\\\"close\\\":5712.69,\\\"open\\\":5725.15},\\n    {\\\"ask_size\\\":0,\\\"last_trade\\\":\\\"2024-11-05T16:02:30\\\",\\\"created\\\":\\\"2024-11-05T17:15:03.061\\\",\\\"ask_condition\\\":0,\\\"count\\\":0,\\\"volume\\\":0,\\\"high\\\":5783.44,\\\"low\\\":5722.10,\\\"bid_size\\\":0,\\\"ask_exchange\\\":0,\\\"bid_exchange\\\":0,\\\"ask\\\":0.00,\\\"bid\\\":0.00,\\\"bid_condition\\\":0,\\\"close\\\":5782.76,\\\"open\\\":5722.43},\\n    {\\\"ask_size\\\":0,\\\"last_trade\\\":\\\"2024-11-06T16:01:37\\\",\\\"created\\\":\\\"2024-11-06T17:16:28.297\\\",\\\"ask_condition\\\":0,\\\"count\\\":0,\\\"volume\\\":0,\\\"high\\\":5936.14,\\\"low\\\":5864.89,\\\"bid_size\\\":0,\\\"ask_exchange\\\":0,\\\"bid_exchange\\\":0,\\\"ask\\\":0.00,\\\"bid\\\":0.00,\\\"bid_condition\\\":0,\\\"close\\\":5929.04,\\\"open\\\":5864.89},\\n    {\\\"ask_size\\\":0,\\\"last_trade\\\":\\\"2024-11-07T16:02:49\\\",\\\"created\\\":\\\"2024-11-07T17:17:17.218\\\",\\\"ask_condition\\\":0,\\\"count\\\":0,\\\"volume\\\":0,\\\"high\\\":5983.84,\\\"low\\\":5947.21,\\\"bid_size\\\":0,\\\"ask_exchange\\\":0,\\\"bid_exchange\\\":0,\\\"ask\\\":0.00,\\\"bid\\\":0.00,\\\"bid_condition\\\":0,\\\"close\\\":5973.10,\\\"open\\\":5947.21},\\n    {\\\"ask_size\\\":0,\\\"last_trade\\\":\\\"2024-11-08T16:01:15\\\",\\\"created\\\":\\\"2024-11-08T17:21:08.187\\\",\\\"ask_condition\\\":0,\\\"count\\\":0,\\\"volume\\\":0,\\\"high\\\":6012.45,\\\"low\\\":5976.76,\\\"bid_size\\\":0,\\\"ask_exchange\\\":0,\\\"bid_exchange\\\":0,\\\"ask\\\":0.00,\\\"bid\\\":0.00,\\\"bid_condition\\\":0,\\\"close\\\":5995.54,\\\"open\\\":5976.76}\\n  ]\\n}\\n\"",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "d4d2d710-725d-4786-b550-1be7b0f76eb1",
+          "name": "Open High Low Close",
+          "request": {
+            "name": "Open High Low Close",
+            "description": {
+              "content": "- Aggregated OHLC bars that use [SIP rules](/Articles/Data-And-Requests/OHLC-EOD.html) for each bar.\n- Time timestamp of the bar represents the opening time of the bar. For a trade to be part of the bar:  ``bar timestamp`` <= ``trade time`` < ``bar timestamp + interval``.\n- [Exchanges](/Articles/Data-And-Requests/The-SIPs.html) typically generate a price report every second for popular indices like SPX.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "index",
+                "history",
+                "ohlc"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "symbol",
+                  "value": "<string>",
+                  "description": "(Required) The stock or index symbol, or underlying symbol for options."
+                },
+                {
+                  "disabled": false,
+                  "key": "start_date",
+                  "value": "<date>",
+                  "description": "(Required) The start date (inclusive)."
+                },
+                {
+                  "disabled": false,
+                  "key": "end_date",
+                  "value": "<date>",
+                  "description": "(Required) The end date (inclusive)."
+                },
+                {
+                  "disabled": false,
+                  "key": "interval",
+                  "value": "1s",
+                  "description": "(Required) The size of the time interval must be one of the available options listed below. Intervals less than 1m are available only for single-day requests."
+                },
+                {
+                  "disabled": false,
+                  "key": "start_time",
+                  "value": "09:30:00",
+                  "description": "The start time (inclusive) in the specified day (format 24-hour HH:MM:SS.SSS)."
+                },
+                {
+                  "disabled": false,
+                  "key": "end_time",
+                  "value": "16:00:00",
+                  "description": "The end time (inclusive) in the specified day (format 24-hour HH:MM:SS.SSS)."
+                },
+                {
+                  "disabled": false,
+                  "key": "format",
+                  "value": "csv",
+                  "description": "The format of the data when returned to the user."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "text/csv"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "3de8a5ea-6393-4a39-909e-7a2b84cde4f3",
+              "name": "Returns OHLC for a given symbol between specified dates (inclusive) with a one minute interval",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "index",
+                    "history",
+                    "ohlc"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "symbol",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "start_date",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "end_date",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "interval",
+                      "value": "1s"
+                    },
+                    {
+                      "key": "start_time",
+                      "value": "09:30:00"
+                    },
+                    {
+                      "key": "end_time",
+                      "value": "16:00:00"
+                    },
+                    {
+                      "key": "format",
+                      "value": "csv"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "text/csv"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "\"{\\n  \\\"response\\\": [\\n    {\\\"volume\\\":0,\\\"high\\\":5731.27,\\\"low\\\":5725.15,\\\"vwap\\\":0.00,\\\"count\\\":0,\\\"close\\\":5728.56,\\\"open\\\":5725.15,\\\"timestamp\\\":\\\"2024-11-04T09:30:00\\\"},\\n    {\\\"volume\\\":0,\\\"high\\\":5730.40,\\\"low\\\":5724.53,\\\"vwap\\\":0.00,\\\"count\\\":0,\\\"close\\\":5725.42,\\\"open\\\":5728.90,\\\"timestamp\\\":\\\"2024-11-04T09:31:00\\\"},\\n    {\\\"volume\\\":0,\\\"high\\\":5729.20,\\\"low\\\":5723.55,\\\"vwap\\\":0.00,\\\"count\\\":0,\\\"close\\\":5726.54,\\\"open\\\":5725.48,\\\"timestamp\\\":\\\"2024-11-04T09:32:00\\\"},\\n    {\\\"volume\\\":0,\\\"high\\\":5726.71,\\\"low\\\":5723.13,\\\"vwap\\\":0.00,\\\"count\\\":0,\\\"close\\\":5723.13,\\\"open\\\":5726.57,\\\"timestamp\\\":\\\"2024-11-04T09:33:00\\\"},\\n    {\\\"volume\\\":0,\\\"high\\\":5723.33,\\\"low\\\":5717.35,\\\"vwap\\\":0.00,\\\"count\\\":0,\\\"close\\\":5717.64,\\\"open\\\":5722.88,\\\"timestamp\\\":\\\"2024-11-04T09:34:00\\\"}\\n  ]\\n}\\n\"",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "cce6dc71-e7b4-4b84-8912-ba7361cd79ea",
+          "name": "Price",
+          "request": {
+            "name": "Price",
+            "description": {
+              "content": "- Retrieves historical indices price reports. [Exchanges](/Articles/Data-And-Requests/The-SIPs.html) typically generate a price report every second for popular indices like SPX.\n- When the ``interval`` parameter is specified, the returned data represents the price at the exact time of each timestamp. If the timestamp in the response is 10:30:00, the price field represents the price at that exact time of the day.\n- A price update from the exchange is omitted if the price remained the same from the previous update.\n- Multi-day requests are limited to 1 month of data.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "index",
+                "history",
+                "price"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "date",
+                  "value": "<date>",
+                  "description": "The date to fetch data for. If present, this overrides start_date and end_date."
+                },
+                {
+                  "disabled": false,
+                  "key": "symbol",
+                  "value": "<string>",
+                  "description": "(Required) The stock or index symbol, or underlying symbol for options."
+                },
+                {
+                  "disabled": false,
+                  "key": "start_time",
+                  "value": "09:30:00",
+                  "description": "The start time (inclusive) in the specified day (format 24-hour HH:MM:SS.SSS)."
+                },
+                {
+                  "disabled": false,
+                  "key": "end_time",
+                  "value": "16:00:00",
+                  "description": "The end time (inclusive) in the specified day (format 24-hour HH:MM:SS.SSS)."
+                },
+                {
+                  "disabled": false,
+                  "key": "interval",
+                  "value": "1s",
+                  "description": "(Required) The size of the time interval must be one of the available options listed below. Intervals less than 1m are available only for single-day requests."
+                },
+                {
+                  "disabled": false,
+                  "key": "format",
+                  "value": "csv",
+                  "description": "The format of the data when returned to the user."
+                },
+                {
+                  "disabled": false,
+                  "key": "start_date",
+                  "value": "<date>",
+                  "description": "The start date (inclusive)."
+                },
+                {
+                  "disabled": false,
+                  "key": "end_date",
+                  "value": "<date>",
+                  "description": "The end date (inclusive)."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "text/csv"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "0e2ec8f6-ac9f-4fe6-8241-0614a23ab26d",
+              "name": "Returns historical index price reports",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "index",
+                    "history",
+                    "price"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "date",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "symbol",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "start_time",
+                      "value": "09:30:00"
+                    },
+                    {
+                      "key": "end_time",
+                      "value": "16:00:00"
+                    },
+                    {
+                      "key": "interval",
+                      "value": "1s"
+                    },
+                    {
+                      "key": "format",
+                      "value": "csv"
+                    },
+                    {
+                      "key": "start_date",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "end_date",
+                      "value": "<date>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "text/csv"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "\"{\\n  \\\"response\\\": [\\n    {\\\"price\\\":0.0,\\\"timestamp\\\":\\\"2024-11-04T09:30:00\\\"},\\n    {\\\"price\\\":5728.56,\\\"timestamp\\\":\\\"2024-11-04T09:31:00\\\"},\\n    {\\\"price\\\":5725.48,\\\"timestamp\\\":\\\"2024-11-04T09:32:00\\\"},\\n    {\\\"price\\\":5726.57,\\\"timestamp\\\":\\\"2024-11-04T09:33:00\\\"},\\n    {\\\"price\\\":5722.88,\\\"timestamp\\\":\\\"2024-11-04T09:34:00\\\"}\\n  ]\\n}\\n\"",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "ca6be7ee-fffd-4467-b23a-64f125b19f92",
+          "name": "Price",
+          "request": {
+            "name": "Price",
+            "description": {
+              "content": "- Retrieves historical indices price reports. [Exchanges](/Articles/Data-And-Requests/The-SIPs.html) typically generate a price report every second for popular indices like SPX.\n- The ``time_of_day`` parameter represents the 00:00:00.000 ET that the price should be provided for.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "index",
+                "at_time",
+                "price"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "symbol",
+                  "value": "<string>",
+                  "description": "(Required) The stock or index symbol, or underlying symbol for options."
+                },
+                {
+                  "disabled": false,
+                  "key": "start_date",
+                  "value": "<date>",
+                  "description": "(Required) The start date (inclusive)."
+                },
+                {
+                  "disabled": false,
+                  "key": "end_date",
+                  "value": "<date>",
+                  "description": "(Required) The end date (inclusive)."
+                },
+                {
+                  "disabled": false,
+                  "key": "time_of_day",
+                  "value": "<time>",
+                  "description": "(Required) The time of the day to fetch data for; assumed to be America/New_York."
+                },
+                {
+                  "disabled": false,
+                  "key": "format",
+                  "value": "csv",
+                  "description": "The format of the data when returned to the user."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "text/csv"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "1c318772-d3eb-4b39-9fae-285980ad82bd",
+              "name": "Returns specific at time historical index price reports",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "index",
+                    "at_time",
+                    "price"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "symbol",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "start_date",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "end_date",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "time_of_day",
+                      "value": "<time>"
+                    },
+                    {
+                      "key": "format",
+                      "value": "csv"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "text/csv"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "\"{\\n  \\\"response\\\": [\\n    {\\\"sequence\\\":0,\\\"condition\\\":0,\\\"size\\\":0,\\\"price\\\":5725.15,\\\"ext_condition2\\\":255,\\\"ext_condition1\\\":255,\\\"ext_condition4\\\":255,\\\"exchange\\\":5,\\\"ext_condition3\\\":255,\\\"timestamp\\\":\\\"2024-11-04T09:30:01\\\"},\\n    {\\\"sequence\\\":0,\\\"condition\\\":0,\\\"size\\\":0,\\\"price\\\":5722.43,\\\"ext_condition2\\\":255,\\\"ext_condition1\\\":255,\\\"ext_condition4\\\":255,\\\"exchange\\\":5,\\\"ext_condition3\\\":255,\\\"timestamp\\\":\\\"2024-11-05T09:30:01\\\"},\\n    {\\\"sequence\\\":0,\\\"condition\\\":0,\\\"size\\\":0,\\\"price\\\":5864.89,\\\"ext_condition2\\\":255,\\\"ext_condition1\\\":255,\\\"ext_condition4\\\":255,\\\"exchange\\\":5,\\\"ext_condition3\\\":255,\\\"timestamp\\\":\\\"2024-11-06T09:30:01\\\"},\\n    {\\\"sequence\\\":0,\\\"condition\\\":0,\\\"size\\\":0,\\\"price\\\":5947.21,\\\"ext_condition2\\\":255,\\\"ext_condition1\\\":255,\\\"ext_condition4\\\":255,\\\"exchange\\\":5,\\\"ext_condition3\\\":255,\\\"timestamp\\\":\\\"2024-11-07T09:30:01\\\"},\\n    {\\\"sequence\\\":0,\\\"condition\\\":0,\\\"size\\\":0,\\\"price\\\":5976.76,\\\"ext_condition2\\\":255,\\\"ext_condition1\\\":255,\\\"ext_condition4\\\":255,\\\"exchange\\\":5,\\\"ext_condition3\\\":255,\\\"timestamp\\\":\\\"2024-11-08T09:30:01\\\"}\\n  ]\\n}\\n\"",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "ad84b7e2-0747-4048-8cd5-4e29a5c0ad71",
+          "name": "Index Flat File EOD",
+          "request": {
+            "name": "Index Flat File EOD",
+            "description": {
+              "content": "Bulk download all index end-of-day ticks for a given date as a CSV stream. Returns one row per tick, grouped by symbol. Requires a Professional indices subscription.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "index",
+                "flat_file",
+                "eod"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "date",
+                  "value": "<date>",
+                  "description": "(Required) The date to fetch data for."
+                },
+                {
+                  "disabled": false,
+                  "key": "format",
+                  "value": "csv",
+                  "description": "The format of the data when returned to the user."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "text/csv"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "d950c449-fb1e-401d-b675-cc0a59b0385b",
+              "name": "CSV stream of all index EOD ticks for the given date",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "index",
+                    "flat_file",
+                    "eod"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "date",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "format",
+                      "value": "csv"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "text/csv"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"root\": \"string\",\n    \"ms_of_day\": 4324,\n    \"date\": 8710\n  },\n  {\n    \"root\": \"string\",\n    \"ms_of_day\": 2193,\n    \"date\": 4115\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "http://127.0.0.1:25503/v3",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "870c4566-41c1-4cd1-88c8-5cabcce81af9",
+    "name": "Theta Data v3 At-Time Index API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Real-time and historic stock, options, and index data!",
+      "type": "text/plain"
+    }
+  }
+}

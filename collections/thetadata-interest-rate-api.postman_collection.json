@@ -1,0 +1,148 @@
+{
+  "item": [
+    {
+      "id": "e48aa056-f3d8-4a88-a52e-1a2342fddac8",
+      "name": "Interest Rate",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "16fdffe8-3510-41be-bf22-e86c4c6bcac4",
+          "name": "End of Day",
+          "request": {
+            "name": "End of Day",
+            "description": {
+              "content": "- Returns the interest rate reported. Depending on the rate, reports can occur in the morning or the afternoon.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "interest_rate",
+                "history",
+                "eod"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "symbol",
+                  "value": "<string>",
+                  "description": "(Required) The stock or index symbol, or underlying symbol for options."
+                },
+                {
+                  "disabled": false,
+                  "key": "start_date",
+                  "value": "<date>",
+                  "description": "(Required) The start date (inclusive)."
+                },
+                {
+                  "disabled": false,
+                  "key": "end_date",
+                  "value": "<date>",
+                  "description": "(Required) The end date (inclusive)."
+                },
+                {
+                  "disabled": false,
+                  "key": "format",
+                  "value": "csv",
+                  "description": "The format of the data when returned to the user."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "text/csv"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "5d5ee3e9-3b9c-40a0-97fd-fa2888e4fefe",
+              "name": "Returns the interest rate for a given symbol between specified dates (inclusive)",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "interest_rate",
+                    "history",
+                    "eod"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "symbol",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "start_date",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "end_date",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "format",
+                      "value": "csv"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "text/csv"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "\"{\\n  \\\"response\\\": [\\n    {\\\"rate\\\":4.0000,\\\"created\\\":\\\"2025-11-04\\\"}\\n    {\\\"rate\\\":3.9100,\\\"created\\\":\\\"2025-11-05\\\"}\\n    {\\\"rate\\\":3.9200,\\\"created\\\":\\\"2025-11-06\\\"}\\n    {\\\"rate\\\":3.9300,\\\"created\\\":\\\"2025-11-07\\\"}\\n    {\\\"rate\\\":3.9400,\\\"created\\\":\\\"2025-11-08\\\"}\\n  ]\\n}\\n\"",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "http://127.0.0.1:25503/v3",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "ae468d28-0e1d-44ae-a440-32016ccb5289",
+    "name": "Theta Data v3 At-Time Interest Rate API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Real-time and historic stock, options, and index data!",
+      "type": "text/plain"
+    }
+  }
+}
