@@ -52,10 +52,11 @@ apis:
     type: Documentation
   - type: AsyncAPI
     url: asyncapi/thetadata-streaming-asyncapi.yml
-  description: JSON WebSocket streaming of US stock trade/quote, options trade/quote, and index price
-    streams, served locally by the Theta Terminal at ws://127.0.0.1:25520/v1/events. Requires a paid subscription
-    with streaming permissions; a single connection per user is permitted, with CONNECTED/DISCONNECTED
-    status headers and QUOTE/TRADE/STATUS message types.
+  description: >-
+    JSON WebSocket streaming of US stock trade/quote, options trade/quote, and index price streams, served
+    locally by the Theta Terminal at ws://127.0.0.1:25520/v1/events. Requires a paid subscription with
+    streaming permissions; a single connection per user is permitted, with CONNECTED/DISCONNECTED status
+    headers and QUOTE/TRADE/STATUS message types.
 - aid: thetadata:thetadata-mcp-server
   name: ThetaData MCP Server
   tags:
@@ -72,25 +73,10 @@ apis:
     url: mcp/thetadata-mcp.yml
   - type: ToolCrosswalk
     url: mcp/thetadata-tool-crosswalk.yml
-  description: Model Context Protocol server built into Theta Terminal v3, exposing the full v3 API to
-    LLM CLIs (documented for Claude CLI and Gemini CLI) over SSE at http://127.0.0.1:25503/mcp/sse. Requires
-    the terminal running locally and a valid ThetaData subscription.
-- aid: thetadata:thetadata-at-time-api
-  name: ThetaData At-Time API
-  description: The At-Time API from ThetaData — 5 operation(s) for at-time.
-  humanURL: https://docs.thetadata.us/
-  baseURL: http://127.0.0.1:25503/v3
-  tags:
-  - At-Time
-  properties:
-  - type: OpenAPI
-    url: openapi/thetadata-at-time-api-openapi.yml
-  - type: Documentation
-    url: https://docs.thetadata.us/Articles/Getting-Started/Getting-Started.html
-  - type: APIReference
-    url: https://docs.thetadata.us/operations/stock_list_symbols.html
-  - type: Overlay
-    url: overlays/thetadata-at-time-api-overlay.yaml
+  description: >-
+    Model Context Protocol server built into Theta Terminal v3, exposing the full v3 API to LLM CLIs (documented
+    for Claude CLI and Gemini CLI) over SSE at http://127.0.0.1:25503/mcp/sse. Requires the terminal running
+    locally and a valid ThetaData subscription.
 - aid: thetadata:thetadata-calendar-api
   name: ThetaData Calendar API
   description: The Calendar API from ThetaData — 3 operation(s) for calendar.
@@ -107,38 +93,6 @@ apis:
     url: https://docs.thetadata.us/operations/stock_list_symbols.html
   - type: Overlay
     url: overlays/thetadata-calendar-api-overlay.yaml
-- aid: thetadata:thetadata-flatfile-api
-  name: ThetaData FlatFile API
-  description: The FlatFile API from ThetaData — 6 operation(s) for flatfile.
-  humanURL: https://docs.thetadata.us/
-  baseURL: http://127.0.0.1:25503/v3
-  tags:
-  - FlatFile
-  properties:
-  - type: OpenAPI
-    url: openapi/thetadata-flatfile-api-openapi.yml
-  - type: Documentation
-    url: https://docs.thetadata.us/Articles/Getting-Started/Getting-Started.html
-  - type: APIReference
-    url: https://docs.thetadata.us/operations/stock_list_symbols.html
-  - type: Overlay
-    url: overlays/thetadata-flatfile-api-overlay.yaml
-- aid: thetadata:thetadata-history-api
-  name: ThetaData History API
-  description: The History API from ThetaData — 26 operation(s) for history.
-  humanURL: https://docs.thetadata.us/
-  baseURL: http://127.0.0.1:25503/v3
-  tags:
-  - History
-  properties:
-  - type: OpenAPI
-    url: openapi/thetadata-history-api-openapi.yml
-  - type: Documentation
-    url: https://docs.thetadata.us/Articles/Getting-Started/Getting-Started.html
-  - type: APIReference
-    url: https://docs.thetadata.us/operations/stock_list_symbols.html
-  - type: Overlay
-    url: overlays/thetadata-history-api-overlay.yaml
 - aid: thetadata:thetadata-index-api
   name: ThetaData Index API
   description: The Index API from ThetaData — 10 operation(s) for index.
@@ -171,22 +125,6 @@ apis:
     url: https://docs.thetadata.us/operations/stock_list_symbols.html
   - type: Overlay
     url: overlays/thetadata-interest-rate-api-overlay.yaml
-- aid: thetadata:thetadata-list-api
-  name: ThetaData List API
-  description: The List API from ThetaData — 9 operation(s) for list.
-  humanURL: https://docs.thetadata.us/
-  baseURL: http://127.0.0.1:25503/v3
-  tags:
-  - List
-  properties:
-  - type: OpenAPI
-    url: openapi/thetadata-list-api-openapi.yml
-  - type: Documentation
-    url: https://docs.thetadata.us/Articles/Getting-Started/Getting-Started.html
-  - type: APIReference
-    url: https://docs.thetadata.us/operations/stock_list_symbols.html
-  - type: Overlay
-    url: overlays/thetadata-list-api-overlay.yaml
 - aid: thetadata:thetadata-option-api
   name: ThetaData Option API
   description: The Option API from ThetaData — 37 operation(s) for option.
@@ -203,38 +141,6 @@ apis:
     url: https://docs.thetadata.us/operations/stock_list_symbols.html
   - type: Overlay
     url: overlays/thetadata-option-api-overlay.yaml
-- aid: thetadata:thetadata-single-day-api
-  name: ThetaData Single Day API
-  description: The Single Day API from ThetaData — 2 operation(s) for single day.
-  humanURL: https://docs.thetadata.us/
-  baseURL: http://127.0.0.1:25503/v3
-  tags:
-  - Single Day
-  properties:
-  - type: OpenAPI
-    url: openapi/thetadata-single-day-api-openapi.yml
-  - type: Documentation
-    url: https://docs.thetadata.us/Articles/Getting-Started/Getting-Started.html
-  - type: APIReference
-    url: https://docs.thetadata.us/operations/stock_list_symbols.html
-  - type: Overlay
-    url: overlays/thetadata-single-day-api-overlay.yaml
-- aid: thetadata:thetadata-snapshot-api
-  name: ThetaData Snapshot API
-  description: The Snapshot API from ThetaData — 17 operation(s) for snapshot.
-  humanURL: https://docs.thetadata.us/
-  baseURL: http://127.0.0.1:25503/v3
-  tags:
-  - Snapshot
-  properties:
-  - type: OpenAPI
-    url: openapi/thetadata-snapshot-api-openapi.yml
-  - type: Documentation
-    url: https://docs.thetadata.us/Articles/Getting-Started/Getting-Started.html
-  - type: APIReference
-    url: https://docs.thetadata.us/operations/stock_list_symbols.html
-  - type: Overlay
-    url: overlays/thetadata-snapshot-api-overlay.yaml
 - aid: thetadata:thetadata-stock-api
   name: ThetaData Stock API
   description: The Stock API from ThetaData — 15 operation(s) for stock.
@@ -251,23 +157,21 @@ apis:
     url: https://docs.thetadata.us/operations/stock_list_symbols.html
   - type: Overlay
     url: overlays/thetadata-stock-api-overlay.yaml
-- aid: thetadata:thetadata-year-api
-  name: ThetaData Year API
-  description: The Year API from ThetaData — 1 operation(s) for year.
-  humanURL: https://docs.thetadata.us/
-  baseURL: http://127.0.0.1:25503/v3
-  tags:
-  - Year
-  properties:
-  - type: OpenAPI
-    url: openapi/thetadata-year-api-openapi.yml
-  - type: Documentation
-    url: https://docs.thetadata.us/Articles/Getting-Started/Getting-Started.html
-  - type: APIReference
-    url: https://docs.thetadata.us/operations/stock_list_symbols.html
-  - type: Overlay
-    url: overlays/thetadata-year-api-overlay.yaml
 common:
+- type: Overlay
+  url: overlays/thetadata-at-time-api-overlay.yaml
+- type: Overlay
+  url: overlays/thetadata-flatfile-api-overlay.yaml
+- type: Overlay
+  url: overlays/thetadata-history-api-overlay.yaml
+- type: Overlay
+  url: overlays/thetadata-list-api-overlay.yaml
+- type: Overlay
+  url: overlays/thetadata-single-day-api-overlay.yaml
+- type: Overlay
+  url: overlays/thetadata-snapshot-api-overlay.yaml
+- type: Overlay
+  url: overlays/thetadata-year-api-overlay.yaml
 - type: PostmanWorkspace
   url: https://www.postman.com/kinlaneapi/thetadata/overview
 - type: DomainSecurity
