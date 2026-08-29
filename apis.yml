@@ -8,6 +8,18 @@ description: ThetaData is a developer-first US market data vendor founded in 202
   that authenticates with an API key or account credentials and exposes a local REST API (127.0.0.1:25503/v3),
   a WebSocket streaming API (127.0.0.1:25520), and an MCP server, backed by a published OpenAPI 3.1 spec,
   Python library, flat files, and tiered monthly subscriptions.
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: false
+  label: Hosted service · you call their endpoint
+  confidence: medium
+  source:
+  - openapi
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 accessModel:
   pricing: freemium
   onboarding: self-service
