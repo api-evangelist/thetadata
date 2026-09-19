@@ -53,6 +53,12 @@ apis:
   tags:
   - Streaming
   - WebSocket
+  - Trade
+  - Quotes
+  - Real-Time
+  tags_raw:
+  - Streaming
+  - WebSocket
   - Trades
   - Quotes
   - Real-Time
@@ -160,6 +166,8 @@ apis:
   humanURL: https://docs.thetadata.us/
   baseURL: http://127.0.0.1:25503/v3
   tags:
+  - Stocks
+  tags_raw:
   - Stock
   properties:
   - type: OpenAPI
