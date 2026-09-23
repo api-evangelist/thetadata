@@ -1,36 +1,41 @@
 {
   "provider": "thetadata",
   "sources": [
-    "thetadata-at-time-api-openapi.yml",
-    "thetadata-calendar-api-openapi.yml",
-    "thetadata-flatfile-api-openapi.yml",
-    "thetadata-history-api-openapi.yml",
-    "thetadata-index-api-openapi.yml",
-    "thetadata-interest-rate-api-openapi.yml",
-    "thetadata-list-api-openapi.yml",
-    "thetadata-option-api-openapi.yml",
-    "thetadata-single-day-api-openapi.yml",
-    "thetadata-snapshot-api-openapi.yml",
-    "thetadata-stock-api-openapi.yml",
-    "thetadata-year-api-openapi.yml"
+    "_original/thetadata-v3-openapi.yml"
   ],
   "outputs": [
-    "thetadata-at-time-api-openapi.yml",
     "thetadata-calendar-api-openapi.yml",
-    "thetadata-flatfile-api-openapi.yml",
-    "thetadata-history-api-openapi.yml",
     "thetadata-index-api-openapi.yml",
     "thetadata-interest-rate-api-openapi.yml",
-    "thetadata-list-api-openapi.yml",
     "thetadata-option-api-openapi.yml",
-    "thetadata-single-day-api-openapi.yml",
-    "thetadata-snapshot-api-openapi.yml",
-    "thetadata-stock-api-openapi.yml",
-    "thetadata-year-api-openapi.yml"
+    "thetadata-stock-api-openapi.yml"
   ],
   "archived": [],
   "errors": [],
   "warnings": [],
-  "notes": [],
-  "skipped": []
+  "notes": [
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "thetadata-v3-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "thetadata-v3-openapi.yml: declared missing tag: At-Time",
+    "thetadata-v3-openapi.yml: declared missing tag: Calendar",
+    "thetadata-v3-openapi.yml: declared missing tag: FlatFile",
+    "thetadata-v3-openapi.yml: declared missing tag: History",
+    "thetadata-v3-openapi.yml: declared missing tag: Index",
+    "thetadata-v3-openapi.yml: declared missing tag: Interest Rate",
+    "thetadata-v3-openapi.yml: declared missing tag: List",
+    "thetadata-v3-openapi.yml: declared missing tag: Option",
+    "thetadata-v3-openapi.yml: declared missing tag: Single Day",
+    "thetadata-v3-openapi.yml: declared missing tag: Snapshot",
+    "thetadata-v3-openapi.yml: declared missing tag: Stock",
+    "thetadata-v3-openapi.yml: declared missing tag: Year",
+    "thetadata-v3-openapi.yml: multi-axis tagging (12 tags, 5 first tags, 2.00x duplication over 66 operations) \u2014 split on first tag, 66 operations narrowed",
+    "apis.yml register: already-registered"
+  ],
+  "skipped": [
+    "thetadata-calendar-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "thetadata-index-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "thetadata-interest-rate-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "thetadata-option-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "thetadata-stock-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }

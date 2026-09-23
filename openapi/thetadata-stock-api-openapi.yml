@@ -1,6 +1,6 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Theta Data v3 At-Time Stock API
+  title: Theta Data v3 Stock API
   description: Real-time and historic stock, options, and index data!
   version: 3.0.0
   x-java-package: net.thetadata.generated
@@ -40,9 +40,7 @@ paths:
           '
       tags:
       - Stock
-      description: 'A symbol can be defined as a unique identifier for a stock / underlying asset. Common terms also include: root, ticker, and underlying. This endpoint returns all traded symbols for stocks. This endpoint is updated overnight.
-
-        '
+      description: 'A symbol can be defined as a unique identifier for a stock / underlying asset. Common terms also include: root, ticker, and underlying. This endpoint returns all traded symbols for stocks. This endpoint is updated overnight.'
       x-sample-urls:
       - url: http://127.0.0.1:25503/v3/stock/list/symbols
         description: List all stock symbols
@@ -57,20 +55,44 @@ paths:
             text/csv:
               schema:
                 type: array
-                items: &id001
+                items:
                   type: object
                   properties:
                     symbol:
                       type: string
                       description: The symbol of the contract, or stock / underlying asset / option / index.
-              example: "symbol\r\nA\r\nAA\r\nAAA\r\nAAAA\r\nAAAP\r\n"
+              example: 'symbol
+
+                A
+
+                AA
+
+                AAA
+
+                AAAA
+
+                AAAP
+
+                '
             application/json:
-              schema: &id002
+              schema:
                 type: array
-                items: *id001
+                items:
+                  type: object
+                  properties:
+                    symbol:
+                      type: string
+                      description: The symbol of the contract, or stock / underlying asset / option / index.
               example: "{\n  \"response\": [\n    {\"symbol\": \"A\"},\n    {\"symbol\": \"AA\"},\n    {\"symbol\": \"AAA\"},\n    {\"symbol\": \"AAAA\"},\n    {\"symbol\": \"AAAP\"}\n  ]\n}\n"
             application/x-ndjson:
-              schema: *id002
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    symbol:
+                      type: string
+                      description: The symbol of the contract, or stock / underlying asset / option / index.
               example: '{"symbol":"A"}
 
                 {"symbol":"AA"}
@@ -81,7 +103,14 @@ paths:
 
                 {"symbol":"AAAP"}'
             python/pandas:
-              schema: *id002
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    symbol:
+                      type: string
+                      description: The symbol of the contract, or stock / underlying asset / option / index.
               example: 'symbol
 
                 0      .PR.I.PR.A
@@ -111,7 +140,14 @@ paths:
 
                 '
             python/polars:
-              schema: *id002
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    symbol:
+                      type: string
+                      description: The symbol of the contract, or stock / underlying asset / option / index.
               example: 'shape: (25_529, 1)
 
                 ┌────────────┐
@@ -179,9 +215,7 @@ paths:
           '
       tags:
       - Stock
-      description: 'Lists all dates of data that are available for a stock with a given request type and symbol. This endpoint is updated overnight.
-
-        '
+      description: Lists all dates of data that are available for a stock with a given request type and symbol. This endpoint is updated overnight.
       x-sample-urls:
       - url: http://127.0.0.1:25503/v3/stock/list/dates/quote?symbol=AAPL
         description: List all dates for a stock quote for a given symbol
@@ -202,21 +236,47 @@ paths:
             text/csv:
               schema:
                 type: array
-                items: &id003
+                items:
                   type: object
                   properties:
                     date:
                       type: string
                       format: date
                       description: The date formated as YYYY-MM-DD.
-              example: "date\r\n2016-08-16\r\n2016-08-17\r\n2016-08-18\r\n2016-08-19\r\n2016-08-23\r\n"
+              example: 'date
+
+                2016-08-16
+
+                2016-08-17
+
+                2016-08-18
+
+                2016-08-19
+
+                2016-08-23
+
+                '
             application/json:
-              schema: &id004
+              schema:
                 type: array
-                items: *id003
+                items:
+                  type: object
+                  properties:
+                    date:
+                      type: string
+                      format: date
+                      description: The date formated as YYYY-MM-DD.
               example: "{\n  \"response\": [\n    {\"date\": \"2016-08-16\"},\n    {\"date\": \"2016-08-17\"},\n    {\"date\": \"2016-08-18\"},\n    {\"date\": \"2016-08-19\"},\n    {\"date\": \"2016-08-23\"}\n  ]\n}\n"
             application/x-ndjson:
-              schema: *id004
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    date:
+                      type: string
+                      format: date
+                      description: The date formated as YYYY-MM-DD.
               example: '{"date":"2016-08-16"}
 
                 {"date":"2016-08-17"}
@@ -227,7 +287,15 @@ paths:
 
                 {"date":"2016-08-23"}'
             python/pandas:
-              schema: *id004
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    date:
+                      type: string
+                      format: date
+                      description: The date formated as YYYY-MM-DD.
               example: 'date
 
                 0     2012-06-01
@@ -257,7 +325,15 @@ paths:
 
                 '
             python/polars:
-              schema: *id004
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    date:
+                      type: string
+                      format: date
+                      description: The date formated as YYYY-MM-DD.
               example: 'shape: (3_501, 1)
 
                 ┌────────────┐
@@ -325,17 +401,13 @@ paths:
           '
       tags:
       - Stock
-      description: '
+      description: 'Provides a real-time Open, High, Low, Close for the current day.
 
-        Provides a real-time Open, High, Low, Close for the current day.
+        * Returns a real-time session OHLC from the Nasdaq Basic feed if the account has a stocks standard or pro subscription.
 
-        * Returns a real-time session OHLC from the [Nasdaq Basic feed](/Articles/Data-And-Requests/The-SIPs) if the account has a [stocks standard or pro subscription](https://www.thetadata.net/subscribe.html#stocks).
+        * Returns a 15-minute delayed session OHLC from the UTP & CTA feeds if the account has the stocks value subscription.
 
-        * Returns a 15-minute delayed session OHLC from the [UTP & CTA feeds](/Articles/Data-And-Requests/The-SIPs) if the account has the stocks value subscription.
-
-        * Theta Data resets its snapshot cache at midnight ET every day. This endpoint may not work on a weekend where there were no eligible messages sent over exchange feeds. We recommend using historic requests during the weekend.
-
-        '
+        * Theta Data resets its snapshot cache at midnight ET every day. This endpoint may not work on a weekend where there were no eligible messages sent over exchange feeds. We recommend using historic requests during the weekend.'
       x-sample-urls:
       - url: http://127.0.0.1:25503/v3/stock/snapshot/ohlc?symbol=*
         description: Returns OHLC for stocks for all symbols
@@ -355,7 +427,7 @@ paths:
             text/csv:
               schema:
                 type: array
-                items: &id005
+                items:
                   type: object
                   properties:
                     timestamp:
@@ -383,14 +455,82 @@ paths:
                     count:
                       type: integer
                       description: The amount of trades.
-              example: "timestamp,symbol,open,high,low,close,volume,count\r\n2025-08-20T16:10:04.43,CVCO,492.0000,492.0000,480.5477,485.1100,119656,7684\r\n2025-08-20T16:11:13.962,IFRX,0.8900,0.9199,0.8529,0.8929,57048,138\r\n2025-08-20T16:04:10.564,KLXY,0.0000,0.0000,0.0000,0.0000,9,6\r\n2025-08-20T16:04:07.554,HCOW,23.5600,23.6976,23.5600,23.6616,3648,44\r\n2025-08-20T16:22:32.726,SCS,16.2000,16.3200,16.1550,16.1800,992620,7690\r\n"
+              example: 'timestamp,symbol,open,high,low,close,volume,count
+
+                2025-08-20T16:10:04.43,CVCO,492.0000,492.0000,480.5477,485.1100,119656,7684
+
+                2025-08-20T16:11:13.962,IFRX,0.8900,0.9199,0.8529,0.8929,57048,138
+
+                2025-08-20T16:04:10.564,KLXY,0.0000,0.0000,0.0000,0.0000,9,6
+
+                2025-08-20T16:04:07.554,HCOW,23.5600,23.6976,23.5600,23.6616,3648,44
+
+                2025-08-20T16:22:32.726,SCS,16.2000,16.3200,16.1550,16.1800,992620,7690
+
+                '
             application/json:
-              schema: &id006
+              schema:
                 type: array
-                items: *id005
+                items:
+                  type: object
+                  properties:
+                    timestamp:
+                      type: string
+                      format: date-time
+                      description: The timestamp in YYYY-MM-DDTHH:mm:ss.SSS format.
+                    symbol:
+                      type: string
+                      description: The symbol of the contract, or stock / underlying asset / option / index.
+                    open:
+                      type: number
+                      description: The opening trade price.
+                    high:
+                      type: number
+                      description: The highest traded price.
+                    low:
+                      type: number
+                      description: The lowest traded price.
+                    close:
+                      type: number
+                      description: The closing traded price.
+                    volume:
+                      type: integer
+                      description: The amount of contracts / shares traded.
+                    count:
+                      type: integer
+                      description: The amount of trades.
               example: "{\n  \"response\": [\n    {\"volume\":119656,\"symbol\":\"CVCO\",\"high\":492.0000,\"low\":480.5477,\"count\":7684,\"close\":485.1100,\"open\":492.0000,\"timestamp\":\"2025-08-20T16:10:04.43\"},\n    {\"volume\":57048,\"symbol\":\"IFRX\",\"high\":0.9199,\"low\":0.8529,\"count\":138,\"close\":0.8929,\"open\":0.8900,\"timestamp\":\"2025-08-20T16:11:13.962\"},\n    {\"volume\":9,\"symbol\":\"KLXY\",\"high\":0.0000,\"low\":0.0000,\"count\":6,\"close\":0.0000,\"open\":0.0000,\"timestamp\":\"2025-08-20T16:04:10.564\"},\n    {\"volume\":3648,\"symbol\":\"HCOW\",\"high\":23.6976,\"low\":23.5600,\"count\":44,\"close\":23.6616,\"open\":23.5600,\"timestamp\":\"2025-08-20T16:04:07.554\"},\n    {\"volume\":992620,\"symbol\":\"SCS\",\"high\":16.3200,\"low\":16.1550,\"count\":7690,\"close\":16.1800,\"open\":16.2000,\"timestamp\":\"2025-08-20T16:22:32.726\"}\n  ]\n}\n"
             application/x-ndjson:
-              schema: *id006
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    timestamp:
+                      type: string
+                      format: date-time
+                      description: The timestamp in YYYY-MM-DDTHH:mm:ss.SSS format.
+                    symbol:
+                      type: string
+                      description: The symbol of the contract, or stock / underlying asset / option / index.
+                    open:
+                      type: number
+                      description: The opening trade price.
+                    high:
+                      type: number
+                      description: The highest traded price.
+                    low:
+                      type: number
+                      description: The lowest traded price.
+                    close:
+                      type: number
+                      description: The closing traded price.
+                    volume:
+                      type: integer
+                      description: The amount of contracts / shares traded.
+                    count:
+                      type: integer
+                      description: The amount of trades.
               example: '{"volume":119656,"symbol":"CVCO","high":492.0000,"low":480.5477,"count":7684,"close":485.1100,"open":492.0000,"timestamp":"2025-08-20T16:10:04.43"}
 
                 {"volume":57048,"symbol":"IFRX","high":0.9199,"low":0.8529,"count":138,"close":0.8929,"open":0.8900,"timestamp":"2025-08-20T16:11:13.962"}
@@ -401,14 +541,72 @@ paths:
 
                 {"volume":992620,"symbol":"SCS","high":16.3200,"low":16.1550,"count":7690,"close":16.1800,"open":16.2000,"timestamp":"2025-08-20T16:22:32.726"}'
             python/pandas:
-              schema: *id006
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    timestamp:
+                      type: string
+                      format: date-time
+                      description: The timestamp in YYYY-MM-DDTHH:mm:ss.SSS format.
+                    symbol:
+                      type: string
+                      description: The symbol of the contract, or stock / underlying asset / option / index.
+                    open:
+                      type: number
+                      description: The opening trade price.
+                    high:
+                      type: number
+                      description: The highest traded price.
+                    low:
+                      type: number
+                      description: The lowest traded price.
+                    close:
+                      type: number
+                      description: The closing traded price.
+                    volume:
+                      type: integer
+                      description: The amount of contracts / shares traded.
+                    count:
+                      type: integer
+                      description: The amount of trades.
               example: 'timestamp symbol    open    high     low     close    volume   count
 
                 0 2026-04-27 12:13:13.669000-04:00   AAPL  266.09  268.36  265.07  266.9199  10436064  212955
 
                 '
             python/polars:
-              schema: *id006
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    timestamp:
+                      type: string
+                      format: date-time
+                      description: The timestamp in YYYY-MM-DDTHH:mm:ss.SSS format.
+                    symbol:
+                      type: string
+                      description: The symbol of the contract, or stock / underlying asset / option / index.
+                    open:
+                      type: number
+                      description: The opening trade price.
+                    high:
+                      type: number
+                      description: The highest traded price.
+                    low:
+                      type: number
+                      description: The lowest traded price.
+                    close:
+                      type: number
+                      description: The closing traded price.
+                    volume:
+                      type: integer
+                      description: The amount of contracts / shares traded.
+                    count:
+                      type: integer
+                      description: The amount of trades.
               example: 'shape: (1, 8)
 
                 ┌────────────────────────────────┬────────┬────────┬────────┬────────┬──────────┬──────────┬────────┐
@@ -455,14 +653,10 @@ paths:
           '
       tags:
       - Stock
-      description: '
-
-        Returns a real-time last trade from the [Nasdaq Basic feed](/Articles/Data-And-Requests/The-SIPs) if the account has a [stocks standard or pro subscription](https://www.thetadata.net/subscribe.html#stocks).
+      description: 'Returns a real-time last trade from the Nasdaq Basic feed if the account has a stocks standard or pro subscription.
 
 
-        - Theta Data resets its snapshot cache at midnight ET every day. This endpoint may not work on a weekend where there were no eligible messages sent over exchange feeds. We recommend using historic requests during the weekend.
-
-        '
+        - Theta Data resets its snapshot cache at midnight ET every day. This endpoint may not work on a weekend where there were no eligible messages sent over exchange feeds. We recommend using historic requests during the weekend.'
       x-sample-urls:
       - url: http://127.0.0.1:25503/v3/stock/snapshot/trade?symbol=AAPL
         description: Returns last trade for stocks for a given symbol
@@ -480,7 +674,7 @@ paths:
             text/csv:
               schema:
                 type: array
-                items: &id007
+                items:
                   type: object
                   properties:
                     timestamp:
@@ -502,24 +696,118 @@ paths:
                     price:
                       type: number
                       description: The trade price.
-              example: "timestamp,symbol,sequence,size,condition,price\r\n2025-08-20T16:36:05.549,AAPL,63539137,23,1,225.7500\r\n"
+              example: 'timestamp,symbol,sequence,size,condition,price
+
+                2025-08-20T16:36:05.549,AAPL,63539137,23,1,225.7500
+
+                '
             application/json:
-              schema: &id008
+              schema:
                 type: array
-                items: *id007
+                items:
+                  type: object
+                  properties:
+                    timestamp:
+                      type: string
+                      format: date-time
+                      description: The timestamp in YYYY-MM-DDTHH:mm:ss.SSS format.
+                    symbol:
+                      type: string
+                      description: The symbol of the contract, or stock / underlying asset / option / index.
+                    sequence:
+                      type: integer
+                      description: The exchange [sequence](/Articles/Data-And-Requests/Making-Requests.html#trade-sequences).
+                    size:
+                      type: integer
+                      description: The amount of contracts / shares traded.
+                    condition:
+                      type: integer
+                      description: The trade [condition](/Articles/Errors-Exchanges-Conditions/Trade-Conditions.html).
+                    price:
+                      type: number
+                      description: The trade price.
               example: "{\n  \"response\": [\n    {\"symbol\":\"AAPL\",\"sequence\":63539137,\"condition\":1,\"size\":23,\"price\":225.7500,\"timestamp\":\"2025-08-20T16:36:05.549\"}\n  ]\n}\n"
             application/x-ndjson:
-              schema: *id008
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    timestamp:
+                      type: string
+                      format: date-time
+                      description: The timestamp in YYYY-MM-DDTHH:mm:ss.SSS format.
+                    symbol:
+                      type: string
+                      description: The symbol of the contract, or stock / underlying asset / option / index.
+                    sequence:
+                      type: integer
+                      description: The exchange [sequence](/Articles/Data-And-Requests/Making-Requests.html#trade-sequences).
+                    size:
+                      type: integer
+                      description: The amount of contracts / shares traded.
+                    condition:
+                      type: integer
+                      description: The trade [condition](/Articles/Errors-Exchanges-Conditions/Trade-Conditions.html).
+                    price:
+                      type: number
+                      description: The trade price.
               example: '{"symbol":"AAPL","sequence":63539137,"condition":1,"size":23,"price":225.7500,"timestamp":"2025-08-20T16:36:05.549"}'
             python/pandas:
-              schema: *id008
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    timestamp:
+                      type: string
+                      format: date-time
+                      description: The timestamp in YYYY-MM-DDTHH:mm:ss.SSS format.
+                    symbol:
+                      type: string
+                      description: The symbol of the contract, or stock / underlying asset / option / index.
+                    sequence:
+                      type: integer
+                      description: The exchange [sequence](/Articles/Data-And-Requests/Making-Requests.html#trade-sequences).
+                    size:
+                      type: integer
+                      description: The amount of contracts / shares traded.
+                    condition:
+                      type: integer
+                      description: The trade [condition](/Articles/Errors-Exchanges-Conditions/Trade-Conditions.html).
+                    price:
+                      type: number
+                      description: The trade price.
               example: 'timestamp symbol  sequence  size  condition     price
 
                 0 2026-04-27 12:13:13.669000-04:00   AAPL  35639213    21         96  266.9263
 
                 '
             python/polars:
-              schema: *id008
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    timestamp:
+                      type: string
+                      format: date-time
+                      description: The timestamp in YYYY-MM-DDTHH:mm:ss.SSS format.
+                    symbol:
+                      type: string
+                      description: The symbol of the contract, or stock / underlying asset / option / index.
+                    sequence:
+                      type: integer
+                      description: The exchange [sequence](/Articles/Data-And-Requests/Making-Requests.html#trade-sequences).
+                    size:
+                      type: integer
+                      description: The amount of contracts / shares traded.
+                    condition:
+                      type: integer
+                      description: The trade [condition](/Articles/Errors-Exchanges-Conditions/Trade-Conditions.html).
+                    price:
+                      type: number
+                      description: The trade price.
               example: 'shape: (1, 6)
 
                 ┌────────────────────────────────┬────────┬──────────┬──────┬───────────┬──────────┐
@@ -567,13 +855,11 @@ paths:
           '
       tags:
       - Stock
-      description: '* Returns a real-time last BBO quote from the [Nasdaq Basic feed](/Articles/Data-And-Requests/The-SIPs) if the account has a [stocks standard or pro subscription](https://www.thetadata.net/subscribe.html#stocks).
+      description: '* Returns a real-time last BBO quote from the Nasdaq Basic feed if the account has a stocks standard or pro subscription.
 
-        * Returns a 15-minute delayed NBBO quote from the [UTP & CTA feeds](/Articles/Data-And-Requests/The-SIPs) account has the [stocks value subscription](https://www.thetadata.net/subscribe.html#stocks) subscription.
+        * Returns a 15-minute delayed NBBO quote from the UTP & CTA feeds account has the stocks value subscription subscription.
 
-        - Theta Data resets its snapshot cache at midnight ET every day. This endpoint may not work on a weekend where there were no eligible messages sent over exchange feeds. We recommend using historic requests during the weekend.
-
-        '
+        - Theta Data resets its snapshot cache at midnight ET every day. This endpoint may not work on a weekend where there were no eligible messages sent over exchange feeds. We recommend using historic requests during the weekend.'
       x-sample-urls:
       - url: http://127.0.0.1:25503/v3/stock/snapshot/quote?symbol=*
         description: Returns last quote for stocks for all symbols
@@ -593,7 +879,7 @@ paths:
             text/csv:
               schema:
                 type: array
-                items: &id009
+                items:
                   type: object
                   properties:
                     timestamp:
@@ -627,14 +913,94 @@ paths:
                     ask_condition:
                       type: integer
                       description: The last NBBO ask [condition](/Articles/Errors-Exchanges-Conditions/Quote-Conditions.html).
-              example: "timestamp,symbol,bid_size,bid_exchange,bid,bid_condition,ask_size,ask_exchange,ask,ask_condition\r\n2025-08-20T16:03:05.142,CVCO,1,29,475.75,0,3,29,494.33,0\r\n2025-08-20T16:10:05.032,KLXY,200,29,12.40,0,200,29,37.18,0\r\n2025-08-20T16:21:05.781,IFRX,100,29,0.7510,0,45,29,0.9500,0\r\n2025-08-20T16:19:55.101,SCS,100,29,14.64,0,100,29,17.60,0\r\n2025-08-20T16:33:50.877,BBC,100,29,13.29,0,2800,29,24.06,0\r\n"
+              example: 'timestamp,symbol,bid_size,bid_exchange,bid,bid_condition,ask_size,ask_exchange,ask,ask_condition
+
+                2025-08-20T16:03:05.142,CVCO,1,29,475.75,0,3,29,494.33,0
+
+                2025-08-20T16:10:05.032,KLXY,200,29,12.40,0,200,29,37.18,0
+
+                2025-08-20T16:21:05.781,IFRX,100,29,0.7510,0,45,29,0.9500,0
+
+                2025-08-20T16:19:55.101,SCS,100,29,14.64,0,100,29,17.60,0
+
+                2025-08-20T16:33:50.877,BBC,100,29,13.29,0,2800,29,24.06,0
+
+                '
             application/json:
-              schema: &id010
+              schema:
                 type: array
-                items: *id009
+                items:
+                  type: object
+                  properties:
+                    timestamp:
+                      type: string
+                      format: date-time
+                      description: The timestamp in YYYY-MM-DDTHH:mm:ss.SSS format.
+                    symbol:
+                      type: string
+                      description: The symbol of the contract, or stock / underlying asset / option / index.
+                    bid_size:
+                      type: integer
+                      description: The last NBBO bid size.
+                    bid_exchange:
+                      type: integer
+                      description: The last NBBO bid [exchange](/Articles/Errors-Exchanges-Conditions/Exchanges.html).
+                    bid:
+                      type: number
+                      description: The last NBBO bid price.
+                    bid_condition:
+                      type: integer
+                      description: The last NBBO bid [condition](/Articles/Errors-Exchanges-Conditions/Quote-Conditions.html).
+                    ask_size:
+                      type: integer
+                      description: The last NBBO ask size.
+                    ask_exchange:
+                      type: integer
+                      description: The last NBBO ask [exchange](/Articles/Errors-Exchanges-Conditions/Exchanges.html).
+                    ask:
+                      type: number
+                      description: The last NBBO ask price.
+                    ask_condition:
+                      type: integer
+                      description: The last NBBO ask [condition](/Articles/Errors-Exchanges-Conditions/Quote-Conditions.html).
               example: "{\n  \"response\": [\n    {\"symbol\":\"CVCO\",\"ask_size\":3,\"bid_size\":1,\"ask_exchange\":29,\"ask_condition\":0,\"bid_exchange\":29,\"ask\":494.33,\"bid\":475.75,\"bid_condition\":0,\"timestamp\":\"2025-08-20T16:03:05.142\"},\n    {\"symbol\":\"KLXY\",\"ask_size\":200,\"bid_size\":200,\"ask_exchange\":29,\"ask_condition\":0,\"bid_exchange\":29,\"ask\":37.18,\"bid\":12.40,\"bid_condition\":0,\"timestamp\":\"2025-08-20T16:10:05.032\"},\n    {\"symbol\":\"IFRX\",\"ask_size\":45,\"bid_size\":100,\"ask_exchange\":29,\"ask_condition\":0,\"bid_exchange\":29,\"ask\":0.9500,\"bid\":0.7510,\"bid_condition\":0,\"timestamp\":\"2025-08-20T16:21:05.781\"},\n    {\"symbol\":\"SCS\",\"ask_size\":100,\"bid_size\":100,\"ask_exchange\":29,\"ask_condition\":0,\"bid_exchange\":29,\"ask\":17.60,\"bid\":14.64,\"bid_condition\":0,\"timestamp\":\"2025-08-20T16:19:55.101\"},\n    {\"symbol\":\"BBC\",\"ask_size\":2800,\"bid_size\":100,\"ask_exchange\":29,\"ask_condition\":0,\"bid_exchange\":29,\"ask\":24.06,\"bid\":13.29,\"bid_condition\":0,\"timestamp\":\"2025-08-20T16:33:50.877\"}\n  ]\n}\n"
             application/x-ndjson:
-              schema: *id010
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    timestamp:
+                      type: string
+                      format: date-time
+                      description: The timestamp in YYYY-MM-DDTHH:mm:ss.SSS format.
+                    symbol:
+                      type: string
+                      description: The symbol of the contract, or stock / underlying asset / option / index.
+                    bid_size:
+                      type: integer
+                      description: The last NBBO bid size.
+                    bid_exchange:
+                      type: integer
+                      description: The last NBBO bid [exchange](/Articles/Errors-Exchanges-Conditions/Exchanges.html).
+                    bid:
+                      type: number
+                      description: The last NBBO bid price.
+                    bid_condition:
+                      type: integer
+                      description: The last NBBO bid [condition](/Articles/Errors-Exchanges-Conditions/Quote-Conditions.html).
+                    ask_size:
+                      type: integer
+                      description: The last NBBO ask size.
+                    ask_exchange:
+                      type: integer
+                      description: The last NBBO ask [exchange](/Articles/Errors-Exchanges-Conditions/Exchanges.html).
+                    ask:
+                      type: number
+                      description: The last NBBO ask price.
+                    ask_condition:
+                      type: integer
+                      description: The last NBBO ask [condition](/Articles/Errors-Exchanges-Conditions/Quote-Conditions.html).
               example: '{"symbol":"CVCO","ask_size":3,"bid_size":1,"ask_exchange":29,"ask_condition":0,"bid_exchange":29,"ask":494.33,"bid":475.75,"bid_condition":0,"timestamp":"2025-08-20T16:03:05.142"}
 
                 {"symbol":"KLXY","ask_size":200,"bid_size":200,"ask_exchange":29,"ask_condition":0,"bid_exchange":29,"ask":37.18,"bid":12.40,"bid_condition":0,"timestamp":"2025-08-20T16:10:05.032"}
@@ -645,14 +1011,84 @@ paths:
 
                 {"symbol":"BBC","ask_size":2800,"bid_size":100,"ask_exchange":29,"ask_condition":0,"bid_exchange":29,"ask":24.06,"bid":13.29,"bid_condition":0,"timestamp":"2025-08-20T16:33:50.877"}'
             python/pandas:
-              schema: *id010
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    timestamp:
+                      type: string
+                      format: date-time
+                      description: The timestamp in YYYY-MM-DDTHH:mm:ss.SSS format.
+                    symbol:
+                      type: string
+                      description: The symbol of the contract, or stock / underlying asset / option / index.
+                    bid_size:
+                      type: integer
+                      description: The last NBBO bid size.
+                    bid_exchange:
+                      type: integer
+                      description: The last NBBO bid [exchange](/Articles/Errors-Exchanges-Conditions/Exchanges.html).
+                    bid:
+                      type: number
+                      description: The last NBBO bid price.
+                    bid_condition:
+                      type: integer
+                      description: The last NBBO bid [condition](/Articles/Errors-Exchanges-Conditions/Quote-Conditions.html).
+                    ask_size:
+                      type: integer
+                      description: The last NBBO ask size.
+                    ask_exchange:
+                      type: integer
+                      description: The last NBBO ask [exchange](/Articles/Errors-Exchanges-Conditions/Exchanges.html).
+                    ask:
+                      type: number
+                      description: The last NBBO ask price.
+                    ask_condition:
+                      type: integer
+                      description: The last NBBO ask [condition](/Articles/Errors-Exchanges-Conditions/Quote-Conditions.html).
               example: 'timestamp symbol  bid_size  bid_exchange    bid  bid_condition  ask_size  ask_exchange     ask  ask_condition
 
                 0 2026-04-27 12:13:13.953000-04:00   AAPL       158            29  266.9              0        22            29  266.92              0
 
                 '
             python/polars:
-              schema: *id010
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    timestamp:
+                      type: string
+                      format: date-time
+                      description: The timestamp in YYYY-MM-DDTHH:mm:ss.SSS format.
+                    symbol:
+                      type: string
+                      description: The symbol of the contract, or stock / underlying asset / option / index.
+                    bid_size:
+                      type: integer
+                      description: The last NBBO bid size.
+                    bid_exchange:
+                      type: integer
+                      description: The last NBBO bid [exchange](/Articles/Errors-Exchanges-Conditions/Exchanges.html).
+                    bid:
+                      type: number
+                      description: The last NBBO bid price.
+                    bid_condition:
+                      type: integer
+                      description: The last NBBO bid [condition](/Articles/Errors-Exchanges-Conditions/Quote-Conditions.html).
+                    ask_size:
+                      type: integer
+                      description: The last NBBO ask size.
+                    ask_exchange:
+                      type: integer
+                      description: The last NBBO ask [exchange](/Articles/Errors-Exchanges-Conditions/Exchanges.html).
+                    ask:
+                      type: number
+                      description: The last NBBO ask price.
+                    ask_condition:
+                      type: integer
+                      description: The last NBBO ask [condition](/Articles/Errors-Exchanges-Conditions/Quote-Conditions.html).
               example: 'shape: (1, 10)
 
                 ┌────────────────────────────────┬────────┬──────────┬──────────────┬───────┬───────────────┬──────────┬──────────────┬────────┬───────────────┐
@@ -700,13 +1136,11 @@ paths:
           '
       tags:
       - Stock
-      description: '* Returns a real-time market value derived from the last BBO quote from the [Nasdaq Basic feed](/Articles/Data-And-Requests/The-SIPs) if the account has a [stocks standard or pro subscription](https://www.thetadata.net/subscribe.html#stocks).
+      description: '* Returns a real-time market value derived from the last BBO quote from the Nasdaq Basic feed if the account has a stocks standard or pro subscription.
 
-        * Returns a 15-minute delayed market value derived from an NBBO quote from the [UTP & CTA feeds](/Articles/Data-And-Requests/The-SIPs) if the account has the [stocks value subscription](https://www.thetadata.net/subscribe.html#stocks) subscription.
+        * Returns a 15-minute delayed market value derived from an NBBO quote from the UTP & CTA feeds if the account has the stocks value subscription subscription.
 
-        - Theta Data resets its snapshot cache at midnight ET every day. This endpoint may not work on a weekend where there were no eligible messages sent over exchange feeds. We recommend using historic requests during the weekend.
-
-        '
+        - Theta Data resets its snapshot cache at midnight ET every day. This endpoint may not work on a weekend where there were no eligible messages sent over exchange feeds. We recommend using historic requests during the weekend.'
       x-sample-urls:
       - url: http://127.0.0.1:25503/v3/stock/snapshot/market_value?symbol=*
         description: Returns last market value for stocks for all symbols
@@ -726,7 +1160,7 @@ paths:
             text/csv:
               schema:
                 type: array
-                items: &id011
+                items:
                   type: object
                   properties:
                     timestamp:
@@ -745,14 +1179,60 @@ paths:
                     market_price:
                       type: number
                       description: The last market value price
-              example: "timestamp,symbol,market_bid,market_ask,market_price\r\n2025-12-16T11:47:50.854,CVCO,590.60,595.55,593.07\r\n2025-12-16T11:02:05.409,KLXY,26.77,27.69,27.23\r\n2025-12-16T11:47:52.923,FXR,80.23,80.27,80.25\r\n2025-12-16T11:47:53.496,AAPL,273.22,273.23,273.22"
+              example: 'timestamp,symbol,market_bid,market_ask,market_price
+
+                2025-12-16T11:47:50.854,CVCO,590.60,595.55,593.07
+
+                2025-12-16T11:02:05.409,KLXY,26.77,27.69,27.23
+
+                2025-12-16T11:47:52.923,FXR,80.23,80.27,80.25
+
+                2025-12-16T11:47:53.496,AAPL,273.22,273.23,273.22'
             application/json:
-              schema: &id012
+              schema:
                 type: array
-                items: *id011
+                items:
+                  type: object
+                  properties:
+                    timestamp:
+                      type: string
+                      format: date-time
+                      description: The timestamp in YYYY-MM-DDTHH:mm:ss.SSS format.
+                    symbol:
+                      type: string
+                      description: The symbol of the contract, or stock / underlying asset / option / index.
+                    market_bid:
+                      type: number
+                      description: The last market bid
+                    market_ask:
+                      type: number
+                      description: The last market ask
+                    market_price:
+                      type: number
+                      description: The last market value price
               example: "{\n  \"response\": [\n    {\"symbol\":\"CVCO\",\"market_bid\":590.60,\"market_ask\":595.55,\"market_price\":593.07,\"timestamp\":\"2025-12-16T11:47:50.854\"},\n    {\"symbol\":\"KLXY\",\"market_bid\":26.77,\"market_ask\":27.69,\"market_price\":27.23,\"timestamp\":\"2025-12-16T11:02:05.409\"},\n    {\"symbol\":\"FXR\",\"market_bid\":80.23,\"market_ask\":80.27,\"market_price\":80.25,\"timestamp\":\"2025-12-16T11:47:52.923\"},\n    {\"symbol\":\"AAPL\",\"market_bid\":273.22,\"market_ask\":273.23,\"market_price\":273.22,\"timestamp\":\"2025-12-16T11:47:53.496\"}\n  ]\n}\n"
             application/x-ndjson:
-              schema: *id012
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    timestamp:
+                      type: string
+                      format: date-time
+                      description: The timestamp in YYYY-MM-DDTHH:mm:ss.SSS format.
+                    symbol:
+                      type: string
+                      description: The symbol of the contract, or stock / underlying asset / option / index.
+                    market_bid:
+                      type: number
+                      description: The last market bid
+                    market_ask:
+                      type: number
+                      description: The last market ask
+                    market_price:
+                      type: number
+                      description: The last market value price
               example: '{"symbol":"CVCO","market_bid":590.60,"market_ask":595.55,"market_price":593.07,"timestamp":"2025-12-16T11:47:50.854"}
 
                 {"symbol":"KLXY","market_bid":26.77,"market_ask":27.69,"market_price":27.23,"timestamp":"2025-12-16T11:02:05.409"}
@@ -761,14 +1241,54 @@ paths:
 
                 {"symbol":"AAPL","market_bid":273.22,"market_ask":273.23,"market_price":273.22,"timestamp":"2025-12-16T11:47:53.496"}'
             python/pandas:
-              schema: *id012
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    timestamp:
+                      type: string
+                      format: date-time
+                      description: The timestamp in YYYY-MM-DDTHH:mm:ss.SSS format.
+                    symbol:
+                      type: string
+                      description: The symbol of the contract, or stock / underlying asset / option / index.
+                    market_bid:
+                      type: number
+                      description: The last market bid
+                    market_ask:
+                      type: number
+                      description: The last market ask
+                    market_price:
+                      type: number
+                      description: The last market value price
               example: 'timestamp symbol  market_bid  market_ask  market_price
 
                 0 2026-04-27 12:13:13.953000-04:00   AAPL       266.9      266.91         266.9
 
                 '
             python/polars:
-              schema: *id012
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    timestamp:
+                      type: string
+                      format: date-time
+                      description: The timestamp in YYYY-MM-DDTHH:mm:ss.SSS format.
+                    symbol:
+                      type: string
+                      description: The symbol of the contract, or stock / underlying asset / option / index.
+                    market_bid:
+                      type: number
+                      description: The last market bid
+                    market_ask:
+                      type: number
+                      description: The last market ask
+                    market_price:
+                      type: number
+                      description: The last market value price
               example: 'shape: (1, 5)
 
                 ┌────────────────────────────────┬────────┬────────────┬────────────┬──────────────┐
@@ -802,11 +1322,7 @@ paths:
         source: "from thetadata import ThetaClient\nfrom datetime import date\n\nclient = ThetaClient(dataframe_type='polars')\ndf = client.stock_history_eod(\n    symbol='AAPL',\n    start_date=date(2024, 1, 1),\n    end_date=date(2024, 1, 31),\n)\n"
       tags:
       - Stock
-      description: '
-
-        Since [the equity SIPs](/Articles/Data-And-Requests/The-SIPs.html) only generate a partial EOD report, Theta Data generates a national EOD report at 17:15 ET each day. ``created`` represents the datetime the report was generated and ``last_trade`` represents the datetime of the last trade. The quote in the response represents the last NBBO reported by [CTA or UTP](/Articles/Data-And-Requests/The-SIPs.html) at the time of report generation. You can read more about EOD & OHLC data [here](/Articles/Data-And-Requests/OHLC-EOD.html). Theta Data plans to avail SIP EOD reports in the near future.
-
-        '
+      description: Since the equity SIPs only generate a partial EOD report, Theta Data generates a national EOD report at 17:15 ET each day. ``created`` represents the datetime the report was generated and ``last_trade`` represents the datetime of the last trade. The quote in the response represents the last NBBO reported by CTA or UTP at the time of report generation. You can read more about EOD & OHLC data here. Theta Data plans to avail SIP EOD reports in the near future.
       x-sample-urls:
       - url: http://127.0.0.1:25503/v3/stock/history/eod?symbol=AAPL&start_date=20240101&end_date=20240131
         description: Returns EOD report for a given symbol between specified dates (inclusive)
@@ -824,7 +1340,7 @@ paths:
             text/csv:
               schema:
                 type: array
-                items: &id013
+                items:
                   type: object
                   properties:
                     created:
@@ -877,14 +1393,132 @@ paths:
                     ask_condition:
                       type: integer
                       description: The last NBBO ask [condition](/Articles/Errors-Exchanges-Conditions/Quote-Conditions.html).
-              example: "created,last_trade,open,high,low,close,volume,count,bid_size,bid_exchange,bid,bid_condition,ask_size,ask_exchange,ask,ask_condition\r\n2024-01-02T17:17:53.606,2024-01-02T17:17:51.877,187.030,188.440,183.885,185.640,80680243,1003582,2,7,18.534,0,2,1,18.536,0\r\n2024-01-03T17:16:29.883,2024-01-03T17:16:28.586,184.200,185.880,183.430,184.250,58308345,654127,5,7,18.405,0,2,1,18.410,0\r\n2024-01-04T17:17:06.02,2024-01-04T17:17:02.445,182.0000,183.0872,180.8800,181.9100,71197269,709246,8,60,1.8176,0,2,7,1.8179,0\r\n2024-01-05T17:16:57.032,2024-01-05T17:16:49.821,181.900,182.760,180.170,181.180,61949135,679405,3,1,18.103,0,3,7,18.105,0\r\n2024-01-08T17:17:01.83,2024-01-08T17:17:01.484,182.000,185.600,181.500,185.560,59029146,665626,4,1,18.528,0,1,65,18.537,0\r\n"
+              example: 'created,last_trade,open,high,low,close,volume,count,bid_size,bid_exchange,bid,bid_condition,ask_size,ask_exchange,ask,ask_condition
+
+                2024-01-02T17:17:53.606,2024-01-02T17:17:51.877,187.030,188.440,183.885,185.640,80680243,1003582,2,7,18.534,0,2,1,18.536,0
+
+                2024-01-03T17:16:29.883,2024-01-03T17:16:28.586,184.200,185.880,183.430,184.250,58308345,654127,5,7,18.405,0,2,1,18.410,0
+
+                2024-01-04T17:17:06.02,2024-01-04T17:17:02.445,182.0000,183.0872,180.8800,181.9100,71197269,709246,8,60,1.8176,0,2,7,1.8179,0
+
+                2024-01-05T17:16:57.032,2024-01-05T17:16:49.821,181.900,182.760,180.170,181.180,61949135,679405,3,1,18.103,0,3,7,18.105,0
+
+                2024-01-08T17:17:01.83,2024-01-08T17:17:01.484,182.000,185.600,181.500,185.560,59029146,665626,4,1,18.528,0,1,65,18.537,0
+
+                '
             application/json:
-              schema: &id014
+              schema:
                 type: array
-                items: *id013
+                items:
+                  type: object
+                  properties:
+                    created:
+                      type: string
+                      format: date-time
+                      description: The date formated as YYYY-MM-DDTHH:mm:ss.SSS format.
+                    last_trade:
+                      type: string
+                      format: date-time
+                      description: The last trade date formated as YYYY-MM-DDTHH:mm:ss.SSS format.
+                    open:
+                      type: number
+                      description: The opening trade price.
+                    high:
+                      type: number
+                      description: The highest traded price.
+                    low:
+                      type: number
+                      description: The lowest traded price.
+                    close:
+                      type: number
+                      description: The closing traded price.
+                    volume:
+                      type: integer
+                      description: The amount of contracts / shares traded.
+                    count:
+                      type: integer
+                      description: The amount of trades.
+                    bid_size:
+                      type: integer
+                      description: The last NBBO bid size.
+                    bid_exchange:
+                      type: integer
+                      description: The last NBBO bid [exchange](/Articles/Errors-Exchanges-Conditions/Exchanges.html).
+                    bid:
+                      type: number
+                      description: The last NBBO bid price.
+                    bid_condition:
+                      type: integer
+                      description: The last NBBO bid [condition](/Articles/Errors-Exchanges-Conditions/Quote-Conditions.html).
+                    ask_size:
+                      type: integer
+                      description: The last NBBO ask size.
+                    ask_exchange:
+                      type: integer
+                      description: The last NBBO ask [exchange](/Articles/Errors-Exchanges-Conditions/Exchanges.html).
+                    ask:
+                      type: number
+                      description: The last NBBO ask price.
+                    ask_condition:
+                      type: integer
+                      description: The last NBBO ask [condition](/Articles/Errors-Exchanges-Conditions/Quote-Conditions.html).
               example: "{\n  \"response\": [\n    {\"ask_size\":2,\"last_trade\":\"2024-01-02T17:17:51.877\",\"created\":\"2024-01-02T17:17:53.606\",\"ask_condition\":0,\"count\":1003582,\"volume\":80680243,\"high\":188.440,\"low\":183.885,\"bid_size\":2,\"ask_exchange\":1,\"bid_exchange\":7,\"ask\":18.536,\"bid\":18.534,\"bid_condition\":0,\"close\":185.640,\"open\":187.030},\n    {\"ask_size\":2,\"last_trade\":\"2024-01-03T17:16:28.586\",\"created\":\"2024-01-03T17:16:29.883\",\"ask_condition\":0,\"count\":654127,\"volume\":58308345,\"high\":185.880,\"low\":183.430,\"bid_size\":5,\"ask_exchange\":1,\"bid_exchange\":7,\"ask\":18.410,\"bid\":18.405,\"bid_condition\":0,\"close\":184.250,\"open\":184.200},\n    {\"ask_size\":2,\"last_trade\":\"2024-01-04T17:17:02.445\",\"created\":\"2024-01-04T17:17:06.02\",\"ask_condition\":0,\"count\":709246,\"volume\":71197269,\"high\":183.0872,\"low\":180.8800,\"bid_size\":8,\"ask_exchange\":7,\"bid_exchange\":60,\"ask\":1.8179,\"bid\":1.8176,\"bid_condition\":0,\"close\":181.9100,\"open\":182.0000},\n    {\"ask_size\":3,\"last_trade\":\"2024-01-05T17:16:49.821\",\"created\":\"2024-01-05T17:16:57.032\",\"ask_condition\":0,\"count\":679405,\"volume\":61949135,\"high\":182.760,\"low\":180.170,\"bid_size\":3,\"ask_exchange\":7,\"bid_exchange\":1,\"ask\":18.105,\"bid\":18.103,\"bid_condition\":0,\"close\":181.180,\"open\":181.900},\n    {\"ask_size\":1,\"last_trade\":\"2024-01-08T17:17:01.484\",\"created\":\"2024-01-08T17:17:01.83\",\"ask_condition\":0,\"count\":665626,\"volume\":59029146,\"high\":185.600,\"low\":181.500,\"bid_size\":4,\"ask_exchange\":65,\"bid_exchange\":1,\"ask\":18.537,\"bid\":18.528,\"bid_condition\":0,\"close\":185.560,\"open\":182.000}\n  ]\n}\n"
             application/x-ndjson:
-              schema: *id014
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    created:
+                      type: string
+                      format: date-time
+                      description: The date formated as YYYY-MM-DDTHH:mm:ss.SSS format.
+                    last_trade:
+                      type: string
+                      format: date-time
+                      description: The last trade date formated as YYYY-MM-DDTHH:mm:ss.SSS format.
+                    open:
+                      type: number
+                      description: The opening trade price.
+                    high:
+                      type: number
+                      description: The highest traded price.
+                    low:
+                      type: number
+                      description: The lowest traded price.
+                    close:
+                      type: number
+                      description: The closing traded price.
+                    volume:
+                      type: integer
+                      description: The amount of contracts / shares traded.
+                    count:
+                      type: integer
+                      description: The amount of trades.
+                    bid_size:
+                      type: integer
+                      description: The last NBBO bid size.
+                    bid_exchange:
+                      type: integer
+                      description: The last NBBO bid [exchange](/Articles/Errors-Exchanges-Conditions/Exchanges.html).
+                    bid:
+                      type: number
+                      description: The last NBBO bid price.
+                    bid_condition:
+                      type: integer
+                      description: The last NBBO bid [condition](/Articles/Errors-Exchanges-Conditions/Quote-Conditions.html).
+                    ask_size:
+                      type: integer
+                      description: The last NBBO ask size.
+                    ask_exchange:
+                      type: integer
+                      description: The last NBBO ask [exchange](/Articles/Errors-Exchanges-Conditions/Exchanges.html).
+                    ask:
+                      type: number
+                      description: The last NBBO ask price.
+                    ask_condition:
+                      type: integer
+                      description: The last NBBO ask [condition](/Articles/Errors-Exchanges-Conditions/Quote-Conditions.html).
               example: '{"ask_size":2,"last_trade":"2024-01-02T17:17:51.877","created":"2024-01-02T17:17:53.606","ask_condition":0,"count":1003582,"volume":80680243,"high":188.440,"low":183.885,"bid_size":2,"ask_exchange":1,"bid_exchange":7,"ask":18.536,"bid":18.534,"bid_condition":0,"close":185.640,"open":187.030}
 
                 {"ask_size":2,"last_trade":"2024-01-03T17:16:28.586","created":"2024-01-03T17:16:29.883","ask_condition":0,"count":654127,"volume":58308345,"high":185.880,"low":183.430,"bid_size":5,"ask_exchange":1,"bid_exchange":7,"ask":18.410,"bid":18.405,"bid_condition":0,"close":184.250,"open":184.200}
@@ -895,7 +1529,61 @@ paths:
 
                 {"ask_size":1,"last_trade":"2024-01-08T17:17:01.484","created":"2024-01-08T17:17:01.83","ask_condition":0,"count":665626,"volume":59029146,"high":185.600,"low":181.500,"bid_size":4,"ask_exchange":65,"bid_exchange":1,"ask":18.537,"bid":18.528,"bid_condition":0,"close":185.560,"open":182.000}'
             python/pandas:
-              schema: *id014
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    created:
+                      type: string
+                      format: date-time
+                      description: The date formated as YYYY-MM-DDTHH:mm:ss.SSS format.
+                    last_trade:
+                      type: string
+                      format: date-time
+                      description: The last trade date formated as YYYY-MM-DDTHH:mm:ss.SSS format.
+                    open:
+                      type: number
+                      description: The opening trade price.
+                    high:
+                      type: number
+                      description: The highest traded price.
+                    low:
+                      type: number
+                      description: The lowest traded price.
+                    close:
+                      type: number
+                      description: The closing traded price.
+                    volume:
+                      type: integer
+                      description: The amount of contracts / shares traded.
+                    count:
+                      type: integer
+                      description: The amount of trades.
+                    bid_size:
+                      type: integer
+                      description: The last NBBO bid size.
+                    bid_exchange:
+                      type: integer
+                      description: The last NBBO bid [exchange](/Articles/Errors-Exchanges-Conditions/Exchanges.html).
+                    bid:
+                      type: number
+                      description: The last NBBO bid price.
+                    bid_condition:
+                      type: integer
+                      description: The last NBBO bid [condition](/Articles/Errors-Exchanges-Conditions/Quote-Conditions.html).
+                    ask_size:
+                      type: integer
+                      description: The last NBBO ask size.
+                    ask_exchange:
+                      type: integer
+                      description: The last NBBO ask [exchange](/Articles/Errors-Exchanges-Conditions/Exchanges.html).
+                    ask:
+                      type: number
+                      description: The last NBBO ask price.
+                    ask_condition:
+                      type: integer
+                      description: The last NBBO ask [condition](/Articles/Errors-Exchanges-Conditions/Quote-Conditions.html).
               example: 'created                       last_trade    open    high     low   close    volume   count  bid_size  bid_exchange     bid  bid_condition  ask_size  ask_exchange     ask  ask_condition
 
                 0 2025-10-02 17:15:40.365000-04:00 2025-10-02 17:15:30.829000-04:00  256.60  258.18  254.15  257.13  42543552  483678         1            60  257.40              0        19             7  257.50              0
@@ -904,7 +1592,61 @@ paths:
 
                 '
             python/polars:
-              schema: *id014
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    created:
+                      type: string
+                      format: date-time
+                      description: The date formated as YYYY-MM-DDTHH:mm:ss.SSS format.
+                    last_trade:
+                      type: string
+                      format: date-time
+                      description: The last trade date formated as YYYY-MM-DDTHH:mm:ss.SSS format.
+                    open:
+                      type: number
+                      description: The opening trade price.
+                    high:
+                      type: number
+                      description: The highest traded price.
+                    low:
+                      type: number
+                      description: The lowest traded price.
+                    close:
+                      type: number
+                      description: The closing traded price.
+                    volume:
+                      type: integer
+                      description: The amount of contracts / shares traded.
+                    count:
+                      type: integer
+                      description: The amount of trades.
+                    bid_size:
+                      type: integer
+                      description: The last NBBO bid size.
+                    bid_exchange:
+                      type: integer
+                      description: The last NBBO bid [exchange](/Articles/Errors-Exchanges-Conditions/Exchanges.html).
+                    bid:
+                      type: number
+                      description: The last NBBO bid price.
+                    bid_condition:
+                      type: integer
+                      description: The last NBBO bid [condition](/Articles/Errors-Exchanges-Conditions/Quote-Conditions.html).
+                    ask_size:
+                      type: integer
+                      description: The last NBBO ask size.
+                    ask_exchange:
+                      type: integer
+                      description: The last NBBO ask [exchange](/Articles/Errors-Exchanges-Conditions/Exchanges.html).
+                    ask:
+                      type: number
+                      description: The last NBBO ask price.
+                    ask_condition:
+                      type: integer
+                      description: The last NBBO ask [condition](/Articles/Errors-Exchanges-Conditions/Quote-Conditions.html).
               example: 'shape: (2, 16)
 
                 ┌────────────────────────────────┬────────────────────────────────┬────────┬────────┬────────┬────────┬──────────┬────────┬──────────┬──────────────┬────────┬───────────────┬──────────┬──────────────┬────────┬───────────────┐
@@ -954,7 +1696,11 @@ paths:
           '
       tags:
       - Stock
-      description: "- Aggregated OHLC bars that use [SIP rules](/Articles/Data-And-Requests/OHLC-EOD.html) for each bar. Time timestamp of the bar represents the opening time of the bar. For a trade to be part of the bar:  ``bar time`` <= ``trade time`` < ``bar timestamp + ivl``, where ivl is the specified interval size in milliseconds. \n- Set the ``venue`` parameter to ``nqb`` to access current-day real-time historic data from the [Nasdaq Basic feed](/Articles/Data-And-Requests/The-SIPs) if the account has a [stocks standard or pro subscription](https://www.thetadata.net/subscribe.html#stocks).\n- Multi-day requests are limited to 1 month of data.\n"
+      description: '- Aggregated OHLC bars that use SIP rules for each bar. Time timestamp of the bar represents the opening time of the bar. For a trade to be part of the bar: ``bar time`` <= ``trade time`` < ``bar timestamp + ivl``, where ivl is the specified interval size in milliseconds.
+
+        - Set the ``venue`` parameter to ``nqb`` to access current-day real-time historic data from the Nasdaq Basic feed if the account has a stocks standard or pro subscription.
+
+        - Multi-day requests are limited to 1 month of data.'
       x-sample-urls:
       - url: http://127.0.0.1:25503/v3/stock/history/ohlc?symbol=AAPL&date=20240102&interval=1m
         description: Returns OHLC for a given symbol on the specified date with a one minute interval
@@ -981,7 +1727,7 @@ paths:
             text/csv:
               schema:
                 type: array
-                items: &id015
+                items:
                   type: object
                   properties:
                     timestamp:
@@ -1009,14 +1755,82 @@ paths:
                     vwap:
                       type: number
                       description: The volume weighted average price of the trading session.
-              example: "timestamp,open,high,low,close,volume,count,vwap\r\n2024-01-02T09:30:00,187.1500,188.050,186.350,187.830,3256708,37886,187.25\r\n2024-01-02T09:31:00,187.830,188.120,187.630,187.765,809707,7481,187.38\r\n2024-01-02T09:32:00,187.770,188.440,187.730,188.2984,687086,7103,187.48\r\n2024-01-02T09:33:00,188.3050,188.310,187.810,188.160,485275,6245,187.53\r\n2024-01-02T09:34:00,188.150,188.150,187.670,187.730,415948,5942,187.55\r\n"
+              example: 'timestamp,open,high,low,close,volume,count,vwap
+
+                2024-01-02T09:30:00,187.1500,188.050,186.350,187.830,3256708,37886,187.25
+
+                2024-01-02T09:31:00,187.830,188.120,187.630,187.765,809707,7481,187.38
+
+                2024-01-02T09:32:00,187.770,188.440,187.730,188.2984,687086,7103,187.48
+
+                2024-01-02T09:33:00,188.3050,188.310,187.810,188.160,485275,6245,187.53
+
+                2024-01-02T09:34:00,188.150,188.150,187.670,187.730,415948,5942,187.55
+
+                '
             application/json:
-              schema: &id016
+              schema:
                 type: array
-                items: *id015
+                items:
+                  type: object
+                  properties:
+                    timestamp:
+                      type: string
+                      format: date-time
+                      description: The timestamp in YYYY-MM-DDTHH:mm:ss.SSS format.
+                    open:
+                      type: number
+                      description: The opening trade price.
+                    high:
+                      type: number
+                      description: The highest traded price.
+                    low:
+                      type: number
+                      description: The lowest traded price.
+                    close:
+                      type: number
+                      description: The closing traded price.
+                    volume:
+                      type: integer
+                      description: The amount of contracts / shares traded.
+                    count:
+                      type: integer
+                      description: The amount of trades.
+                    vwap:
+                      type: number
+                      description: The volume weighted average price of the trading session.
               example: "{\n  \"response\": [\n    {\"volume\":3256708,\"high\":188.050,\"low\":186.350,\"vwap\":187.25,\"count\":37886,\"close\":187.830,\"open\":187.1500,\"timestamp\":\"2024-01-02T09:30:00\"},\n    {\"volume\":809707,\"high\":188.120,\"low\":187.630,\"vwap\":187.38,\"count\":7481,\"close\":187.765,\"open\":187.830,\"timestamp\":\"2024-01-02T09:31:00\"},\n    {\"volume\":687086,\"high\":188.440,\"low\":187.730,\"vwap\":187.48,\"count\":7103,\"close\":188.2984,\"open\":187.770,\"timestamp\":\"2024-01-02T09:32:00\"},\n    {\"volume\":485275,\"high\":188.310,\"low\":187.810,\"vwap\":187.53,\"count\":6245,\"close\":188.160,\"open\":188.3050,\"timestamp\":\"2024-01-02T09:33:00\"},\n    {\"volume\":415948,\"high\":188.150,\"low\":187.670,\"vwap\":187.55,\"count\":5942,\"close\":187.730,\"open\":188.150,\"timestamp\":\"2024-01-02T09:34:00\"}\n  ]\n}\n"
             application/x-ndjson:
-              schema: *id016
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    timestamp:
+                      type: string
+                      format: date-time
+                      description: The timestamp in YYYY-MM-DDTHH:mm:ss.SSS format.
+                    open:
+                      type: number
+                      description: The opening trade price.
+                    high:
+                      type: number
+                      description: The highest traded price.
+                    low:
+                      type: number
+                      description: The lowest traded price.
+                    close:
+                      type: number
+                      description: The closing traded price.
+                    volume:
+                      type: integer
+                      description: The amount of contracts / shares traded.
+                    count:
+                      type: integer
+                      description: The amount of trades.
+                    vwap:
+                      type: number
+                      description: The volume weighted average price of the trading session.
               example: '{"volume":3256708,"high":188.050,"low":186.350,"vwap":187.25,"count":37886,"close":187.830,"open":187.1500,"timestamp":"2024-01-02T09:30:00"}
 
                 {"volume":809707,"high":188.120,"low":187.630,"vwap":187.38,"count":7481,"close":187.765,"open":187.830,"timestamp":"2024-01-02T09:31:00"}
@@ -1027,7 +1841,36 @@ paths:
 
                 {"volume":415948,"high":188.150,"low":187.670,"vwap":187.55,"count":5942,"close":187.730,"open":188.150,"timestamp":"2024-01-02T09:34:00"}'
             python/pandas:
-              schema: *id016
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    timestamp:
+                      type: string
+                      format: date-time
+                      description: The timestamp in YYYY-MM-DDTHH:mm:ss.SSS format.
+                    open:
+                      type: number
+                      description: The opening trade price.
+                    high:
+                      type: number
+                      description: The highest traded price.
+                    low:
+                      type: number
+                      description: The lowest traded price.
+                    close:
+                      type: number
+                      description: The closing traded price.
+                    volume:
+                      type: integer
+                      description: The amount of contracts / shares traded.
+                    count:
+                      type: integer
+                      description: The amount of trades.
+                    vwap:
+                      type: number
+                      description: The volume weighted average price of the trading session.
               example: 'timestamp      open      high       low     close  volume  count    vwap
 
                 0  2025-10-02 09:30:00-04:00  256.5750  256.8300  256.2100  256.4600  929518  13659  256.57
@@ -1094,7 +1937,36 @@ paths:
 
                 '
             python/polars:
-              schema: *id016
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    timestamp:
+                      type: string
+                      format: date-time
+                      description: The timestamp in YYYY-MM-DDTHH:mm:ss.SSS format.
+                    open:
+                      type: number
+                      description: The opening trade price.
+                    high:
+                      type: number
+                      description: The highest traded price.
+                    low:
+                      type: number
+                      description: The lowest traded price.
+                    close:
+                      type: number
+                      description: The closing traded price.
+                    volume:
+                      type: integer
+                      description: The amount of contracts / shares traded.
+                    count:
+                      type: integer
+                      description: The amount of trades.
+                    vwap:
+                      type: number
+                      description: The volume weighted average price of the trading session.
               example: 'shape: (31, 8)
 
                 ┌────────────────────────────────┬──────────┬──────────┬────────┬─────────┬────────┬───────┬────────┐
@@ -1162,11 +2034,9 @@ paths:
           '
       tags:
       - Stock
-      description: 'Returns every trade reported by [UTP & CTA](/Articles/Data-And-Requests/The-SIPs). Set the ``venue`` parameter to ``nqb`` to access current-day real-time historic data from the [Nasdaq Basic feed](/Articles/Data-And-Requests/The-SIPs) if the account has a [stocks standard or pro subscription](https://www.thetadata.net/subscribe.html#stocks).
+      description: 'Returns every trade reported by UTP & CTA. Set the ``venue`` parameter to ``nqb`` to access current-day real-time historic data from the Nasdaq Basic feed if the account has a stocks standard or pro subscription.
 
-        - Multi-day requests are limited to 1 month of data.
-
-        '
+        - Multi-day requests are limited to 1 month of data.'
       x-sample-urls:
       - url: http://127.0.0.1:25503/v3/stock/history/trade?symbol=AAPL&date=20240102
         description: Returns every trade for a given symbol on specified date
@@ -1192,7 +2062,7 @@ paths:
             text/csv:
               schema:
                 type: array
-                items: &id017
+                items:
                   type: object
                   properties:
                     timestamp:
@@ -1226,14 +2096,94 @@ paths:
                     price:
                       type: number
                       description: The trade price.
-              example: "timestamp,sequence,ext_condition1,ext_condition2,ext_condition3,ext_condition4,condition,size,exchange,price\r\n2024-01-02T09:30:00.011,14920,32,95,1,115,1,2,7,187.1800\r\n2024-01-02T09:30:00.014,8931,32,255,1,115,1,1,1,187.1800\r\n2024-01-02T09:30:00.014,8932,32,255,1,115,1,5,1,187.1800\r\n2024-01-02T09:30:00.014,8933,32,255,1,115,1,3,1,187.1900\r\n2024-01-02T09:30:00.014,8934,32,255,1,115,1,91,1,187.1900\r\n"
+              example: 'timestamp,sequence,ext_condition1,ext_condition2,ext_condition3,ext_condition4,condition,size,exchange,price
+
+                2024-01-02T09:30:00.011,14920,32,95,1,115,1,2,7,187.1800
+
+                2024-01-02T09:30:00.014,8931,32,255,1,115,1,1,1,187.1800
+
+                2024-01-02T09:30:00.014,8932,32,255,1,115,1,5,1,187.1800
+
+                2024-01-02T09:30:00.014,8933,32,255,1,115,1,3,1,187.1900
+
+                2024-01-02T09:30:00.014,8934,32,255,1,115,1,91,1,187.1900
+
+                '
             application/json:
-              schema: &id018
+              schema:
                 type: array
-                items: *id017
+                items:
+                  type: object
+                  properties:
+                    timestamp:
+                      type: string
+                      format: date-time
+                      description: The timestamp in YYYY-MM-DDTHH:mm:ss.SSS format.
+                    sequence:
+                      type: integer
+                      description: The exchange [sequence](/Articles/Data-And-Requests/Making-Requests.html#trade-sequences).
+                    ext_condition1:
+                      type: integer
+                      description: Additional trade [condition](/Articles/Errors-Exchanges-Conditions/Trade-Conditions.html)(s). These can be ignored for options.
+                    ext_condition2:
+                      type: integer
+                      description: Additional trade [condition](/Articles/Errors-Exchanges-Conditions/Trade-Conditions.html)(s). These can be ignored for options.
+                    ext_condition3:
+                      type: integer
+                      description: Additional trade [condition](/Articles/Errors-Exchanges-Conditions/Trade-Conditions.html)(s). These can be ignored for options.
+                    ext_condition4:
+                      type: integer
+                      description: Additional trade [condition](/Articles/Errors-Exchanges-Conditions/Trade-Conditions.html)(s). These can be ignored for options.
+                    condition:
+                      type: integer
+                      description: The trade [condition](/Articles/Errors-Exchanges-Conditions/Trade-Conditions.html).
+                    size:
+                      type: integer
+                      description: The amount of contracts / shares traded.
+                    exchange:
+                      type: integer
+                      description: The [exchange](/Articles/Errors-Exchanges-Conditions/Exchanges.html) the trade was executed.
+                    price:
+                      type: number
+                      description: The trade price.
               example: "{\n  \"response\": [\n    {\"sequence\":14920,\"condition\":1,\"size\":2,\"price\":187.1800,\"ext_condition2\":95,\"ext_condition1\":32,\"ext_condition4\":115,\"exchange\":7,\"ext_condition3\":1,\"timestamp\":\"2024-01-02T09:30:00.011\"},\n    {\"sequence\":8931,\"condition\":1,\"size\":1,\"price\":187.1800,\"ext_condition2\":255,\"ext_condition1\":32,\"ext_condition4\":115,\"exchange\":1,\"ext_condition3\":1,\"timestamp\":\"2024-01-02T09:30:00.014\"},\n    {\"sequence\":8932,\"condition\":1,\"size\":5,\"price\":187.1800,\"ext_condition2\":255,\"ext_condition1\":32,\"ext_condition4\":115,\"exchange\":1,\"ext_condition3\":1,\"timestamp\":\"2024-01-02T09:30:00.014\"},\n    {\"sequence\":8933,\"condition\":1,\"size\":3,\"price\":187.1900,\"ext_condition2\":255,\"ext_condition1\":32,\"ext_condition4\":115,\"exchange\":1,\"ext_condition3\":1,\"timestamp\":\"2024-01-02T09:30:00.014\"},\n    {\"sequence\":8934,\"condition\":1,\"size\":91,\"price\":187.1900,\"ext_condition2\":255,\"ext_condition1\":32,\"ext_condition4\":115,\"exchange\":1,\"ext_condition3\":1,\"timestamp\":\"2024-01-02T09:30:00.014\"}\n  ]\n}\n"
             application/x-ndjson:
-              schema: *id018
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    timestamp:
+                      type: string
+                      format: date-time
+                      description: The timestamp in YYYY-MM-DDTHH:mm:ss.SSS format.
+                    sequence:
+                      type: integer
+                      description: The exchange [sequence](/Articles/Data-And-Requests/Making-Requests.html#trade-sequences).
+                    ext_condition1:
+                      type: integer
+                      description: Additional trade [condition](/Articles/Errors-Exchanges-Conditions/Trade-Conditions.html)(s). These can be ignored for options.
+                    ext_condition2:
+                      type: integer
+                      description: Additional trade [condition](/Articles/Errors-Exchanges-Conditions/Trade-Conditions.html)(s). These can be ignored for options.
+                    ext_condition3:
+                      type: integer
+                      description: Additional trade [condition](/Articles/Errors-Exchanges-Conditions/Trade-Conditions.html)(s). These can be ignored for options.
+                    ext_condition4:
+                      type: integer
+                      description: Additional trade [condition](/Articles/Errors-Exchanges-Conditions/Trade-Conditions.html)(s). These can be ignored for options.
+                    condition:
+                      type: integer
+                      description: The trade [condition](/Articles/Errors-Exchanges-Conditions/Trade-Conditions.html).
+                    size:
+                      type: integer
+                      description: The amount of contracts / shares traded.
+                    exchange:
+                      type: integer
+                      description: The [exchange](/Articles/Errors-Exchanges-Conditions/Exchanges.html) the trade was executed.
+                    price:
+                      type: number
+                      description: The trade price.
               example: '{"sequence":14920,"condition":1,"size":2,"price":187.1800,"ext_condition2":95,"ext_condition1":32,"ext_condition4":115,"exchange":7,"ext_condition3":1,"timestamp":"2024-01-02T09:30:00.011"}
 
                 {"sequence":8931,"condition":1,"size":1,"price":187.1800,"ext_condition2":255,"ext_condition1":32,"ext_condition4":115,"exchange":1,"ext_condition3":1,"timestamp":"2024-01-02T09:30:00.014"}
@@ -1244,7 +2194,42 @@ paths:
 
                 {"sequence":8934,"condition":1,"size":91,"price":187.1900,"ext_condition2":255,"ext_condition1":32,"ext_condition4":115,"exchange":1,"ext_condition3":1,"timestamp":"2024-01-02T09:30:00.014"}'
             python/pandas:
-              schema: *id018
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    timestamp:
+                      type: string
+                      format: date-time
+                      description: The timestamp in YYYY-MM-DDTHH:mm:ss.SSS format.
+                    sequence:
+                      type: integer
+                      description: The exchange [sequence](/Articles/Data-And-Requests/Making-Requests.html#trade-sequences).
+                    ext_condition1:
+                      type: integer
+                      description: Additional trade [condition](/Articles/Errors-Exchanges-Conditions/Trade-Conditions.html)(s). These can be ignored for options.
+                    ext_condition2:
+                      type: integer
+                      description: Additional trade [condition](/Articles/Errors-Exchanges-Conditions/Trade-Conditions.html)(s). These can be ignored for options.
+                    ext_condition3:
+                      type: integer
+                      description: Additional trade [condition](/Articles/Errors-Exchanges-Conditions/Trade-Conditions.html)(s). These can be ignored for options.
+                    ext_condition4:
+                      type: integer
+                      description: Additional trade [condition](/Articles/Errors-Exchanges-Conditions/Trade-Conditions.html)(s). These can be ignored for options.
+                    condition:
+                      type: integer
+                      description: The trade [condition](/Articles/Errors-Exchanges-Conditions/Trade-Conditions.html).
+                    size:
+                      type: integer
+                      description: The amount of contracts / shares traded.
+                    exchange:
+                      type: integer
+                      description: The [exchange](/Articles/Errors-Exchanges-Conditions/Exchanges.html) the trade was executed.
+                    price:
+                      type: number
+                      description: The trade price.
               example: 'timestamp  sequence  ext_condition1  ext_condition2  ext_condition3  ext_condition4  condition  size  exchange     price
 
                 0     2025-10-02 09:30:00.011000-04:00   3900079              32             255               1             115          1     1         1  256.5700
@@ -1274,7 +2259,42 @@ paths:
 
                 '
             python/polars:
-              schema: *id018
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    timestamp:
+                      type: string
+                      format: date-time
+                      description: The timestamp in YYYY-MM-DDTHH:mm:ss.SSS format.
+                    sequence:
+                      type: integer
+                      description: The exchange [sequence](/Articles/Data-And-Requests/Making-Requests.html#trade-sequences).
+                    ext_condition1:
+                      type: integer
+                      description: Additional trade [condition](/Articles/Errors-Exchanges-Conditions/Trade-Conditions.html)(s). These can be ignored for options.
+                    ext_condition2:
+                      type: integer
+                      description: Additional trade [condition](/Articles/Errors-Exchanges-Conditions/Trade-Conditions.html)(s). These can be ignored for options.
+                    ext_condition3:
+                      type: integer
+                      description: Additional trade [condition](/Articles/Errors-Exchanges-Conditions/Trade-Conditions.html)(s). These can be ignored for options.
+                    ext_condition4:
+                      type: integer
+                      description: Additional trade [condition](/Articles/Errors-Exchanges-Conditions/Trade-Conditions.html)(s). These can be ignored for options.
+                    condition:
+                      type: integer
+                      description: The trade [condition](/Articles/Errors-Exchanges-Conditions/Trade-Conditions.html).
+                    size:
+                      type: integer
+                      description: The amount of contracts / shares traded.
+                    exchange:
+                      type: integer
+                      description: The [exchange](/Articles/Errors-Exchanges-Conditions/Exchanges.html) the trade was executed.
+                    price:
+                      type: number
+                      description: The trade price.
               example: 'shape: (13_661, 10)
 
                 ┌────────────────────────────────┬──────────┬────────────────┬────────────────┬────────────────┬────────────────┬───────────┬──────┬──────────┬──────────┐
@@ -1342,7 +2362,13 @@ paths:
           '
       tags:
       - Stock
-      description: "- Returns every NBBO quote reported by [UTP and CTA](/Articles/Data-And-Requests/The-SIPs). \n- If the ``interval`` parameter is specified, the quote for each interval represents the last quote prior to the interval's timestamp. \n- Set the ``venue`` parameter to ``nqb`` to access current-day real-time historic data from the [Nasdaq Basic feed](/Articles/Data-And-Requests/The-SIPs) if the account has a [stocks standard or pro subscription](https://www.thetadata.net/subscribe.html#stocks).\n- Multi-day requests are limited to 1 month of data.\n"
+      description: '- Returns every NBBO quote reported by UTP and CTA.
+
+        - If the ``interval`` parameter is specified, the quote for each interval represents the last quote prior to the interval''s timestamp.
+
+        - Set the ``venue`` parameter to ``nqb`` to access current-day real-time historic data from the Nasdaq Basic feed if the account has a stocks standard or pro subscription.
+
+        - Multi-day requests are limited to 1 month of data.'
       x-sample-urls:
       - url: http://127.0.0.1:25503/v3/stock/history/quote?symbol=AAPL&date=20240102&interval=1m
         description: Returns every quote for a given symbol on the specified date with a one minute interval
@@ -1369,7 +2395,7 @@ paths:
             text/csv:
               schema:
                 type: array
-                items: &id019
+                items:
                   type: object
                   properties:
                     timestamp:
@@ -1400,14 +2426,88 @@ paths:
                     ask_condition:
                       type: integer
                       description: The last NBBO ask [condition](/Articles/Errors-Exchanges-Conditions/Quote-Conditions.html).
-              example: "timestamp,bid_size,bid_exchange,bid,bid_condition,ask_size,ask_exchange,ask,ask_condition\r\n2024-01-02T09:30:00,30,7,187.10,0,1,1,187.20,0\r\n2024-01-02T09:31:00,2,1,187.83,0,4,1,187.86,0\r\n2024-01-02T09:32:00,2,60,187.74,0,1,73,187.77,0\r\n2024-01-02T09:33:00,2,60,188.29,0,2,73,188.32,0\r\n2024-01-02T09:34:00,5,1,188.14,0,2,7,188.16,0\r\n"
+              example: 'timestamp,bid_size,bid_exchange,bid,bid_condition,ask_size,ask_exchange,ask,ask_condition
+
+                2024-01-02T09:30:00,30,7,187.10,0,1,1,187.20,0
+
+                2024-01-02T09:31:00,2,1,187.83,0,4,1,187.86,0
+
+                2024-01-02T09:32:00,2,60,187.74,0,1,73,187.77,0
+
+                2024-01-02T09:33:00,2,60,188.29,0,2,73,188.32,0
+
+                2024-01-02T09:34:00,5,1,188.14,0,2,7,188.16,0
+
+                '
             application/json:
-              schema: &id020
+              schema:
                 type: array
-                items: *id019
+                items:
+                  type: object
+                  properties:
+                    timestamp:
+                      type: string
+                      format: date-time
+                      description: The timestamp in YYYY-MM-DDTHH:mm:ss.SSS format.
+                    bid_size:
+                      type: integer
+                      description: The last NBBO bid size.
+                    bid_exchange:
+                      type: integer
+                      description: The last NBBO bid [exchange](/Articles/Errors-Exchanges-Conditions/Exchanges.html).
+                    bid:
+                      type: number
+                      description: The last NBBO bid price.
+                    bid_condition:
+                      type: integer
+                      description: The last NBBO bid [condition](/Articles/Errors-Exchanges-Conditions/Quote-Conditions.html).
+                    ask_size:
+                      type: integer
+                      description: The last NBBO ask size.
+                    ask_exchange:
+                      type: integer
+                      description: The last NBBO ask [exchange](/Articles/Errors-Exchanges-Conditions/Exchanges.html).
+                    ask:
+                      type: number
+                      description: The last NBBO ask price.
+                    ask_condition:
+                      type: integer
+                      description: The last NBBO ask [condition](/Articles/Errors-Exchanges-Conditions/Quote-Conditions.html).
               example: "{\n  \"response\": [\n    {\"ask_size\":1,\"bid_size\":30,\"ask_exchange\":1,\"ask_condition\":0,\"bid_exchange\":7,\"ask\":187.20,\"bid\":187.10,\"bid_condition\":0,\"timestamp\":\"2024-01-02T09:30:00\"},\n    {\"ask_size\":4,\"bid_size\":2,\"ask_exchange\":1,\"ask_condition\":0,\"bid_exchange\":1,\"ask\":187.86,\"bid\":187.83,\"bid_condition\":0,\"timestamp\":\"2024-01-02T09:31:00\"},\n    {\"ask_size\":1,\"bid_size\":2,\"ask_exchange\":73,\"ask_condition\":0,\"bid_exchange\":60,\"ask\":187.77,\"bid\":187.74,\"bid_condition\":0,\"timestamp\":\"2024-01-02T09:32:00\"},\n    {\"ask_size\":2,\"bid_size\":2,\"ask_exchange\":73,\"ask_condition\":0,\"bid_exchange\":60,\"ask\":188.32,\"bid\":188.29,\"bid_condition\":0,\"timestamp\":\"2024-01-02T09:33:00\"},\n    {\"ask_size\":2,\"bid_size\":5,\"ask_exchange\":7,\"ask_condition\":0,\"bid_exchange\":1,\"ask\":188.16,\"bid\":188.14,\"bid_condition\":0,\"timestamp\":\"2024-01-02T09:34:00\"}\n  ]\n}\n"
             application/x-ndjson:
-              schema: *id020
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    timestamp:
+                      type: string
+                      format: date-time
+                      description: The timestamp in YYYY-MM-DDTHH:mm:ss.SSS format.
+                    bid_size:
+                      type: integer
+                      description: The last NBBO bid size.
+                    bid_exchange:
+                      type: integer
+                      description: The last NBBO bid [exchange](/Articles/Errors-Exchanges-Conditions/Exchanges.html).
+                    bid:
+                      type: number
+                      description: The last NBBO bid price.
+                    bid_condition:
+                      type: integer
+                      description: The last NBBO bid [condition](/Articles/Errors-Exchanges-Conditions/Quote-Conditions.html).
+                    ask_size:
+                      type: integer
+                      description: The last NBBO ask size.
+                    ask_exchange:
+                      type: integer
+                      description: The last NBBO ask [exchange](/Articles/Errors-Exchanges-Conditions/Exchanges.html).
+                    ask:
+                      type: number
+                      description: The last NBBO ask price.
+                    ask_condition:
+                      type: integer
+                      description: The last NBBO ask [condition](/Articles/Errors-Exchanges-Conditions/Quote-Conditions.html).
               example: '{"ask_size":1,"bid_size":30,"ask_exchange":1,"ask_condition":0,"bid_exchange":7,"ask":187.20,"bid":187.10,"bid_condition":0,"timestamp":"2024-01-02T09:30:00"}
 
                 {"ask_size":4,"bid_size":2,"ask_exchange":1,"ask_condition":0,"bid_exchange":1,"ask":187.86,"bid":187.83,"bid_condition":0,"timestamp":"2024-01-02T09:31:00"}
@@ -1418,7 +2518,39 @@ paths:
 
                 {"ask_size":2,"bid_size":5,"ask_exchange":7,"ask_condition":0,"bid_exchange":1,"ask":188.16,"bid":188.14,"bid_condition":0,"timestamp":"2024-01-02T09:34:00"}'
             python/pandas:
-              schema: *id020
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    timestamp:
+                      type: string
+                      format: date-time
+                      description: The timestamp in YYYY-MM-DDTHH:mm:ss.SSS format.
+                    bid_size:
+                      type: integer
+                      description: The last NBBO bid size.
+                    bid_exchange:
+                      type: integer
+                      description: The last NBBO bid [exchange](/Articles/Errors-Exchanges-Conditions/Exchanges.html).
+                    bid:
+                      type: number
+                      description: The last NBBO bid price.
+                    bid_condition:
+                      type: integer
+                      description: The last NBBO bid [condition](/Articles/Errors-Exchanges-Conditions/Quote-Conditions.html).
+                    ask_size:
+                      type: integer
+                      description: The last NBBO ask size.
+                    ask_exchange:
+                      type: integer
+                      description: The last NBBO ask [exchange](/Articles/Errors-Exchanges-Conditions/Exchanges.html).
+                    ask:
+                      type: number
+                      description: The last NBBO ask price.
+                    ask_condition:
+                      type: integer
+                      description: The last NBBO ask [condition](/Articles/Errors-Exchanges-Conditions/Quote-Conditions.html).
               example: 'timestamp  bid_size  bid_exchange     bid  bid_condition  ask_size  ask_exchange     ask  ask_condition
 
                 0  2025-10-02 09:30:00-04:00         3             1  256.55              0       238             7  256.60              0
@@ -1485,7 +2617,39 @@ paths:
 
                 '
             python/polars:
-              schema: *id020
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    timestamp:
+                      type: string
+                      format: date-time
+                      description: The timestamp in YYYY-MM-DDTHH:mm:ss.SSS format.
+                    bid_size:
+                      type: integer
+                      description: The last NBBO bid size.
+                    bid_exchange:
+                      type: integer
+                      description: The last NBBO bid [exchange](/Articles/Errors-Exchanges-Conditions/Exchanges.html).
+                    bid:
+                      type: number
+                      description: The last NBBO bid price.
+                    bid_condition:
+                      type: integer
+                      description: The last NBBO bid [condition](/Articles/Errors-Exchanges-Conditions/Quote-Conditions.html).
+                    ask_size:
+                      type: integer
+                      description: The last NBBO ask size.
+                    ask_exchange:
+                      type: integer
+                      description: The last NBBO ask [exchange](/Articles/Errors-Exchanges-Conditions/Exchanges.html).
+                    ask:
+                      type: number
+                      description: The last NBBO ask price.
+                    ask_condition:
+                      type: integer
+                      description: The last NBBO ask [condition](/Articles/Errors-Exchanges-Conditions/Quote-Conditions.html).
               example: 'shape: (31, 9)
 
                 ┌────────────────────────────────┬──────────┬──────────────┬────────┬───────────────┬──────────┬──────────────┬────────┬───────────────┐
@@ -1553,11 +2717,9 @@ paths:
           '
       tags:
       - Stock
-      description: 'Returns every trade reported by [UTP & CTA](/Articles/Data-And-Requests/The-SIPs) paired with the last BBO quote reported by [UTP or CTA](/Articles/Data-And-Requests/The-SIPs) at the time of trade. A quote is matched with a trade if its timestamp ``<=`` the trade timestamp. If you prefer to match quotes with timestamps that are ``<`` the trade timestamp, specify the ``exclusive`` parameter to ``true``. Set the ``venue`` parameter to ``nqb`` to access current-day real-time historic data from the [Nasdaq Basic feed](/Articles/Data-And-Requests/The-SIPs) if the account has a [stocks standard or pro subscription](https://www.thetadata.net/subscribe.html#stocks).
+      description: 'Returns every trade reported by UTP & CTA paired with the last BBO quote reported by UTP or CTA at the time of trade. A quote is matched with a trade if its timestamp ``<=`` the trade timestamp. If you prefer to match quotes with timestamps that are ``<`` the trade timestamp, specify the ``exclusive`` parameter to ``true``. Set the ``venue`` parameter to ``nqb`` to access current-day real-time historic data from the Nasdaq Basic feed if the account has a stocks standard or pro subscription.
 
-        - Multi-day requests are limited to 1 month of data.
-
-        '
+        - Multi-day requests are limited to 1 month of data.'
       x-sample-urls:
       - url: http://127.0.0.1:25503/v3/stock/history/trade_quote?symbol=AAPL&date=20240102
         description: Returns every trade quote for a given symbol on specified date
@@ -1584,7 +2746,7 @@ paths:
             text/csv:
               schema:
                 type: array
-                items: &id021
+                items:
                   type: object
                   properties:
                     trade_timestamp:
@@ -1646,14 +2808,150 @@ paths:
                     ask_condition:
                       type: integer
                       description: The last NBBO ask [condition](/Articles/Errors-Exchanges-Conditions/Quote-Conditions.html).
-              example: "trade_timestamp,quote_timestamp,sequence,ext_condition1,ext_condition2,ext_condition3,ext_condition4,condition,size,exchange,price,bid_size,bid_exchange,bid,bid_condition,ask_size,ask_exchange,ask,ask_condition\r\n2023-01-03T09:30:00.002,2023-01-03T09:30:00.001,562,32,255,255,115,115,1,60,130.3300,4,7,130.2600,0,1,7,130.4000,0\r\n2023-01-03T09:30:00.003,2023-01-03T09:30:00.002,563,32,255,255,115,115,24,60,130.3300,4,7,130.2600,0,1,7,130.4000,0\r\n2023-01-03T09:30:00.003,2023-01-03T09:30:00.002,564,32,255,255,115,115,40,60,130.3300,4,7,130.2600,0,1,7,130.4000,0\r\n2023-01-03T09:30:00.036,2023-01-03T09:30:00.017,6081,32,95,1,115,1,19,1,130.2500,4,7,130.2600,0,1,1,130.3900,0\r\n2023-01-03T09:30:00.057,2023-01-03T09:30:00.017,6082,32,255,1,115,1,30,1,130.2500,4,7,130.2600,0,1,1,130.3900,0\r\n"
+              example: 'trade_timestamp,quote_timestamp,sequence,ext_condition1,ext_condition2,ext_condition3,ext_condition4,condition,size,exchange,price,bid_size,bid_exchange,bid,bid_condition,ask_size,ask_exchange,ask,ask_condition
+
+                2023-01-03T09:30:00.002,2023-01-03T09:30:00.001,562,32,255,255,115,115,1,60,130.3300,4,7,130.2600,0,1,7,130.4000,0
+
+                2023-01-03T09:30:00.003,2023-01-03T09:30:00.002,563,32,255,255,115,115,24,60,130.3300,4,7,130.2600,0,1,7,130.4000,0
+
+                2023-01-03T09:30:00.003,2023-01-03T09:30:00.002,564,32,255,255,115,115,40,60,130.3300,4,7,130.2600,0,1,7,130.4000,0
+
+                2023-01-03T09:30:00.036,2023-01-03T09:30:00.017,6081,32,95,1,115,1,19,1,130.2500,4,7,130.2600,0,1,1,130.3900,0
+
+                2023-01-03T09:30:00.057,2023-01-03T09:30:00.017,6082,32,255,1,115,1,30,1,130.2500,4,7,130.2600,0,1,1,130.3900,0
+
+                '
             application/json:
-              schema: &id022
+              schema:
                 type: array
-                items: *id021
+                items:
+                  type: object
+                  properties:
+                    trade_timestamp:
+                      type: string
+                      format: date-time
+                      description: The trade date formated as YYYY-MM-DDTHH:mm:ss.SSS format.
+                    quote_timestamp:
+                      type: string
+                      format: date-time
+                      description: The quote date formated as YYYY-MM-DDTHH:mm:ss.SSS format.
+                    sequence:
+                      type: integer
+                      description: The exchange [sequence](/Articles/Data-And-Requests/Making-Requests.html#trade-sequences).
+                    ext_condition1:
+                      type: integer
+                      description: Additional trade [condition](/Articles/Errors-Exchanges-Conditions/Trade-Conditions.html)(s). These can be ignored for options.
+                    ext_condition2:
+                      type: integer
+                      description: Additional trade [condition](/Articles/Errors-Exchanges-Conditions/Trade-Conditions.html)(s). These can be ignored for options.
+                    ext_condition3:
+                      type: integer
+                      description: Additional trade [condition](/Articles/Errors-Exchanges-Conditions/Trade-Conditions.html)(s). These can be ignored for options.
+                    ext_condition4:
+                      type: integer
+                      description: Additional trade [condition](/Articles/Errors-Exchanges-Conditions/Trade-Conditions.html)(s). These can be ignored for options.
+                    condition:
+                      type: integer
+                      description: The trade [condition](/Articles/Errors-Exchanges-Conditions/Trade-Conditions.html).
+                    size:
+                      type: integer
+                      description: The amount of contracts / shares traded.
+                    exchange:
+                      type: integer
+                      description: The [exchange](/Articles/Errors-Exchanges-Conditions/Exchanges.html) the trade was executed.
+                    price:
+                      type: number
+                      description: The trade price.
+                    bid_size:
+                      type: integer
+                      description: The last NBBO bid size.
+                    bid_exchange:
+                      type: integer
+                      description: The last NBBO bid [exchange](/Articles/Errors-Exchanges-Conditions/Exchanges.html).
+                    bid:
+                      type: number
+                      description: The last NBBO bid price.
+                    bid_condition:
+                      type: integer
+                      description: The last NBBO bid [condition](/Articles/Errors-Exchanges-Conditions/Quote-Conditions.html).
+                    ask_size:
+                      type: integer
+                      description: The last NBBO ask size.
+                    ask_exchange:
+                      type: integer
+                      description: The last NBBO ask [exchange](/Articles/Errors-Exchanges-Conditions/Exchanges.html).
+                    ask:
+                      type: number
+                      description: The last NBBO ask price.
+                    ask_condition:
+                      type: integer
+                      description: The last NBBO ask [condition](/Articles/Errors-Exchanges-Conditions/Quote-Conditions.html).
               example: "{\n  \"response\": [\n    {\"ask_size\":1,\"trade_timestamp\":\"2023-01-03T09:30:00.002\",\"ask_condition\":0,\"sequence\":562,\"condition\":115,\"size\":1,\"bid_size\":4,\"ask_exchange\":7,\"price\":130.3300,\"ext_condition2\":255,\"bid_exchange\":7,\"ask\":130.4000,\"quote_timestamp\":\"2023-01-03T09:30:00.001\",\"ext_condition1\":32,\"ext_condition4\":115,\"exchange\":60,\"ext_condition3\":255,\"bid\":130.2600,\"bid_condition\":0},\n    {\"ask_size\":1,\"trade_timestamp\":\"2023-01-03T09:30:00.003\",\"ask_condition\":0,\"sequence\":563,\"condition\":115,\"size\":24,\"bid_size\":4,\"ask_exchange\":7,\"price\":130.3300,\"ext_condition2\":255,\"bid_exchange\":7,\"ask\":130.4000,\"quote_timestamp\":\"2023-01-03T09:30:00.002\",\"ext_condition1\":32,\"ext_condition4\":115,\"exchange\":60,\"ext_condition3\":255,\"bid\":130.2600,\"bid_condition\":0},\n    {\"ask_size\":1,\"trade_timestamp\":\"2023-01-03T09:30:00.003\",\"ask_condition\":0,\"sequence\":564,\"condition\":115,\"size\":40,\"bid_size\":4,\"ask_exchange\":7,\"price\":130.3300,\"ext_condition2\":255,\"bid_exchange\":7,\"ask\":130.4000,\"quote_timestamp\":\"2023-01-03T09:30:00.002\",\"ext_condition1\":32,\"ext_condition4\":115,\"exchange\":60,\"ext_condition3\":255,\"bid\":130.2600,\"bid_condition\":0},\n    {\"ask_size\":1,\"trade_timestamp\":\"2023-01-03T09:30:00.036\",\"ask_condition\":0,\"sequence\":6081,\"condition\":1,\"size\":19,\"bid_size\":4,\"ask_exchange\":1,\"price\":130.2500,\"ext_condition2\":95,\"bid_exchange\":7,\"ask\":130.3900,\"quote_timestamp\":\"2023-01-03T09:30:00.017\",\"ext_condition1\":32,\"ext_condition4\":115,\"exchange\":1,\"ext_condition3\":1,\"bid\":130.2600,\"bid_condition\":0},\n    {\"ask_size\":1,\"trade_timestamp\":\"2023-01-03T09:30:00.057\",\"ask_condition\":0,\"sequence\":6082,\"condition\":1,\"size\":30,\"bid_size\":4,\"ask_exchange\":1,\"price\":130.2500,\"ext_condition2\":255,\"bid_exchange\":7,\"ask\":130.3900,\"quote_timestamp\":\"2023-01-03T09:30:00.017\",\"ext_condition1\":32,\"ext_condition4\":115,\"exchange\":1,\"ext_condition3\":1,\"bid\":130.2600,\"bid_condition\":0}\n  ]\n}\n"
             application/x-ndjson:
-              schema: *id022
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    trade_timestamp:
+                      type: string
+                      format: date-time
+                      description: The trade date formated as YYYY-MM-DDTHH:mm:ss.SSS format.
+                    quote_timestamp:
+                      type: string
+                      format: date-time
+                      description: The quote date formated as YYYY-MM-DDTHH:mm:ss.SSS format.
+                    sequence:
+                      type: integer
+                      description: The exchange [sequence](/Articles/Data-And-Requests/Making-Requests.html#trade-sequences).
+                    ext_condition1:
+                      type: integer
+                      description: Additional trade [condition](/Articles/Errors-Exchanges-Conditions/Trade-Conditions.html)(s). These can be ignored for options.
+                    ext_condition2:
+                      type: integer
+                      description: Additional trade [condition](/Articles/Errors-Exchanges-Conditions/Trade-Conditions.html)(s). These can be ignored for options.
+                    ext_condition3:
+                      type: integer
+                      description: Additional trade [condition](/Articles/Errors-Exchanges-Conditions/Trade-Conditions.html)(s). These can be ignored for options.
+                    ext_condition4:
+                      type: integer
+                      description: Additional trade [condition](/Articles/Errors-Exchanges-Conditions/Trade-Conditions.html)(s). These can be ignored for options.
+                    condition:
+                      type: integer
+                      description: The trade [condition](/Articles/Errors-Exchanges-Conditions/Trade-Conditions.html).
+                    size:
+                      type: integer
+                      description: The amount of contracts / shares traded.
+                    exchange:
+                      type: integer
+                      description: The [exchange](/Articles/Errors-Exchanges-Conditions/Exchanges.html) the trade was executed.
+                    price:
+                      type: number
+                      description: The trade price.
+                    bid_size:
+                      type: integer
+                      description: The last NBBO bid size.
+                    bid_exchange:
+                      type: integer
+                      description: The last NBBO bid [exchange](/Articles/Errors-Exchanges-Conditions/Exchanges.html).
+                    bid:
+                      type: number
+                      description: The last NBBO bid price.
+                    bid_condition:
+                      type: integer
+                      description: The last NBBO bid [condition](/Articles/Errors-Exchanges-Conditions/Quote-Conditions.html).
+                    ask_size:
+                      type: integer
+                      description: The last NBBO ask size.
+                    ask_exchange:
+                      type: integer
+                      description: The last NBBO ask [exchange](/Articles/Errors-Exchanges-Conditions/Exchanges.html).
+                    ask:
+                      type: number
+                      description: The last NBBO ask price.
+                    ask_condition:
+                      type: integer
+                      description: The last NBBO ask [condition](/Articles/Errors-Exchanges-Conditions/Quote-Conditions.html).
               example: '{"ask_size":1,"trade_timestamp":"2023-01-03T09:30:00.002","ask_condition":0,"sequence":562,"condition":115,"size":1,"bid_size":4,"ask_exchange":7,"price":130.3300,"ext_condition2":255,"bid_exchange":7,"ask":130.4000,"quote_timestamp":"2023-01-03T09:30:00.001","ext_condition1":32,"ext_condition4":115,"exchange":60,"ext_condition3":255,"bid":130.2600,"bid_condition":0}
 
                 {"ask_size":1,"trade_timestamp":"2023-01-03T09:30:00.003","ask_condition":0,"sequence":563,"condition":115,"size":24,"bid_size":4,"ask_exchange":7,"price":130.3300,"ext_condition2":255,"bid_exchange":7,"ask":130.4000,"quote_timestamp":"2023-01-03T09:30:00.002","ext_condition1":32,"ext_condition4":115,"exchange":60,"ext_condition3":255,"bid":130.2600,"bid_condition":0}
@@ -1664,7 +2962,70 @@ paths:
 
                 {"ask_size":1,"trade_timestamp":"2023-01-03T09:30:00.057","ask_condition":0,"sequence":6082,"condition":1,"size":30,"bid_size":4,"ask_exchange":1,"price":130.2500,"ext_condition2":255,"bid_exchange":7,"ask":130.3900,"quote_timestamp":"2023-01-03T09:30:00.017","ext_condition1":32,"ext_condition4":115,"exchange":1,"ext_condition3":1,"bid":130.2600,"bid_condition":0}'
             python/pandas:
-              schema: *id022
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    trade_timestamp:
+                      type: string
+                      format: date-time
+                      description: The trade date formated as YYYY-MM-DDTHH:mm:ss.SSS format.
+                    quote_timestamp:
+                      type: string
+                      format: date-time
+                      description: The quote date formated as YYYY-MM-DDTHH:mm:ss.SSS format.
+                    sequence:
+                      type: integer
+                      description: The exchange [sequence](/Articles/Data-And-Requests/Making-Requests.html#trade-sequences).
+                    ext_condition1:
+                      type: integer
+                      description: Additional trade [condition](/Articles/Errors-Exchanges-Conditions/Trade-Conditions.html)(s). These can be ignored for options.
+                    ext_condition2:
+                      type: integer
+                      description: Additional trade [condition](/Articles/Errors-Exchanges-Conditions/Trade-Conditions.html)(s). These can be ignored for options.
+                    ext_condition3:
+                      type: integer
+                      description: Additional trade [condition](/Articles/Errors-Exchanges-Conditions/Trade-Conditions.html)(s). These can be ignored for options.
+                    ext_condition4:
+                      type: integer
+                      description: Additional trade [condition](/Articles/Errors-Exchanges-Conditions/Trade-Conditions.html)(s). These can be ignored for options.
+                    condition:
+                      type: integer
+                      description: The trade [condition](/Articles/Errors-Exchanges-Conditions/Trade-Conditions.html).
+                    size:
+                      type: integer
+                      description: The amount of contracts / shares traded.
+                    exchange:
+                      type: integer
+                      description: The [exchange](/Articles/Errors-Exchanges-Conditions/Exchanges.html) the trade was executed.
+                    price:
+                      type: number
+                      description: The trade price.
+                    bid_size:
+                      type: integer
+                      description: The last NBBO bid size.
+                    bid_exchange:
+                      type: integer
+                      description: The last NBBO bid [exchange](/Articles/Errors-Exchanges-Conditions/Exchanges.html).
+                    bid:
+                      type: number
+                      description: The last NBBO bid price.
+                    bid_condition:
+                      type: integer
+                      description: The last NBBO bid [condition](/Articles/Errors-Exchanges-Conditions/Quote-Conditions.html).
+                    ask_size:
+                      type: integer
+                      description: The last NBBO ask size.
+                    ask_exchange:
+                      type: integer
+                      description: The last NBBO ask [exchange](/Articles/Errors-Exchanges-Conditions/Exchanges.html).
+                    ask:
+                      type: number
+                      description: The last NBBO ask price.
+                    ask_condition:
+                      type: integer
+                      description: The last NBBO ask [condition](/Articles/Errors-Exchanges-Conditions/Quote-Conditions.html).
               example: 'trade_timestamp                  quote_timestamp  sequence  ext_condition1  ext_condition2  ext_condition3  ext_condition4  condition  size  exchange   price  bid_size  bid_exchange     bid  bid_condition  ask_size  ask_exchange     ask  ask_condition
 
                 0      2025-10-02 09:30:00.011000-04:00 2025-10-02 09:30:00.007000-04:00   3900079              32             255               1             115          1     1         1  256.57         3             1  256.55              0       238             7  256.60              0
@@ -1694,7 +3055,70 @@ paths:
 
                 '
             python/polars:
-              schema: *id022
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    trade_timestamp:
+                      type: string
+                      format: date-time
+                      description: The trade date formated as YYYY-MM-DDTHH:mm:ss.SSS format.
+                    quote_timestamp:
+                      type: string
+                      format: date-time
+                      description: The quote date formated as YYYY-MM-DDTHH:mm:ss.SSS format.
+                    sequence:
+                      type: integer
+                      description: The exchange [sequence](/Articles/Data-And-Requests/Making-Requests.html#trade-sequences).
+                    ext_condition1:
+                      type: integer
+                      description: Additional trade [condition](/Articles/Errors-Exchanges-Conditions/Trade-Conditions.html)(s). These can be ignored for options.
+                    ext_condition2:
+                      type: integer
+                      description: Additional trade [condition](/Articles/Errors-Exchanges-Conditions/Trade-Conditions.html)(s). These can be ignored for options.
+                    ext_condition3:
+                      type: integer
+                      description: Additional trade [condition](/Articles/Errors-Exchanges-Conditions/Trade-Conditions.html)(s). These can be ignored for options.
+                    ext_condition4:
+                      type: integer
+                      description: Additional trade [condition](/Articles/Errors-Exchanges-Conditions/Trade-Conditions.html)(s). These can be ignored for options.
+                    condition:
+                      type: integer
+                      description: The trade [condition](/Articles/Errors-Exchanges-Conditions/Trade-Conditions.html).
+                    size:
+                      type: integer
+                      description: The amount of contracts / shares traded.
+                    exchange:
+                      type: integer
+                      description: The [exchange](/Articles/Errors-Exchanges-Conditions/Exchanges.html) the trade was executed.
+                    price:
+                      type: number
+                      description: The trade price.
+                    bid_size:
+                      type: integer
+                      description: The last NBBO bid size.
+                    bid_exchange:
+                      type: integer
+                      description: The last NBBO bid [exchange](/Articles/Errors-Exchanges-Conditions/Exchanges.html).
+                    bid:
+                      type: number
+                      description: The last NBBO bid price.
+                    bid_condition:
+                      type: integer
+                      description: The last NBBO bid [condition](/Articles/Errors-Exchanges-Conditions/Quote-Conditions.html).
+                    ask_size:
+                      type: integer
+                      description: The last NBBO ask size.
+                    ask_exchange:
+                      type: integer
+                      description: The last NBBO ask [exchange](/Articles/Errors-Exchanges-Conditions/Exchanges.html).
+                    ask:
+                      type: number
+                      description: The last NBBO ask price.
+                    ask_condition:
+                      type: integer
+                      description: The last NBBO ask [condition](/Articles/Errors-Exchanges-Conditions/Quote-Conditions.html).
               example: 'shape: (465_840, 19)
 
                 ┌────────────────────────────────┬────────────────────────────────┬──────────┬────────────────┬────────────────┬────────────────┬────────────────┬───────────┬──────┬──────────┬────────┬──────────┬──────────────┬────────┬───────────────┬──────────┬──────────────┬────────┬───────────────┐
@@ -1750,18 +3174,16 @@ paths:
       - Stock
       description: '#### Real-time request:
 
-        - Returns a real-time session from the [Nasdaq Basic feed](/Articles/Data-And-Requests/The-SIPs.html#nasdaq-basic) if the account has a [stocks standard or pro subscription](https://www.thetadata.net/subscribe.html#stocks).
+        - Returns a real-time session from the Nasdaq Basic feed if the account has a stocks standard or pro subscription.
 
-        - Returns a 15-minute delayed session from the [UTP & CTA feeds](/Articles/Data-And-Requests/The-SIPs.html#equities-cta-utp) account has the [stocks value subscription](https://www.thetadata.net/subscribe.html#stocks) subscription.
+        - Returns a 15-minute delayed session from the UTP & CTA feeds account has the stocks value subscription subscription.
 
 
         #### Historical request:
 
-        Returns the last trade reported by [UTP & CTA feeds](/Articles/Data-And-Requests/The-SIPs.html#equities-cta-utp) at a specified millisecond of the day.
+        Returns the last trade reported by UTP & CTA feeds at a specified millisecond of the day.
 
-        Trade condition mappings can be found [here](/Articles/Errors-Exchanges-Conditions/Trade-Conditions.html).
-
-        '
+        Trade condition mappings can be found here.'
       x-sample-urls:
       - url: http://127.0.0.1:25503/v3/stock/at_time/trade?symbol=SPY&start_date=20240116&end_date=20240116&time_of_day=09:30:00.100
         description: Returns the last trade for a given symbol and specified time of day
@@ -1781,7 +3203,7 @@ paths:
             text/csv:
               schema:
                 type: array
-                items: &id023
+                items:
                   type: object
                   properties:
                     timestamp:
@@ -1815,24 +3237,166 @@ paths:
                     price:
                       type: number
                       description: The trade price.
-              example: "timestamp,sequence,ext_condition1,ext_condition2,ext_condition3,ext_condition4,condition,size,exchange,price\r\n2024-01-16T09:30:00.088,405549,255,255,255,115,115,1,57,475.280\r\n"
+              example: 'timestamp,sequence,ext_condition1,ext_condition2,ext_condition3,ext_condition4,condition,size,exchange,price
+
+                2024-01-16T09:30:00.088,405549,255,255,255,115,115,1,57,475.280
+
+                '
             application/json:
-              schema: &id024
+              schema:
                 type: array
-                items: *id023
+                items:
+                  type: object
+                  properties:
+                    timestamp:
+                      type: string
+                      format: date-time
+                      description: The timestamp in YYYY-MM-DDTHH:mm:ss.SSS format.
+                    sequence:
+                      type: integer
+                      description: The exchange [sequence](/Articles/Data-And-Requests/Making-Requests.html#trade-sequences).
+                    ext_condition1:
+                      type: integer
+                      description: Additional trade [condition](/Articles/Errors-Exchanges-Conditions/Trade-Conditions.html)(s). These can be ignored for options.
+                    ext_condition2:
+                      type: integer
+                      description: Additional trade [condition](/Articles/Errors-Exchanges-Conditions/Trade-Conditions.html)(s). These can be ignored for options.
+                    ext_condition3:
+                      type: integer
+                      description: Additional trade [condition](/Articles/Errors-Exchanges-Conditions/Trade-Conditions.html)(s). These can be ignored for options.
+                    ext_condition4:
+                      type: integer
+                      description: Additional trade [condition](/Articles/Errors-Exchanges-Conditions/Trade-Conditions.html)(s). These can be ignored for options.
+                    condition:
+                      type: integer
+                      description: The trade [condition](/Articles/Errors-Exchanges-Conditions/Trade-Conditions.html).
+                    size:
+                      type: integer
+                      description: The amount of contracts / shares traded.
+                    exchange:
+                      type: integer
+                      description: The [exchange](/Articles/Errors-Exchanges-Conditions/Exchanges.html) the trade was executed.
+                    price:
+                      type: number
+                      description: The trade price.
               example: "{\n  \"response\": [\n      {\"sequence\":405549,\"condition\":115,\"size\":1,\"price\":475.280,\"ext_condition2\":255,\"ext_condition1\":255,\"ext_condition4\":115,\"exchange\":57,\"ext_condition3\":255,\"timestamp\":\"2024-01-16T09:30:00.088\"}                  \n  ]\n}\n"
             application/x-ndjson:
-              schema: *id024
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    timestamp:
+                      type: string
+                      format: date-time
+                      description: The timestamp in YYYY-MM-DDTHH:mm:ss.SSS format.
+                    sequence:
+                      type: integer
+                      description: The exchange [sequence](/Articles/Data-And-Requests/Making-Requests.html#trade-sequences).
+                    ext_condition1:
+                      type: integer
+                      description: Additional trade [condition](/Articles/Errors-Exchanges-Conditions/Trade-Conditions.html)(s). These can be ignored for options.
+                    ext_condition2:
+                      type: integer
+                      description: Additional trade [condition](/Articles/Errors-Exchanges-Conditions/Trade-Conditions.html)(s). These can be ignored for options.
+                    ext_condition3:
+                      type: integer
+                      description: Additional trade [condition](/Articles/Errors-Exchanges-Conditions/Trade-Conditions.html)(s). These can be ignored for options.
+                    ext_condition4:
+                      type: integer
+                      description: Additional trade [condition](/Articles/Errors-Exchanges-Conditions/Trade-Conditions.html)(s). These can be ignored for options.
+                    condition:
+                      type: integer
+                      description: The trade [condition](/Articles/Errors-Exchanges-Conditions/Trade-Conditions.html).
+                    size:
+                      type: integer
+                      description: The amount of contracts / shares traded.
+                    exchange:
+                      type: integer
+                      description: The [exchange](/Articles/Errors-Exchanges-Conditions/Exchanges.html) the trade was executed.
+                    price:
+                      type: number
+                      description: The trade price.
               example: '{"sequence":405549,"condition":115,"size":1,"price":475.280,"ext_condition2":255,"ext_condition1":255,"ext_condition4":115,"exchange":57,"ext_condition3":255,"timestamp":"2024-01-16T09:30:00.088"}'
             python/pandas:
-              schema: *id024
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    timestamp:
+                      type: string
+                      format: date-time
+                      description: The timestamp in YYYY-MM-DDTHH:mm:ss.SSS format.
+                    sequence:
+                      type: integer
+                      description: The exchange [sequence](/Articles/Data-And-Requests/Making-Requests.html#trade-sequences).
+                    ext_condition1:
+                      type: integer
+                      description: Additional trade [condition](/Articles/Errors-Exchanges-Conditions/Trade-Conditions.html)(s). These can be ignored for options.
+                    ext_condition2:
+                      type: integer
+                      description: Additional trade [condition](/Articles/Errors-Exchanges-Conditions/Trade-Conditions.html)(s). These can be ignored for options.
+                    ext_condition3:
+                      type: integer
+                      description: Additional trade [condition](/Articles/Errors-Exchanges-Conditions/Trade-Conditions.html)(s). These can be ignored for options.
+                    ext_condition4:
+                      type: integer
+                      description: Additional trade [condition](/Articles/Errors-Exchanges-Conditions/Trade-Conditions.html)(s). These can be ignored for options.
+                    condition:
+                      type: integer
+                      description: The trade [condition](/Articles/Errors-Exchanges-Conditions/Trade-Conditions.html).
+                    size:
+                      type: integer
+                      description: The amount of contracts / shares traded.
+                    exchange:
+                      type: integer
+                      description: The [exchange](/Articles/Errors-Exchanges-Conditions/Exchanges.html) the trade was executed.
+                    price:
+                      type: number
+                      description: The trade price.
               example: 'timestamp  sequence  ext_condition1  ext_condition2  ext_condition3  ext_condition4  condition  size  exchange   price
 
                 0 2025-10-02 09:29:59.861000-04:00   3899004              32             255               1             115          1    68         7  256.59
 
                 '
             python/polars:
-              schema: *id024
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    timestamp:
+                      type: string
+                      format: date-time
+                      description: The timestamp in YYYY-MM-DDTHH:mm:ss.SSS format.
+                    sequence:
+                      type: integer
+                      description: The exchange [sequence](/Articles/Data-And-Requests/Making-Requests.html#trade-sequences).
+                    ext_condition1:
+                      type: integer
+                      description: Additional trade [condition](/Articles/Errors-Exchanges-Conditions/Trade-Conditions.html)(s). These can be ignored for options.
+                    ext_condition2:
+                      type: integer
+                      description: Additional trade [condition](/Articles/Errors-Exchanges-Conditions/Trade-Conditions.html)(s). These can be ignored for options.
+                    ext_condition3:
+                      type: integer
+                      description: Additional trade [condition](/Articles/Errors-Exchanges-Conditions/Trade-Conditions.html)(s). These can be ignored for options.
+                    ext_condition4:
+                      type: integer
+                      description: Additional trade [condition](/Articles/Errors-Exchanges-Conditions/Trade-Conditions.html)(s). These can be ignored for options.
+                    condition:
+                      type: integer
+                      description: The trade [condition](/Articles/Errors-Exchanges-Conditions/Trade-Conditions.html).
+                    size:
+                      type: integer
+                      description: The amount of contracts / shares traded.
+                    exchange:
+                      type: integer
+                      description: The [exchange](/Articles/Errors-Exchanges-Conditions/Exchanges.html) the trade was executed.
+                    price:
+                      type: number
+                      description: The trade price.
               example: 'shape: (1, 10)
 
                 ┌────────────────────────────────┬──────────┬────────────────┬────────────────┬────────────────┬────────────────┬───────────┬──────┬──────────┬────────┐
@@ -1866,7 +3430,18 @@ paths:
         source: "from thetadata import ThetaClient\nfrom datetime import date\n\nclient = ThetaClient(dataframe_type='polars')\ndf = client.stock_at_time_quote(\n    symbol='SPY',\n    start_date=date(2024, 1, 16),\n    end_date=date(2024, 1, 16),\n    time_of_day='09:30:00.100',\n)\n"
       tags:
       - Stock
-      description: "#### Real-time request:\n  - Subscription tier standard or higher will default to NQB.\n  - Real-time last BBO quote at-time_of_day-time from the [Nasdaq Basic feed](/Articles/Data-And-Requests/The-SIPs.html#nasdaq-basic) if the account has a [stocks standard or pro subscription](https://www.thetadata.net/subscribe.html#stocks).\n  - 15-minute delayed NBBO quote at-time_of_day-time from the [UTP & CTA feeds](/Articles/Data-And-Requests/The-SIPs.html#equities-cta-utp) account has the [stocks value subscription](https://www.thetadata.net/subscribe.html#stocks) subscription.\n\n#### Historical request:\n  Returns the last NBBO quote reported by [UTP & CTA feeds](/Articles/Data-And-Requests/The-SIPs.html#equities-cta-utp) at a specified millisecond of the day.\n"
+      description: '#### Real-time request:
+
+        - Subscription tier standard or higher will default to NQB.
+
+        - Real-time last BBO quote at-time_of_day-time from the Nasdaq Basic feed if the account has a stocks standard or pro subscription.
+
+        - 15-minute delayed NBBO quote at-time_of_day-time from the UTP & CTA feeds account has the stocks value subscription subscription.
+
+
+        #### Historical request:
+
+        Returns the last NBBO quote reported by UTP & CTA feeds at a specified millisecond of the day.'
       x-sample-urls:
       - url: http://127.0.0.1:25503/v3/stock/at_time/quote?symbol=SPY&start_date=20240116&end_date=20240116&time_of_day=09:30:00.100
         description: Returns the last quote for a given symbol between specified dates (inclusive) with a one minute interval
@@ -1886,7 +3461,7 @@ paths:
             text/csv:
               schema:
                 type: array
-                items: &id025
+                items:
                   type: object
                   properties:
                     timestamp:
@@ -1917,24 +3492,154 @@ paths:
                     ask_condition:
                       type: integer
                       description: The last NBBO ask [condition](/Articles/Errors-Exchanges-Conditions/Quote-Conditions.html).
-              example: "timestamp,bid_size,bid_exchange,bid,bid_condition,ask_size,ask_exchange,ask,ask_condition\r\n2024-01-16T09:30:00.1,15,1,475.28,0,8,7,475.28,0\r\n"
+              example: 'timestamp,bid_size,bid_exchange,bid,bid_condition,ask_size,ask_exchange,ask,ask_condition
+
+                2024-01-16T09:30:00.1,15,1,475.28,0,8,7,475.28,0
+
+                '
             application/json:
-              schema: &id026
+              schema:
                 type: array
-                items: *id025
+                items:
+                  type: object
+                  properties:
+                    timestamp:
+                      type: string
+                      format: date-time
+                      description: The timestamp in YYYY-MM-DDTHH:mm:ss.SSS format.
+                    bid_size:
+                      type: integer
+                      description: The last NBBO bid size.
+                    bid_exchange:
+                      type: integer
+                      description: The last NBBO bid [exchange](/Articles/Errors-Exchanges-Conditions/Exchanges.html).
+                    bid:
+                      type: number
+                      description: The last NBBO bid price.
+                    bid_condition:
+                      type: integer
+                      description: The last NBBO bid [condition](/Articles/Errors-Exchanges-Conditions/Quote-Conditions.html).
+                    ask_size:
+                      type: integer
+                      description: The last NBBO ask size.
+                    ask_exchange:
+                      type: integer
+                      description: The last NBBO ask [exchange](/Articles/Errors-Exchanges-Conditions/Exchanges.html).
+                    ask:
+                      type: number
+                      description: The last NBBO ask price.
+                    ask_condition:
+                      type: integer
+                      description: The last NBBO ask [condition](/Articles/Errors-Exchanges-Conditions/Quote-Conditions.html).
               example: "{\n  \"response\": [\n    {\"ask_size\":8,\"bid_size\":15,\"ask_exchange\":7,\"ask_condition\":0,\"bid_exchange\":1,\"ask\":475.28,\"bid\":475.28,\"bid_condition\":0,\"timestamp\":\"2024-01-16T09:30:00.1\"}\n  ]\n}\n"
             application/x-ndjson:
-              schema: *id026
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    timestamp:
+                      type: string
+                      format: date-time
+                      description: The timestamp in YYYY-MM-DDTHH:mm:ss.SSS format.
+                    bid_size:
+                      type: integer
+                      description: The last NBBO bid size.
+                    bid_exchange:
+                      type: integer
+                      description: The last NBBO bid [exchange](/Articles/Errors-Exchanges-Conditions/Exchanges.html).
+                    bid:
+                      type: number
+                      description: The last NBBO bid price.
+                    bid_condition:
+                      type: integer
+                      description: The last NBBO bid [condition](/Articles/Errors-Exchanges-Conditions/Quote-Conditions.html).
+                    ask_size:
+                      type: integer
+                      description: The last NBBO ask size.
+                    ask_exchange:
+                      type: integer
+                      description: The last NBBO ask [exchange](/Articles/Errors-Exchanges-Conditions/Exchanges.html).
+                    ask:
+                      type: number
+                      description: The last NBBO ask price.
+                    ask_condition:
+                      type: integer
+                      description: The last NBBO ask [condition](/Articles/Errors-Exchanges-Conditions/Quote-Conditions.html).
               example: '{"ask_size":8,"bid_size":15,"ask_exchange":7,"ask_condition":0,"bid_exchange":1,"ask":475.28,"bid":475.28,"bid_condition":0,"timestamp":"2024-01-16T09:30:00.1"}'
             python/pandas:
-              schema: *id026
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    timestamp:
+                      type: string
+                      format: date-time
+                      description: The timestamp in YYYY-MM-DDTHH:mm:ss.SSS format.
+                    bid_size:
+                      type: integer
+                      description: The last NBBO bid size.
+                    bid_exchange:
+                      type: integer
+                      description: The last NBBO bid [exchange](/Articles/Errors-Exchanges-Conditions/Exchanges.html).
+                    bid:
+                      type: number
+                      description: The last NBBO bid price.
+                    bid_condition:
+                      type: integer
+                      description: The last NBBO bid [condition](/Articles/Errors-Exchanges-Conditions/Quote-Conditions.html).
+                    ask_size:
+                      type: integer
+                      description: The last NBBO ask size.
+                    ask_exchange:
+                      type: integer
+                      description: The last NBBO ask [exchange](/Articles/Errors-Exchanges-Conditions/Exchanges.html).
+                    ask:
+                      type: number
+                      description: The last NBBO ask price.
+                    ask_condition:
+                      type: integer
+                      description: The last NBBO ask [condition](/Articles/Errors-Exchanges-Conditions/Quote-Conditions.html).
               example: 'timestamp  bid_size  bid_exchange     bid  bid_condition  ask_size  ask_exchange    ask  ask_condition
 
                 0 2025-10-02 09:30:00-04:00         3             1  256.55              0       238             7  256.6              0
 
                 '
             python/polars:
-              schema: *id026
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    timestamp:
+                      type: string
+                      format: date-time
+                      description: The timestamp in YYYY-MM-DDTHH:mm:ss.SSS format.
+                    bid_size:
+                      type: integer
+                      description: The last NBBO bid size.
+                    bid_exchange:
+                      type: integer
+                      description: The last NBBO bid [exchange](/Articles/Errors-Exchanges-Conditions/Exchanges.html).
+                    bid:
+                      type: number
+                      description: The last NBBO bid price.
+                    bid_condition:
+                      type: integer
+                      description: The last NBBO bid [condition](/Articles/Errors-Exchanges-Conditions/Quote-Conditions.html).
+                    ask_size:
+                      type: integer
+                      description: The last NBBO ask size.
+                    ask_exchange:
+                      type: integer
+                      description: The last NBBO ask [exchange](/Articles/Errors-Exchanges-Conditions/Exchanges.html).
+                    ask:
+                      type: number
+                      description: The last NBBO ask price.
+                    ask_condition:
+                      type: integer
+                      description: The last NBBO ask [condition](/Articles/Errors-Exchanges-Conditions/Quote-Conditions.html).
               example: 'shape: (1, 9)
 
                 ┌────────────────────────────────┬──────────┬──────────────┬────────┬───────────────┬──────────┬──────────────┬───────┬───────────────┐
@@ -1986,9 +3691,7 @@ paths:
           '
       tags:
       - Stock
-      description: 'Bulk download all stock trade/quote ticks for a given date as a CSV stream. Returns one row per tick, grouped by symbol. Requires a Professional stock subscription.
-
-        '
+      description: Bulk download all stock trade/quote ticks for a given date as a CSV stream. Returns one row per tick, grouped by symbol. Requires a Professional stock subscription.
       parameters:
       - $ref: '#/components/parameters/date'
       - $ref: '#/components/parameters/format'
@@ -1999,7 +3702,7 @@ paths:
             text/csv:
               schema:
                 type: array
-                items: &id027
+                items:
                   type: object
                   properties:
                     root:
@@ -2012,11 +3715,35 @@ paths:
                       type: integer
                       description: Date as YYYYMMDD integer.
             application/json:
-              schema: &id028
+              schema:
                 type: array
-                items: *id027
+                items:
+                  type: object
+                  properties:
+                    root:
+                      type: string
+                      description: The stock symbol.
+                    ms_of_day:
+                      type: integer
+                      description: Milliseconds since midnight.
+                    date:
+                      type: integer
+                      description: Date as YYYYMMDD integer.
             application/x-ndjson:
-              schema: *id028
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    root:
+                      type: string
+                      description: The stock symbol.
+                    ms_of_day:
+                      type: integer
+                      description: Milliseconds since midnight.
+                    date:
+                      type: integer
+                      description: Date as YYYYMMDD integer.
   /stock/flat_file/eod:
     x-concurrent-limit-ttl-ms: '1800000'
     x-hide-from-docs: true
@@ -2051,9 +3778,7 @@ paths:
           '
       tags:
       - Stock
-      description: 'Bulk download all stock end-of-day ticks for a given date as a CSV stream. Returns one row per tick, grouped by symbol. Requires a Professional stock subscription.
-
-        '
+      description: Bulk download all stock end-of-day ticks for a given date as a CSV stream. Returns one row per tick, grouped by symbol. Requires a Professional stock subscription.
       parameters:
       - $ref: '#/components/parameters/date'
       - $ref: '#/components/parameters/format'
@@ -2064,7 +3789,7 @@ paths:
             text/csv:
               schema:
                 type: array
-                items: &id029
+                items:
                   type: object
                   properties:
                     root:
@@ -2077,38 +3802,37 @@ paths:
                       type: integer
                       description: Date as YYYYMMDD integer.
             application/json:
-              schema: &id030
+              schema:
                 type: array
-                items: *id029
+                items:
+                  type: object
+                  properties:
+                    root:
+                      type: string
+                      description: The stock symbol.
+                    ms_of_day:
+                      type: integer
+                      description: Milliseconds since midnight.
+                    date:
+                      type: integer
+                      description: Date as YYYYMMDD integer.
             application/x-ndjson:
-              schema: *id030
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    root:
+                      type: string
+                      description: The stock symbol.
+                    ms_of_day:
+                      type: integer
+                      description: Milliseconds since midnight.
+                    date:
+                      type: integer
+                      description: Date as YYYYMMDD integer.
 components:
   parameters:
-    start_date:
-      name: start_date
-      in: query
-      description: The start date (inclusive).
-      required: true
-      schema:
-        type: string
-        format: date
-    end_time:
-      name: end_time
-      in: query
-      description: The end time (inclusive) in the specified day (format 24-hour HH:MM:SS.SSS).
-      required: false
-      schema:
-        type: string
-        format: time
-        default: '16:00:00'
-    date:
-      name: date
-      in: query
-      description: The date to fetch data for.
-      required: true
-      schema:
-        type: string
-        format: date
     time_of_day:
       name: time_of_day
       in: query
@@ -2117,23 +3841,6 @@ components:
       schema:
         type: string
         format: time
-    opt_end_date:
-      name: end_date
-      in: query
-      description: The end date (inclusive).
-      required: false
-      schema:
-        type: string
-        format: date
-    start_time:
-      name: start_time
-      in: query
-      description: The start time (inclusive) in the specified day (format 24-hour HH:MM:SS.SSS).
-      required: false
-      schema:
-        type: string
-        format: time
-        default: 09:30:00
     exclusive:
       name: exclusive
       in: query
@@ -2142,65 +3849,35 @@ components:
       schema:
         type: boolean
         default: true
-    single_symbol:
-      name: symbol
+    date:
+      name: date
       in: query
-      description: The stock or index symbol, or underlying symbol for options.
+      description: The date to fetch data for.
       required: true
       schema:
         type: string
+        format: date
+    opt_end_date:
+      name: end_date
+      in: query
+      description: The end date (inclusive).
+      required: false
+      schema:
+        type: string
+        format: date
+    multi_symbol:
+      name: symbol
+      in: query
+      description: The stock or index symbol, or underlying symbol for options. Specify '*' for all symbols or a comma separated list when appropriate.
+      required: true
+      schema:
+        type: array
+        items:
+          type: string
     opt_start_date:
       name: start_date
       in: query
       description: The start date (inclusive).
-      required: false
-      schema:
-        type: string
-        format: date
-    venue:
-      name: venue
-      in: query
-      description: Used to specify the venue of the real time or historic request. ``nqb`` = Nasdaq Basic; ``utp_cta`` = merged UTP & CTA.
-      required: false
-      schema:
-        type: string
-        enum:
-        - nqb
-        - utp_cta
-        default: nqb
-    end_date:
-      name: end_date
-      in: query
-      description: The end date (inclusive).
-      required: true
-      schema:
-        type: string
-        format: date
-    min_time:
-      name: min_time
-      in: query
-      description: Filters snapshots to include only data with a timestamp greater or equal to the specified value (HH:mm:ss.SSS format).
-      required: false
-      schema:
-        type: string
-        format: time
-    format:
-      name: format
-      in: query
-      description: The format of the data when returned to the user.
-      required: false
-      schema:
-        type: string
-        enum:
-        - csv
-        - json
-        - ndjson
-        - html
-        default: csv
-    opt_date:
-      name: date
-      in: query
-      description: The date to fetch data for. If present, this overrides start_date and end_date.
       required: false
       schema:
         type: string
@@ -2229,6 +3906,45 @@ components:
         - 30m
         - 1h
         default: 1s
+    format:
+      name: format
+      in: query
+      description: The format of the data when returned to the user.
+      required: false
+      schema:
+        type: string
+        enum:
+        - csv
+        - json
+        - ndjson
+        - html
+        default: csv
+    end_time:
+      name: end_time
+      in: query
+      description: The end time (inclusive) in the specified day (format 24-hour HH:MM:SS.SSS).
+      required: false
+      schema:
+        type: string
+        format: time
+        default: '16:00:00'
+    min_time:
+      name: min_time
+      in: query
+      description: Filters snapshots to include only data with a timestamp greater or equal to the specified value (HH:mm:ss.SSS format).
+      required: false
+      schema:
+        type: string
+        format: time
+    start_time:
+      name: start_time
+      in: query
+      description: The start time (inclusive) in the specified day (format 24-hour HH:MM:SS.SSS).
+      required: false
+      schema:
+        type: string
+        format: time
+        default: 09:30:00
     request_type:
       name: request_type
       in: path
@@ -2239,12 +3955,45 @@ components:
         enum:
         - trade
         - quote
-    multi_symbol:
+    single_symbol:
       name: symbol
       in: query
-      description: The stock or index symbol, or underlying symbol for options. Specify '*' for all symbols or a comma separated list when appropriate.
+      description: The stock or index symbol, or underlying symbol for options.
       required: true
       schema:
-        type: array
-        items:
-          type: string
+        type: string
+    start_date:
+      name: start_date
+      in: query
+      description: The start date (inclusive).
+      required: true
+      schema:
+        type: string
+        format: date
+    venue:
+      name: venue
+      in: query
+      description: Used to specify the venue of the real time or historic request. ``nqb`` = Nasdaq Basic; ``utp_cta`` = merged UTP & CTA.
+      required: false
+      schema:
+        type: string
+        enum:
+        - nqb
+        - utp_cta
+        default: nqb
+    opt_date:
+      name: date
+      in: query
+      description: The date to fetch data for. If present, this overrides start_date and end_date.
+      required: false
+      schema:
+        type: string
+        format: date
+    end_date:
+      name: end_date
+      in: query
+      description: The end date (inclusive).
+      required: true
+      schema:
+        type: string
+        format: date

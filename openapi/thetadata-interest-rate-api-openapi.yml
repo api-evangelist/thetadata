@@ -1,6 +1,6 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Theta Data v3 At-Time Interest Rate API
+  title: Theta Data v3 Interest Rate API
   description: Real-time and historic stock, options, and index data!
   version: 3.0.0
   x-java-package: net.thetadata.generated
@@ -26,9 +26,7 @@ paths:
         source: "from thetadata import ThetaClient\nfrom datetime import date\n\nclient = ThetaClient(dataframe_type='polars')\ndf = client.interest_rate_history_eod(\n    symbol='SOFR',\n    start_date=date(2025, 11, 4),\n    end_date=date(2025, 11, 8),\n)\n"
       tags:
       - Interest Rate
-      description: '- Returns the interest rate reported. Depending on the rate, reports can occur in the morning or the afternoon.
-
-        '
+      description: '- Returns the interest rate reported. Depending on the rate, reports can occur in the morning or the afternoon.'
       x-sample-urls:
       - url: http://127.0.0.1:25503/v3/interest_rate/history/eod?symbol=SOFR&start_date=20251104&end_date=20251108
         description: Returns the rate for a given symbol between specified dates (inclusive)
@@ -44,7 +42,7 @@ paths:
             text/csv:
               schema:
                 type: array
-                items: &id001
+                items:
                   type: object
                   properties:
                     created:
@@ -54,14 +52,34 @@ paths:
                     rate:
                       type: number
                       description: The interest rate express as a percent (i.e 1.25% is 1.25).
-              example: "created,rate\r\n 2025-11-04,4.0000\r\n 2025-11-05,3.9100\r\n 2025-11-06,3.9200\r\n 2025-11-07,3.9300\r\n 20251108,3.9400\r\n"
+              example: "created,rate\n 2025-11-04,4.0000\n 2025-11-05,3.9100\n 2025-11-06,3.9200\n 2025-11-07,3.9300\n 20251108,3.9400\n"
             application/json:
-              schema: &id002
+              schema:
                 type: array
-                items: *id001
+                items:
+                  type: object
+                  properties:
+                    created:
+                      type: string
+                      format: date
+                      description: The date formated as YYYY-MM-DD format.
+                    rate:
+                      type: number
+                      description: The interest rate express as a percent (i.e 1.25% is 1.25).
               example: "{\n  \"response\": [\n    {\"rate\":4.0000,\"created\":\"2025-11-04\"}\n    {\"rate\":3.9100,\"created\":\"2025-11-05\"}\n    {\"rate\":3.9200,\"created\":\"2025-11-06\"}\n    {\"rate\":3.9300,\"created\":\"2025-11-07\"}\n    {\"rate\":3.9400,\"created\":\"2025-11-08\"}\n  ]\n}\n"
             application/x-ndjson:
-              schema: *id002
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    created:
+                      type: string
+                      format: date
+                      description: The date formated as YYYY-MM-DD format.
+                    rate:
+                      type: number
+                      description: The interest rate express as a percent (i.e 1.25% is 1.25).
               example: '{"rate":4.0000,"created":"2025-11-04"}
 
                 {"rate":3.9100,"created":"2025-11-05"}
@@ -72,7 +90,18 @@ paths:
 
                 {"rate":3.9400,"created":"2025-11-08"}'
             python/pandas:
-              schema: *id002
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    created:
+                      type: string
+                      format: date
+                      description: The date formated as YYYY-MM-DD format.
+                    rate:
+                      type: number
+                      description: The interest rate express as a percent (i.e 1.25% is 1.25).
               example: 'created  rate
 
                 0  2026-11-04  3.66
@@ -89,7 +118,18 @@ paths:
 
                 '
             python/polars:
-              schema: *id002
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    created:
+                      type: string
+                      format: date
+                      description: The date formated as YYYY-MM-DD format.
+                    rate:
+                      type: number
+                      description: The interest rate express as a percent (i.e 1.25% is 1.25).
               example: 'shape: (6, 2)
 
                 ┌────────────┬──────┐
@@ -119,22 +159,6 @@ paths:
                 '
 components:
   parameters:
-    start_date:
-      name: start_date
-      in: query
-      description: The start date (inclusive).
-      required: true
-      schema:
-        type: string
-        format: date
-    end_date:
-      name: end_date
-      in: query
-      description: The end date (inclusive).
-      required: true
-      schema:
-        type: string
-        format: date
     format:
       name: format
       in: query
@@ -148,6 +172,14 @@ components:
         - ndjson
         - html
         default: csv
+    end_date:
+      name: end_date
+      in: query
+      description: The end date (inclusive).
+      required: true
+      schema:
+        type: string
+        format: date
     single_symbol:
       name: symbol
       in: query
@@ -155,3 +187,11 @@ components:
       required: true
       schema:
         type: string
+    start_date:
+      name: start_date
+      in: query
+      description: The start date (inclusive).
+      required: true
+      schema:
+        type: string
+        format: date

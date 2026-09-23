@@ -1,6 +1,6 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Theta Data v3 At-Time Calendar API
+  title: Theta Data v3 Calendar API
   description: Real-time and historic stock, options, and index data!
   version: 3.0.0
   x-java-package: net.thetadata.generated
@@ -44,9 +44,7 @@ paths:
 
         - *On days when the market closes early at 1:00 PM ET; eligible options will trade until 1:15 PM.
 
-        - **Some NYSE exchanges will continue late trading until 5:00 PM ET on early close days.
-
-        '
+        - **Some NYSE exchanges will continue late trading until 5:00 PM ET on early close days.'
       x-sample-urls:
       - url: http://127.0.0.1:25503/v3/calendar/today
         description: Current day equity market schedule
@@ -61,7 +59,7 @@ paths:
             text/csv:
               schema:
                 type: array
-                items: &id001
+                items:
                   type: object
                   properties:
                     type:
@@ -73,24 +71,78 @@ paths:
                     close:
                       type: string
                       description: Market close time in HH:mm:ss format.
-              example: "type,open,close\r\nopen,09:30:00,16:00:00\r\n"
+              example: 'type,open,close
+
+                open,09:30:00,16:00:00
+
+                '
             application/json:
-              schema: &id002
+              schema:
                 type: array
-                items: *id001
+                items:
+                  type: object
+                  properties:
+                    type:
+                      type: string
+                      description: The schedule type (open, full_close, early_close, weekend).
+                    open:
+                      type: string
+                      description: Market open time in HH:mm:ss format.
+                    close:
+                      type: string
+                      description: Market close time in HH:mm:ss format.
               example: "{\n  \"response\": [\n    {\"type\":\"open\",\"open\":\"09:30:00\",\"close\":\"16:00:00\"}\n  ]\n}\n"
             application/x-ndjson:
-              schema: *id002
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    type:
+                      type: string
+                      description: The schedule type (open, full_close, early_close, weekend).
+                    open:
+                      type: string
+                      description: Market open time in HH:mm:ss format.
+                    close:
+                      type: string
+                      description: Market close time in HH:mm:ss format.
               example: '{"type":"open","open":"09:30:00","close":"16:00:00"}'
             python/pandas:
-              schema: *id002
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    type:
+                      type: string
+                      description: The schedule type (open, full_close, early_close, weekend).
+                    open:
+                      type: string
+                      description: Market open time in HH:mm:ss format.
+                    close:
+                      type: string
+                      description: Market close time in HH:mm:ss format.
               example: 'type      open     close
 
                 0  open  09:30:00  16:00:00
 
                 '
             python/polars:
-              schema: *id002
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    type:
+                      type: string
+                      description: The schedule type (open, full_close, early_close, weekend).
+                    open:
+                      type: string
+                      description: Market open time in HH:mm:ss format.
+                    close:
+                      type: string
+                      description: Market close time in HH:mm:ss format.
               example: 'shape: (1, 3)
 
                 ┌──────┬──────────┬──────────┐
@@ -147,9 +199,7 @@ paths:
 
         - *On days when the market closes early at 1:00 PM ET; eligible options will trade until 1:15 PM.
 
-        - **Some NYSE exchanges will continue late trading until 5:00 PM ET on early close days.
-
-        '
+        - **Some NYSE exchanges will continue late trading until 5:00 PM ET on early close days.'
       x-sample-urls:
       - url: http://127.0.0.1:25503/v3/calendar/on_date?date=20251225
         description: Returns equity market schedule for the requested date
@@ -165,7 +215,7 @@ paths:
             text/csv:
               schema:
                 type: array
-                items: &id003
+                items:
                   type: object
                   properties:
                     type:
@@ -177,24 +227,78 @@ paths:
                     close:
                       type: string
                       description: Market close time in HH:mm:ss format.
-              example: "type,open,close\r\nfull_close,,\r\n"
+              example: 'type,open,close
+
+                full_close,,
+
+                '
             application/json:
-              schema: &id004
+              schema:
                 type: array
-                items: *id003
+                items:
+                  type: object
+                  properties:
+                    type:
+                      type: string
+                      description: The schedule type (open, full_close, early_close, weekend).
+                    open:
+                      type: string
+                      description: Market open time in HH:mm:ss format.
+                    close:
+                      type: string
+                      description: Market close time in HH:mm:ss format.
               example: "{\n  \"response\": [\n    {\"type\":\"full_close\",\"open\":null,\"close\":null}\n  ]\n}\n"
             application/x-ndjson:
-              schema: *id004
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    type:
+                      type: string
+                      description: The schedule type (open, full_close, early_close, weekend).
+                    open:
+                      type: string
+                      description: Market open time in HH:mm:ss format.
+                    close:
+                      type: string
+                      description: Market close time in HH:mm:ss format.
               example: '{"type":"early_close","open":null,"close":null}'
             python/pandas:
-              schema: *id004
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    type:
+                      type: string
+                      description: The schedule type (open, full_close, early_close, weekend).
+                    open:
+                      type: string
+                      description: Market open time in HH:mm:ss format.
+                    close:
+                      type: string
+                      description: Market close time in HH:mm:ss format.
               example: 'type  open close
 
                 0  full_close  None  None
 
                 '
             python/polars:
-              schema: *id004
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    type:
+                      type: string
+                      description: The schedule type (open, full_close, early_close, weekend).
+                    open:
+                      type: string
+                      description: Market open time in HH:mm:ss format.
+                    close:
+                      type: string
+                      description: Market close time in HH:mm:ss format.
               example: 'shape: (1, 3)
 
                 ┌────────────┬──────┬───────┐
@@ -247,9 +351,7 @@ paths:
 
         - *On days when the market closes early at 1:00 PM ET; eligible options will trade until 1:15 PM.
 
-        - **Some NYSE exchanges will continue late trading until 5:00 PM ET on early close days.
-
-        '
+        - **Some NYSE exchanges will continue late trading until 5:00 PM ET on early close days.'
       x-sample-urls:
       - url: http://127.0.0.1:25503/v3/calendar/year_holidays?year=2024
         description: Returns equity market holidays for the requested year
@@ -265,7 +367,7 @@ paths:
             text/csv:
               schema:
                 type: array
-                items: &id005
+                items:
                   type: object
                   properties:
                     date:
@@ -280,19 +382,72 @@ paths:
                     close:
                       type: string
                       description: Market close time in HH:mm:ss format.
-              example: "date,type,open,close\r\n2024-12-24,early_close,09:30:00,13:00:00\r\n\r\n2024-12-25,full_close,,\r\n"
+              example: 'date,type,open,close
+
+                2024-12-24,early_close,09:30:00,13:00:00
+
+
+                2024-12-25,full_close,,
+
+                '
             application/json:
-              schema: &id006
+              schema:
                 type: array
-                items: *id005
+                items:
+                  type: object
+                  properties:
+                    date:
+                      type: string
+                      description: The date of a closure
+                    type:
+                      type: string
+                      description: The closure type (full_close, early_close).
+                    open:
+                      type: string
+                      description: Market open time in HH:mm:ss format.
+                    close:
+                      type: string
+                      description: Market close time in HH:mm:ss format.
               example: "{\n  \"response\": [\n    {\"date\":\"2024-12-24\",\"type\":\"early_close\",\"open\":\"09:30:00\",\"close\":\"13:00:00\"},\n    {\"date\":\"2024-12-25\",\"type\":\"full_close\",\"open\":null,\"close\":null}\n  ]\n}\n"
             application/x-ndjson:
-              schema: *id006
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    date:
+                      type: string
+                      description: The date of a closure
+                    type:
+                      type: string
+                      description: The closure type (full_close, early_close).
+                    open:
+                      type: string
+                      description: Market open time in HH:mm:ss format.
+                    close:
+                      type: string
+                      description: Market close time in HH:mm:ss format.
               example: '{"date":"2024-12-24","type":"full_close","open":null,"close":null}
 
                 {"date":"2024-12-24","type":"early_close","open":"09:30:00","close":"13:00:00"}'
             python/pandas:
-              schema: *id006
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    date:
+                      type: string
+                      description: The date of a closure
+                    type:
+                      type: string
+                      description: The closure type (full_close, early_close).
+                    open:
+                      type: string
+                      description: Market open time in HH:mm:ss format.
+                    close:
+                      type: string
+                      description: Market close time in HH:mm:ss format.
               example: 'date         type      open     close
 
                 0   2026-01-01   full_close       NaN       NaN
@@ -321,7 +476,23 @@ paths:
 
                 '
             python/polars:
-              schema: *id006
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    date:
+                      type: string
+                      description: The date of a closure
+                    type:
+                      type: string
+                      description: The closure type (full_close, early_close).
+                    open:
+                      type: string
+                      description: Market open time in HH:mm:ss format.
+                    close:
+                      type: string
+                      description: Market close time in HH:mm:ss format.
               example: 'shape: (12, 4)
 
                 ┌────────────┬─────────────┬──────────┬──────────┐
@@ -361,6 +532,19 @@ paths:
                 '
 components:
   parameters:
+    format:
+      name: format
+      in: query
+      description: The format of the data when returned to the user.
+      required: false
+      schema:
+        type: string
+        enum:
+        - csv
+        - json
+        - ndjson
+        - html
+        default: csv
     date:
       name: date
       in: query
@@ -376,16 +560,3 @@ components:
       required: true
       schema:
         type: string
-    format:
-      name: format
-      in: query
-      description: The format of the data when returned to the user.
-      required: false
-      schema:
-        type: string
-        enum:
-        - csv
-        - json
-        - ndjson
-        - html
-        default: csv
