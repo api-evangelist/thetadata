@@ -3833,14 +3833,23 @@ paths:
                       description: Date as YYYYMMDD integer.
 components:
   parameters:
-    time_of_day:
-      name: time_of_day
+    start_time:
+      name: start_time
       in: query
-      description: The time of the day to fetch data for; assumed to be America/New_York.
-      required: true
+      description: The start time (inclusive) in the specified day (format 24-hour HH:MM:SS.SSS).
+      required: false
       schema:
         type: string
         format: time
+        default: 09:30:00
+    opt_start_date:
+      name: start_date
+      in: query
+      description: The start date (inclusive).
+      required: false
+      schema:
+        type: string
+        format: date
     exclusive:
       name: exclusive
       in: query
@@ -3849,22 +3858,6 @@ components:
       schema:
         type: boolean
         default: true
-    date:
-      name: date
-      in: query
-      description: The date to fetch data for.
-      required: true
-      schema:
-        type: string
-        format: date
-    opt_end_date:
-      name: end_date
-      in: query
-      description: The end date (inclusive).
-      required: false
-      schema:
-        type: string
-        format: date
     multi_symbol:
       name: symbol
       in: query
@@ -3874,11 +3867,94 @@ components:
         type: array
         items:
           type: string
-    opt_start_date:
+    start_date:
       name: start_date
       in: query
       description: The start date (inclusive).
+      required: true
+      schema:
+        type: string
+        format: date
+    venue:
+      name: venue
+      in: query
+      description: Used to specify the venue of the real time or historic request. ``nqb`` = Nasdaq Basic; ``utp_cta`` = merged UTP & CTA.
       required: false
+      schema:
+        type: string
+        enum:
+        - nqb
+        - utp_cta
+        default: nqb
+    opt_end_date:
+      name: end_date
+      in: query
+      description: The end date (inclusive).
+      required: false
+      schema:
+        type: string
+        format: date
+    request_type:
+      name: request_type
+      in: path
+      description: The request type.
+      required: true
+      schema:
+        type: string
+        enum:
+        - trade
+        - quote
+    date:
+      name: date
+      in: query
+      description: The date to fetch data for.
+      required: true
+      schema:
+        type: string
+        format: date
+    end_time:
+      name: end_time
+      in: query
+      description: The end time (inclusive) in the specified day (format 24-hour HH:MM:SS.SSS).
+      required: false
+      schema:
+        type: string
+        format: time
+        default: '16:00:00'
+    min_time:
+      name: min_time
+      in: query
+      description: Filters snapshots to include only data with a timestamp greater or equal to the specified value (HH:mm:ss.SSS format).
+      required: false
+      schema:
+        type: string
+        format: time
+    time_of_day:
+      name: time_of_day
+      in: query
+      description: The time of the day to fetch data for; assumed to be America/New_York.
+      required: true
+      schema:
+        type: string
+        format: time
+    format:
+      name: format
+      in: query
+      description: The format of the data when returned to the user.
+      required: false
+      schema:
+        type: string
+        enum:
+        - csv
+        - json
+        - ndjson
+        - html
+        default: csv
+    end_date:
+      name: end_date
+      in: query
+      description: The end date (inclusive).
+      required: true
       schema:
         type: string
         format: date
@@ -3906,55 +3982,6 @@ components:
         - 30m
         - 1h
         default: 1s
-    format:
-      name: format
-      in: query
-      description: The format of the data when returned to the user.
-      required: false
-      schema:
-        type: string
-        enum:
-        - csv
-        - json
-        - ndjson
-        - html
-        default: csv
-    end_time:
-      name: end_time
-      in: query
-      description: The end time (inclusive) in the specified day (format 24-hour HH:MM:SS.SSS).
-      required: false
-      schema:
-        type: string
-        format: time
-        default: '16:00:00'
-    min_time:
-      name: min_time
-      in: query
-      description: Filters snapshots to include only data with a timestamp greater or equal to the specified value (HH:mm:ss.SSS format).
-      required: false
-      schema:
-        type: string
-        format: time
-    start_time:
-      name: start_time
-      in: query
-      description: The start time (inclusive) in the specified day (format 24-hour HH:MM:SS.SSS).
-      required: false
-      schema:
-        type: string
-        format: time
-        default: 09:30:00
-    request_type:
-      name: request_type
-      in: path
-      description: The request type.
-      required: true
-      schema:
-        type: string
-        enum:
-        - trade
-        - quote
     single_symbol:
       name: symbol
       in: query
@@ -3962,38 +3989,11 @@ components:
       required: true
       schema:
         type: string
-    start_date:
-      name: start_date
-      in: query
-      description: The start date (inclusive).
-      required: true
-      schema:
-        type: string
-        format: date
-    venue:
-      name: venue
-      in: query
-      description: Used to specify the venue of the real time or historic request. ``nqb`` = Nasdaq Basic; ``utp_cta`` = merged UTP & CTA.
-      required: false
-      schema:
-        type: string
-        enum:
-        - nqb
-        - utp_cta
-        default: nqb
     opt_date:
       name: date
       in: query
       description: The date to fetch data for. If present, this overrides start_date and end_date.
       required: false
-      schema:
-        type: string
-        format: date
-    end_date:
-      name: end_date
-      in: query
-      description: The end date (inclusive).
-      required: true
       schema:
         type: string
         format: date

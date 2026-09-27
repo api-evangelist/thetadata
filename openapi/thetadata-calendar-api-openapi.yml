@@ -532,6 +532,21 @@ paths:
                 '
 components:
   parameters:
+    year:
+      name: year
+      in: query
+      description: The year to fetch data for.
+      required: true
+      schema:
+        type: string
+    date:
+      name: date
+      in: query
+      description: The date to fetch data for.
+      required: true
+      schema:
+        type: string
+        format: date
     format:
       name: format
       in: query
@@ -545,18 +560,3 @@ components:
         - ndjson
         - html
         default: csv
-    date:
-      name: date
-      in: query
-      description: The date to fetch data for.
-      required: true
-      schema:
-        type: string
-        format: date
-    year:
-      name: year
-      in: query
-      description: The year to fetch data for.
-      required: true
-      schema:
-        type: string

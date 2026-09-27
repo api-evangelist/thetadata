@@ -159,19 +159,6 @@ paths:
                 '
 components:
   parameters:
-    format:
-      name: format
-      in: query
-      description: The format of the data when returned to the user.
-      required: false
-      schema:
-        type: string
-        enum:
-        - csv
-        - json
-        - ndjson
-        - html
-        default: csv
     end_date:
       name: end_date
       in: query
@@ -195,3 +182,16 @@ components:
       schema:
         type: string
         format: date
+    format:
+      name: format
+      in: query
+      description: The format of the data when returned to the user.
+      required: false
+      schema:
+        type: string
+        enum:
+        - csv
+        - json
+        - ndjson
+        - html
+        default: csv
