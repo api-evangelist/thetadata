@@ -159,10 +159,10 @@ paths:
                 '
 components:
   parameters:
-    end_date:
-      name: end_date
+    start_date:
+      name: start_date
       in: query
-      description: The end date (inclusive).
+      description: The start date (inclusive).
       required: true
       schema:
         type: string
@@ -180,10 +180,10 @@ components:
         - ndjson
         - html
         default: csv
-    start_date:
-      name: start_date
+    end_date:
+      name: end_date
       in: query
-      description: The start date (inclusive).
+      description: The end date (inclusive).
       required: true
       schema:
         type: string

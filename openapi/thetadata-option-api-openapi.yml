@@ -13812,27 +13812,15 @@ paths:
                       description: Date as YYYYMMDD integer.
 components:
   parameters:
-    strike_range:
-      name: strike_range
+    end_time:
+      name: end_time
       in: query
-      description: Limits the number of contracts returned relative to the underlying's spot price. For a specified value 'n', this returns 'n' strikes above and 'n' strikes below the spot price, plus one at-the-money (ATM) strike (where spot price = strike price), if available. This results in a maximum of `2n + 1` strikes.
-      required: false
-      schema:
-        minimum: 1
-        type: integer
-        format: int32
-    right:
-      name: right
-      in: query
-      description: The right (call or put) of the contract.
+      description: The end time (inclusive) in the specified day (format 24-hour HH:MM:SS.SSS).
       required: false
       schema:
         type: string
-        enum:
-        - call
-        - put
-        - both
-        default: both
+        format: time
+        default: '16:00:00'
     rate_type:
       name: rate_type
       in: query
@@ -13854,38 +13842,6 @@ components:
         - treasury_y20
         - treasury_y30
         default: sofr
-    start_time:
-      name: start_time
-      in: query
-      description: The start time (inclusive) in the specified day (format 24-hour HH:MM:SS.SSS).
-      required: false
-      schema:
-        type: string
-        format: time
-        default: 09:30:00
-    opt_start_date:
-      name: start_date
-      in: query
-      description: The start date (inclusive).
-      required: false
-      schema:
-        type: string
-        format: date
-    end_date:
-      name: end_date
-      in: query
-      description: The end date (inclusive).
-      required: true
-      schema:
-        type: string
-        format: date
-    single_symbol:
-      name: symbol
-      in: query
-      description: The stock or index symbol, or underlying symbol for options.
-      required: true
-      schema:
-        type: string
     exclusive:
       name: exclusive
       in: query
@@ -13894,39 +13850,98 @@ components:
       schema:
         type: boolean
         default: true
-    multi_symbol:
+    strike:
+      name: strike
+      in: query
+      description: The strike price of the contract in dollars (ie `100.00` for `$100.00`), or `*` for all strikes.
+      required: false
+      schema:
+        type: string
+        default: '*'
+    underlyer_use_nbbo:
+      name: underlyer_use_nbbo
+      in: query
+      description: Used to select underlyer pricing for Greeks calculation. "true" uses the midpoint of the NBBO; "false" uses the last trade price.
+      required: false
+      schema:
+        type: boolean
+        default: false
+    strike_range:
+      name: strike_range
+      in: query
+      description: Limits the number of contracts returned relative to the underlying's spot price. For a specified value 'n', this returns 'n' strikes above and 'n' strikes below the spot price, plus one at-the-money (ATM) strike (where spot price = strike price), if available. This results in a maximum of `2n + 1` strikes.
+      required: false
+      schema:
+        minimum: 1
+        type: integer
+        format: int32
+    opt_multi_symbol:
       name: symbol
       in: query
-      description: The stock or index symbol, or underlying symbol for options. Specify '*' for all symbols or a comma separated list when appropriate.
-      required: true
+      description: The stock or index symbol, or underlying symbol for options.
+      required: false
       schema:
         type: array
         items:
           type: string
-    opt_end_date:
-      name: end_date
+    annual_dividend:
+      name: annual_dividend
       in: query
-      description: The end date (inclusive).
+      description: The annualized expected dividend amount to be used in Greeks calculations.
+      required: false
+      schema:
+        type: number
+        format: float
+    format:
+      name: format
+      in: query
+      description: The format of the data when returned to the user.
+      required: false
+      schema:
+        type: string
+        enum:
+        - csv
+        - json
+        - ndjson
+        - html
+        default: csv
+    opt_start_date:
+      name: start_date
+      in: query
+      description: The start date (inclusive).
       required: false
       schema:
         type: string
         format: date
-    start_date:
-      name: start_date
+    opt_date:
+      name: date
       in: query
-      description: The start date (inclusive).
-      required: true
+      description: The date to fetch data for. If present, this overrides start_date and end_date.
+      required: false
       schema:
         type: string
         format: date
-    time_of_day:
-      name: time_of_day
+    right:
+      name: right
       in: query
-      description: The time of the day to fetch data for; assumed to be America/New_York.
-      required: true
+      description: The right (call or put) of the contract.
+      required: false
       schema:
         type: string
-        format: time
+        enum:
+        - call
+        - put
+        - both
+        default: both
+    rate_value:
+      name: rate_value
+      in: query
+      description: The interest rate, as a percent, to be used in a Greeks calculation.
+      required: false
+      schema:
+        type: number
+        format: float
+      example: 5.0
     interval:
       name: interval
       in: query
@@ -13951,22 +13966,6 @@ components:
         - 30m
         - 1h
         default: 1s
-    date:
-      name: date
-      in: query
-      description: The date to fetch data for.
-      required: true
-      schema:
-        type: string
-        format: date
-    expiration_no_star:
-      name: expiration
-      in: query
-      description: The expiration of the contract in `YYYY-MM-DD` or `YYYYMMDD` format.
-      required: true
-      schema:
-        type: string
-        format: date
     use_market_value:
       name: use_market_value
       in: query
@@ -13975,14 +13974,32 @@ components:
       schema:
         type: boolean
         default: false
-    annual_dividend:
-      name: annual_dividend
+    expiration:
+      name: expiration
       in: query
-      description: The annualized expected dividend amount to be used in Greeks calculations.
+      x-date-wildcard: true
+      description: The expiration of the contract in `YYYY-MM-DD` or `YYYYMMDD` format, or `*` for all expirations.
+      required: true
+      schema:
+        type: string
+        format: date
+    multi_symbol:
+      name: symbol
+      in: query
+      description: The stock or index symbol, or underlying symbol for options. Specify '*' for all symbols or a comma separated list when appropriate.
+      required: true
+      schema:
+        type: array
+        items:
+          type: string
+    opt_end_date:
+      name: end_date
+      in: query
+      description: The end date (inclusive).
       required: false
       schema:
-        type: number
-        format: float
+        type: string
+        format: date
     greeks_version:
       name: version
       in: query
@@ -13994,28 +14011,62 @@ components:
         - latest
         - '1'
         default: latest
-    rate_value:
-      name: rate_value
+    time_of_day:
+      name: time_of_day
       in: query
-      description: The interest rate, as a percent, to be used in a Greeks calculation.
-      required: false
+      description: The time of the day to fetch data for; assumed to be America/New_York.
+      required: true
       schema:
-        type: number
-        format: float
-      example: 5.0
-    format:
-      name: format
+        type: string
+        format: time
+    min_time:
+      name: min_time
       in: query
-      description: The format of the data when returned to the user.
+      description: Filters snapshots to include only data with a timestamp greater or equal to the specified value (HH:mm:ss.SSS format).
       required: false
       schema:
         type: string
-        enum:
-        - csv
-        - json
-        - ndjson
-        - html
-        default: csv
+        format: time
+    date:
+      name: date
+      in: query
+      description: The date to fetch data for.
+      required: true
+      schema:
+        type: string
+        format: date
+    start_time:
+      name: start_time
+      in: query
+      description: The start time (inclusive) in the specified day (format 24-hour HH:MM:SS.SSS).
+      required: false
+      schema:
+        type: string
+        format: time
+        default: 09:30:00
+    single_symbol:
+      name: symbol
+      in: query
+      description: The stock or index symbol, or underlying symbol for options.
+      required: true
+      schema:
+        type: string
+    expiration_no_star:
+      name: expiration
+      in: query
+      description: The expiration of the contract in `YYYY-MM-DD` or `YYYYMMDD` format.
+      required: true
+      schema:
+        type: string
+        format: date
+    start_date:
+      name: start_date
+      in: query
+      description: The start date (inclusive).
+      required: true
+      schema:
+        type: string
+        format: date
     stock_price:
       name: stock_price
       in: query
@@ -14033,24 +14084,6 @@ components:
         minimum: 0
         type: integer
         format: int32
-    end_time:
-      name: end_time
-      in: query
-      description: The end time (inclusive) in the specified day (format 24-hour HH:MM:SS.SSS).
-      required: false
-      schema:
-        type: string
-        format: time
-        default: '16:00:00'
-    opt_multi_symbol:
-      name: symbol
-      in: query
-      description: The stock or index symbol, or underlying symbol for options.
-      required: false
-      schema:
-        type: array
-        items:
-          type: string
     request_type:
       name: request_type
       in: path
@@ -14061,43 +14094,10 @@ components:
         enum:
         - trade
         - quote
-    strike:
-      name: strike
+    end_date:
+      name: end_date
       in: query
-      description: The strike price of the contract in dollars (ie `100.00` for `$100.00`), or `*` for all strikes.
-      required: false
-      schema:
-        type: string
-        default: '*'
-    underlyer_use_nbbo:
-      name: underlyer_use_nbbo
-      in: query
-      description: Used to select underlyer pricing for Greeks calculation. "true" uses the midpoint of the NBBO; "false" uses the last trade price.
-      required: false
-      schema:
-        type: boolean
-        default: false
-    opt_date:
-      name: date
-      in: query
-      description: The date to fetch data for. If present, this overrides start_date and end_date.
-      required: false
-      schema:
-        type: string
-        format: date
-    min_time:
-      name: min_time
-      in: query
-      description: Filters snapshots to include only data with a timestamp greater or equal to the specified value (HH:mm:ss.SSS format).
-      required: false
-      schema:
-        type: string
-        format: time
-    expiration:
-      name: expiration
-      in: query
-      x-date-wildcard: true
-      description: The expiration of the contract in `YYYY-MM-DD` or `YYYYMMDD` format, or `*` for all expirations.
+      description: The end date (inclusive).
       required: true
       schema:
         type: string

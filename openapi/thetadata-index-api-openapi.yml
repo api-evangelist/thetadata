@@ -2155,20 +2155,11 @@ paths:
                       description: Date as YYYYMMDD integer.
 components:
   parameters:
-    start_time:
-      name: start_time
+    opt_end_date:
+      name: end_date
       in: query
-      description: The start time (inclusive) in the specified day (format 24-hour HH:MM:SS.SSS).
+      description: The end date (inclusive).
       required: false
-      schema:
-        type: string
-        format: time
-        default: 09:30:00
-    date:
-      name: date
-      in: query
-      description: The date to fetch data for.
-      required: true
       schema:
         type: string
         format: date
@@ -2176,58 +2167,6 @@ components:
       name: start_date
       in: query
       description: The start date (inclusive).
-      required: false
-      schema:
-        type: string
-        format: date
-    end_date:
-      name: end_date
-      in: query
-      description: The end date (inclusive).
-      required: true
-      schema:
-        type: string
-        format: date
-    opt_date:
-      name: date
-      in: query
-      description: The date to fetch data for. If present, this overrides start_date and end_date.
-      required: false
-      schema:
-        type: string
-        format: date
-    single_symbol:
-      name: symbol
-      in: query
-      description: The stock or index symbol, or underlying symbol for options.
-      required: true
-      schema:
-        type: string
-    start_date:
-      name: start_date
-      in: query
-      description: The start date (inclusive).
-      required: true
-      schema:
-        type: string
-        format: date
-    format:
-      name: format
-      in: query
-      description: The format of the data when returned to the user.
-      required: false
-      schema:
-        type: string
-        enum:
-        - csv
-        - json
-        - ndjson
-        - html
-        default: csv
-    opt_end_date:
-      name: end_date
-      in: query
-      description: The end date (inclusive).
       required: false
       schema:
         type: string
@@ -2241,6 +2180,14 @@ components:
         type: array
         items:
           type: string
+    opt_date:
+      name: date
+      in: query
+      description: The date to fetch data for. If present, this overrides start_date and end_date.
+      required: false
+      schema:
+        type: string
+        format: date
     end_time:
       name: end_time
       in: query
@@ -2250,19 +2197,19 @@ components:
         type: string
         format: time
         default: '16:00:00'
+    start_date:
+      name: start_date
+      in: query
+      description: The start date (inclusive).
+      required: true
+      schema:
+        type: string
+        format: date
     time_of_day:
       name: time_of_day
       in: query
       description: The time of the day to fetch data for; assumed to be America/New_York.
       required: true
-      schema:
-        type: string
-        format: time
-    min_time:
-      name: min_time
-      in: query
-      description: Filters snapshots to include only data with a timestamp greater or equal to the specified value (HH:mm:ss.SSS format).
-      required: false
       schema:
         type: string
         format: time
@@ -2290,3 +2237,56 @@ components:
         - 30m
         - 1h
         default: 1s
+    format:
+      name: format
+      in: query
+      description: The format of the data when returned to the user.
+      required: false
+      schema:
+        type: string
+        enum:
+        - csv
+        - json
+        - ndjson
+        - html
+        default: csv
+    min_time:
+      name: min_time
+      in: query
+      description: Filters snapshots to include only data with a timestamp greater or equal to the specified value (HH:mm:ss.SSS format).
+      required: false
+      schema:
+        type: string
+        format: time
+    date:
+      name: date
+      in: query
+      description: The date to fetch data for.
+      required: true
+      schema:
+        type: string
+        format: date
+    end_date:
+      name: end_date
+      in: query
+      description: The end date (inclusive).
+      required: true
+      schema:
+        type: string
+        format: date
+    start_time:
+      name: start_time
+      in: query
+      description: The start time (inclusive) in the specified day (format 24-hour HH:MM:SS.SSS).
+      required: false
+      schema:
+        type: string
+        format: time
+        default: 09:30:00
+    single_symbol:
+      name: symbol
+      in: query
+      description: The stock or index symbol, or underlying symbol for options.
+      required: true
+      schema:
+        type: string
