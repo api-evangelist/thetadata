@@ -88,3 +88,57 @@ plans:
       - 'VALUE: EOD from 1970-01-01'
       - SOFR and US Treasury tenors (1M-30Y), reported daily
 plan_count: 7
+x-canonical:
+  generated: '2026-10-08'
+  vocabulary: all/0-working/economics/plans-canonical.yml
+  models:
+  - free
+  - subscription
+  units: []
+  plans:
+  - name: FREE
+    access: free
+    model: free
+    model_how: derived
+    units: []
+    periods:
+    - month
+  - name: Options Value
+    access: other
+    model: subscription
+    model_how: stated
+    units: []
+    periods:
+    - month
+  - name: Options Standard
+    access: other
+    model: subscription
+    model_how: stated
+    units: []
+    periods:
+    - month
+  - name: Options Pro
+    access: other
+    model: subscription
+    model_how: stated
+    units: []
+    periods:
+    - month
+  - name: Stocks (VALUE / STANDARD / PRO)
+    access: other
+    model: subscription
+    model_how: stated
+    units: []
+    periods: []
+  - name: Indices (VALUE / STANDARD / PRO)
+    access: other
+    model: subscription
+    model_how: stated
+    units: []
+    periods: []
+  - name: Interest Rates (FREE / VALUE)
+    access: other
+    model: subscription
+    model_how: stated
+    units: []
+    periods: []
