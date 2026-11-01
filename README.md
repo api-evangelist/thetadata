@@ -1,4 +1,4 @@
-# ThetaData (thetadata)
+# ThetaData
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -66,98 +66,177 @@
 
 ThetaData is a developer-first US market data vendor founded in 2022 by Bailey Danseglio, selling real-time and historical options, stocks, indices, and interest-rates data with unfiltered tick-level trades, quotes, and Greeks. Delivery is self-serve via the Theta Terminal, a local Java application that authenticates with an API key or account credentials and exposes a local REST API (127.0.0.1:25503/v3), a WebSocket streaming API (127.0.0.1:25520), and an MCP server, backed by a published OpenAPI 3.1 spec, Python library, flat files, and tiered monthly subscriptions.
 
-**APIs.json:** [https://raw.githubusercontent.com/api-evangelist/thetadata/refs/heads/main/apis.yml](https://raw.githubusercontent.com/api-evangelist/thetadata/refs/heads/main/apis.yml)
+**Areas:** Finance · Market Data · Options · Stocks · Indices · Real-Time · Historical Data · Trading
 
-## Tags
+## ThetaData on APIs.io
 
-- Financial
-- Market Data
-- Options
-- Stocks
-- Indices
-- Real-Time
-- Historical Data
-- Trading
+Everything profiled for ThetaData is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/thetadata/](https://apis.io/providers/thetadata/)** — or go straight to one of the APIs or properties below.
 
-## Timestamps
+### APIs (7)
 
-- **Created:** 2026-07-21
-- **Modified:** 2026-07-21
+- [ThetaData Streaming WebSocket API](https://apis.io/apis/thetadata/thetadata-streaming-websocket-api/) — JSON WebSocket streaming of US stock trade/quote, options trade/quote, and index price streams, served locally by the Theta Terminal at…
+- [ThetaData MCP Server](https://apis.io/apis/thetadata/thetadata-mcp-server/) — Model Context Protocol server built into Theta Terminal v3, exposing the full v3 API to LLM CLIs (documented for Claude CLI and Gemini CLI) over SSE at…
+- [ThetaData Calendar API](https://apis.io/apis/thetadata/thetadata-calendar-api/) — The Calendar API from ThetaData — 3 operation(s) for calendar.
+- [ThetaData Index API](https://apis.io/apis/thetadata/thetadata-index-api/) — The Index API from ThetaData — 10 operation(s) for index.
+- [ThetaData Interest Rate API](https://apis.io/apis/thetadata/thetadata-interest-rate-api/) — The Interest Rate API from ThetaData — 1 operation(s) for interest rate.
+- [ThetaData Option API](https://apis.io/apis/thetadata/thetadata-option-api/) — The Option API from ThetaData — 37 operation(s) for option.
+- [ThetaData Stock API](https://apis.io/apis/thetadata/thetadata-stock-api/) — The Stock API from ThetaData — 15 operation(s) for stock.
 
-## APIs
+### Published properties
 
-### ThetaData v3 REST API
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
 
-Real-time and historical US options, stocks, and indices data - tick-level trades and quotes, OHLC aggregates, end-of-day summaries, option chain snapshots, and 1st/2nd/3rd order Greeks - served as a local REST API by the Theta Terminal, a Java 21 application that authenticates to ThetaData with an API key or account credentials and proxies data over a proprietary compressed protocol. Responses in CSV, JSON, NDJSON, or HTML; 66 documented endpoints in a published OpenAPI 3.1 spec.
+#### AsyncAPI (1)
 
-- **Human URL:** [https://docs.thetadata.us/](https://docs.thetadata.us/)
-- **Base URL:** `http://127.0.0.1:25503/v3` (local Theta Terminal)
+Event-driven and webhook contracts.
 
-#### Tags
+- [ThetaData Streaming WebSocket API (derived)](https://apis.io/asyncapis/thetadata/thetadata-streaming-asyncapi/)
 
-- Options
-- Stocks
-- Indices
-- Historical Data
-- Snapshots
+#### Event channels (1)
 
-#### Properties
+Individual events and webhooks the provider emits.
 
-- [Documentation](https://docs.thetadata.us/Articles/Getting-Started/Getting-Started.html)
-- [API Reference](https://docs.thetadata.us/operations/stock_list_symbols.html)
-- [OpenAPI](openapi/thetadata-v3-openapi.yml) — harvested verbatim from [https://docs.thetadata.us/openapiv3.yaml](https://docs.thetadata.us/openapiv3.yaml)
+- [/v1/events](https://apis.io/channels/thetadata/v1-events/)
 
-### ThetaData Streaming WebSocket API
+#### MCP servers (1)
 
-JSON WebSocket streaming of US stock trade/quote, options trade/quote, and index price streams, served locally by the Theta Terminal at `ws://127.0.0.1:25520/v1/events`. Requires a paid subscription with streaming permissions; a single connection per user is permitted, with CONNECTED/DISCONNECTED status headers and QUOTE/TRADE/STATUS message types.
+Model Context Protocol servers that expose the API to agents.
 
-- **Human URL:** [https://docs.thetadata.us/Streaming/Getting-Started.html](https://docs.thetadata.us/Streaming/Getting-Started.html)
-- **Base URL:** `ws://127.0.0.1:25520/v1/events` (local Theta Terminal)
+- [thetadata](https://apis.io/servers/thetadata/thetadata/)
 
-#### Tags
+#### Collections (24)
 
-- Streaming
-- WebSocket
-- Trades
-- Quotes
-- Real-Time
+Postman and Open Collection request collections.
 
-#### Properties
+- [Theta Data v3 At-Time API](https://apis.io/collections/thetadata/open-thetadata-at-time-api/)
+- [Theta Data v3 At-Time Calendar API](https://apis.io/collections/thetadata/open-thetadata-calendar-api/)
+- [Theta Data v3 At-Time FlatFile API](https://apis.io/collections/thetadata/open-thetadata-flatfile-api/)
+- [Theta Data v3 At-Time History API](https://apis.io/collections/thetadata/open-thetadata-history-api/)
+- [Theta Data v3 At-Time Index API](https://apis.io/collections/thetadata/open-thetadata-index-api/)
+- [Theta Data v3 At-Time Interest Rate API](https://apis.io/collections/thetadata/open-thetadata-interest-rate-api/)
+- [Theta Data v3 At-Time List API](https://apis.io/collections/thetadata/open-thetadata-list-api/)
+- [Theta Data v3 At-Time Option API](https://apis.io/collections/thetadata/open-thetadata-option-api/)
+- [Theta Data v3 At-Time Single Day API](https://apis.io/collections/thetadata/open-thetadata-single-day-api/)
+- [Theta Data v3 At-Time Snapshot API](https://apis.io/collections/thetadata/open-thetadata-snapshot-api/)
+- [Theta Data v3 At-Time Stock API](https://apis.io/collections/thetadata/open-thetadata-stock-api/)
+- [Theta Data v3 At-Time Year API](https://apis.io/collections/thetadata/open-thetadata-year-api/)
+- [Theta Data v3 At-Time API](https://apis.io/collections/thetadata/postman-thetadata-at-time-api/)
+- [Theta Data v3 At-Time Calendar API](https://apis.io/collections/thetadata/postman-thetadata-calendar-api/)
+- [Theta Data v3 At-Time FlatFile API](https://apis.io/collections/thetadata/postman-thetadata-flatfile-api/)
+- [Theta Data v3 At-Time History API](https://apis.io/collections/thetadata/postman-thetadata-history-api/)
+- [Theta Data v3 At-Time Index API](https://apis.io/collections/thetadata/postman-thetadata-index-api/)
+- [Theta Data v3 At-Time Interest Rate API](https://apis.io/collections/thetadata/postman-thetadata-interest-rate-api/)
+- [Theta Data v3 At-Time List API](https://apis.io/collections/thetadata/postman-thetadata-list-api/)
+- [Theta Data v3 At-Time Option API](https://apis.io/collections/thetadata/postman-thetadata-option-api/)
+- [Theta Data v3 At-Time Single Day API](https://apis.io/collections/thetadata/postman-thetadata-single-day-api/)
+- [Theta Data v3 At-Time Snapshot API](https://apis.io/collections/thetadata/postman-thetadata-snapshot-api/)
+- [Theta Data v3 At-Time Stock API](https://apis.io/collections/thetadata/postman-thetadata-stock-api/)
+- [Theta Data v3 At-Time Year API](https://apis.io/collections/thetadata/postman-thetadata-year-api/)
 
-- [Documentation](https://docs.thetadata.us/Streaming/Getting-Started.html)
+#### Overlays (12)
 
-### ThetaData MCP Server
+OpenAPI overlays, including conversational phrasing for each operation.
 
-Model Context Protocol server built into Theta Terminal v3, exposing the full v3 API to LLM CLIs (documented for Claude CLI and Gemini CLI) over SSE at `http://127.0.0.1:25503/mcp/sse`. Requires the terminal running locally and a valid ThetaData subscription.
+- [Thetadata At Time Api Overlay](https://apis.io/overlays/thetadata/thetadata-at-time-api-overlay/)
+- [Thetadata Calendar Api Overlay](https://apis.io/overlays/thetadata/thetadata-calendar-api-overlay/)
+- [Thetadata Flatfile Api Overlay](https://apis.io/overlays/thetadata/thetadata-flatfile-api-overlay/)
+- [Thetadata History Api Overlay](https://apis.io/overlays/thetadata/thetadata-history-api-overlay/)
+- [Thetadata Index Api Overlay](https://apis.io/overlays/thetadata/thetadata-index-api-overlay/)
+- [Thetadata Interest Rate Api Overlay](https://apis.io/overlays/thetadata/thetadata-interest-rate-api-overlay/)
+- [Thetadata List Api Overlay](https://apis.io/overlays/thetadata/thetadata-list-api-overlay/)
+- [Thetadata Option Api Overlay](https://apis.io/overlays/thetadata/thetadata-option-api-overlay/)
+- [Thetadata Single Day Api Overlay](https://apis.io/overlays/thetadata/thetadata-single-day-api-overlay/)
+- [Thetadata Snapshot Api Overlay](https://apis.io/overlays/thetadata/thetadata-snapshot-api-overlay/)
+- [Thetadata Stock Api Overlay](https://apis.io/overlays/thetadata/thetadata-stock-api-overlay/)
+- [Thetadata Year Api Overlay](https://apis.io/overlays/thetadata/thetadata-year-api-overlay/)
 
-- **Human URL:** [https://docs.thetadata.us/Mcp/Getting-Started.html](https://docs.thetadata.us/Mcp/Getting-Started.html)
-- **Base URL:** `http://127.0.0.1:25503/mcp/sse` (local Theta Terminal)
+#### Security (2)
 
-#### Tags
+Authentication, trust centre, and vulnerability disclosure.
 
-- MCP
-- Agents
-- SSE
+- [Thetadata Authentication](https://apis.io/security/thetadata/thetadata-authentication/)
+- [Thetadata Domain Security](https://apis.io/security/thetadata/thetadata-domain-security/)
 
-#### Properties
+#### Plans and pricing (1)
 
-- [Documentation](https://docs.thetadata.us/Mcp/Getting-Started.html)
+Published plans, tiers and prices.
 
-## Common Properties
+- [Thetadata Plans](https://apis.io/plans/thetadata/thetadata-plans/)
+
+#### Rate limits (1)
+
+Published request limits.
+
+- [Thetadata Rate Limits](https://apis.io/rate-limits/thetadata/thetadata-rate-limits/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
 
 - [Website](https://thetadata.net/)
-- [Portal](https://thetadata.net/portal)
 - [Documentation](https://docs.thetadata.us/)
-- [Blog](https://thetadata.net/blog)
+- [Getting started](https://docs.thetadata.us/Articles/Getting-Started/Getting-Started.html)
+- [API reference](https://docs.thetadata.us/)
 - [Pricing](https://thetadata.net/pricing)
-- [Sign Up](https://thetadata.net/signup)
-- [Terms of Service](https://thetadata.net/terms-and-conditions)
-- [Privacy Policy](https://thetadata.net/privacy-policy)
-- [Support (Discord)](https://discord.thetadata.us/)
-- [Status Page](https://thetadata.statuspage.io/)
-- [LinkedIn](https://www.linkedin.com/company/axiomx-theta-data)
+- [Sign up](https://thetadata.net/signup)
+- [Support](https://discord.thetadata.us/)
+- [Blog](https://thetadata.net/blog)
+- [Terms of service](https://thetadata.net/terms-and-conditions)
+- [Privacy policy](https://thetadata.net/privacy-policy)
+- [GitHub](https://github.com/AXIOMXLLC)
+- [Status](https://thetadata.statuspage.io/)
 
-## Maintainers
+## API Evangelist rating
 
-**FN:** Kin Lane
-**Email:** kin@apievangelist.com
+**Kin Score 59.9** — strong · rubric 0.25.0 · scored 2026-10-23
+
+| Facet | Score |
+|---|---|
+| Discoverability | 66.1 |
+| Contract quality | 48.2 |
+| Contract governance | 4.5 |
+| Operational transparency | 78.9 |
+| Developer ergonomics | 69.6 |
+| Access clarity | 76.3 |
+
+**Agent readiness 30.3** — agent-ready
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | — |
+| Reversibility Documented | na |
+| MCP Server | — |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | na |
+| Error Semantics | documented (partial credit) |
+| OpenAPI Examples | verified |
+| Rate Limit Signal | documented (partial credit) |
+| Event Surface Described | derived (partial credit) |
+| Agent Skills | derived (partial credit) |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | na |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+| Pagination Ratio | — |
+| Operation Distinctiveness | — |
+
+**Regulatory alignment 28.7** — Securities & Market Data
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/thetadata/](https://apis.io/providers/thetadata/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for ThetaData: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/thetadata/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
